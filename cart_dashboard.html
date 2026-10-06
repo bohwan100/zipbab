@@ -1338,12 +1338,13 @@
         품목별 로켓배송 최적 상품을 장바구니에 간편하게 담습니다.
       </p>
 
-      <!-- Background Silent Mode Info Banner (from photo) -->
-      <div id="batch-bg-banner" style="background: rgba(14, 165, 233, 0.12); border: 1px solid rgba(56, 189, 248, 0.35); border-radius: 9px; padding: 12px 14px; margin: 12px 0 10px; display: flex; align-items: center; gap: 10px; font-size: 0.84rem; color: #bae6fd; line-height: 1.5;">
-        <span style="font-size: 1.3rem; flex-shrink: 0;">📣</span>
+      <!-- Background Silent Mode Info Banner -->
+      <div id="batch-bg-banner" style="background: rgba(14, 165, 233, 0.12); border: 1px solid rgba(56, 189, 248, 0.35); border-radius: 10px; padding: 12px 14px; margin: 12px 0 10px; display: flex; align-items: center; gap: 10px; font-size: 0.84rem; color: #bae6fd; line-height: 1.5;">
+        <span style="font-size: 1.4rem; flex-shrink: 0;">⚡</span>
         <div>
-          <strong style="color: #38bdf8;">무간섭 백그라운드 담기 지원:</strong><br>
-          담는 동안 화면을 가리거나 창이 깜빡이지 않으며, <strong>모든 품목을 다 담았을 때 쿠팡 장바구니 창이 자동으로 전면에 팝업</strong>됩니다!
+          <strong style="color: #38bdf8;">PC 원클릭 자동 담기 ➔ 스마트폰 쿠팡 앱 100% 실시간 동기화:</strong><br>
+          PC 크롬 백그라운드에서 모든 품목을 쿠팡 장바구니에 <strong>진짜로 쏙 자동 담기</strong>합니다!<br>
+          <span style="font-size: 0.78rem; color: #94a3b8;">📱 같은 쿠팡 아이디면 스마트폰 쿠팡 앱에도 실시간 자동 동기화되어 모바일에서 바로 결제 가능합니다.</span>
         </div>
       </div>
 
@@ -1374,13 +1375,10 @@
           <button type="button" class="btn-action orange" id="modal-confirm-btn" onclick="startBatchAutoAdd(false)">🚀 한 번에 담기 시작</button>
         </div>
       </div>
-      <div style="margin-top: 12px; padding: 10px 14px; background: rgba(59, 130, 246, 0.12); border: 1px solid rgba(59, 130, 246, 0.3); border-radius: 10px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
-        <div style="font-size: 0.82rem; color: #bae6fd;">
-          📱 <strong>아이폰/모바일 사용자:</strong> 쿠팡에서 1초 만에 담고 싶다면?
+      <div style="margin-top: 12px; padding: 10px 14px; background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.25); border-radius: 10px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+        <div style="font-size: 0.82rem; color: #93c5fd; line-height: 1.4;">
+          💡 <strong>추천 루틴:</strong> 장보기가 필요할 땐 PC(윈도우/맥)에서 1초 만에 담고, 결제는 스마트폰 쿠팡 앱에서 편하게 완료하세요!
         </div>
-        <button type="button" onclick="event.stopPropagation(); copyAndOpenBookmarkletModal(event);" style="background: #3b82f6; color: #fff; border: none; padding: 6px 12px; border-radius: 6px; font-weight: 800; font-size: 0.8rem; cursor: pointer;">
-          ⚡ 즐겨찾기 설정법 & 코드 복사
-        </button>
       </div>
 
       <div style="text-align: center; margin-top: 10px;">
@@ -2284,15 +2282,30 @@
         modalDesc.innerText = `총 ${items.length}개의 식재료를 백그라운드에서 로켓배송 최적 상품으로 자동 탐색하여 담습니다.`;
       }
 
+      const isLocal = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
+      const isExtension = (typeof window.__ZIPBABBOT_EXTENSION_ACTIVE__ !== 'undefined' && window.__ZIPBABBOT_EXTENSION_ACTIVE__);
+
       const bgBanner = document.getElementById('batch-bg-banner');
       if (bgBanner) {
-        bgBanner.innerHTML = `
-          <span style="font-size: 1.3rem; flex-shrink: 0;">📣</span>
-          <div>
-            <strong style="color: #38bdf8;">무간섭 백그라운드 자동 담기 지원:</strong><br>
-            담는 동안 화면을 가리거나 창이 깜빡이지 않으며, <strong>모든 품목을 다 담았을 때 쿠팡 장바구니 창이 자동으로 전면에 팝업</strong>됩니다!
-          </div>
-        `;
+        if (isLocal || isExtension) {
+          bgBanner.innerHTML = `
+            <span style="font-size: 1.4rem; flex-shrink: 0;">⚡</span>
+            <div>
+              <strong style="color: #38bdf8;">PC 원클릭 자동 담기 준비 완료:</strong><br>
+              아래 [🚀 한 번에 담기 시작]을 누르시면 쿠팡 장바구니에 진짜로 쏙 담깁니다!<br>
+              <span style="font-size: 0.78rem; color: #94a3b8;">📱 완료 후 스마트폰 쿠팡 앱을 열어보시면 실시간 100% 동기화되어 침대에서 편하게 결제 가능합니다.</span>
+            </div>
+          `;
+        } else {
+          bgBanner.innerHTML = `
+            <span style="font-size: 1.4rem; flex-shrink: 0;">💡</span>
+            <div>
+              <strong style="color: #38bdf8;">PC ➔ 모바일 100% 실시간 연동 지원:</strong><br>
+              쿠팡 원클릭 자동 담기는 <strong>PC(노트북) 환경</strong>에서 가장 완벽하게 작동합니다!<br>
+              <span style="font-size: 0.78rem; color: #94a3b8;">PC에서 담아두시면 스마트폰 쿠팡 앱에 실시간 자동 동기화됩니다. (우측 [쿠팡 ↗] 터치로 개별 확인도 가능)</span>
+            </div>
+          `;
+        }
       }
 
       renderBatchModalItems();

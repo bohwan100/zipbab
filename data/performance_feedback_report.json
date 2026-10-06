@@ -1,0 +1,111 @@
+{
+  "timestamp": "2026-09-30 12:23:01",
+  "summary": {
+    "total_posts": 146,
+    "viral_hits": 0,
+    "underperforming": 144
+  },
+  "top_performing_archetypes": {
+    "only_apples0.1": [
+      [
+        "taste_guarantee",
+        5.96
+      ],
+      [
+        "daily_learned_viral",
+        5.96
+      ],
+      [
+        "value_contrast",
+        0.81
+      ]
+    ],
+    "ggul_bamm": [
+      [
+        "crisis_panic",
+        3.47
+      ],
+      [
+        "taste_guarantee",
+        3.47
+      ],
+      [
+        "daily_learned_viral",
+        3.47
+      ]
+    ]
+  },
+  "diagnosed_underperforming_cases": [
+    {
+      "account": "ggul_bamm",
+      "archetype": "F02_raw_plea",
+      "views": 0,
+      "diagnoses": [
+        "Weak Hook (첫 줄 시선 집중도 및 직진성 부족)",
+        "Weak CTA (명확한 반응 유도 장치 누락)"
+      ],
+      "mutated_fix": "평생 논쟁거리 하나 던져볼게.. 스친들의 진짜 밤 취향은?\n1번) 달콤하고 포슬포슬한 찐밤\n2번) 아작아작 씹는 맛 터지는 생밤\n스친들 최애는? 댓글 달고 하트 콕 🌰✨",
+      "snippet": "ggul_bamm"
+    },
+    {
+      "account": "ggul_bamm",
+      "archetype": "F09_farmer_diary",
+      "views": 0,
+      "diagnoses": [
+        "Weak Hook (첫 줄 시선 집중도 및 직진성 부족)",
+        "Sensory Lack (과즙/포슬포슬/아삭 등 침 고이는 감각 묘사 결여)",
+        "Low Emotion (스레드 특유의 짠내/서운함/간절함/일상 공감 감정선 약화)",
+        "Weak CTA (명확한 반응 유도 장치 누락)"
+      ],
+      "mutated_fix": "안녕 꿀밤이야 ! 밤 파는 작은 스토어 주인인데..\n진짜 성공 꼭 해보고 싶다....\n공주 정안 햇밤이라 당도가 설탕 친 것처럼 달콤하거든.\n지나가다 실수로라도 하트 부탁해 🌰❤️",
+      "snippet": "ggul_bamm"
+    },
+    {
+      "account": "only_apples0.1",
+      "archetype": "F09_farmer_diary",
+      "views": 0,
+      "diagnoses": [
+        "Weak Hook (첫 줄 시선 집중도 및 직진성 부족)",
+        "Sensory Lack (과즙/포슬포슬/아삭 등 침 고이는 감각 묘사 결여)",
+        "Low Emotion (스레드 특유의 짠내/서운함/간절함/일상 공감 감정선 약화)",
+        "Weak CTA (명확한 반응 유도 장치 누락)"
+      ],
+      "mutated_fix": "정보) 사과 고를 때 겉이 번지르르하고 반짝이는 건 오히려 피해!\n당일 수확한 신선한 사과는 껍질에 뽀얀 가루(자연 왁스)가 살아있어야 찐이야.\n사과 덕후들 꼭 메모해둬 🍎",
+      "snippet": "only_apples0.1"
+    },
+    {
+      "account": "only_apples0.1",
+      "archetype": "F09_farmer_diary",
+      "views": 0,
+      "diagnoses": [
+        "Weak Hook (첫 줄 시선 집중도 및 직진성 부족)",
+        "Sensory Lack (과즙/포슬포슬/아삭 등 침 고이는 감각 묘사 결여)",
+        "Low Emotion (스레드 특유의 짠내/서운함/간절함/일상 공감 감정선 약화)",
+        "Weak CTA (명확한 반응 유도 장치 누락)"
+      ],
+      "mutated_fix": "두바이 초콜릿 하나에 2만원은 줄 서서 사 먹으면서, 제철 햇사과는 비싸다고 지나치면 서운해 ㅠㅠ\n한 박스면 온 가족 일주일 내내 건강하고 달콤한데..\n속상한 사과 장사 힘내라고 하트 툭 🍎",
+      "snippet": "only_apples0.1"
+    },
+    {
+      "account": "ggul_bamm",
+      "archetype": "F02_raw_plea",
+      "views": 0,
+      "diagnoses": [
+        "Weak Hook (첫 줄 시선 집중도 및 직진성 부족)",
+        "Weak CTA (명확한 반응 유도 장치 누락)"
+      ],
+      "mutated_fix": "에어프라이어에 생밤 칼집 내서 180도 15분만 돌려봐.\n껍질 쫙 벌어지며 노란 속살 톡 튀어나오는데 군밤 장수 울고 가 ㅋㅋㅋ\n달콤한 밤 냄새 가득! 밤 좋아하는 스친들 하트 콕 🌰❤️",
+      "snippet": "ggul_bamm"
+    }
+  ],
+  "evolved_template_samples": {
+    "only_apples0.1": [
+      "정보) 사과 고를 때 겉이 번지르르하고 반짝이는 건 오히려 피해!\n당일 수확한 신선한 사과는 껍질에 뽀얀 가루(자연 왁스)가 살아있어야 찐이야.\n사과 덕후들 꼭 메모해둬 🍎",
+      "두바이 초콜릿 하나에 2만원은 줄 서서 사 먹으면서, 제철 햇사과는 비싸다고 지나치면 서운해 ㅠㅠ\n한 박스면 온 가족 일주일 내내 건강하고 달콤한데..\n속상한 사과 장사 힘내라고 하트 툭 🍎"
+    ],
+    "ggul_bamm": [
+      "평생 논쟁거리 하나 던져볼게.. 스친들의 진짜 밤 취향은?\n1번) 달콤하고 포슬포슬한 찐밤\n2번) 아작아작 씹는 맛 터지는 생밤\n스친들 최애는? 댓글 달고 하트 콕 🌰✨",
+      "안녕 꿀밤이야 ! 밤 파는 작은 스토어 주인인데..\n진짜 성공 꼭 해보고 싶다....\n공주 정안 햇밤이라 당도가 설탕 친 것처럼 달콤하거든.\n지나가다 실수로라도 하트 부탁해 🌰❤️"
+    ]
+  }
+}

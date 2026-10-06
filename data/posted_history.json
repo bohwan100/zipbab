@@ -1,0 +1,602 @@
+[
+  {
+    "account": "only_apples0.1",
+    "text": "아침 사과 먹을 때 제발 껍질 깎아 버리지 마 ㅠㅠ\n영양소랑 꿀맛이 껍질 쪽에 몰려있거든.\n식초 물에 뽀득뽀",
+    "archetype": "lifehack_recipe",
+    "created_at": "2026-09-18 13:11:09"
+  },
+  {
+    "account": "ggul_bamm",
+    "text": "생밤 20년 만진 사람이 알려주는 꿀팁.\n물에 담갔을 때 가라앉고 껍질에 윤기 흐르는 게 진짜 알밤이야.\n공",
+    "archetype": "expert_secret",
+    "created_at": "2026-09-18 13:13:14"
+  },
+  {
+    "account": "ggul_bamm",
+    "text": "새벽 5시부터 충남 공주 정안 알밤 숲에서 땀 뻘뻘..\n가시에 찔려가면서 제일 실하고 굵은 특품 햇밤만 주워",
+    "archetype": "farmer_diary",
+    "created_at": "2026-09-18 13:39:30"
+  },
+  {
+    "account": "ggul_bamm",
+    "text": "평생 논쟁거리 하나 던져볼게.. 스친들의 진짜 밤 취향은?\n1번) 달콤하고 포슬포슬한 찐밤\n2번) 아작아작 ",
+    "archetype": "interactive_balance",
+    "created_at": "2026-09-19 00:08:19"
+  },
+  {
+    "account": "ggul_bamm",
+    "text": "정보) 밤 맛있게 찌는 법 모르면 평생 손해야!\n찜기에 김 오르면 햇밤 넣고 딱 20분만 쪄봐.\n불 끄고 찬",
+    "archetype": "lifehack_recipe",
+    "created_at": "2026-09-19 03:06:55"
+  },
+  {
+    "account": "ggul_bamm",
+    "text": "벌레 먹은 밤 1개라도 섞여 있으면 밤 맛 다 버려.\n저희는 3단계로 하나하나 손 선별해서 보냅니다.\n정직한",
+    "archetype": "expert_secret",
+    "created_at": "2026-09-19 03:11:22"
+  },
+  {
+    "account": "ggul_bamm",
+    "text": "'마트 밤이랑 차원이 다르게 달고 실하다'는 후기에 힘이 번쩍 나..\n스레드 보고 주문해 준 스친들 진짜 고",
+    "archetype": "review_emotion",
+    "created_at": "2026-09-19 04:30:00"
+  },
+  {
+    "account": "ggul_bamm",
+    "text": "안녕 꿀밤이야 ! 밤 파는 작은 스토어 주인인데..\n진짜 성공 꼭 해보고 싶다....\n공주 정안 햇밤이라 당",
+    "archetype": "auto_evolved_mutation",
+    "created_at": "2026-09-19 04:36:37"
+  },
+  {
+    "account": "ggul_bamm",
+    "text": "밤 좋아하는 사람 손 들어봐 🌰\n혼자 영화 보며 까먹는 밤 vs 가족 다 같이 둘러앉아 까먹는 밤!\n스친들의",
+    "archetype": "interactive_balance",
+    "created_at": "2026-09-19 04:55:05"
+  },
+  {
+    "account": "ggul_bamm",
+    "text": "비탈진 산길 오르내리며 갓 떨어진 햇알밤만 골라 담았어.\n벌레 먹은 밤 1도 없이 꼼꼼하게 선별해서 당일 포",
+    "archetype": "farmer_diary",
+    "created_at": "2026-09-19 05:22:01"
+  },
+  {
+    "account": "ggul_bamm",
+    "text": "서럽게도... 아직 정안 밤 맛을 모르시는 분이 많은데ㅠㅠ\n저희 밤 정말로 숟가락으로 퍼먹어도 포슬포슬 달콤",
+    "archetype": "honest_plea",
+    "created_at": "2026-09-19 06:33:14"
+  },
+  {
+    "account": "ggul_bamm",
+    "text": "새벽 5시부터 충남 공주 정안 알밤 숲에서 땀 뻘뻘..\n가시에 찔려가면서 제일 실하고 굵은 특품 햇밤만 주워",
+    "archetype": "auto_evolved_mutation",
+    "created_at": "2026-09-19 09:02:53"
+  },
+  {
+    "account": "ggul_bamm",
+    "text": "20년 장인의 밤. 그 진실.\n알만 크다고 다 맛있는 밤이 아니래.\n공주 정안에서 갓 딴 햇밤이어야 꿀맛이거",
+    "archetype": "daily_learned_viral",
+    "created_at": "2026-09-19 10:27:17"
+  },
+  {
+    "account": "ggul_bamm",
+    "text": "두바이 초콜릿 하나에 2만원은 줄 서서 사 먹으면서, 제철 햇밤은 비싸대 ㅠㅠ\n자연이 준 천연 간식이라 속도",
+    "archetype": "value_shock",
+    "created_at": "2026-09-19 10:34:30"
+  },
+  {
+    "account": "ggul_bamm",
+    "text": "따끈한 찐밤에 버터 한 조각 올려본 사람 있어?\n달콤하고 고소한 풍미가 입안에서 폭발해.\n이 꿀조합 모르면 ",
+    "archetype": "lifehack_recipe",
+    "created_at": "2026-09-19 12:04:36"
+  },
+  {
+    "account": "ggul_bamm",
+    "text": "평생 논쟁거리 하나 던져볼게.. 스친들의 진짜 밤 취향은?\n달콤한 정안 찐밤 vs 달달한 군고구마!\n댓글 남",
+    "archetype": "interactive_balance",
+    "created_at": "2026-09-19 12:08:53"
+  },
+  {
+    "account": "ggul_bamm",
+    "text": "비탈진 산길 오르내리며 갓 떨어진 햇알밤만 골라 담았어.\n벌레 먹은 밤 1도 없이 꼼꼼하게 선별해서 당일 포",
+    "archetype": "farmer_diary",
+    "created_at": "2026-09-19 12:13:08"
+  },
+  {
+    "account": "ggul_bamm",
+    "text": "마진 거의 안 남아도 파는 이유가 있어.\n산지에서 직송으로 당일 포장해서 보내거든.\n안 사도 괜찮으니 응원 ",
+    "archetype": "honest_plea",
+    "created_at": "2026-09-19 13:05:09"
+  },
+  {
+    "account": "ggul_bamm",
+    "text": "생밤 20년 만진 사람이 알려주는 꿀팁.\n물에 담갔을 때 가라앉고 껍질에 윤기 흐르는 게 진짜 알밤이야.\n공",
+    "archetype": "expert_secret",
+    "created_at": "2026-09-19 13:14:34"
+  },
+  {
+    "account": "ggul_bamm",
+    "text": "20년 장인의 밤 꿀팁!\n생밤 껍질 깔 때 손 다치지 마.\n뜨거운 물에 10분이면 껍질 슥슥 다 벗겨져.\n유",
+    "archetype": "daily_learned_viral",
+    "created_at": "2026-09-19 13:26:21"
+  },
+  {
+    "account": "ggul_bamm",
+    "text": "에어프라이어에 생밤 칼집 내서 180도 15분만 돌려봐.\n껍질 쫙 벌어지며 노란 속살 톡 튀어나오는데 군밤 ",
+    "archetype": "auto_evolved_mutation",
+    "created_at": "2026-09-20 00:12:34"
+  },
+  {
+    "account": "ggul_bamm",
+    "text": "정보) 밤 맛있게 찌는 법 모르면 평생 손해야!\n찜기에 김 오르면 햇밤 넣고 딱 20분만 쪄봐.\n불 끄고 찬",
+    "archetype": "lifehack_recipe",
+    "created_at": "2026-09-20 04:53:39"
+  },
+  {
+    "account": "ggul_bamm",
+    "text": "비탈진 산길 오르내리며 갓 떨어진 햇알밤만 골라 담았어.\n가시에 찔려가면서 제일 실하고 굵은 특품 햇밤만 주",
+    "archetype": "farmer_diary",
+    "created_at": "2026-09-20 05:25:55"
+  },
+  {
+    "account": "ggul_bamm",
+    "text": "도와줘 ㅠㅠ\n가을 햇밤 쏟아지는데 스레드 노출이 너무 안 돼서 속상하네...\n사달라고 안 할 테니 구경이라도 와줘 🌰",
+    "archetype": "F02_raw_plea",
+    "created_at": "2026-09-20 07:40:22"
+  },
+  {
+    "account": "ggul_bamm",
+    "text": "전국 밤 산지 중에서 '공주 정안'이 독보적인 이유.\n차령산맥 밤나무 숲에서 자라서 당도와 포슬함이 타 지역이랑 비교가 안 돼 🌰",
+    "archetype": "F03_trend_declaration",
+    "created_at": "2026-09-20 07:54:50"
+  },
+  {
+    "account": "ggul_bamm",
+    "text": "공주 정안 산길 오르내리며 갓 떨어진 햇알밤만 골라 담았어.\n산지에서 직송으로 당일 포장해서 보내.\n정직하게 키운 밤 힘내라고 하트 툭 🌰",
+    "archetype": "F09_farmer_diary",
+    "created_at": "2026-09-20 08:09:40"
+  },
+  {
+    "account": "ggul_bamm",
+    "text": "햇밤 찔 때 찬물에 5초 헹구는 과학적 이유 알아?\n급격한 온도 차이 때문에 밤 속살이 수축하면서 껍질 사이에 공간이 생겨.\n그래서 칼 필요 없이 손으로 껍질이 훌러덩 벗겨지는 거야 🌰",
+    "archetype": "F06_discovery_curiosity",
+    "created_at": "2026-09-20 08:26:44"
+  },
+  {
+    "account": "ggul_bamm",
+    "text": "오늘 산지 직송 택배 물량 맞추느라 새벽 4시부터 밤 선별 중이야.\n벌레 먹은 거 1도 없이 3번 검수해서 보내는 중.\n피로 싹 가시게 응원 하트 하나 부탁해 🌰",
+    "archetype": "F05_situation_emergency",
+    "created_at": "2026-09-20 09:49:16"
+  },
+  {
+    "account": "ggul_bamm",
+    "text": "오늘 하루도 치열하게 산 스친들 다들 고생 많았어!\n따끈하게 쪄낸 달콤한 햇밤 한 그릇으로 힐링하자.\n지나가다 응원 하트 하나 남겨줘 🌰❤️",
+    "archetype": "F12_community_question",
+    "created_at": "2026-09-20 11:45:39"
+  },
+  {
+    "account": "ggul_bamm",
+    "text": "'인생 햇밤 만났다'는 리뷰 보고 꿀밤이 울 뻔했잖아 ㅠㅠ\n네이버 평점 4.9점 달성했어!\n꿀밤이 축하 하트 하나만 콕 부탁해 🌰❤️",
+    "archetype": "F11_real_review",
+    "created_at": "2026-09-20 12:01:19"
+  },
+  {
+    "account": "ggul_bamm",
+    "text": "숟가락으로 푹 떠먹으면 설탕 친 것처럼 포슬포슬 달콤한 정안 햇밤.\n목 막히지 않고 촉촉하게 넘어가는 그 단맛 알면 마트 밤 절대 못 먹어 🌰",
+    "archetype": "F07_sensory_craving",
+    "created_at": "2026-09-21 00:17:06"
+  },
+  {
+    "account": "ggul_bamm",
+    "text": "밤이 과일일까 견과류일까?\n비타민 C가 사과보다 4배나 많이 들어있어서 사실 천연 비타민 덩어리야.\n다들 올가을 밤 많이 챙겨 먹어 🌰✨",
+    "archetype": "F06_discovery_curiosity",
+    "created_at": "2026-09-21 00:44:09"
+  },
+  {
+    "account": "ggul_bamm",
+    "text": "홍보한다고 가격 내렸어..ㅠㅠㅠ 버릴 순 없잖아.\n산지에서 바로 따온 햇생밤인데 스레드 판매가 진짜 어렵네.\n밤 좋아하는 스치니들 하트라도 툭 남겨줘 🌰",
+    "archetype": "F05_situation_emergency",
+    "created_at": "2026-09-21 02:18:01"
+  },
+  {
+    "account": "ggul_bamm",
+    "text": "생밤 쉽게 까는 3단계 공식\n1. 뜨거운 물에 10분 불리기\n2. 둥근 부분에 가로로 칼집 내기\n3. 껍질 벗기면 속껍질까지 훌러덩\n밤 좋아하는 사람 꼭 저장해둬 🌰✨",
+    "archetype": "F01_checklist",
+    "created_at": "2026-09-21 02:44:16"
+  },
+  {
+    "account": "ggul_bamm",
+    "text": "찐밤 5알 + 우유 + 꿀 넣고 믹서기에 갈아 마셔봐.\n카페 7천원짜리 밤라떼보다 100배 진하고 맛있어.\n오늘 저녁 해 먹어볼 스친 하트 툭 🌰✨",
+    "archetype": "F04_recipe_hack",
+    "created_at": "2026-09-21 03:29:15"
+  },
+  {
+    "account": "ggul_bamm",
+    "text": "가을 제철 먹거리 원탑 대결!\n달콤한 정안 찐밤 vs 달달한 군고구마!\n정안 햇밤 맛보면 고구마 생각 싹 사라져. 댓글 남겨줘 🌰",
+    "archetype": "F08_balance_debate",
+    "created_at": "2026-09-21 04:43:19"
+  },
+  {
+    "account": "ggul_bamm",
+    "text": "앞으로 올가을 홈카페 대세는 무조건 '수제 밤라떼'야.\n찐밤 5알 + 우유 + 꿀 넣고 믹서기 30초.\n카페 7천원짜리보다 100배 진하고 고소한데 안 만들어 먹으면 손해 🌰",
+    "archetype": "F03_trend_declaration",
+    "created_at": "2026-09-21 08:51:25"
+  },
+  {
+    "account": "ggul_bamm",
+    "text": "가시 폭탄 맞았어 ㅠㅠ 공주 산에서 햇밤 줍다가 장갑 뚫림...\n그래도 통통하고 실한 놈들로 바구니 가득 채웠어 🌰\n열심히 사는 꿀밤이 응원 하트 하나 콕 부탁해 🌰❤️",
+    "archetype": "F05_situation_emergency",
+    "created_at": "2026-09-21 09:06:09"
+  },
+  {
+    "account": "ggul_bamm",
+    "text": "마트에서 파는 비쩍 마른 밤이랑은 비교 불가한 묵직함이야.\n공주 정안에서 바로 수확한 특품 햇알밤이거든.\n커피 한 잔 값에 가을 제철 꿀밤 즐기자 🌰",
+    "archetype": "F10_price_contrast",
+    "created_at": "2026-09-21 09:21:06"
+  },
+  {
+    "account": "ggul_bamm",
+    "text": "스레드에 군밤 좋아하는 사람 손 들어봐 🌰\n혼자 영화 보며 까먹는 밤 vs 가족 다 같이 둘러앉아 까먹는 밤!\n스친들의 선택은? 댓글 남겨줘 🌰✨",
+    "archetype": "F12_community_question",
+    "created_at": "2026-09-21 09:36:12"
+  },
+  {
+    "account": "ggul_bamm",
+    "text": "가을철 햇밤이 몸에 좋은 이유\n- 비타민 C가 사과의 4배\n- 위장 보호해 주는 착한 탄수화물\n- 환절기 면역력 올려주는 천연 영양제\n올가을엔 건강한 햇밤 챙겨 먹자 🌰",
+    "archetype": "F01_checklist",
+    "created_at": "2026-09-21 09:50:41"
+  },
+  {
+    "account": "ggul_bamm",
+    "text": "오늘 공주 산에 가을바람 불어 알밤들이 우수수 떨어졌어.\n가시 속에서 톡 튀어나온 밤송이 보면 그렇게 예쁠 수가 없다.\n올가을 햇밤 구경하고 가 🌰✨",
+    "archetype": "F09_farmer_diary",
+    "created_at": "2026-09-21 10:06:43"
+  },
+  {
+    "account": "ggul_bamm",
+    "text": "군밤 까먹을 때 스친들 스타일은?\n1번) 뜨거워도 까자마자 바로 입에 넣는다\n2번) 식을 때까지 싹 다 까두고 한꺼번에 먹는다\n댓글로 알려줘 ㅋㅋㅋ 🌰",
+    "archetype": "F08_balance_debate",
+    "created_at": "2026-09-21 10:21:22"
+  },
+  {
+    "account": "ggul_bamm",
+    "text": "공주 정안 특품 햇밤이 2만원 초반대인데..!!!!!!\n이게 진짜 비싸 스친들?????\n요즘 마트 물가에 산지직송 갓 딴 특품 알밤인데 왜 자꾸 비싸다고 하나 ㅠㅠ\n이 가격에 팔면 진짜 남는 것도 없는데.. 지나가다",
+    "archetype": "F10_price_contrast",
+    "created_at": "2026-09-21 10:36:28"
+  },
+  {
+    "account": "ggul_bamm",
+    "text": "오독오독 소리까지 맛있는 생밤 깎아 먹는 매력.\n씹을수록 고소하고 달콤한 즙이 배어 나와서 멈출 수가 없어 🌰❤️",
+    "archetype": "F07_sensory_craving",
+    "created_at": "2026-09-21 10:51:16"
+  },
+  {
+    "account": "ggul_bamm",
+    "text": "에어프라이어 발명한 사람 누구냐 진짜 노벨 평화상 줘야 함 ㄷㄷ\n칼집 낸 햇생밤 180도 15분 돌렸더니 군밤 장수 울고 갈 맛임 ㅋㅋㅋ 🌰",
+    "archetype": "F03_trend_declaration",
+    "created_at": "2026-09-21 11:06:13"
+  },
+  {
+    "account": "ggul_bamm",
+    "text": "과일가게에서 햇밤을 30박스 산 게 너무 어이없네 ㅋㅋㅋㅋ\n회사 직원들이랑 나눠먹는다고 셀프 공구하셨대 ㅋㅋㅋ\n밤 향기 맡고 다들 반하셨나 봐. 꿀밤이 축하 하트 콕 🌰❤️",
+    "archetype": "F11_real_review",
+    "created_at": "2026-09-21 11:21:52"
+  },
+  {
+    "account": "ggul_bamm",
+    "text": "따끈한 찐밤에 버터 한 조각 + 굵은 소금 톡 올려본 사람?\n단짠고소 풍미가 입안에서 폭발함.\n이 꿀조합 아는 사람만 아는 극락 레시피 🌰✨",
+    "archetype": "F04_recipe_hack",
+    "created_at": "2026-09-21 11:36:36"
+  },
+  {
+    "account": "ggul_bamm",
+    "text": "두쫀쿠 하나에 7천원은 줄 서서 사 먹으면서, 제철 햇밤은 비싸대 ㅠㅠ\n자연이 준 천연 간식이라 속도 편하고 설탕보다 달콤한데..\n속상한 꿀밤이 힘내라고 하트 하나 콕 🌰❤️",
+    "archetype": "F10_price_contrast",
+    "created_at": "2026-09-21 11:51:29"
+  },
+  {
+    "account": "ggul_bamm",
+    "text": "새벽 5시부터 충남 공주 정안 알밤 숲에서 땀 뻘뻘..\n가시에 찔려가면서 제일 실하고 굵은 특품 햇밤만 주워왔어 🌰\n열심히 사는 꿀밤이한테 응원 하트 콕 🌰❤️",
+    "archetype": "F09_farmer_diary",
+    "created_at": "2026-09-21 12:06:20"
+  },
+  {
+    "account": "ggul_bamm",
+    "text": "스레드에 밤 러버들 계신가요?\n- 에어프라이어에 군밤 돌려먹는 사람\n- 찐밤 숟가락으로 퍼먹는 사람\n- 껍질 까다가 손가락 다쳐본 사람\n- 밥 지을 때 밤 듬뿍 넣어 먹는 사람\n하나라도 해당하면 하트 콕 🌰",
+    "archetype": "F01_checklist",
+    "created_at": "2026-09-21 12:36:46"
+  },
+  {
+    "account": "ggul_bamm",
+    "text": "가을 간식 원탑 논쟁은 오늘로 끝냅니다.\n에어프라이어 180도 15분 돌린 정안 군밤.\n고구마 호빵 다 제치고 압도적 1위 찍음 ㅋㅋㅋ 🌰",
+    "archetype": "F03_trend_declaration",
+    "created_at": "2026-09-21 12:51:18"
+  },
+  {
+    "account": "ggul_bamm",
+    "text": "밤 파는 청년입니다.\n성공 꼭 하고 싶습니다 ...\n공주 정안 햇밤 쪄먹으면 설탕 뿌린 것처럼 달콤합니다. 지나가다 하트라도 툭 부탁드려요 🌰",
+    "archetype": "F02_raw_plea",
+    "created_at": "2026-09-22 00:51:31"
+  },
+  {
+    "account": "ggul_bamm",
+    "text": "물에 둥둥 뜨는 밤 vs 가라앉는 밤 차이 알아?\n물에 뜨는 건 속이 비었거나 벌레 먹은 밤이야.\n공주 정안 햇알밤은 던지면 돌처럼 가라앉을 정도로 속이 꽉 차 있어 🌰",
+    "archetype": "F06_discovery_curiosity",
+    "created_at": "2026-09-22 04:50:32"
+  },
+  {
+    "account": "ggul_bamm",
+    "text": "평생 논쟁거리 하나 던져볼게.. 스친들의 진짜 밤 취향은?\n1번) 달콤하고 포슬포슬한 찐밤\n2번) 아작아작 씹는 맛 터지는 생밤\n스친들 최애는? 댓글 달고 하트 콕 🌰",
+    "archetype": "F08_balance_debate",
+    "created_at": "2026-09-22 07:44:20"
+  },
+  {
+    "account": "ggul_bamm",
+    "text": "맛있는 공주 정안 밤 구별법\n- 물에 넣었을 때 바닥에 묵직하게 가라앉음\n- 껍질 색이 짙은 갈색에 윤기 좌르르\n- 손으로 쥐었을 때 단단하고 빈틈없는 느낌\n산지에서 갓 주워온 햇알밤이야 🌰",
+    "archetype": "F01_checklist",
+    "created_at": "2026-09-22 09:57:31"
+  },
+  {
+    "account": "ggul_bamm",
+    "text": "퇴근길에 편의점 들러 과자 살까 고민하는 스친들 잠깐 멈춰봐 🌰\n인스턴트 대신 자연 그대로 쪄낸 달콤한 정안 햇밤 어때?\n다들 달콤한 저녁 보내! 🌰",
+    "archetype": "F12_community_question",
+    "created_at": "2026-09-23 00:31:00"
+  },
+  {
+    "account": "ggul_bamm",
+    "text": "'에프에 돌렸더니 군밤 장수 밤보다 10배 달다'는 후기에 힘이 번쩍 나..\n스레드 보고 주문해 준 스친들 진짜 고마워.\n상자 열자마자 밤 향기에 반할 거야 🌰✨",
+    "archetype": "F11_real_review",
+    "created_at": "2026-09-23 01:17:46"
+  },
+  {
+    "account": "ggul_bamm",
+    "text": "사주세요.\n공주 정안 햇알밤인데 진짜 알이 굵고 속이 꽉 찼습니다 🌰",
+    "archetype": "F02_raw_plea",
+    "created_at": "2026-09-23 01:21:34"
+  },
+  {
+    "account": "ggul_bamm",
+    "text": "전국 밤 산지 중에서 '공주 정안'이 독보적인 이유.\n차령산맥 밤나무 숲에서 자라서 당도와 포슬함이 타 지역이랑 비교가 안 돼 🌰",
+    "archetype": "F03_trend_declaration",
+    "created_at": "2026-09-23 01:37:06"
+  },
+  {
+    "account": "ggul_bamm",
+    "text": "오늘 산지 직송 택배 물량 맞추느라 새벽 4시부터 밤 선별 중이야.\n벌레 먹은 거 1도 없이 3번 검수해서 보내는 중.\n피로 싹 가시게 응원 하트 하나 부탁해 🌰",
+    "archetype": "F05_situation_emergency",
+    "created_at": "2026-09-23 01:52:11"
+  },
+  {
+    "account": "only_apples0.1",
+    "text": "사과 덕후들이 환장하는 순간\n- 해발 700m 고랭지 사과 첫 박스 뜯을 때\n- 칼 대자마자 '딱!' 소리 나며 갈라질 때\n- 엄청 아삭아삭해서 턱으로 과즙 터질 때\n작년 네이버 평점 4.95점 찍은 그 사과야 🍎",
+    "archetype": "F01_checklist",
+    "created_at": "2026-09-23 01:56:34"
+  },
+  {
+    "account": "only_apples0.1",
+    "text": "스레드 사과 취향 종결!\n해발 700m 고랭지에서 갓 따온 엄청 아삭아삭한 사과 나왔는데 스친들 취향은?\n1번) 껍질째 와그작 베어 먹는다\n2번) 감자칼로 얇게 깎아 시원하게 먹는다\n작년 네이버 평점 4.95점 사과",
+    "archetype": "F08_balance_debate",
+    "created_at": "2026-09-23 02:15:20"
+  },
+  {
+    "account": "ggul_bamm",
+    "text": "밤 맛있게 찌는 법 모르면 평생 손해야!\n찜기에 김 오르면 햇밤 넣고 딱 20분.\n불 끄고 찬물에 5초만 헹구면 껍질 쏙쏙 벗겨져 🌰",
+    "archetype": "F04_recipe_hack",
+    "created_at": "2026-09-23 02:17:19"
+  },
+  {
+    "account": "only_apples0.1",
+    "text": "나 사과 파는 사람이야. 솔직히 좀 서운해 ㅠㅠ\n두쫀쿠는 7천원해도 줄 서서 사 먹으면서, 해발 700m 고랭지에서 1년 동안 땀 흘려 키운 사과는 비싸대..\n엄청 아삭아삭하고 작년 네이버 평점 4.95점 찍은 명품",
+    "archetype": "F10_price_contrast",
+    "created_at": "2026-09-23 02:59:09"
+  },
+  {
+    "account": "ggul_bamm",
+    "text": "연휴 끝나고 출근해서 멘붕 온 K-직장인 특징\n- 3시만 되면 당 떨어져서 손 떨림\n- 탕비실 과자 뜯으려다 현타 옴\n- 저녁에 밥맛 없는데 배는 고픔\n- 건강한 간식 찾고 있음\n여기에 해당하면 따끈한 정안 찐밤 5",
+    "archetype": "F01_checklist",
+    "created_at": "2026-09-23 03:01:33"
+  },
+  {
+    "account": "only_apples0.1",
+    "text": "단단하고 엄청 아삭아삭한 사과 기다리신 분 손!\n해발 700m 고랭지 사과 이제 막 나와서 아침 사과 한 알로 잠 깨는 중 🍎\n작년 네이버 평점 4.95점 찍은 꿀사과야. 다들 오늘 하루도 힘내자!",
+    "archetype": "F12_community_question",
+    "created_at": "2026-09-23 03:18:47"
+  },
+  {
+    "account": "ggul_bamm",
+    "text": "밤 파는 사람인데 연휴 끝나니 주문이 조용해서 심장이 철렁하네요...\n맛없으면 100% 환불해 드릴 테니 믿고 드셔보세요 🌰",
+    "archetype": "F02_raw_plea",
+    "created_at": "2026-09-23 03:21:19"
+  },
+  {
+    "account": "only_apples0.1",
+    "text": "큰일이야 ㅠㅠ 해발 700m 고랭지는 벌써 기온이 뚝 떨어져서 손이 꽁꽁 얼었어.\n하지만 일교차가 클수록 사과는 엄청 아삭아삭해지고 꿀이 꽉 차거든.\n작년 네이버 평점 4.95점 사과 드디어 수확 완료! 힘내라고 하",
+    "archetype": "F05_situation_emergency",
+    "created_at": "2026-09-23 04:36:40"
+  },
+  {
+    "account": "ggul_bamm",
+    "text": "밤이 과일일까 견과류일까?\n비타민 C가 사과보다 4배나 많이 들어있어서 사실 천연 비타민 덩어리야.\n다들 올가을 밤 많이 챙겨 먹어 🌰✨",
+    "archetype": "F06_discovery_curiosity",
+    "created_at": "2026-09-23 04:39:08"
+  },
+  {
+    "account": "only_apples0.1",
+    "text": "새벽 5시 안개 뚫고 해발 700m 고랭지 과수원 올라왔어.\n일교차 크게 맞고 자란 사과들이 붉게 물들었네.\n엄청 아삭아삭하고 작년 평점 4.95점 사과야. 응원 하트 콕 🍎",
+    "archetype": "F09_farmer_diary",
+    "created_at": "2026-09-23 05:53:47"
+  },
+  {
+    "account": "ggul_bamm",
+    "text": "'인생 햇밤 만났다'는 리뷰 보고 꿀밤이 울 뻔했잖아 ㅠㅠ\n네이버 평점 4.9점 달성했어!\n꿀밤이 축하 하트 하나만 콕 부탁해 🌰❤️",
+    "archetype": "F11_real_review",
+    "created_at": "2026-09-23 05:56:01"
+  },
+  {
+    "account": "only_apples0.1",
+    "text": "'한 입 베어 물었다가 과즙 튀어서 옷 다 젖었어요'라는 작년 후기 보고 울 뻔 ㅠㅠ\n해발 700m 고랭지 사과라 엄청 아삭아삭하고 작년 네이버 평점 4.95점 찍었어.\n사과에 진심인 사람 하트 남겨줘 🍎",
+    "archetype": "F11_real_review",
+    "created_at": "2026-09-23 09:33:39"
+  },
+  {
+    "account": "only_apples0.1",
+    "text": "스레드에 이런 사과 찾는 분 계신가요?\n- 푸석한 사과 절대 못 먹는 사람\n- 한 입 베어 물 때 '딱!' 소리 나는 아삭함 찾는 사람\n- 해발 700m 고랭지 사과 기다리신 분\n- 작년 네이버 평점 4.95점 인생",
+    "archetype": "F01_checklist",
+    "created_at": "2026-09-24 00:30:34"
+  },
+  {
+    "account": "only_apples0.1",
+    "text": "해발 700m 고랭지 사과 드디어 나왔습니다.\n진짜 거짓말 안 치고 엄청 아삭아삭합니다.\n작년에 네이버 평점 4.95점 찍은 그 사과 맞아요. 다 팔 수 있게 도와줘 ㅠㅠ 🍎",
+    "archetype": "F02_raw_plea",
+    "created_at": "2026-09-24 04:42:08"
+  },
+  {
+    "account": "only_apples0.1",
+    "text": "백화점 가면 한 알에 만 원 넘게 받는 '해발 700m 고랭지 사과' 드디어 나왔어!\n엄청 아삭아삭하고 작년 네이버 평점 4.95점 찍은 특품인데 산지직송으로 유통 거품 싹 뺐어.\n두바이 초콜릿보다 건강하고 맛있는 ",
+    "archetype": "F10_price_contrast",
+    "created_at": "2026-09-24 09:33:54"
+  },
+  {
+    "account": "only_apples0.1",
+    "text": "마트 사과랑 해발 700m 고랭지 사과의 결정적 차이.\n높은 고도에서 자라 과육 밀도가 돌처럼 단단하고 엄청 아삭아삭함.\n작년 네이버 평점 4.95점 찍은 그 사과 드디어 나왔어 🍎",
+    "archetype": "F03_trend_declaration",
+    "created_at": "2026-09-25 00:34:11"
+  },
+  {
+    "account": "only_apples0.1",
+    "text": "스레드에 엄청 아삭아삭한 사과 좋아하는 사과 덕후 있어?\n드디어 해발 700m 고랭지 사과 나왔어 🍎\n작년에 네이버 평점 4.95점 찍은 사과인데, 스친들은 아삭 vs 부드러운 사과 중 어떤 거 좋아해? 댓글 남겨줘",
+    "archetype": "F12_community_question",
+    "created_at": "2026-09-25 04:51:37"
+  },
+  {
+    "account": "only_apples0.1",
+    "text": "칼 대자마자 '딱!' 소리 나면서 쪼개지는 사과 본 적 있어?\n해발 700m 고랭지에서 갓 따온 사과인데 진짜 엄청 아삭아삭해.\n작년 네이버 평점 4.95점 기록한 그 사과 드디어 나왔다 🍎",
+    "archetype": "F06_discovery_curiosity",
+    "created_at": "2026-09-25 10:11:03"
+  },
+  {
+    "account": "only_apples0.1",
+    "text": "스토어에 해발 700m 고랭지 사과 오픈하자마자 포장하다 손에 쥐 남 ㅋㅋㅋ\n진짜 엄청 아삭아삭하고 작년 네이버 평점 4.95점 받았던 그 퀄리티 그대로야.\n오늘 밤 주문 건 전량 산지직송 출발 🍎",
+    "archetype": "F05_situation_emergency",
+    "created_at": "2026-09-26 00:38:15"
+  },
+  {
+    "account": "only_apples0.1",
+    "text": "작년에 네이버 평점 4.95점 찍고 단골분들이 언제 나오냐고 매일 물어보시던 해발 700m 고랭지 사과 드디어 출하 시작했어 ㅠㅠ\n엄청 아삭아삭하고 달콤해서 보람차다. 축하 하트 콕 🍎",
+    "archetype": "F11_real_review",
+    "created_at": "2026-09-26 04:52:25"
+  },
+  {
+    "account": "only_apples0.1",
+    "text": "사과 먹을 때 절대 하면 안 되는 실수\n- 껍질 다 깎아 버리기 (영양소 70% 증발)\n- 따뜻한 실온에 방치하기\n- 마트에서 반짝반짝 광택 나는 왁스 사과 사기\n해발 700m 고랭지 사과는 껍질째 와그작 먹어야 제",
+    "archetype": "F01_checklist",
+    "created_at": "2026-09-26 09:52:23"
+  },
+  {
+    "account": "only_apples0.1",
+    "text": "다들 아침 공복에 사과 어떻게 먹어?\n해발 700m 고랭지 사과 드디어 나와서 껍질째 씹는데 엄청 아삭아삭함 ㅠㅠ\n작년 네이버 평점 4.95점의 맛! 스친들의 아침 루틴 알려줘 🍎",
+    "archetype": "F12_community_question",
+    "created_at": "2026-09-27 00:34:42"
+  },
+  {
+    "account": "only_apples0.1",
+    "text": "사과 매니아들 소리 질러도 됨!!\n드디어 해발 700m 고랭지 사과 본격 출하 시작했어 🍎\n엄청 아삭아삭해서 칼 대면 딱 소리 남.\n작년 네이버 평점 4.95점의 품격.. 푸석한 마트 사과랑 비교 불가야!",
+    "archetype": "F03_trend_declaration",
+    "created_at": "2026-09-27 05:15:11"
+  },
+  {
+    "account": "only_apples0.1",
+    "text": "와.. 드디어 나왔다. 해발 700m 고랭지 사과 와그작 베어무는 순간 '딱!' 소리 나며 과즙 튐 ㅠㅠ\n진짜 엄청 아삭아삭해서 이 사이로 달콤한 꿀물이 콸콸 흘러내려.\n작년에 네이버 평점 4.95점 찍은 이유를 알",
+    "archetype": "F07_sensory_craving",
+    "created_at": "2026-09-27 10:34:52"
+  },
+  {
+    "account": "only_apples0.1",
+    "text": "아침 사과 10배 맛있게 먹는 법.\n해발 700m 고랭지 사과 얇게 썰어 레몬즙+시나몬 가루 톡톡.\n엄청 아삭아삭해서 고급 브런치 카페 맛 나는데 1분이면 끝.\n작년 네이버 평점 4.95점 사과의 위엄 🍎",
+    "archetype": "F04_recipe_hack",
+    "created_at": "2026-09-28 00:41:09"
+  },
+  {
+    "account": "only_apples0.1",
+    "text": "왜 사과는 '해발 700m 고랭지'에서 자란 게 제일 맛있을까?\n낮밤 온도 차가 15도 이상 벌어지면서 과육이 엄청 치밀하고 아삭아삭해져!\n작년에 네이버 평점 4.95점 찍은 이유가 바로 이거야 🍎 이제 막 수확 시",
+    "archetype": "F06_discovery_curiosity",
+    "created_at": "2026-09-28 05:17:59"
+  },
+  {
+    "account": "only_apples0.1",
+    "text": "사과 파는 사람입니다. 꼭 잘 팔고 싶습니다..\n해발 700m 소백산 고랭지 사과 이제 막 땄거든요.\n엄청 아삭아삭하고 작년 네이버 평점 4.95점인데 구경이라도 와주세요 🍎",
+    "archetype": "F02_raw_plea",
+    "created_at": "2026-09-28 12:00:43"
+  },
+  {
+    "account": "only_apples0.1",
+    "text": "'인생 사과 찾았습니다. 칼 대자마자 딱 소리 나고 엄청 아삭아삭해요'라는 후기로 작년 네이버 평점 4.95점 찍었던 바로 그 사과!\n드디어 올해 해발 700m 고랭지 첫 수확분 나왔어 🍎\n사과에 진심인 청년 농부 ",
+    "archetype": "F11_real_review",
+    "created_at": "2026-09-29 01:55:22"
+  },
+  {
+    "account": "only_apples0.1",
+    "text": "냉장고에 차갑게 넣어뒀다가 아침 공복에 껍질째 와작 베어무는 순간.\n해발 700m 고랭지 사과의 엄청난 아삭함과 꿀 과즙이 입안 가득 차오름.\n작년 평점 4.95점 인정 🍎",
+    "archetype": "F07_sensory_craving",
+    "created_at": "2026-09-29 05:40:30"
+  },
+  {
+    "account": "only_apples0.1",
+    "text": "사과 갈변 막는 30초 꿀팁.\n물 한 컵에 레몬즙 3방울 섞어서 사과 30초 담갔다 빼기.\n해발 700m 고랭지 사과라 엄청 아삭아삭함이 하루 종일 유지돼 🍎✨",
+    "archetype": "F04_recipe_hack",
+    "created_at": "2026-09-29 11:35:17"
+  },
+  {
+    "account": "ggul_bamm",
+    "text": "에어프라이어로 겉바속촉 군밤 15분컷!\n생밤 십자 칼집 내고 180도 15분 돌리면 끝.\n껍질 쫙 벌어지며 노란 속살 톡 튀어나오는데 꿀맛 그 자체 🌰",
+    "archetype": "F04_recipe_hack",
+    "created_at": "2026-09-29 11:37:51"
+  },
+  {
+    "account": "only_apples0.1",
+    "text": "다들 이 사과가 AI 같아서 안 사는 거야?\n이거 내가 과수원에서 방금 폰으로 찍은 건데..\n심지어 아무거나 막 집어 든 사과인데...\n한번씩 우리 사과도 관심 가져주라~~ 그냥 하는 말이 아니라 진짜 맛있음 🍎",
+    "archetype": "F03_trend_declaration",
+    "created_at": "2026-09-29 22:23:59"
+  },
+  {
+    "account": "ggul_bamm",
+    "text": "방금 지은 흰쌀밥 위에 큼직한 노란 통밤 올려서 한 입 크게 먹을 때.\n밥알의 단맛과 밤의 고소함이 섞여서 밥 한 공기 순삭 🌰✨",
+    "archetype": "F07_sensory_craving",
+    "created_at": "2026-09-29 22:26:35"
+  },
+  {
+    "account": "only_apples0.1",
+    "text": "큰일이야 ㅠㅠ\n가격을 내렸어 ㅠㅠ 버릴 순 없잖아\n혹시 스레드에 사과 덕후 있어?\n아삭아삭하고 달콤해서 진짜 맛있어\n쿠폰 뿌려도 홍보하기 쉽지 않네.. 사과 좋아하는 스치니 있다면 하트라도 부탁해 🍎",
+    "archetype": "F05_situation_emergency",
+    "created_at": "2026-09-30 01:19:05"
+  },
+  {
+    "account": "ggul_bamm",
+    "text": "가을 제철 간식 원탑 대결!\n달콤포슬 정안 찐밤 vs 달달한 꿀고구마!\n갓 수확한 정안 햇밤 맛보면 고구마 생각 싹 사라짐. 스친들 선택은? 🌰",
+    "archetype": "F08_balance_debate",
+    "created_at": "2026-09-30 01:21:43"
+  },
+  {
+    "account": "only_apples0.1",
+    "text": "스레드에 이런 사과 찾는 사과 덕후 있나요?\n- 푸석푸석 스펀지 사과 극혐하는 사람\n- 한 입 베어 물 때 '딱!' 소리 나는 아삭함 찾는 사람\n- 마트에서 실패만 하다가 찐사과 찾고 싶은 사람\n산지에서 갓 따온 햇",
+    "archetype": "F01_checklist",
+    "created_at": "2026-09-30 02:39:18"
+  },
+  {
+    "account": "ggul_bamm",
+    "text": "비밀인데 스레드에만 솔직하게 말하는 거여.\n'나 찐밤보다 달콤한 생밤 깎아먹는 거 더 좋아해' 🌰\n생밤파 스친들 손!",
+    "archetype": "F06_discovery_curiosity",
+    "created_at": "2026-09-30 02:41:26"
+  },
+  {
+    "account": "only_apples0.1",
+    "text": "아직도 믿기지 않아.\n얼마 전까지만 해도 하루 1박스 나가던 작은 과수원이었는데\n스레드 보고 찾아주신 분들 덕분에 버틴다.\n스레드가 사람 살린다.. 진짜 고마워 🍎",
+    "archetype": "F09_farmer_diary",
+    "created_at": "2026-09-30 03:20:42"
+  },
+  {
+    "account": "ggul_bamm",
+    "text": "스토어에 햇밤을 한 번에 20kg 주문하신 분 누구신가요 ㅋㅋㅋㅋ\n동네 이웃들이랑 나눠먹는다고 셀프 공구하셨대 ㅋㅋㅋ\n밤알 보고 다들 크기에 놀라셨나 봐. 꿀밤이 축하 하트 콕 🌰❤️",
+    "archetype": "F11_real_review",
+    "created_at": "2026-09-30 03:22:53"
+  }
+]

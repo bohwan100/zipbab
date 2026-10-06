@@ -1507,7 +1507,7 @@
             <div class="ingredient-tags">
               ${r.ingredients.map(i => {
                 const safe = i.replace(/"/g, '&quot;');
-                return `<span class="ing-tag" onclick="openIngredientLink('${safe}')" title="쿠팡 파트너스 추천 페이지 열기">${i} <span style="font-size:0.7rem; opacity:0.75;">🛒</span></span>`;
+                return `<span class="ing-tag" onclick="openIngredientLink('${safe}')" title="쿠팡 파트너스 추천 페이지 열기">${i}</span>`;
               }).join('')}
             </div>
 
@@ -1525,7 +1525,7 @@
             </div>
             <div style="margin-top: 10px; display: flex; justify-content: flex-end;">
               <a href="gogaek_cart.html" style="font-size: 0.8rem; color: #f97316; text-decoration: none; font-weight: 700; display: inline-flex; align-items: center; gap: 4px;" title="해당 요리 식재료 맞춤 장바구니로 이동">
-                🛒 맞춤 장바구니에서 재료 담기 →
+                맞춤 장바구니에서 재료 담기 →
               </a>
             </div>
           </div>

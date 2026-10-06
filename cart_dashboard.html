@@ -1134,10 +1134,6 @@
             </button>
           </div>
           
-          <div class="freezer-callout" id="freezer-notice">
-            <!-- Injected via JS -->
-          </div>
-
           <div id="week-groceries-container">
             <!-- Injected via JS -->
           </div>
@@ -1993,7 +1989,8 @@
 
       document.getElementById('week-title-left').innerText = `📅 ${data.title}`;
       document.getElementById('week-title-right').innerText = `🛒 ${weekNum}주차 신규 주문 식재료`;
-      document.getElementById('freezer-notice').innerHTML = data.freezerMsg;
+      const freezerNotice = document.getElementById('freezer-notice');
+      if (freezerNotice) freezerNotice.innerHTML = data.freezerMsg;
       document.getElementById('btn-week-batch-top').innerText = `${weekNum}주차 품목 한 번에 담기`;
       const panelBtn = document.getElementById('btn-week-batch-panel');
       if (panelBtn) panelBtn.innerText = `${weekNum}주차 품목 한 번에 담기`;

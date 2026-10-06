@@ -8,7 +8,9 @@
     (function() {
       var ua = navigator.userAgent.toLowerCase();
       if (ua.indexOf('kakaotalk') !== -1) {
-        location.href = 'kakaotalk://web/openExternal?url=' + encodeURIComponent(window.location.href);
+        if (/android/i.test(ua)) {
+          location.href = 'intent://' + location.href.replace(/https?:\/\//i, '') + '#Intent;scheme=https;package=com.android.chrome;end';
+        }
       }
     })();
     window.addEventListener('error', e => { window.__lastError = e.message + ' at ' + e.filename + ':' + e.lineno; console.error(e); });
@@ -780,11 +782,23 @@
       <p>냉동실 폭발 방지(최대 2kg 제한) + 채소 썩음 0% + 로켓프레시 무료배송(15,000원↑) 4회 분할!</p>
       
       <!-- KakaoTalk In-App Notice Bar -->
-      <div id="kakaotalk-notice" style="display: none; background: #fee500; color: #191919; padding: 12px 16px; border-radius: 10px; font-size: 0.88rem; font-weight: 700; margin: 12px 0 16px; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;">
-        <span>💬 카카오톡 인앱 브라우저 감지됨 (쿠팡 403 보안 차단 방지)</span>
-        <button type="button" onclick="openInExternalBrowser()" style="background: #191919; color: #fff; border: none; padding: 6px 14px; border-radius: 6px; font-weight: 700; font-size: 0.82rem; cursor: pointer;">
-          🧭 Safari / Chrome으로 열기
-        </button>
+      <div id="kakaotalk-notice" style="display: none; background: linear-gradient(135deg, #fee500 0%, #facc15 100%); color: #1e1b4b; padding: 14px 18px; border-radius: 12px; margin: 12px 0 18px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); border: 2px solid #eab308; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
+        <div style="flex: 1; min-width: 240px;">
+          <div style="font-size: 0.95rem; font-weight: 800; display: flex; align-items: center; gap: 6px;">
+            <span>⚠️</span> 카카오톡으로 접속하셨나요?
+          </div>
+          <div style="font-size: 0.82rem; color: #334155; margin-top: 4px; line-height: 1.4;">
+            쿠팡 보안 방화벽으로 인해 카톡 안에서는 장바구니 담기가 멈추거나 차단될 수 있습니다. <strong>[Safari로 전환]</strong> 후 이용하시면 1초 만에 쿠팡 앱으로 바로 담깁니다!
+          </div>
+        </div>
+        <div style="display: flex; gap: 8px; align-items: center;">
+          <button type="button" onclick="openInExternalBrowser()" style="background: #1e1b4b; color: #fff; border: none; padding: 8px 16px; border-radius: 8px; font-weight: 800; font-size: 0.85rem; cursor: pointer; box-shadow: 0 2px 6px rgba(0,0,0,0.2);">
+            🧭 Safari로 전환
+          </button>
+          <button type="button" onclick="copyCurrentUrlAndGuide()" style="background: rgba(0,0,0,0.08); color: #1e1b4b; border: 1px solid rgba(0,0,0,0.25); padding: 8px 12px; border-radius: 8px; font-weight: 700; font-size: 0.82rem; cursor: pointer;">
+            📋 주소 복사
+          </button>
+        </div>
       </div>
 
       <!-- Coupang Partners Status & FTC Disclosure Notice -->
@@ -1105,18 +1119,31 @@
     }
 
     function openInExternalBrowser() {
-      location.href = 'kakaotalk://web/openExternal?url=' + encodeURIComponent(window.location.href);
+      const currentUrl = window.location.href;
+      const ua = navigator.userAgent.toLowerCase();
+      if (/android/i.test(ua)) {
+        location.href = 'intent://' + currentUrl.replace(/https?:\/\//i, '') + '#Intent;scheme=https;package=com.android.chrome;end';
+        return;
+      }
+      location.href = 'kakaotalk://web/openExternal?url=' + encodeURIComponent(currentUrl);
+      setTimeout(() => {
+        showToast('💡 Safari 전환이 안 되면 화면 오른쪽 아래 [⋯] 또는 [공유] ➔ [Safari로 열기]를 눌러주세요!');
+      }, 1500);
+    }
+
+    function copyCurrentUrlAndGuide() {
+      navigator.clipboard.writeText(window.location.href).then(() => {
+        showToast('📋 링크가 복사되었습니다! Safari나 Chrome 주소창에 붙여넣어 주세요.');
+      }).catch(() => {
+        prompt('아래 링크를 복사하여 Safari나 Chrome에서 열어주세요:', window.location.href);
+      });
     }
 
     function safeOpenUrl(url) {
       if (!url) return;
-      const ua = navigator.userAgent.toLowerCase();
-      if (ua.indexOf('kakaotalk') !== -1) {
-        // 카카오톡 내부 브라우저에서 쿠팡 403 차단 방지: 즉시 Safari/Chrome 외부 브라우저(쿠팡 앱)로 토스
-        location.href = 'kakaotalk://web/openExternal?url=' + encodeURIComponent(url);
-        return;
-      }
-      // 일반 모바일/PC 브라우저: <a> 태그 클릭 시뮬레이션 (새 탭 및 쿠팡 앱 유니버설 링크 보장)
+      // [쿠팡 403 차단 및 멈춤 원천 방지]:
+      // 현재 창의 location.href를 절대 바꾸지 않고 독립된 새 창/앱으로 전송하여
+      // 현재 대시보드 페이지 상태(주차, 체크리스트, 진행률)를 100% 보존합니다.
       const a = document.createElement('a');
       a.href = url;
       a.target = '_blank';
@@ -1125,7 +1152,7 @@
       a.click();
       setTimeout(() => {
         try { document.body.removeChild(a); } catch (e) {}
-      }, 100);
+      }, 300);
     }
 
     function copyAffiliateLink(query, btn) {
@@ -1996,13 +2023,25 @@
         document.getElementById('modal-desc-text').innerHTML = descHtml;
 
         if (bgBanner) {
-          bgBanner.innerHTML = `
-            <span style="font-size: 1.3rem; flex-shrink: 0;">📱</span>
-            <div>
-              <strong style="color: #38bdf8;">모바일 간편 담기:</strong><br>
-              각 품목의 <strong>[🛒 쿠팡 담기]</strong> 버튼을 누르시면 쿠팡 앱으로 바로 연결되어 편리하게 장바구니에 담으실 수 있습니다!
-            </div>
-          `;
+          const isKakao = navigator.userAgent.toLowerCase().includes('kakaotalk');
+          if (isKakao) {
+            bgBanner.innerHTML = `
+              <span style="font-size: 1.3rem; flex-shrink: 0;">💬</span>
+              <div>
+                <strong style="color: #fde047;">카카오톡 사용자 안내:</strong><br>
+                아래 <strong>[👉 순서대로 열기]</strong>를 누르면 쿠팡 앱으로 이동합니다.<br>
+                만약 쿠팡 차단 오류가 발생할 경우 우측 하단 <strong>[공유/⋯] ➔ [Safari로 열기]</strong>를 이용하시면 오류 없이 원활하게 담깁니다!
+              </div>
+            `;
+          } else {
+            bgBanner.innerHTML = `
+              <span style="font-size: 1.3rem; flex-shrink: 0;">📱</span>
+              <div>
+                <strong style="color: #38bdf8;">모바일 간편 담기:</strong><br>
+                아래 <strong>[👉 1번 상품부터 순서대로 열기]</strong> 버튼을 누르시면 쿠팡 앱으로 바로 연결되어 편리하게 장바구니에 담으실 수 있습니다!
+              </div>
+            `;
+          }
         }
       } else {
         document.getElementById('batch-modal-title').innerText = `⚡ ${title} 자동 담기`;
@@ -2375,13 +2414,18 @@
       }
     }
 
-    function startBatchOpenManual() {
+    async function startBatchOpenManual() {
       closeModal();
-      currentBatchItems.forEach(item => {
-        const url = getPartnerUrl(item.query);
-        safeOpenUrl(url);
-      });
-      showToast("선택하신 식재료의 파트너스 링크 탭들이 열렸습니다.");
+      for (let i = 0; i < currentBatchItems.length; i++) {
+        const item = currentBatchItems[i];
+        safeOpenUrl(getPartnerUrl(item.query));
+        markQueryAdded(item.query);
+        if (i < currentBatchItems.length - 1) {
+          await new Promise(r => setTimeout(r, 600));
+        }
+      }
+      refreshAllAddedButtons();
+      showToast("선택하신 식재료의 파트너스 링크들이 순차적으로 열렸습니다.");
     }
 
     function showToast(msg) {

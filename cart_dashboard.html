@@ -2338,6 +2338,21 @@
     }
 
     async function startBatchAutoAdd(onlyPending = true) {
+      const isLocal = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
+      if (!isLocal) {
+        // 모바일/GitHub Pages 환경: 백그라운드 Python 데몬이 없으므로 '⚠️ 오류' 대신 북마크/쿠팡 담기 가이드로 자동 전환
+        const modalDesc = document.getElementById('modal-desc-text');
+        if (modalDesc) {
+          modalDesc.innerHTML = `<div style="background: rgba(59, 130, 246, 0.15); border: 1px solid rgba(59, 130, 246, 0.35); border-radius: 8px; padding: 10px 12px; margin-bottom: 8px; color: #bae6fd; font-size: 0.85rem; line-height: 1.5;">
+            📱 <strong>모바일/웹 배포 안내:</strong><br>
+            방금 설정하신 <strong>사파리 즐겨찾기 [집밥봇]</strong>으로 쿠팡에서 1초 만에 자동 담으실 수 있습니다!<br>
+            아래 [🚀 쿠팡 열기]를 누르신 후 책갈피(📖)의 [집밥봇]을 눌러주세요.
+          </div>`;
+        }
+        openBookmarkletModal();
+        return;
+      }
+
       if (isBatchRunning) return;
       isBatchRunning = true;
 
@@ -2582,13 +2597,20 @@
       weekNum = Number(weekNum) || 1;
       const prods = (typeof allProducts !== 'undefined' && Array.isArray(allProducts)) ? allProducts : [];
       const weekItems = prods.filter(p => p.orderWeek === weekNum);
-      const itemsData = weekItems.map(it => ({
-        name: it.name,
-        spec: it.spec,
-        qty: it.qty,
-        price: it.total,
-        url: (typeof getPartnerUrl === 'function') ? getPartnerUrl(it.query) : `https://www.coupang.com/np/search?q=${encodeURIComponent(it.query)}`
-      }));
+      const itemsData = weekItems.map(it => {
+        let u = (typeof getPartnerUrl === 'function') ? getPartnerUrl(it.query) : '';
+        // 모바일 쿠팡에서는 www.coupang.com 대신 모바일 전용 검색/파트너스 링크로 전환 (403 및 앱 충돌 오류 방지)
+        if (!u || u.includes('www.coupang.com/np/search')) {
+          u = `https://m.coupang.com/nm/search?q=${encodeURIComponent(it.query)}`;
+        }
+        return {
+          name: it.name,
+          spec: it.spec,
+          qty: it.qty,
+          price: it.total,
+          url: u
+        };
+      });
       const itemsJson = JSON.stringify(itemsData);
 
       const rawScript = `(function(){` +
@@ -2601,7 +2623,7 @@
         `h += '<div style="font-size:12px;color:#94a3b8;margin-top:2px;">${weekNum}주차 식재료 (' + items.length + '종) 자동 담기</div></div>';` +
         `h += '<button onclick="document.getElementById(\'zb-cart-overlay\').remove()" style="background:#334155;color:#fff;border:none;border-radius:50%;width:28px;height:28px;font-weight:bold;cursor:pointer;font-size:14px;">✕</button></div>';` +
         `h += '<div style="background:rgba(249,115,22,0.15);border:1px solid rgba(249,115,22,0.4);border-radius:10px;padding:10px 12px;margin-bottom:12px;font-size:12px;color:#fed7aa;line-height:1.4;">';` +
-        `h += '👉 아래 <strong>[⚡ 차례대로 담기]</strong>를 누르시면 식재료가 순서대로 열려 장바구니에 담깁니다!</div>';` +
+        `h += '👉 아래 <strong>[⚡ 차례대로 담기]</strong>나 각 재료의 <strong>[담기 ↗]</strong>를 누르시면 쿠팡 상품이 바로 열립니다!</div>';` +
         `h += '<div style="display:flex;gap:8px;margin-bottom:12px;">';` +
         `h += '<button id="zb-btn-next" style="flex:1;background:linear-gradient(135deg,#f97316,#ea580c);color:#fff;border:none;padding:12px 14px;border-radius:10px;font-weight:800;font-size:13px;cursor:pointer;box-shadow:0 4px 14px rgba(249,115,22,0.4);">⚡ 1번부터 차례대로 담기 (남은: ' + items.length + '개)</button>';` +
         `h += '<button onclick="location.href=\'https://cart.coupang.com/cartView.pang\'" style="background:#10b981;color:#fff;border:none;padding:12px 14px;border-radius:10px;font-weight:800;font-size:13px;cursor:pointer;white-space:nowrap;">🛍️ 장바구니</button>';` +
@@ -2611,13 +2633,13 @@
         `h += '<div id="zb-item-' + i + '" style="display:flex;justify-content:space-between;align-items:center;background:#1e293b;padding:9px 12px;border-radius:10px;border:1px solid #334155;font-size:12px;">';` +
         `h += '<div style="flex:1;min-width:0;padding-right:8px;"><div style="font-weight:700;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + (i+1) + '. ' + it.name + '</div>';` +
         `h += '<div style="font-size:11px;color:#94a3b8;margin-top:2px;">' + it.spec + ' (' + it.qty + '개) · ' + it.price.toLocaleString() + '원</div></div>';` +
-        `h += '<button id="zb-btn-item-' + i + '" style="background:#3b82f6;color:#fff;border:none;padding:6px 12px;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;white-space:nowrap;">담기</button>';` +
+        `h += '<a id="zb-btn-item-' + i + '" href="' + it.url + '" target="_blank" onclick="markDone(' + i + ')" style="background:#3b82f6;color:#fff;text-decoration:none;padding:6px 12px;border-radius:8px;font-size:11px;font-weight:700;display:inline-block;white-space:nowrap;">담기 ↗</a>';` +
         `h += '</div>';` +
         `});` +
         `h += '</div>';` +
         `o.innerHTML = h;` +
         `document.body.appendChild(o);` +
-        `function markDone(idx) {` +
+        `window.markDone = function(idx) {` +
         `var row = document.getElementById('zb-item-' + idx);` +
         `var btn = document.getElementById('zb-btn-item-' + idx);` +
         `if (row && btn) {` +
@@ -2626,25 +2648,21 @@
         `btn.innerText = '✅ 담김';` +
         `btn.style.background = '#10b981';` +
         `}` +
-        `}` +
-        `items.forEach(function(it, i){` +
-        `var btn = document.getElementById('zb-btn-item-' + i);` +
-        `if (btn) {` +
-        `btn.onclick = function(){ window.open(it.url, '_blank'); markDone(i); };` +
-        `}` +
-        `});` +
+        `};` +
         `var nextBtn = document.getElementById('zb-btn-next');` +
         `if (nextBtn) {` +
         `nextBtn.onclick = function(){` +
         `while (currIndex < items.length) {` +
         `var btn = document.getElementById('zb-btn-item-' + currIndex);` +
-        `if (btn && btn.innerText !== '✅ 담김') {` +
-        `window.open(items[currIndex].url, '_blank');` +
-        `markDone(currIndex);` +
+        `if (btn && !btn.innerText.includes('✅')) {` +
+        `var targetUrl = items[currIndex].url;` +
+        `window.markDone(currIndex);` +
+        `var win = window.open(targetUrl, '_blank');` +
+        `if (!win) { location.href = targetUrl; }` +
         `currIndex++;` +
         `var remaining = items.filter(function(_, idx){` +
         `var b = document.getElementById('zb-btn-item-' + idx);` +
-        `return b && b.innerText !== '✅ 담김';` +
+        `return b && !b.innerText.includes('✅');` +
         `}).length;` +
         `if (remaining > 0) {` +
         `nextBtn.innerText = '⚡ 다음 품목 담기 (남은: ' + remaining + '개)';` +

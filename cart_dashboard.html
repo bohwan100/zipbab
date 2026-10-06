@@ -1024,44 +1024,9 @@
       </div>
     </header>
 
-    
-
-        <div class="bm-step-card">
-          <div class="bm-step-badge" style="background: #3b82f6;">STEP 2</div>
-          <div class="bm-step-content">
-            <div class="bm-step-tit">📑 Safari 책갈피 추가</div>
-            <div class="bm-step-sub">Safari [공유 ⬆️] ➔ [책갈피 추가] ➔ [편집]에서 주소에 붙여넣기합니다.</div>
-          </div>
-        </div>
-
-        <div class="bm-step-card">
-          <div class="bm-step-badge" style="background: #10b981;">STEP 3</div>
-          <div class="bm-step-content">
-            <div class="bm-step-tit">🚀 쿠팡에서 터치!</div>
-            <div class="bm-step-sub">쿠팡(m.coupang.com) 접속 후 책갈피를 누르면 장바구니로 바로 담깁니다.</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Action Button Group -->
-      <div class="bm-btn-group">
-        <button type="button" class="btn-bm-main" id="btn-bm-copy-banner" onclick="copyCurrentWeekBookmarklet()">
-          📋 <span id="bm-banner-week-text">1주차</span> 식재료 1초 자동 담기 코드 복사
-        </button>
-        <button type="button" class="btn-bm-guide" onclick="openBookmarkletModal()">
-          📖 30초 설정 가이드 보기 (초보자 필독)
-        </button>
-        <button type="button" class="btn-bm-coupang" onclick="safeOpenUrl('https://m.coupang.com')">
-          🚀 쿠팡 열기
-        </button>
-      </div>
-    </div>
-
-    <!-- 4주차 분할 장보기 통계 바 (카드 클릭 시 해당 주차로 즉시 전환) -->
-    
-    <!-- ============================================== -->
-    <!-- ⚡ 원클릭 1초 전자동 담기 히어로 배너 (딸깍 모드) -->
-    <!-- ============================================== -->
+    <!-- ==============================================
+    ⚡ 원클릭 1초 전자동 담기 히어로 배너 (딸깍 모드)
+    ============================================== -->
     <div class="auto-engine-hero-banner" id="auto-engine-hero-banner">
       <div class="auto-banner-inner">
         <div style="flex: 1; min-width: 280px;">
@@ -1427,23 +1392,7 @@
     </div>
   </div>
 
-      <!-- Item List Container -->
-      <div id="batch-items-container" style="max-height: 250px; overflow-y: auto; background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; padding: 12px; margin-bottom: 16px;">
-        <!-- Injected via JS -->
-      </div>
 
-      <div class="modal-actions" style="justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
-        <div style="display: flex; gap: 8px; align-items: center;">
-          <button class="btn-action" style="background: #475569;" onclick="closeModal()">닫기</button>
-          <button type="button" class="btn-action" style="background: rgba(239, 68, 68, 0.18); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.4); font-size: 0.85rem;" onclick="resetAllAddedStatus(true)" title="모든 상품의 담김 상태를 초기화하여 처음부터 다시 담기">🔄 초기화</button>
-        </div>
-        <div style="display: flex; gap: 8px; align-items: center;">
-          <button class="btn-action success" id="btn-batch-view-cart" style="display: none;" onclick="openCartDirect()">🛍️ 내 쿠팡 장바구니 확인</button>
-          <button class="btn-action orange" id="modal-confirm-btn" onclick="openNextPendingModalItem()">👉 1번 상품 쿠팡에서 담기</button>
-        </div>
-      </div>
-    </div>
-  </div>
 
   <script>
     // Coupang Partners Tracking & Affiliate Link Mapping
@@ -2250,7 +2199,7 @@
     let apiBase = '';
     let isEngineOnline = false;
     let isBatchRunning = false;
-    let currentBatchItems = [];
+    currentBatchItems = [];
 
     async function checkEngineStatus() {
       const candidates = [
@@ -2536,31 +2485,7 @@
         openCartDirect();
       }, 1000);
     }
-%`;
-      if (percentEl) percentEl.innerText = `${pct}%`;
 
-      const btnConfirm = document.getElementById('modal-confirm-btn');
-      const btnViewCart = document.getElementById('btn-batch-view-cart');
-      const unadded = currentBatchItems.filter(item => !isItemAdded(item.query));
-
-      if (unadded.length === 0) {
-        if (statusEl) statusEl.innerHTML = `🎉 <strong>모든 품목 확인 완료!</strong> (${added}/${total}개)`;
-        if (btnConfirm) btnConfirm.style.display = 'none';
-        if (btnViewCart) {
-          btnViewCart.style.display = 'inline-block';
-          btnViewCart.innerHTML = '🛍️ 내 쿠팡 장바구니 확인하기';
-        }
-      } else {
-        if (statusEl) statusEl.innerHTML = `진행률: ${added}/${total}개 완료 (다음: ${unadded[0].name.slice(0, 10)})`;
-        if (btnViewCart) btnViewCart.style.display = 'none';
-        if (btnConfirm) {
-          btnConfirm.style.display = 'inline-block';
-          btnConfirm.innerHTML = `👉 [${added + 1}/${total}] ${unadded[0].name.slice(0, 8)} 쿠팡에서 담기`;
-          btnConfirm.className = 'btn-action orange';
-          btnConfirm.onclick = () => openNextPendingModalItem();
-        }
-      }
-    }
 
     function refreshAllAddedButtons() {
       document.querySelectorAll('.btn-coupang-sm[data-query]').forEach(b => {

@@ -3,6 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
   <title>고객 맞춤 장바구니 매니저 | 집밥봇</title>
   <script>
     // 카카오톡 인앱 브라우저 감지 시 사파리/크롬 외부 브라우저로 자동 전환 (쿠팡 Akamai 403 차단 방지)
@@ -1332,7 +1335,7 @@
         <button class="btn-action danger" id="modal-header-stop-btn" style="display: none; padding: 5px 12px; font-size: 0.8rem;" onclick="stopBatchAutoAdd()">⏹ 담기 중단</button>
       </div>
       <p class="modal-desc" id="modal-desc-text" style="margin-bottom: 6px;">
-        총 20개의 식재료를 백그라운드 크롬 창에서 로켓배송 최적 상품으로 자동 탐색하여 담습니다.
+        품목별 로켓배송 최적 상품을 장바구니에 간편하게 담습니다.
       </p>
 
       <!-- Background Silent Mode Info Banner (from photo) -->
@@ -1399,6 +1402,10 @@
     function getPartnerUrl(query) {
       if (partnersLinks && partnersLinks[query] && partnersLinks[query].shortenUrl) {
         return partnersLinks[query].shortenUrl;
+      }
+      const isMob = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+      if (isMob) {
+        return `https://m.coupang.com/nm/search?q=${encodeURIComponent(query)}`;
       }
       return `https://www.coupang.com/np/search?q=${encodeURIComponent(query)}&channel=user`;
     }
@@ -2199,8 +2206,18 @@
     // ==============================================
     let isBatchRunning = false;
 
-    // 단일 상품 장바구니 담기 (무간섭 백그라운드 API)
+    // 단일 상품 장바구니 담기 (무간섭 백그라운드 API & 모바일 직통 지원)
     async function addSingleProductToCart(btn, query, name, qty = 1, spec = '') {
+      const isLocal = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
+      if (!isLocal) {
+        markQueryAdded(query);
+        refreshAllAddedButtons();
+        showToast(`🛒 [${name}] 쿠팡 로켓배송 상품으로 이동합니다!`);
+        const itemUrl = getPartnerUrl(query);
+        safeOpenUrl(itemUrl);
+        return;
+      }
+
       if (btn && btn.classList.contains('loading')) return;
 
       if (btn) {
@@ -2401,11 +2418,8 @@
       const itemUrl = getPartnerUrl(item.query);
       markBatchItemAdded(nextIdx, item.query);
 
-      // Open Coupang
-      const win = window.open(itemUrl, '_blank');
-      if (!win) {
-        location.href = itemUrl;
-      }
+      // Open Coupang cleanly via safeOpenUrl
+      safeOpenUrl(itemUrl);
     }
 
     async function startBatchAutoAdd(onlyPending = true) {

@@ -1070,13 +1070,13 @@
       </div>
     </div>
 
-    <!-- Main View Mode Selector (주차별 분할 장보기 vs 전체 제품 뷰) -->
+    <!-- Main View Mode Selector (주차별 분할 장보기 vs 전체 제품 모아보기) -->
     <div class="view-mode-bar">
       <button class="mode-btn active" id="btn-mode-week" onclick="switchViewMode('week')">
-        📅 1. 주차별 분할 장보기 뷰 (소형 냉동실 & 채소 신선 보장 플랜)
+        📅 1. 주차별 분할 장보기
       </button>
       <button class="mode-btn" id="btn-mode-all" onclick="switchViewMode('all')">
-        📦 2. 전체 제품 모아놓은 칸 (37종 일람 & 신선/냉동/조미료 분할)
+        📦 2. 전체 제품 모아보기
       </button>
     </div>
 
@@ -1103,7 +1103,7 @@
         <p>💡 <strong>4주 총 구매액</strong>: <strong>186,980원</strong> (1주차 한돈 1등급 냉장육 & 셰프급 정품 조미료 실시간 반영! 예산 20만 원 대비 <strong style="color: #34d399;">+13,020원</strong> 절감 성공, 4회 배송비 전액 0원, 잔여 쓰레기 0%)</p>
       </div>
       <div class="action-btn-group">
-        <button class="btn-action orange" id="btn-week-batch-top" onclick="openThisWeekGroceries(true)">⚡ 현재 주차 품목 전자동 담기 (딸깍!)</button>
+        <button class="btn-action orange" id="btn-week-batch-top" onclick="openThisWeekGroceries(false)">1주차 품목 한 번에 담기</button>
         <button class="btn-action success" onclick="openCartDirect()">🛍️ 내 쿠팡 장바구니 확인</button>
         <button class="btn-action" style="background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.4);" onclick="resetAllAddedStatus()" title="모든 상품의 담김 상태를 초기화하여 처음부터 다시 담기">🔄 담기 버튼 초기화</button>
       </div>
@@ -1129,8 +1129,8 @@
         <div class="panel-box">
           <div class="panel-title">
             <span id="week-title-right">🛒 1주차 주문 식재료</span>
-            <button class="btn-action orange" style="padding: 7px 15px; font-size: 0.85rem; font-weight: 800;" onclick="openThisWeekGroceries(true)">
-              ⚡ 이번 주 품목 전자동 담기 (딸깍!)
+            <button class="btn-action orange" id="btn-week-batch-panel" style="padding: 7px 15px; font-size: 0.85rem; font-weight: 800;" onclick="openThisWeekGroceries(false)">
+              1주차 품목 한 번에 담기
             </button>
           </div>
           
@@ -1322,7 +1322,7 @@
   <div class="modal-overlay" id="batch-modal">
     <div class="modal-content" style="max-width: 560px;">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-        <h3 class="modal-title" id="batch-modal-title" style="margin-bottom: 0;">⚡ 1주차 신규 주문 품목 자동 담기</h3>
+        <h3 class="modal-title" id="batch-modal-title" style="margin-bottom: 0;">⚡ 1주차 품목 한 번에 담기</h3>
         <button class="btn-action danger" id="modal-header-stop-btn" style="display: none; padding: 5px 12px; font-size: 0.8rem;" onclick="stopBatchAutoAdd()">⏹ 담기 중단</button>
       </div>
       <p class="modal-desc" id="modal-desc-text" style="margin-bottom: 6px;">
@@ -1362,7 +1362,7 @@
         <div style="display: flex; gap: 8px; align-items: center;">
           <button type="button" class="btn-action danger" id="modal-stop-btn" style="display: none;" onclick="stopBatchAutoAdd()">⏹ 담기 중단하기</button>
           <button type="button" class="btn-action success" id="btn-batch-view-cart" style="display: none;" onclick="openCartDirect()">🛍️ 내 쿠팡 장바구니 확인</button>
-          <button type="button" class="btn-action orange" id="modal-confirm-btn" onclick="startBatchAutoAdd(false)">🚀 자동 담기 시작</button>
+          <button type="button" class="btn-action orange" id="modal-confirm-btn" onclick="startBatchAutoAdd(false)">🚀 한 번에 담기 시작</button>
         </div>
       </div>
       <div style="text-align: center; margin-top: 10px;">
@@ -1994,7 +1994,9 @@
       document.getElementById('week-title-left').innerText = `📅 ${data.title}`;
       document.getElementById('week-title-right').innerText = `🛒 ${weekNum}주차 신규 주문 식재료`;
       document.getElementById('freezer-notice').innerHTML = data.freezerMsg;
-      document.getElementById('btn-week-batch-top').innerText = `⚡ ${weekNum}주차 전 품목 전자동 담기 (딸깍!)`;
+      document.getElementById('btn-week-batch-top').innerText = `${weekNum}주차 품목 한 번에 담기`;
+      const panelBtn = document.getElementById('btn-week-batch-panel');
+      if (panelBtn) panelBtn.innerText = `${weekNum}주차 품목 한 번에 담기`;
 
       // Render Left Meals
       const mealsContainer = document.getElementById('week-meals-container');
@@ -2211,13 +2213,13 @@
       refreshAllAddedButtons();
     }
 
-    // 주차별 신규 품목 일괄 담기 (autoStart=true 시 "딸깍" 한 번에 바로 실행!)
-    function openThisWeekGroceries(autoStart = true) {
+    // 주차별 신규 품목 일괄 담기 (autoStart=false: 모달 창만 열고 사용자가 시작 버튼을 누를 때 실행)
+    function openThisWeekGroceries(autoStart = false) {
       let itemsToOpen = allProducts.filter(p => p.orderWeek === currentSelectedWeek);
       if (currentFilter !== 'all') {
         itemsToOpen = itemsToOpen.filter(p => p.storage === currentFilter);
       }
-      triggerBatchModal(itemsToOpen, `${currentSelectedWeek}주차 신규 주문 품목`, autoStart);
+      triggerBatchModal(itemsToOpen, `${currentSelectedWeek}주차 품목`, autoStart);
     }
 
     // 카테고리별 일괄 담기
@@ -2237,13 +2239,14 @@
         .replace(/\s*\(\d+종\)/g, '')
         .replace(/\s*\(\d+개\)/g, '')
         .replace(/\s*자동\s*담기$/g, '')
+        .replace(/\s*한\s*번에\s*담기$/g, '')
         .trim();
       currentBatchTitle = cleanTitle;
 
       const alreadyAdded = items.filter(it => isItemAdded(it.query));
       const pendingItems = items.filter(it => !isItemAdded(it.query));
 
-      document.getElementById('batch-modal-title').innerText = `⚡ ${cleanTitle} (${items.length}종) 자동 담기`;
+      document.getElementById('batch-modal-title').innerText = `⚡ ${cleanTitle} (${items.length}종) 한 번에 담기`;
       let descHtml = `총 <strong>${items.length}개</strong>의 식재료를 백그라운드 크롬 창에서 로켓배송 최적 상품으로 자동 탐색하여 담습니다.<br>`;
       if (alreadyAdded.length > 0) {
         descHtml += `<div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin-top: 8px; background: rgba(16, 185, 129, 0.12); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 8px; padding: 8px 12px;">
@@ -2283,7 +2286,7 @@
         btnConfirm.style.display = 'inline-block';
         btnConfirm.disabled = false;
         btnConfirm.className = 'btn-action orange';
-        btnConfirm.innerText = alreadyAdded.length > 0 ? `🚀 남은 ${pendingItems.length}개만 담기` : `🚀 자동 담기 시작 (${items.length}개)`;
+        btnConfirm.innerText = alreadyAdded.length > 0 ? `🚀 남은 ${pendingItems.length}개만 담기` : `🚀 한 번에 담기 시작 (${items.length}개)`;
       }
 
       // Render Item rows (Exact style from photo)

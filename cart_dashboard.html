@@ -1245,7 +1245,7 @@
   <!-- Batch Modal (스마트 순차 담기) -->
   
   <!-- Bookmarklet 3-Step Detailed Guide Modal -->
-  <div class="modal-overlay" id="bookmarklet-modal" onclick="if(event.target===this)closeBookmarkletModal()">
+  <div class="modal-overlay" id="bookmarklet-modal" style="z-index: 3500;" onclick="if(event.target===this)closeBookmarkletModal()">
     <div class="modal-content" style="max-width: 620px; max-height: 90vh; overflow-y: auto;">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 12px;">
         <div style="display: flex; align-items: center; gap: 8px;">
@@ -1365,7 +1365,7 @@
         <div style="font-size: 0.82rem; color: #bae6fd;">
           📱 <strong>아이폰/모바일 사용자:</strong> 쿠팡에서 1초 만에 담고 싶다면?
         </div>
-        <button type="button" onclick="openBookmarkletModal()" style="background: #3b82f6; color: #fff; border: none; padding: 6px 12px; border-radius: 6px; font-weight: 800; font-size: 0.8rem; cursor: pointer;">
+        <button type="button" onclick="copyAndOpenBookmarkletModal()" style="background: #3b82f6; color: #fff; border: none; padding: 6px 12px; border-radius: 6px; font-weight: 800; font-size: 0.8rem; cursor: pointer;">
           ⚡ 즐겨찾기 설정법 & 코드 복사
         </button>
       </div>
@@ -2516,6 +2516,9 @@
     // 쿠팡 장바구니 북마클릿 (방안 B) 자동 담기 엔진
     // ==============================================
     function openBookmarkletModal() {
+      const batchModal = document.getElementById('batch-modal');
+      if (batchModal) batchModal.style.display = 'none';
+
       const modal = document.getElementById('bookmarklet-modal');
       if (!modal) return;
       const weekNum = currentSelectedWeek || 1;
@@ -2524,6 +2527,11 @@
       if (weekElem) weekElem.innerText = weekNum;
       if (labelElem) labelElem.innerText = `${weekNum}주차 자동 담기 코드 복사하기`;
       modal.style.display = 'flex';
+    }
+
+    function copyAndOpenBookmarkletModal() {
+      copyCurrentWeekBookmarklet(true);
+      openBookmarkletModal();
     }
 
     function closeBookmarkletModal() {

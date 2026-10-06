@@ -398,6 +398,7 @@
       align-items: center;
       gap: 5px;
       white-space: nowrap;
+      text-decoration: none;
       transition: all 0.2s ease;
       box-shadow: 0 2px 5px rgba(0, 115, 233, 0.3);
     }
@@ -1772,14 +1773,10 @@
               </div>
               <div style="text-align: right; display: flex; flex-direction: column; align-items: flex-end; justify-content: center;">
                 <div class="grocery-price">${g.total.toLocaleString()}원</div>
-                <div style="display: flex; align-items: center; gap: 5px; margin-top: 6px;">
-                  <button type="button" class="btn-coupang-sm ${isAdded ? 'success' : ''}" data-query="${escapeForAttr(g.query)}" ${isAdded ? 'disabled' : ''} onclick="addSingleProductToCart(this, '${escapeForAttr(g.query)}', '${escapeForAttr(g.name)}', ${g.qty || 1}, '${escapeForAttr(g.spec)}')">
-                    ${isAdded ? '✅ 담김!' : `🛒 쿠팡 담기${g.qty > 1 ? ` (${g.qty}개)` : ''}`}
-                  </button>
-                  <a href="${coupangUrl}" target="_blank" class="btn-affiliate-link" title="내 쿠팡 파트너스 수익 링크 (AF9148506)">
-                    🔗 파트너스
+                <div style="margin-top: 6px;">
+                  <a href="${coupangUrl}" target="_blank" rel="noopener noreferrer" class="btn-coupang-sm ${isAdded ? 'success' : ''}" data-query="${escapeForAttr(g.query)}" onclick="onDirectChooseClick('${escapeForAttr(g.query)}')">
+                    ${isAdded ? '✅ 확인 완료' : '🛒 직접 선택하기'}
                   </a>
-                  <button type="button" class="btn-copy-affiliate" title="파트너스 링크 복사" onclick="copyAffiliateLink('${escapeForAttr(g.query)}', this)">📋</button>
                 </div>
               </div>
             `;
@@ -1822,15 +1819,9 @@
             <div style="font-size: 0.75rem; color: #94a3b8;">${p.recipes}</div>
           </td>
           <td>
-            <div style="display: flex; align-items: center; gap: 6px;">
-              <button type="button" class="btn-coupang-sm ${isAdded ? 'success' : ''}" data-query="${escapeForAttr(p.query)}" ${isAdded ? 'disabled' : ''} onclick="addSingleProductToCart(this, '${escapeForAttr(p.query)}', '${escapeForAttr(p.name)}', ${p.qty || 1}, '${escapeForAttr(p.spec)}')">
-                ${isAdded ? '✅ 담김!' : `🛒 쿠팡 담기${p.qty > 1 ? ` (${p.qty}개)` : ''}`}
-              </button>
-              <a href="${coupangUrl}" target="_blank" class="btn-affiliate-link" title="내 쿠팡 파트너스 수익 링크 (AF9148506)">
-                🔗 링크
-              </a>
-              <button type="button" class="btn-copy-affiliate" title="파트너스 링크 복사" onclick="copyAffiliateLink('${escapeForAttr(p.query)}', this)">📋</button>
-            </div>
+            <a href="${coupangUrl}" target="_blank" rel="noopener noreferrer" class="btn-coupang-sm ${isAdded ? 'success' : ''}" data-query="${escapeForAttr(p.query)}" onclick="onDirectChooseClick('${escapeForAttr(p.query)}')">
+              ${isAdded ? '✅ 확인 완료' : '🛒 직접 선택하기'}
+            </a>
           </td>
         `;
 
@@ -1846,6 +1837,11 @@
       document.getElementById('btn-mode-all').classList.toggle('active', !isWeek);
       document.getElementById('section-week-view').style.display = isWeek ? 'block' : 'none';
       document.getElementById('section-all-view').style.display = isWeek ? 'none' : 'block';
+    }
+
+    function onDirectChooseClick(query) {
+      markQueryAdded(query);
+      setTimeout(refreshAllAddedButtons, 100);
     }
 
     // 단일 상품 장바구니 담기 (사용자 쿠팡 앱 직통)
@@ -2018,8 +2014,7 @@
         const q = b.getAttribute('data-query');
         if (q && isItemAdded(q)) {
           b.classList.add('success');
-          b.innerHTML = '✅ 담김';
-          b.disabled = true;
+          b.innerHTML = '✅ 확인 완료';
         }
       });
     }

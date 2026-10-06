@@ -1887,6 +1887,7 @@
     let currentSelectedWeek = 1;
     let currentFilter = 'all'; // 'all' | 'fresh' | 'frozen' | 'seasoning'
     let currentBatchItems = [];
+    let currentBatchTitle = '';
     let batchIndex = 0;
 
     // 이미 장바구니에 담긴 품목 관리 (로컬스토리지 연동)
@@ -1926,6 +1927,7 @@
 
     // 담기 상태 전체 초기화 (1주차 등 모든 품목 처음부터 다시 담기 가능)
     function resetAllAddedStatus(keepModal = false) {
+      isBatchRunning = false;
       try {
         localStorage.removeItem(ADDED_KEY);
       } catch(e) {}
@@ -1934,10 +1936,7 @@
       const modal = document.getElementById('batch-modal');
       if (modal && modal.style.display !== 'none') {
         if (keepModal && currentBatchItems && currentBatchItems.length > 0) {
-          const rawTitle = (document.getElementById('batch-modal-title').innerText || '')
-            .replace(/^⚡\s*/, '')
-            .replace(/\s*자동\s*담기$/, '');
-          triggerBatchModal(currentBatchItems, rawTitle || '품목');
+          triggerBatchModal(currentBatchItems, currentBatchTitle || '품목', false);
         } else if (!keepModal) {
           closeModal();
         }
@@ -2223,19 +2222,28 @@
 
     // 카테고리별 일괄 담기
     function openCategoryBatch(categoryKey, autoStart = true) {
-      const categoryNames = { fresh: '🥬 신선식품 (14종)', frozen: '❄️ 냉동식품 (7종)', seasoning: '🧂 조미료 & 팬트리 (19종)' };
+      const categoryNames = { fresh: '🥬 신선식품', frozen: '❄️ 냉동식품', seasoning: '🧂 조미료 & 팬트리' };
       const items = allProducts.filter(p => p.storage === categoryKey);
-      triggerBatchModal(items, categoryNames[categoryKey], autoStart);
+      triggerBatchModal(items, categoryNames[categoryKey] || '식재료', autoStart);
     }
 
     function triggerBatchModal(items, title, autoStart = true) {
       currentBatchItems = items;
       isBatchRunning = false;
 
+      // Sanitize title to prevent duplicate (20종) (20종) accumulations
+      const cleanTitle = (title || '품목')
+        .replace(/^⚡\s*/, '')
+        .replace(/\s*\(\d+종\)/g, '')
+        .replace(/\s*\(\d+개\)/g, '')
+        .replace(/\s*자동\s*담기$/g, '')
+        .trim();
+      currentBatchTitle = cleanTitle;
+
       const alreadyAdded = items.filter(it => isItemAdded(it.query));
       const pendingItems = items.filter(it => !isItemAdded(it.query));
 
-      document.getElementById('batch-modal-title').innerText = `⚡ ${title} (${items.length}종) 자동 담기`;
+      document.getElementById('batch-modal-title').innerText = `⚡ ${cleanTitle} (${items.length}종) 자동 담기`;
       let descHtml = `총 <strong>${items.length}개</strong>의 식재료를 백그라운드 크롬 창에서 로켓배송 최적 상품으로 자동 탐색하여 담습니다.<br>`;
       if (alreadyAdded.length > 0) {
         descHtml += `<div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin-top: 8px; background: rgba(16, 185, 129, 0.12); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 8px; padding: 8px 12px;">
@@ -2477,6 +2485,7 @@
     }
 
     function closeModal() {
+      isBatchRunning = false;
       document.getElementById('batch-modal').style.display = 'none';
     }
 

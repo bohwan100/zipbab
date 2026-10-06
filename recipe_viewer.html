@@ -1597,7 +1597,14 @@
         return;
       }
 
-      // Dynamic affiliate deeplink generation via backend
+      // 모바일 또는 웹 배포 환경에서는 비동기 팝업 차단을 방지하기 위해 즉시 검색창 열기
+      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+      if (isMobile || (!window.location.hostname.includes('localhost') && !window.location.hostname.includes('127.0.0.1'))) {
+        window.open(`https://www.coupang.com/np/search?q=${encodeURIComponent(clean)}&channel=user`, '_blank');
+        return;
+      }
+
+      // PC 로컬 백엔드 구동 시 동적 파트너스 딥링크 생성 시도
       fetch('/api/partners/deeplink', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

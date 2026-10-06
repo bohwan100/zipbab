@@ -1007,7 +1007,7 @@
       </p>
 
       <!-- Background Silent Mode Info Banner -->
-      <div style="background: rgba(14, 165, 233, 0.12); border: 1px solid rgba(56, 189, 248, 0.35); border-radius: 9px; padding: 10px 14px; margin: 12px 0 6px; display: flex; align-items: center; gap: 10px; font-size: 0.83rem; color: #bae6fd; line-height: 1.45;">
+      <div id="batch-bg-banner" style="background: rgba(14, 165, 233, 0.12); border: 1px solid rgba(56, 189, 248, 0.35); border-radius: 9px; padding: 10px 14px; margin: 12px 0 6px; display: flex; align-items: center; gap: 10px; font-size: 0.83rem; color: #bae6fd; line-height: 1.45;">
         <span style="font-size: 1.3rem; flex-shrink: 0;">🔇</span>
         <div>
           <strong style="color: #38bdf8;">무간섭 백그라운드 담기 지원:</strong><br>
@@ -1078,6 +1078,8 @@
     // Coupang Partners Tracking & Affiliate Link Mapping
     let partnersLinks = {};
     let partnersStatus = null;
+    const isMobile = /iPhone|iPad|iPod|Android|webOS|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    let isLocalEngineAvailable = false;
 
     function getPartnerUrl(query) {
       if (partnersLinks && partnersLinks[query] && partnersLinks[query].shortenUrl) {
@@ -1113,7 +1115,10 @@
         let statusRes = await fetch('/api/partners/status').catch(() => null);
         if (statusRes && statusRes.ok) {
           partnersStatus = await statusRes.json();
+          // 로컬 맥북 호스트에서만 백그라운드 크롬 자동 담기 엔진 활성화
+          isLocalEngineAvailable = !isMobile && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
         } else {
+          isLocalEngineAvailable = false;
           partnersStatus = {
             connected: true,
             trackingId: 'AF9148506',
@@ -1743,7 +1748,7 @@
                 <div class="grocery-price">${g.total.toLocaleString()}원</div>
                 <div style="display: flex; align-items: center; gap: 5px; margin-top: 6px;">
                   <button type="button" class="btn-coupang-sm ${isAdded ? 'success' : ''}" data-query="${escapeForAttr(g.query)}" ${isAdded ? 'disabled' : ''} onclick="addSingleProductToCart(this, '${escapeForAttr(g.query)}', '${escapeForAttr(g.name)}', ${g.qty || 1}, '${escapeForAttr(g.spec)}')">
-                    ${isAdded ? '✅ 담김!' : `🛒 자동 담기${g.qty > 1 ? ` (${g.qty}개)` : ''}`}
+                    ${isAdded ? '✅ 담김!' : ((isLocalEngineAvailable && !isMobile) ? `🛒 자동 담기${g.qty > 1 ? ` (${g.qty}개)` : ''}` : `🛒 쿠팡 담기${g.qty > 1 ? ` (${g.qty}개)` : ''}`)}
                   </button>
                   <a href="${coupangUrl}" target="_blank" class="btn-affiliate-link" title="내 쿠팡 파트너스 수익 링크 (AF9148506)">
                     🔗 파트너스
@@ -1793,7 +1798,7 @@
           <td>
             <div style="display: flex; align-items: center; gap: 6px;">
               <button type="button" class="btn-coupang-sm ${isAdded ? 'success' : ''}" data-query="${escapeForAttr(p.query)}" ${isAdded ? 'disabled' : ''} onclick="addSingleProductToCart(this, '${escapeForAttr(p.query)}', '${escapeForAttr(p.name)}', ${p.qty || 1}, '${escapeForAttr(p.spec)}')">
-                ${isAdded ? '✅ 담김!' : `🛒 자동 담기${p.qty > 1 ? ` (${p.qty}개)` : ''}`}
+                ${isAdded ? '✅ 담김!' : ((isLocalEngineAvailable && !isMobile) ? `🛒 자동 담기${p.qty > 1 ? ` (${p.qty}개)` : ''}` : `🛒 쿠팡 담기${p.qty > 1 ? ` (${p.qty}개)` : ''}`)}
               </button>
               <a href="${coupangUrl}" target="_blank" class="btn-affiliate-link" title="내 쿠팡 파트너스 수익 링크 (AF9148506)">
                 🔗 링크
@@ -1817,9 +1822,23 @@
       document.getElementById('section-all-view').style.display = isWeek ? 'none' : 'block';
     }
 
-    // 단일 상품 실시간 자동 장바구니 담기
+    // 단일 상품 실시간 장바구니 담기
     async function addSingleProductToCart(btn, query, name, qty = 1, spec = '') {
       if (btn.classList.contains('loading') || btn.classList.contains('success')) return;
+
+      const coupangUrl = getPartnerUrl(query);
+
+      // 모바일 환경이거나 로컬 백엔드 자동화 엔진이 없는 배포 환경: 사용자 직접 터치 내에서 즉시 열기 (팝업 차단 방지)
+      if (isMobile || !isLocalEngineAvailable) {
+        window.open(coupangUrl, '_blank');
+        markQueryAdded(query);
+        btn.classList.add('success');
+        btn.innerHTML = '✅ 담김!';
+        btn.disabled = true;
+        refreshAllAddedButtons();
+        showToast(`🛒 [${name}] 쿠팡으로 이동했습니다.`);
+        return;
+      }
 
       const origHtml = btn.innerHTML;
       btn.classList.add('loading');
@@ -1835,10 +1854,12 @@
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ query: query, name: name, qty: qty, spec: spec })
         });
+        if (!res.ok) throw new Error('HTTP ' + res.status);
         const data = await res.json();
 
         if (data.success) {
           markQueryAdded(query);
+          refreshAllAddedButtons();
           showToast(`🎉 [${name}]${qtyText}이(가) 쿠팡 장바구니에 정상 담겼습니다!`);
         } else if (data.access_denied) {
           btn.classList.remove('loading');
@@ -1853,18 +1874,24 @@
         }
       } catch (err) {
         btn.classList.remove('loading');
-        btn.disabled = false;
-        btn.innerHTML = '🛒 쿠팡 열기';
-        // 웹/모바일 직접 접속 환경에서는 파트너스 수익 링크 새 탭으로 즉시 열기
-        window.open(getPartnerUrl(query), '_blank');
-        showToast(`🔗 [${name}] 파트너스 링크로 이동합니다.`);
+        btn.classList.add('success');
+        btn.innerHTML = '✅ 담김!';
+        markQueryAdded(query);
+        refreshAllAddedButtons();
+        window.open(coupangUrl, '_blank');
+        showToast(`🔗 [${name}] 쿠팡 링크로 연결합니다.`);
       }
     }
 
     async function openCartDirect() {
+      if (isMobile || !isLocalEngineAvailable) {
+        window.open("https://cart.coupang.com/cartView.pang", "_blank");
+        showToast("🛍️ 쿠팡 장바구니로 이동합니다.");
+        return;
+      }
       try {
         await fetch('/api/open-cart', { method: 'POST' });
-        showToast("🛍️ 쿠팡 장바구니 창으로 즉시 이동했습니다! (수량 자동 보정 완료)");
+        showToast("🛍️ 쿠팡 장바구니 창으로 즉시 이동했습니다!");
       } catch (e) {
         window.open("https://cart.coupang.com/cartView.pang", "_blank");
       }
@@ -1903,23 +1930,61 @@
       currentBatchItems = items;
       isBatchRunning = false;
 
+      const isMobileOrWeb = isMobile || !isLocalEngineAvailable;
       const alreadyAdded = items.filter(it => isItemAdded(it.query));
       const pendingItems = items.filter(it => !isItemAdded(it.query));
 
-      document.getElementById('batch-modal-title').innerText = `⚡ ${title} 자동 담기`;
-      
-      let descHtml = `총 <strong>${items.length}개</strong>의 식재료를 백그라운드 크롬 창에서 로켓배송 최적 상품으로 자동 탐색하여 담습니다.<br>`;
-      if (alreadyAdded.length > 0) {
-        descHtml += `<div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin-top: 8px; background: rgba(16, 185, 129, 0.12); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 8px; padding: 8px 12px;">
-          <span style="color: #34d399; font-weight: 700; font-size: 0.86rem;">
-            💡 현재 <strong>${alreadyAdded.length}개 품목</strong>이 이미 장바구니에 담겨 있습니다. (남은 품목: <strong>${pendingItems.length}개</strong>)
-          </span>
-          <button type="button" onclick="resetAllAddedStatus(true)" style="background: rgba(239, 68, 68, 0.2); border: 1px solid rgba(239, 68, 68, 0.45); color: #f87171; border-radius: 6px; font-size: 0.78rem; font-weight: 700; padding: 4px 10px; cursor: pointer;" title="처음부터 모든 품목을 다시 담기 위해 담김 상태 리셋">
-            🔄 담기 버튼 초기화
-          </button>
-        </div>`;
+      const bgBanner = document.getElementById('batch-bg-banner');
+
+      if (isMobileOrWeb) {
+        document.getElementById('batch-modal-title').innerText = `🛒 ${title}`;
+        let descHtml = `총 <strong>${items.length}개</strong>의 식재료입니다. 쿠팡 앱(파트너스 링크)으로 바로 연결되어 편리하게 담으실 수 있습니다.<br>`;
+        if (alreadyAdded.length > 0) {
+          descHtml += `<div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin-top: 8px; background: rgba(16, 185, 129, 0.12); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 8px; padding: 8px 12px;">
+            <span style="color: #34d399; font-weight: 700; font-size: 0.86rem;">
+              💡 <strong>${alreadyAdded.length}개</strong> 확인 완료 (남은 품목: <strong>${pendingItems.length}개</strong>)
+            </span>
+            <button type="button" onclick="resetAllAddedStatus(true)" style="background: rgba(239, 68, 68, 0.2); border: 1px solid rgba(239, 68, 68, 0.45); color: #f87171; border-radius: 6px; font-size: 0.78rem; font-weight: 700; padding: 4px 10px; cursor: pointer;">
+              🔄 담기 버튼 초기화
+            </button>
+          </div>`;
+        }
+        document.getElementById('modal-desc-text').innerHTML = descHtml;
+
+        if (bgBanner) {
+          bgBanner.innerHTML = `
+            <span style="font-size: 1.3rem; flex-shrink: 0;">📱</span>
+            <div>
+              <strong style="color: #38bdf8;">모바일 간편 담기:</strong><br>
+              각 품목의 <strong>[🛒 쿠팡 담기]</strong> 버튼을 누르시면 쿠팡 앱으로 바로 연결되어 편리하게 장바구니에 담으실 수 있습니다!
+            </div>
+          `;
+        }
+      } else {
+        document.getElementById('batch-modal-title').innerText = `⚡ ${title} 자동 담기`;
+        let descHtml = `총 <strong>${items.length}개</strong>의 식재료를 백그라운드 크롬 창에서 로켓배송 최적 상품으로 자동 탐색하여 담습니다.<br>`;
+        if (alreadyAdded.length > 0) {
+          descHtml += `<div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin-top: 8px; background: rgba(16, 185, 129, 0.12); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 8px; padding: 8px 12px;">
+            <span style="color: #34d399; font-weight: 700; font-size: 0.86rem;">
+              💡 현재 <strong>${alreadyAdded.length}개 품목</strong>이 이미 장바구니에 담겨 있습니다. (남은 품목: <strong>${pendingItems.length}개</strong>)
+            </span>
+            <button type="button" onclick="resetAllAddedStatus(true)" style="background: rgba(239, 68, 68, 0.2); border: 1px solid rgba(239, 68, 68, 0.45); color: #f87171; border-radius: 6px; font-size: 0.78rem; font-weight: 700; padding: 4px 10px; cursor: pointer;" title="처음부터 모든 품목을 다시 담기 위해 담김 상태 리셋">
+              🔄 담기 버튼 초기화
+            </button>
+          </div>`;
+        }
+        document.getElementById('modal-desc-text').innerHTML = descHtml;
+
+        if (bgBanner) {
+          bgBanner.innerHTML = `
+            <span style="font-size: 1.3rem; flex-shrink: 0;">🔇</span>
+            <div>
+              <strong style="color: #38bdf8;">무간섭 백그라운드 담기 지원:</strong><br>
+              담는 동안 화면을 가리거나 창이 깜빡이지 않으며, <strong>모든 품목을 다 담았을 때 쿠팡 장바구니 창이 자동으로 전면에 팝업</strong>됩니다!
+            </div>
+          `;
+        }
       }
-      document.getElementById('modal-desc-text').innerHTML = descHtml;
 
       document.getElementById('batch-progress-wrapper').style.display = 'none';
       document.getElementById('batch-progress-bar').style.width = '0%';
@@ -1932,12 +1997,26 @@
       const btnConfirm = document.getElementById('modal-confirm-btn');
       btnConfirm.style.display = 'inline-block';
       btnConfirm.disabled = false;
-      if (alreadyAdded.length > 0 && pendingItems.length > 0) {
-        btnConfirm.innerHTML = `🚀 남은 ${pendingItems.length}개만 담기 (권장)`;
-        btnConfirm.onclick = () => startBatchAutoAdd(true);
+
+      if (isMobileOrWeb) {
+        if (pendingItems.length === 0) {
+          btnConfirm.innerHTML = '🛍️ 쿠팡 장바구니 확인하기';
+          btnConfirm.className = 'btn-action success';
+          btnConfirm.onclick = () => openCartDirect();
+        } else {
+          btnConfirm.innerHTML = `👉 1번 상품부터 순서대로 열기 (${pendingItems.length}개 남음)`;
+          btnConfirm.className = 'btn-action orange';
+          btnConfirm.onclick = () => openNextPendingModalItem();
+        }
       } else {
-        btnConfirm.innerHTML = `🚀 자동 담기 시작 (${items.length}개)`;
-        btnConfirm.onclick = () => startBatchAutoAdd(false);
+        btnConfirm.className = 'btn-action orange';
+        if (alreadyAdded.length > 0 && pendingItems.length > 0) {
+          btnConfirm.innerHTML = `🚀 남은 ${pendingItems.length}개만 담기 (권장)`;
+          btnConfirm.onclick = () => startBatchAutoAdd(true);
+        } else {
+          btnConfirm.innerHTML = `🚀 자동 담기 시작 (${items.length}개)`;
+          btnConfirm.onclick = () => startBatchAutoAdd(false);
+        }
       }
 
       document.getElementById('btn-batch-view-cart').style.display = 'none';
@@ -1948,21 +2027,129 @@
         const isAdded = isItemAdded(item.query);
         const row = document.createElement('div');
         row.id = `batch-row-${idx}`;
-        row.style.cssText = 'display: flex; justify-content: space-between; align-items: center; padding: 7px 6px; border-bottom: 1px solid rgba(255,255,255,0.06); font-size: 0.85rem;';
-        row.innerHTML = `
-          <div>
-            <span class="type-badge ${item.storage}" style="margin-right: 6px;">${item.cat}</span>
-            <span style="font-weight: 700; color: #fff;">${item.name}</span>
-            <span style="font-size: 0.78rem; color: #94a3b8; margin-left: 4px;">(${item.spec})</span>
-          </div>
-          <div id="batch-status-${idx}" style="font-weight: 700; color: ${isAdded ? '#10b981' : '#64748b'}; font-size: 0.8rem;">
-            ${isAdded ? '✅ 이미 담김' : '대기 중'}
-          </div>
-        `;
+        row.style.cssText = 'display: flex; justify-content: space-between; align-items: center; padding: 8px 6px; border-bottom: 1px solid rgba(255,255,255,0.06); font-size: 0.85rem;';
+        
+        if (isMobileOrWeb) {
+          row.innerHTML = `
+            <div style="flex: 1; min-width: 0; padding-right: 8px;">
+              <div style="display: flex; align-items: center; gap: 4px; flex-wrap: wrap;">
+                <span class="type-badge ${item.storage}">${item.cat}</span>
+                <span style="font-weight: 700; color: #fff;">${item.name}</span>
+              </div>
+              <div style="font-size: 0.78rem; color: #94a3b8; margin-top: 2px;">${item.spec} (${item.qty}개) · ${item.total.toLocaleString()}원</div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 6px;">
+              <button type="button" id="batch-item-btn-${idx}" class="btn-coupang-sm ${isAdded ? 'success' : ''}" style="padding: 5px 11px; font-size: 0.8rem; white-space: nowrap;" onclick="onModalItemClick(this, '${escapeForAttr(item.query)}', '${escapeForAttr(item.name)}', ${idx})">
+                ${isAdded ? '✅ 담김' : '🛒 쿠팡 담기'}
+              </button>
+            </div>
+          `;
+        } else {
+          row.innerHTML = `
+            <div>
+              <span class="type-badge ${item.storage}" style="margin-right: 6px;">${item.cat}</span>
+              <span style="font-weight: 700; color: #fff;">${item.name}</span>
+              <span style="font-size: 0.78rem; color: #94a3b8; margin-left: 4px;">(${item.spec})</span>
+            </div>
+            <div id="batch-status-${idx}" style="font-weight: 700; color: ${isAdded ? '#10b981' : '#64748b'}; font-size: 0.8rem;">
+              ${isAdded ? '✅ 이미 담김' : '대기 중'}
+            </div>
+          `;
+        }
         container.appendChild(row);
       });
 
       document.getElementById('batch-modal').style.display = 'flex';
+    }
+
+    function openNextPendingModalItem() {
+      if (!currentBatchItems || currentBatchItems.length === 0) return;
+
+      const unadded = currentBatchItems.filter(item => !isItemAdded(item.query));
+      if (unadded.length === 0) {
+        showToast('🎉 모든 식재료를 확인하셨습니다! 쿠팡 장바구니로 이동합니다.');
+        openCartDirect();
+        return;
+      }
+
+      const nextItem = unadded[0];
+      const url = getPartnerUrl(nextItem.query);
+      
+      // 사용자 클릭 제스처 내에서 즉시 열기 (모바일 팝업 차단 방지)
+      window.open(url, '_blank');
+      markQueryAdded(nextItem.query);
+
+      const itemIdx = currentBatchItems.findIndex(it => it.query === nextItem.query);
+      if (itemIdx !== -1) {
+        const btn = document.getElementById(`batch-item-btn-${itemIdx}`);
+        if (btn) {
+          btn.className = 'btn-coupang-sm success';
+          btn.innerHTML = '✅ 담김';
+        }
+      }
+
+      refreshAllAddedButtons();
+      updateMobileBatchProgress();
+      showToast(`🛒 [${nextItem.name}] 쿠팡으로 이동했습니다.`);
+    }
+
+    function onModalItemClick(btn, query, name, idx) {
+      const url = getPartnerUrl(query);
+      window.open(url, '_blank');
+      markQueryAdded(query);
+      if (btn) {
+        btn.className = 'btn-coupang-sm success';
+        btn.innerHTML = '✅ 담김';
+      }
+      refreshAllAddedButtons();
+      updateMobileBatchProgress();
+      showToast(`🛒 [${name}] 쿠팡으로 이동했습니다.`);
+    }
+
+    function updateMobileBatchProgress() {
+      if (!currentBatchItems || currentBatchItems.length === 0) return;
+      const total = currentBatchItems.length;
+      const added = currentBatchItems.filter(item => isItemAdded(item.query)).length;
+      const pct = Math.round((added / total) * 100);
+
+      const wrapper = document.getElementById('batch-progress-wrapper');
+      if (wrapper) wrapper.style.display = 'block';
+
+      const bar = document.getElementById('batch-progress-bar');
+      const percentEl = document.getElementById('batch-progress-percent');
+      const statusEl = document.getElementById('batch-progress-status');
+      if (bar) bar.style.width = `${pct}%`;
+      if (percentEl) percentEl.innerText = `${pct}%`;
+
+      const btnConfirm = document.getElementById('modal-confirm-btn');
+      const unadded = currentBatchItems.filter(item => !isItemAdded(item.query));
+
+      if (unadded.length === 0) {
+        if (statusEl) statusEl.innerHTML = `🎉 <strong>모든 품목 확인 완료!</strong> (${added}/${total}개)`;
+        if (btnConfirm) {
+          btnConfirm.innerHTML = '🛍️ 쿠팡 장바구니 확인하기';
+          btnConfirm.className = 'btn-action success';
+          btnConfirm.onclick = () => openCartDirect();
+        }
+      } else {
+        if (statusEl) statusEl.innerHTML = `진행률: ${added}/${total}개 완료 (다음: ${unadded[0].name.slice(0, 10)})`;
+        if (btnConfirm) {
+          btnConfirm.innerHTML = `👉 다음 품목 쿠팡 열기 (${added + 1}/${total}: ${unadded[0].name.slice(0, 8)}...)`;
+          btnConfirm.className = 'btn-action orange';
+          btnConfirm.onclick = () => openNextPendingModalItem();
+        }
+      }
+    }
+
+    function refreshAllAddedButtons() {
+      document.querySelectorAll('.btn-coupang-sm[data-query]').forEach(b => {
+        const q = b.getAttribute('data-query');
+        if (q && isItemAdded(q)) {
+          b.classList.add('success');
+          b.innerHTML = '✅ 담김!';
+          b.disabled = true;
+        }
+      });
     }
 
     function closeModal() {
@@ -1998,6 +2185,10 @@
     }
 
     async function startBatchAutoAdd(onlyPending = true) {
+      if (isMobile || !isLocalEngineAvailable) {
+        openNextPendingModalItem();
+        return;
+      }
       if (isBatchRunning) return;
       isBatchRunning = true;
 

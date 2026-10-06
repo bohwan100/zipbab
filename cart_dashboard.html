@@ -1036,44 +1036,6 @@
       </div>
     </header>
 
-    <!-- ==============================================
-    ⚡ 원클릭 1초 전자동 담기 히어로 배너 (딸깍 모드)
-    ============================================== -->
-    <div class="auto-engine-hero-banner" id="auto-engine-hero-banner">
-      <div class="auto-banner-inner">
-        <div style="flex: 1; min-width: 280px;">
-          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px; flex-wrap: wrap;">
-            <span class="auto-engine-badge" id="auto-engine-status-tag">
-              <span class="pulse-dot" style="background: #10b981;"></span> 🤖 100% 전자동 담기 엔진 가동 중
-            </span>
-            <span style="font-size: 0.8rem; color: #94a3b8; background: rgba(255,255,255,0.06); padding: 3px 8px; border-radius: 6px;">
-              무인 백그라운드 자동 담기
-            </span>
-          </div>
-          <h2 class="auto-banner-title">
-            🛒 버튼 한 번(딸깍!)으로 이번 주 식재료 전 품목 전자동 담기
-          </h2>
-          <p class="auto-banner-desc">
-            복잡한 북마크 설정이나 번거로운 수동 검색 없이, 아래 <strong>[⚡ 전자동 담기 시작]</strong> 버튼을 딱 한 번만 누르면 백그라운드에서 이번 주 모든 식재료가 순서대로 쿠팡 장바구니에 쏙 담깁니다!
-          </p>
-        </div>
-
-        <div class="auto-banner-actions">
-          <button type="button" class="btn-auto-run-main" id="btn-auto-run-main" onclick="openThisWeekGroceries(true)">
-            ⚡ 이번 주(<span id="hero-week-label">1</span>주차) 전 품목 전자동 담기 (딸깍!)
-          </button>
-          <div style="display: flex; gap: 8px; width: 100%;">
-            <button type="button" class="btn-action success" style="flex: 1; justify-content: center; padding: 10px 14px;" onclick="openCartDirect()">
-              🛍️ 내 쿠팡 장바구니 확인
-            </button>
-            <button type="button" class="btn-action" style="background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.4); padding: 10px 14px;" onclick="resetAllAddedStatus()" title="담김 상태 초기화">
-              🔄 초기화
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-
     <div class="weekly-split-bar">
       <div class="split-card active" id="card-week-1" onclick="selectWeek(1)">
         <div class="split-card-header">

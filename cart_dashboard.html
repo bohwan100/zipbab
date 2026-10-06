@@ -2085,7 +2085,7 @@
                 <div class="grocery-price">${g.total.toLocaleString()}원</div>
                 <div style="margin-top: 6px;">
                   <a href="${coupangUrl}" target="_blank" rel="noopener noreferrer" class="btn-coupang-sm ${isAdded ? 'success' : ''}" data-query="${escapeForAttr(g.query)}" onclick="onDirectChooseClick('${escapeForAttr(g.query)}')">
-                    ${isAdded ? '✅ 확인 완료' : '🛒 직접 선택하기'}
+                    ${isAdded ? '✅ 확인 완료' : '직접 선택하기'}
                   </a>
                 </div>
               </div>
@@ -2130,7 +2130,7 @@
           </td>
           <td>
             <a href="${coupangUrl}" target="_blank" rel="noopener noreferrer" class="btn-coupang-sm ${isAdded ? 'success' : ''}" data-query="${escapeForAttr(p.query)}" onclick="onDirectChooseClick('${escapeForAttr(p.query)}')">
-              ${isAdded ? '✅ 확인 완료' : '🛒 직접 선택하기'}
+              ${isAdded ? '✅ 확인 완료' : '직접 선택하기'}
             </a>
           </td>
         `;
@@ -2480,6 +2480,9 @@
         if (q && isItemAdded(q)) {
           b.classList.add('success');
           b.innerHTML = '✅ 확인 완료';
+        } else {
+          b.classList.remove('success');
+          b.innerHTML = '직접 선택하기';
         }
       });
     }

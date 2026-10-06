@@ -1,0 +1,1250 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>집밥보이 카드뉴스 1호 - 인스타그램 뷰어 & 생성기</title>
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <style>
+    :root {
+      --bg-app: #0d1117;
+      --panel-bg: #161b22;
+      --accent-orange: #ff6b35;
+      --accent-amber: #f7931e;
+      --accent-blue: #38bdf8;
+      --accent-red: #ef4444;
+      --text-white: #ffffff;
+      --text-gray: #94a3b8;
+      --card-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      background-color: var(--bg-app);
+      color: #e2e8f0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 30px 20px;
+    }
+
+    /* Top Control Bar */
+    header {
+      width: 100%;
+      max-width: 1100px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 25px;
+      flex-wrap: wrap;
+      gap: 15px;
+      background: rgba(22, 27, 34, 0.8);
+      backdrop-filter: blur(12px);
+      padding: 16px 24px;
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .brand-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .brand-badge {
+      background: linear-gradient(135deg, #ff6b35, #f7931e);
+      color: white;
+      font-weight: 800;
+      font-size: 13px;
+      padding: 4px 10px;
+      border-radius: 6px;
+      letter-spacing: 0.5px;
+    }
+    .brand-title h1 {
+      font-size: 19px;
+      font-weight: 700;
+      color: white;
+    }
+
+    .controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      background: #21262d;
+      color: #f0f6fc;
+      border: 1px solid #30363d;
+      padding: 9px 16px;
+      border-radius: 10px;
+      font-size: 13.5px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      transition: all 0.2s ease;
+    }
+    .btn:hover {
+      background: #30363d;
+      border-color: #8b949e;
+      transform: translateY(-1px);
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, #ff6b35, #ea580c);
+      border: none;
+      color: white;
+      box-shadow: 0 4px 14px rgba(255, 107, 53, 0.4);
+    }
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #ff7d4d, #f97316);
+      box-shadow: 0 6px 20px rgba(255, 107, 53, 0.6);
+    }
+
+    /* Ratio Toggle */
+    .ratio-toggle {
+      display: flex;
+      background: #0d1117;
+      padding: 3px;
+      border-radius: 10px;
+      border: 1px solid #30363d;
+    }
+    .ratio-btn {
+      padding: 6px 12px;
+      font-size: 12px;
+      font-weight: 700;
+      border: none;
+      background: transparent;
+      color: #8b949e;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .ratio-btn.active {
+      background: #21262d;
+      color: #fff;
+    }
+
+    /* Main Workspace */
+    .main-workspace {
+      width: 100%;
+      max-width: 1100px;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 40px;
+      margin-bottom: 30px;
+    }
+
+    /* Card Frame Container */
+    .preview-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .card-stage-wrapper {
+      position: relative;
+      border-radius: 20px;
+      padding: 10px;
+      background: #161b22;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: var(--card-shadow);
+    }
+
+    /* Actual Card News Dimensions */
+    .card-canvas {
+      width: 500px;
+      height: 625px;
+      position: relative;
+      overflow: hidden;
+      border-radius: 14px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 44px 38px 36px 38px;
+      transition: all 0.3s ease;
+    }
+
+    .card-canvas.ratio-1-1 {
+      width: 500px;
+      height: 500px;
+      padding: 36px 36px 32px 36px;
+    }
+
+    /* Slide Navigation Overlay Buttons */
+    .nav-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 18px;
+      z-index: 20;
+      transition: all 0.2s;
+    }
+    .nav-arrow:hover {
+      background: #ff6b35;
+      transform: translateY(-50%) scale(1.1);
+    }
+    .nav-prev { left: -22px; }
+    .nav-next { right: -22px; }
+
+    /* Side Panel / Info & Actions */
+    .side-panel {
+      flex: 1;
+      max-width: 440px;
+      background: var(--panel-bg);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .slide-indicator {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 14px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .slide-badge {
+      font-size: 13px;
+      font-weight: 700;
+      color: #ff9f1c;
+      background: rgba(255, 159, 28, 0.12);
+      padding: 4px 10px;
+      border-radius: 6px;
+    }
+    .slide-counter {
+      font-size: 15px;
+      font-weight: 800;
+      color: #94a3b8;
+    }
+    .slide-counter span {
+      color: #fff;
+      font-size: 18px;
+    }
+
+    .panel-section-title {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #64748b;
+      margin-bottom: 8px;
+      font-weight: 700;
+    }
+
+    .director-notes {
+      background: rgba(0, 0, 0, 0.3);
+      padding: 14px;
+      border-radius: 10px;
+      font-size: 13px;
+      line-height: 1.6;
+      color: #cbd5e1;
+      border-left: 3px solid #ff6b35;
+    }
+
+    .caption-box {
+      background: #0d1117;
+      border: 1px solid #30363d;
+      border-radius: 10px;
+      padding: 12px;
+      font-size: 12.5px;
+      color: #94a3b8;
+      line-height: 1.5;
+      max-height: 160px;
+      overflow-y: auto;
+      white-space: pre-line;
+      font-family: monospace;
+    }
+
+    /* Thumbnail Carousel */
+    .thumbnails-strip {
+      width: 100%;
+      max-width: 1100px;
+      display: flex;
+      gap: 12px;
+      overflow-x: auto;
+      padding: 10px 5px 20px 5px;
+    }
+    .thumb-item {
+      flex: 0 0 85px;
+      height: 110px;
+      border-radius: 10px;
+      background: #161b22;
+      border: 2px solid transparent;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 8px;
+      transition: all 0.2s;
+    }
+    .thumb-item:hover {
+      transform: translateY(-3px);
+      border-color: rgba(255, 107, 53, 0.5);
+    }
+    .thumb-item.active {
+      border-color: #ff6b35;
+      box-shadow: 0 0 15px rgba(255, 107, 53, 0.4);
+    }
+    .thumb-num {
+      font-size: 11px;
+      font-weight: 800;
+      color: #64748b;
+    }
+    .thumb-title {
+      font-size: 10px;
+      font-weight: 600;
+      color: #cbd5e1;
+      line-height: 1.25;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+    }
+
+    /* ==========================================================
+       CARD NEWS THEMES & SLIDE DESIGNS
+       ========================================================== */
+
+    /* Slide Header (Account & Category) */
+    .c-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      position: relative;
+      z-index: 5;
+    }
+    .c-account {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .c-avatar {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: #ff6b35;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 900;
+      color: white;
+    }
+    .c-handle {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: -0.2px;
+    }
+    .c-tag {
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      padding: 3px 8px;
+      border-radius: 4px;
+      text-transform: uppercase;
+    }
+
+    /* Slide Body Content */
+    .c-content {
+      position: relative;
+      z-index: 5;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      flex: 1;
+      padding: 20px 0;
+    }
+
+    .c-title {
+      font-size: 32px;
+      font-weight: 900;
+      line-height: 1.35;
+      letter-spacing: -0.8px;
+      margin-bottom: 20px;
+    }
+
+    .c-subtitle {
+      font-size: 17px;
+      font-weight: 500;
+      line-height: 1.6;
+      opacity: 0.9;
+    }
+
+    /* Slide Footer (Swipe & Page Number) */
+    .c-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      position: relative;
+      z-index: 5;
+      padding-top: 15px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .c-swipe {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      opacity: 0.8;
+    }
+
+    /* ---------------- Theme 1: Cold Blue/Charcoal (Slides 1~4) ---------------- */
+    .theme-cold {
+      background: radial-gradient(circle at 80% 20%, #1e293b 0%, #0f172a 50%, #020617 100%);
+      color: #ffffff;
+      border: 1px solid rgba(56, 189, 248, 0.2);
+    }
+    .theme-cold .c-handle { color: #94a3b8; }
+    .theme-cold .c-tag {
+      background: rgba(239, 68, 68, 0.2);
+      color: #f87171;
+      border: 1px solid rgba(239, 68, 68, 0.3);
+    }
+    .theme-cold .highlight-yellow {
+      color: #fde047;
+      text-shadow: 0 0 20px rgba(253, 224, 71, 0.3);
+    }
+    .theme-cold .highlight-red {
+      color: #f87171;
+    }
+    .theme-cold .highlight-cyan {
+      color: #38bdf8;
+    }
+    .theme-cold .c-footer {
+      border-color: rgba(255, 255, 255, 0.08);
+      color: #64748b;
+    }
+
+    /* ---------------- Theme 2: Deep Neutral/Turning (Slide 5) ---------------- */
+    .theme-turn {
+      background: radial-gradient(circle at 50% 100%, #311e15 0%, #171717 60%, #0a0a0a 100%);
+      color: #ffffff;
+      border: 1px solid rgba(247, 147, 30, 0.25);
+    }
+    .theme-turn .c-tag {
+      background: rgba(247, 147, 30, 0.2);
+      color: #fbbf24;
+      border: 1px solid rgba(247, 147, 30, 0.3);
+    }
+
+    /* ---------------- Theme 3: Warm Amber/Glow Kitchen (Slides 6~10) ---------------- */
+    .theme-warm {
+      background: radial-gradient(circle at 75% 30%, #3b1d11 0%, #1f130d 50%, #0d0705 100%);
+      color: #ffffff;
+      border: 1px solid rgba(255, 107, 53, 0.3);
+    }
+    .theme-warm .c-handle { color: #fdba74; }
+    .theme-warm .c-tag {
+      background: rgba(255, 107, 53, 0.2);
+      color: #ff9f1c;
+      border: 1px solid rgba(255, 107, 53, 0.4);
+    }
+    .theme-warm .highlight-warm {
+      color: #fb923c;
+      text-shadow: 0 0 25px rgba(251, 146, 60, 0.4);
+    }
+    .theme-warm .highlight-amber {
+      color: #fde047;
+    }
+    .theme-warm .c-footer {
+      border-color: rgba(255, 255, 255, 0.1);
+      color: #9a6547;
+    }
+
+    /* Graphic Components on Cards */
+    /* Phone Incoming Call Mockup (Slide 2) */
+    .phone-call-card {
+      background: rgba(15, 23, 42, 0.75);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 16px;
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin: 18px 0;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    }
+    .call-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .caller-avatar {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: #334155;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+    .caller-text h4 { font-size: 14.5px; font-weight: 700; color: #fff; }
+    .caller-text p { font-size: 12px; color: #94a3b8; }
+    .call-actions {
+      display: flex;
+      gap: 10px;
+    }
+    .call-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      color: white;
+    }
+    .call-decline { background: #ef4444; }
+    .call-accept { background: #22c55e; }
+
+    /* News Box (Slide 3) */
+    .news-box {
+      background: rgba(255, 255, 255, 0.05);
+      border-left: 4px solid #ef4444;
+      border-radius: 0 12px 12px 0;
+      padding: 14px 18px;
+      margin: 18px 0;
+    }
+    .news-badge {
+      display: inline-block;
+      font-size: 10.5px;
+      font-weight: 800;
+      background: #ef4444;
+      color: white;
+      padding: 2px 7px;
+      border-radius: 3px;
+      margin-bottom: 6px;
+    }
+    .news-headline {
+      font-size: 15px;
+      font-weight: 700;
+      color: #f1f5f9;
+      line-height: 1.4;
+    }
+
+    /* Screen Time Alert Mockup (Slide 4) */
+    .screentime-modal {
+      background: rgba(30, 41, 59, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 14px;
+      padding: 16px;
+      text-align: center;
+      margin: 16px 0;
+    }
+    .st-icon { font-size: 26px; margin-bottom: 6px; }
+    .st-title { font-size: 14px; font-weight: 700; color: white; margin-bottom: 4px; }
+    .st-desc { font-size: 12px; color: #94a3b8; margin-bottom: 12px; }
+    .st-buttons {
+      display: flex;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      padding-top: 10px;
+      justify-content: space-around;
+      font-size: 12px;
+      font-weight: 600;
+      color: #38bdf8;
+    }
+
+    /* Flame Visual (Slide 6) */
+    .flame-container {
+      margin: 20px 0;
+      background: rgba(0, 0, 0, 0.4);
+      border-radius: 16px;
+      border: 1px solid rgba(255, 107, 53, 0.2);
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .flame-icon {
+      font-size: 40px;
+      animation: pulseFlame 1.8s infinite alternate;
+    }
+    @keyframes pulseFlame {
+      from { transform: scale(1); filter: drop-shadow(0 0 10px #ff6b35); }
+      to { transform: scale(1.15); filter: drop-shadow(0 0 25px #f7931e); }
+    }
+    .flame-text h4 { font-size: 16px; font-weight: 800; color: #ff9f1c; margin-bottom: 4px; }
+    .flame-text p { font-size: 13px; color: #cbd5e1; line-height: 1.4; }
+
+    /* Sensory Pills (Slide 7) */
+    .sensory-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin: 18px 0;
+    }
+    .sensory-card {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 107, 53, 0.2);
+      border-radius: 12px;
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .sensory-icon {
+      font-size: 20px;
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: rgba(255, 107, 53, 0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .sensory-content h5 { font-size: 13.5px; font-weight: 700; color: #fed7aa; }
+    .sensory-content p { font-size: 12px; color: #cbd5e1; }
+
+    /* Quote Card (Slide 8) */
+    .quote-box {
+      background: rgba(0, 0, 0, 0.35);
+      border-left: 4px solid #f97316;
+      border-radius: 0 14px 14px 0;
+      padding: 16px 20px;
+      margin: 18px 0;
+      font-size: 14.5px;
+      font-weight: 500;
+      line-height: 1.7;
+      color: #ffedd5;
+    }
+
+    /* Checklist Box (Slide 9) */
+    .action-checklist {
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+      margin: 18px 0;
+    }
+    .check-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(255, 255, 255, 0.06);
+      border-radius: 10px;
+      padding: 10px 14px;
+      font-size: 13.5px;
+      font-weight: 600;
+      color: #f1f5f9;
+    }
+    .check-badge {
+      color: #22c55e;
+      font-size: 16px;
+    }
+
+    /* Ending Card (Slide 10) */
+    .ending-card-box {
+      text-align: center;
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(255, 107, 53, 0.3);
+      border-radius: 20px;
+      padding: 24px 20px;
+      margin: 15px 0;
+    }
+    .brand-big-logo {
+      width: 58px;
+      height: 58px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, #ff6b35, #ea580c);
+      margin: 0 auto 14px auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      box-shadow: 0 8px 20px rgba(255, 107, 53, 0.4);
+    }
+    .ending-motto {
+      font-size: 21px;
+      font-weight: 900;
+      color: #fff;
+      margin-bottom: 6px;
+      letter-spacing: -0.5px;
+    }
+    .ending-handle {
+      font-size: 14px;
+      font-weight: 700;
+      color: #fb923c;
+    }
+    .interaction-prompts {
+      display: flex;
+      justify-content: space-around;
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      font-size: 11.5px;
+      color: #cbd5e1;
+    }
+
+    /* Fullscreen Modal for exporting */
+    #export-status {
+      display: none;
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #ff6b35;
+      color: white;
+      padding: 12px 24px;
+      border-radius: 30px;
+      font-size: 14px;
+      font-weight: 700;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="export-status">이미지를 렌더링하고 다운로드 중입니다...</div>
+
+  <!-- Header Bar -->
+  <header>
+    <div class="brand-title">
+      <div class="brand-badge">집밥보이 OFFICIAL</div>
+      <h1>인스타그램 카드뉴스 1호 마스터 뷰어</h1>
+    </div>
+    <div class="controls">
+      <div class="ratio-toggle">
+        <button class="ratio-btn active" id="btn-ratio-4-5" onclick="setRatio('4-5')">4:5 (세로형)</button>
+        <button class="ratio-btn" id="btn-ratio-1-1" onclick="setRatio('1-1')">1:1 (정사각)</button>
+      </div>
+      <button class="btn btn-primary" onclick="downloadCurrentCard()">
+        📥 현재 장 PNG 저장
+      </button>
+      <button class="btn" onclick="downloadAllCards()">
+        ⚡ 전체 10장 다운로드
+      </button>
+      <button class="btn" onclick="copyCaption()">
+        📋 캡션 복사
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Display Workspace -->
+  <div class="main-workspace">
+
+    <!-- Card Canvas Container -->
+    <div class="preview-container">
+      <div class="card-stage-wrapper">
+        <button class="nav-arrow nav-prev" onclick="prevSlide()">◀</button>
+        <button class="nav-arrow nav-next" onclick="nextSlide()">▶</button>
+
+        <div id="card-stage">
+          <!-- Slide HTML will be injected dynamically -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Inspector / Director Side Panel -->
+    <div class="side-panel">
+      <div class="slide-indicator">
+        <div class="slide-badge" id="panel-role">HOOK & IMPACT</div>
+        <div class="slide-counter">PAGE <span id="panel-page-num">1</span> / 10</div>
+      </div>
+
+      <div>
+        <div class="panel-section-title">기획 의도 및 연출 가이드</div>
+        <div class="director-notes" id="panel-notes">
+          로딩 중...
+        </div>
+      </div>
+
+      <div>
+        <div class="panel-section-title">인스타그램 본문 캡션 (클릭 시 전체 복사)</div>
+        <div class="caption-box" id="caption-preview">
+퇴근길에 무의식적으로 숏폼 넘기다가
+전화 오면 일단 피하고 보는 사람, 저만 그런 거 아니죠? 🥲
+
+그냥 MBTI가 극 ‘I’라서, 혹은 성격이 게을러서 그런 줄 알았는데
+뇌과학자들은 뇌가 ‘초단기 자극(숏폼, SNS)’에 지쳐서
+주의 집중 근육이 다 녹아내렸기 때문이라고 하더라고요.
+
+이걸 고치겠다고 “오늘부터 폰 줄여야지!” 결심해 봤자 3일이면 도루묵입니다.
+뇌는 ‘하지 말자’는 결심이 아니라,
+오감을 써서 ‘한 가지에 깊게 머무는 경험’을 해야 회복되거든요.
+
+근데 책 읽기나 명상은 솔직히 너무 어렵잖아요.
+그래서 저는 주방으로 갑니다.
+
+도마 위에서 파 써는 소리, 프라이팬 지글거리는 냄새,
+불 조절에 집중하는 15분 동안은
+잡생각도, 스마트폰도 완전히 잊게 되거든요.
+
+집밥은 대단한 요리가 아닙니다.
+하루 종일 남에게 휘둘린 내 뇌와 일상을
+내가 직접 챙겨주는 가장 쉬운 ‘몰입의 시간’입니다.
+
+오늘 저녁엔 배달앱 잠깐 끄고,
+가스레인지 불 한번 켜보는 거 어때요? 🔥
+
+#자취생 #집밥 #도파민디톡스 #스마트폰중독 #콜포비아 #집밥보이 #자취요리 #1인가구
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Bottom Thumbnails Strip -->
+  <div class="thumbnails-strip" id="thumbnails-container">
+    <!-- Generated dynamically -->
+  </div>
+
+  <script>
+    // 10 Cards Full Data Architecture
+    const slidesData = [
+      {
+        id: 1,
+        theme: "theme-cold",
+        role: "1초 컷 스크롤 스톱 (HOOK)",
+        tag: "자취생 필독 팩트체크",
+        notes: "어두운 방에서 차가운 스마트폰 파란 불빛에 얼굴만 비치는 답답한 무드를 시각화했습니다. '87.4%'라는 구체적 수치와 '신종 질환'이라는 도발적인 단어로 다음 장 스와이프를 강제합니다.",
+        content: `
+          <div class="c-title">
+            MZ 자취생 <span class="highlight-yellow">87.4%</span>가<br>
+            겪고 있다는 <span class="highlight-red">신종 질환,</span><br>
+            나도 이런데;;
+          </div>
+          <div class="c-subtitle" style="color: #94a3b8;">
+            단순한 게으름인 줄 알았는데...<br>
+            뇌가 완전히 망가지고 있다는 신호였습니다.
+          </div>
+        `
+      },
+      {
+        id: 2,
+        theme: "theme-cold",
+        role: "소름 돋는 현실 공감 (PAIN POINT)",
+        tag: "현실 고증 100%",
+        notes: "전화 왔을 때 화면이 꺼질 때까지 멍하니 바라보는 콜포비아/의지력 고갈 상태를 실제 스마트폰 수신 UI로 재현해 극도의 공감대를 형성합니다.",
+        content: `
+          <div class="c-title" style="font-size: 26px;">
+            "전화 울리면 화면 꺼질 때까지<br>
+            <span class="highlight-yellow">숨죽이고 쳐다본 적</span> 있나요?"
+          </div>
+          <div class="phone-call-card">
+            <div class="call-info">
+              <div class="caller-avatar">📞</div>
+              <div class="caller-text">
+                <h4>팀장님 (또는 지인)</h4>
+                <p>통화 수신 중...</p>
+              </div>
+            </div>
+            <div class="call-actions">
+              <div class="call-btn call-decline">✕</div>
+              <div class="call-btn call-accept">✓</div>
+            </div>
+          </div>
+          <div class="c-subtitle" style="font-size: 15px; color: #cbd5e1;">
+            퇴근 후 침대에 누워 무의식적으로 릴스를 넘깁니다.<br>
+            전화가 울리면 받기 싫어 화면만 멍하니 봅니다.<br>
+            <span class="highlight-cyan">"나 왜 이렇게 사람 대하는 게 피곤하고 무기력해졌지?"</span>
+          </div>
+        `
+      },
+      {
+        id: 3,
+        theme: "theme-cold",
+        role: "과학적 권위 부여 (FACT CHECK)",
+        tag: "뇌과학 팩트체크",
+        notes: "개인의 나태함이 아니라 1초 단위 숏폼에 의한 뇌 과부하라는 과학적 팩트를 제시해 죄책감을 덜어주고 신뢰를 얻습니다.",
+        content: `
+          <div class="c-title" style="font-size: 27px;">
+            이건 성격 탓이 아닙니다.<br>
+            뇌가 <span class="highlight-red">'초단기 자극'</span>에 절여진 겁니다.
+          </div>
+          <div class="news-box">
+            <div class="news-badge">NEWS 팩트 리포트</div>
+            <div class="news-headline">
+              "성인남녀 87.4% 콜포비아 호소...<br>
+              주의 집중 근육이 파괴된 뇌의 비명"
+            </div>
+          </div>
+          <div class="c-subtitle" style="font-size: 15px; color: #cbd5e1;">
+            1초 단위로 화면을 넘기며 뇌의 주의 집중력이 완전히 방전된 상태.<br>
+            즉각적인 현실의 대화를 처리할 <b>'에너지 총량'</b>이 바닥났기 때문입니다.
+          </div>
+        `
+      },
+      {
+        id: 4,
+        theme: "theme-cold",
+        role: "상식 깨부수기 (BREAK THE MYTH)",
+        tag: "인지부조화 유발",
+        notes: "앱 잠금이나 결심만으로는 도파민 회로를 고칠 수 없다는 팩트로 해결책에 대한 호기심을 극대화합니다.",
+        content: `
+          <div class="c-title" style="font-size: 26px;">
+            "내일부터 폰 줄여야지!"<br>
+            <span class="highlight-red">결심만으론 절대 못 고칩니다.</span>
+          </div>
+          <div class="screentime-modal">
+            <div class="st-icon">⏳</div>
+            <div class="st-title">스크린타임 제한 도달</div>
+            <div class="st-desc">오늘 설정한 인스타그램 2시간 제한을 초과했습니다.</div>
+            <div class="st-buttons">
+              <span>오늘 제한 무시</span>
+              <span style="font-weight: 800;">15분 후 다시 알림</span>
+            </div>
+          </div>
+          <div class="c-subtitle" style="font-size: 15px; color: #cbd5e1;">
+            내가 문제인 건 잘 알지만 3일을 못 갑니다.<br>
+            뇌는 <b>"~하지 말아야지"</b>라는 부정형 결심으로는<br>
+            이미 굳어진 회로를 바꿀 수 없기 때문입니다.
+          </div>
+        `
+      },
+      {
+        id: 5,
+        theme: "theme-turn",
+        role: "관점의 대전환 (TURNING POINT)",
+        tag: "본질적 해법 제시",
+        notes: "독서나 명상처럼 지친 자취생이 할 수 없는 허황된 대안을 배제하고, '오감으로 한 곳에 오래 머무는 물리적 경험'이라는 핵심 원리를 엽니다.",
+        content: `
+          <div class="c-title" style="font-size: 26px; line-height: 1.4;">
+            망가진 뇌를 복구하는 유일한 길은<br>
+            <span style="color: #fbbf24;">'한 가지에 오래 머무는 경험'</span>입니다.
+          </div>
+          <div style="background: rgba(255,255,255,0.06); padding: 18px; border-radius: 12px; margin: 15px 0;">
+            <p style="font-size: 14.5px; color: #f87171; margin-bottom: 8px;">❌ <b>독서 1시간?</b> 당장 글자 세 줄도 눈에 안 들어옴</p>
+            <p style="font-size: 14.5px; color: #f87171; margin-bottom: 8px;">❌ <b>명상 30분?</b> 가만히 앉으면 잡생각만 폭발함</p>
+            <p style="font-size: 15px; color: #38bdf8; font-weight: 700; margin-top: 12px;">👉 오감을 강제로 집중시키는 '물리적 몰입'이 필요합니다.</p>
+          </div>
+          <div class="c-subtitle" style="font-size: 14px; color: #94a3b8;">
+            머리로 억제하지 않고, 내 몸의 감각을 통째로 쏟아부을 수 있는 곳은 어디일까요?
+          </div>
+        `
+      },
+      {
+        id: 6,
+        theme: "theme-warm",
+        role: "반전 브릿지 (INTRODUCE KITCHEN)",
+        tag: "주방의 재발견",
+        notes: "가스레인지 불꽃이 탁 켜지는 순간을 시각화하여, 주방을 노동의 공간이 아닌 '통제권을 찾는 몰입의 방'으로 프레이밍합니다.",
+        content: `
+          <div class="c-title" style="font-size: 26px;">
+            가장 쉽고 확실하게<br>
+            뇌의 통제권을 되찾는 곳:<br>
+            <span class="highlight-warm" style="font-size: 34px;">'당신의 주방'</span>
+          </div>
+          <div class="flame-container">
+            <div class="flame-icon">🔥</div>
+            <div class="flame-text">
+              <h4>불이 켜지는 찰나의 순간</h4>
+              <p>스마트폰 화면을 보던 뇌가<br>1초 만에 '현실'로 복귀합니다.</p>
+            </div>
+          </div>
+          <div class="c-subtitle" style="font-size: 15px; color: #ffedd5;">
+            하루 종일 남의 명령과 화면 속 자극에 멍했던 뇌가<br>
+            도마 앞에 서서 가스레인지 불을 켜는 순간,<br>
+            비로소 <b>'내 삶의 주도권'</b>이 내 손으로 돌아옵니다.
+          </div>
+        `
+      },
+      {
+        id: 7,
+        theme: "theme-warm",
+        role: "감각의 몰입 (SENSORY IMMERSION)",
+        tag: "오감 마인드풀니스",
+        notes: "도마 소리, 팬의 온도, 음식 향기 등 오감을 깨우는 15분의 요리 과정을 묘사해 도파민 디톡스의 원리를 체감시킵니다.",
+        content: `
+          <div class="c-title" style="font-size: 25px;">
+            도마 위에서 칼질하는 15분 동안,<br>
+            <span class="highlight-amber">스마트폰을 볼 틈은 없습니다.</span>
+          </div>
+          <div class="sensory-grid">
+            <div class="sensory-card">
+              <div class="sensory-icon">🔪</div>
+              <div class="sensory-content">
+                <h5>사각사각 대파 써는 일정한 리듬</h5>
+                <p>귀를 채우는 소리가 잡생각을 끊어냅니다.</p>
+              </div>
+            </div>
+            <div class="sensory-card">
+              <div class="sensory-icon">🍳</div>
+              <div class="sensory-content">
+                <h5>달궈진 팬에 기름이 지글거리는 열기</h5>
+                <p>타지 않게 불을 조절하는 순간, 100% 몰입합니다.</p>
+              </div>
+            </div>
+            <div class="sensory-card">
+              <div class="sensory-icon">🍲</div>
+              <div class="sensory-content">
+                <h5>코끝을 스치는 따뜻한 냄새</h5>
+                <p>오늘 하루 지친 뇌에 진정한 쉼을 선물합니다.</p>
+              </div>
+            </div>
+          </div>
+        `
+      },
+      {
+        id: 8,
+        theme: "theme-warm",
+        role: "집밥보이 핵심 철학 (CORE IDENTITY)",
+        tag: "건강의 본질",
+        notes: "대표님의 철학: 완벽한 식단이나 칼로리 계산이 아니라, 내가 내 손으로 챙겨 먹으려는 밸런스와 몰입의 과정 자체가 건강이라는 점을 못 박습니다.",
+        content: `
+          <div class="c-title" style="font-size: 25px;">
+            집밥은 요리 대결이 아닙니다.<br>
+            내 삶의 밸런스를 찾는 <span class="highlight-warm">'리추얼'</span>입니다.
+          </div>
+          <div class="quote-box">
+            "배달앱을 켜서 남이 만든 자극을 퍼붓는 대신,<br><br>
+            라면에 계란 하나를 풀더라도<br>
+            <b>내가 내 몸에 들어갈 것을 직접 고르고 불 앞에 서는 것.</b><br><br>
+            그 사소한 몰입의 과정이 곧 <b>'진짜 건강'</b>입니다."
+          </div>
+          <div class="c-subtitle" style="font-size: 14px; color: #fed7aa;">
+            완벽할 필요 없습니다. 통제권을 되찾는 노력이 건강입니다.
+          </div>
+        `
+      },
+      {
+        id: 9,
+        theme: "theme-warm",
+        role: "행동 장벽 낮추기 (ACTION TRIGGER)",
+        tag: "오늘 저녁 실천",
+        notes: "거창한 요리가 아닌 계란 하나로 허들을 극단적으로 낮춰 오늘 퇴근길에 즉시 실천하게 만듭니다.",
+        content: `
+          <div class="c-title" style="font-size: 26px;">
+            오늘 저녁, 배달앱을 닫고<br>
+            <span class="highlight-amber">냉장고 문을 딱 한 번만</span> 열어보세요.
+          </div>
+          <div class="action-checklist">
+            <div class="check-item">
+              <span class="check-badge">✓</span>
+              <span>7첩 반상 차릴 필요 전혀 없습니다.</span>
+            </div>
+            <div class="check-item">
+              <span class="check-badge">✓</span>
+              <span>계란 프라이 하나, 따뜻한 밥 한 공기면 충분합니다.</span>
+            </div>
+            <div class="check-item">
+              <span class="check-badge">✓</span>
+              <span>불 앞에 서는 그 15분이 뇌를 살려냅니다.</span>
+            </div>
+          </div>
+          <div class="c-subtitle" style="font-size: 14.5px; color: #ffedd5; margin-top: 6px;">
+            도파민 중독을 치료하는 건 스마트폰 잠금 앱이 아니라,<br>
+            <b>오늘 저녁 내 손으로 켜는 주방의 불꽃입니다.</b>
+          </div>
+        `
+      },
+      {
+        id: 10,
+        theme: "theme-warm",
+        role: "브랜드 각인 및 CTA (BRANDING)",
+        tag: "집밥보이 공식",
+        notes: "슬로건을 각인시키고 저장, 공유, 댓글 인터랙션을 강하게 유도합니다.",
+        content: `
+          <div class="ending-card-box">
+            <div class="brand-big-logo">🍳</div>
+            <div class="ending-motto">"배달을 닫고, 나를 켭니다."</div>
+            <div class="ending-handle">나를 살리는 집밥 리추얼, @zipbab_boy</div>
+            <div class="interaction-prompts">
+              <span>💬 "나도 폰 피한다" 댓글</span>
+              <span>📌 퇴근길용 저장</span>
+              <span>👥 자취 친구 공유</span>
+            </div>
+          </div>
+          <div class="c-subtitle" style="font-size: 14px; text-align: center; color: #fed7aa; line-height: 1.6;">
+            우리는 배달음식에 휘둘리지 않고<br>
+            내 삶의 주도권을 주방에서 되찾습니다.<br>
+            <b>집밥보이와 함께 시작해요.</b>
+          </div>
+        `
+      }
+    ];
+
+    let currentSlide = 0;
+    let currentRatio = "4-5"; // "4-5" or "1-1"
+
+    function renderSlide(index) {
+      const data = slidesData[index];
+      const stage = document.getElementById("card-stage");
+
+      stage.innerHTML = `
+        <div class="card-canvas ${data.theme} ${currentRatio === '1-1' ? 'ratio-1-1' : ''}" id="current-card-node">
+          <div class="c-header">
+            <div class="c-account">
+              <div class="c-avatar">🍳</div>
+              <span class="c-handle">zipbab_boy</span>
+            </div>
+            <div class="c-tag">${data.tag}</div>
+          </div>
+
+          <div class="c-content">
+            ${data.content}
+          </div>
+
+          <div class="c-footer">
+            <div class="c-swipe">
+              ${index < 9 ? '<span>넘겨서 보기</span> 👉' : '<span>프로필 링크 확인</span> 🔗'}
+            </div>
+            <div>${index + 1} / 10</div>
+          </div>
+        </div>
+      `;
+
+      // Update Inspector Panel
+      document.getElementById("panel-role").innerText = data.role;
+      document.getElementById("panel-page-num").innerText = index + 1;
+      document.getElementById("panel-notes").innerHTML = data.notes;
+
+      // Update Thumbnails
+      document.querySelectorAll(".thumb-item").forEach((thumb, i) => {
+        if (i === index) {
+          thumb.classList.add("active");
+          thumb.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+        } else {
+          thumb.classList.remove("active");
+        }
+      });
+    }
+
+    function initThumbnails() {
+      const container = document.getElementById("thumbnails-container");
+      container.innerHTML = "";
+      slidesData.forEach((s, i) => {
+        const item = document.createElement("div");
+        item.className = `thumb-item ${i === 0 ? 'active' : ''}`;
+        item.onclick = () => {
+          currentSlide = i;
+          renderSlide(currentSlide);
+        };
+        item.innerHTML = `
+          <div class="thumb-num">P.${i+1}</div>
+          <div class="thumb-title">${s.tag}</div>
+          <div style="font-size: 8px; color: #ff6b35;">${s.id <= 4 ? 'COLD' : 'WARM'}</div>
+        `;
+        container.appendChild(item);
+      });
+    }
+
+    function prevSlide() {
+      if (currentSlide > 0) {
+        currentSlide--;
+        renderSlide(currentSlide);
+      }
+    }
+
+    function nextSlide() {
+      if (currentSlide < slidesData.length - 1) {
+        currentSlide++;
+        renderSlide(currentSlide);
+      }
+    }
+
+    function setRatio(ratio) {
+      currentRatio = ratio;
+      document.getElementById("btn-ratio-4-5").classList.toggle("active", ratio === "4-5");
+      document.getElementById("btn-ratio-1-1").classList.toggle("active", ratio === "1-1");
+      renderSlide(currentSlide);
+    }
+
+    // Keyboard Arrow navigation
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowLeft") prevSlide();
+      if (e.key === "ArrowRight") nextSlide();
+    });
+
+    // Copy Instagram Caption
+    function copyCaption() {
+      const caption = document.getElementById("caption-preview").innerText;
+      navigator.clipboard.writeText(caption).then(() => {
+        showToast("인스타그램 캡션이 클립보드에 복사되었습니다! 📋");
+      });
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById("export-status");
+      toast.innerText = msg;
+      toast.style.display = "block";
+      setTimeout(() => {
+        toast.style.display = "none";
+      }, 2500);
+    }
+
+    // High Resolution Image Export via html2canvas
+    async function downloadCurrentCard() {
+      const cardNode = document.getElementById("current-card-node");
+      showToast(`슬라이드 ${currentSlide + 1}번 고화질 PNG 렌더링 중...`);
+
+      // Scale 2 for Retina 1080px crisp quality
+      const canvas = await html2canvas(cardNode, {
+        scale: 2.16, // 500px * 2.16 = 1080px exact Instagram width
+        useCORS: true,
+        backgroundColor: null
+      });
+
+      const link = document.createElement("a");
+      link.download = `집밥보이_카드뉴스_01호_${String(currentSlide + 1).padStart(2, '0')}.png`;
+      link.href = canvas.toDataURL("image/png");
+      link.click();
+      showToast(`슬라이드 ${currentSlide + 1}번 다운로드 완료! ✨`);
+    }
+
+    async function downloadAllCards() {
+      const origSlide = currentSlide;
+      showToast("전체 10장을 순차적으로 렌더링하여 다운로드합니다...");
+
+      for (let i = 0; i < slidesData.length; i++) {
+        currentSlide = i;
+        renderSlide(i);
+        await new Promise(r => setTimeout(r, 200)); // allow DOM refresh
+
+        const cardNode = document.getElementById("current-card-node");
+        const canvas = await html2canvas(cardNode, {
+          scale: 2.16,
+          useCORS: true,
+          backgroundColor: null
+        });
+
+        const link = document.createElement("a");
+        link.download = `집밥보이_카드뉴스_01호_${String(i + 1).padStart(2, '0')}.png`;
+        link.href = canvas.toDataURL("image/png");
+        link.click();
+        await new Promise(r => setTimeout(r, 400));
+      }
+
+      currentSlide = origSlide;
+      renderSlide(origSlide);
+      showToast("🎉 전체 10장 다운로드가 모두 완료되었습니다!");
+    }
+
+    // Initial Launch
+    initThumbnails();
+    renderSlide(0);
+  </script>
+</body>
+</html>

@@ -805,6 +805,9 @@
       <div class="partners-status-bar" id="partners-status-bar">
         <div class="partners-badge-group">
           <span class="partners-badge"><span class="pulse-dot"></span> 🔗 내 쿠팡 파트너스 연동 완료</span>
+          <span class="partners-badge" id="engine-status-badge" style="background: rgba(56, 189, 248, 0.12); border-color: rgba(56, 189, 248, 0.35); color: #38bdf8;">
+            <span class="pulse-dot" style="background: #38bdf8;"></span> 🤖 자동 담기 엔진 연결 중...
+          </span>
           <span class="partners-tracking-id" id="partners-tracking-tag">Tracking ID: AF9148506</span>
         </div>
         <div class="partners-ftc-text">
@@ -1109,7 +1112,59 @@
     let partnersLinks = {};
     let partnersStatus = null;
     const isMobile = /iPhone|iPad|iPod|Android|webOS|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    const CLOUD_TUNNEL_URL = localStorage.getItem('zipbab_tunnel_url') || 'https://condo-commands-bookmark-robot.trycloudflare.com';
+    let apiBase = '';
     let isLocalEngineAvailable = false;
+
+    async function initApiEngine() {
+      // 1. Try local server first (if running on http://localhost:8080)
+      if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+        try {
+          const res = await fetch('/api/ping', { signal: AbortSignal.timeout(1500) });
+          if (res.ok) {
+            apiBase = '';
+            isLocalEngineAvailable = true;
+            updateEngineBadge(true, '로컬');
+            return true;
+          }
+        } catch (e) {}
+      }
+
+      // 2. Try Cloudflare Tunnel (works on iPhone Safari anywhere over 4G/5G/Wi-Fi!)
+      if (CLOUD_TUNNEL_URL) {
+        try {
+          const res = await fetch(`${CLOUD_TUNNEL_URL}/api/ping`, { signal: AbortSignal.timeout(3500) });
+          if (res.ok) {
+            apiBase = CLOUD_TUNNEL_URL;
+            isLocalEngineAvailable = true;
+            updateEngineBadge(true, '맥북 원격');
+            return true;
+          }
+        } catch (e) {
+          console.warn('Cloud tunnel check warning:', e);
+        }
+      }
+
+      isLocalEngineAvailable = false;
+      updateEngineBadge(false);
+      return false;
+    }
+
+    function updateEngineBadge(isOnline, label = '') {
+      const el = document.getElementById('engine-status-badge');
+      if (!el) return;
+      if (isOnline) {
+        el.style.background = 'rgba(16, 185, 129, 0.15)';
+        el.style.borderColor = 'rgba(16, 185, 129, 0.4)';
+        el.style.color = '#34d399';
+        el.innerHTML = `<span class="pulse-dot" style="background: #10b981;"></span> 🤖 원클릭 자동 담기 연결됨 (${label})`;
+      } else {
+        el.style.background = 'rgba(148, 163, 184, 0.12)';
+        el.style.borderColor = 'rgba(148, 163, 184, 0.3)';
+        el.style.color = '#94a3b8';
+        el.innerHTML = `⚠️ 수동 링크 모드 (맥북 엔진 오프라인)`;
+      }
+    }
 
     function getPartnerUrl(query) {
       if (partnersLinks && partnersLinks[query] && partnersLinks[query].shortenUrl) {
@@ -1171,7 +1226,12 @@
 
     async function loadPartnersData() {
       try {
-        let linksRes = await fetch('/api/partners/links').catch(() => null);
+        await initApiEngine();
+
+        let linksRes = null;
+        if (isLocalEngineAvailable) {
+          linksRes = await fetch(`${apiBase}/api/partners/links`).catch(() => null);
+        }
         if (!linksRes || !linksRes.ok) {
           linksRes = await fetch('data/partners_links_cache.json').catch(() => null);
         }
@@ -1179,13 +1239,13 @@
           partnersLinks = await linksRes.json();
         }
 
-        let statusRes = await fetch('/api/partners/status').catch(() => null);
+        let statusRes = null;
+        if (isLocalEngineAvailable) {
+          statusRes = await fetch(`${apiBase}/api/partners/status`).catch(() => null);
+        }
         if (statusRes && statusRes.ok) {
           partnersStatus = await statusRes.json();
-          // 로컬 맥북 호스트에서만 백그라운드 크롬 자동 담기 엔진 활성화
-          isLocalEngineAvailable = !isMobile && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
         } else {
-          isLocalEngineAvailable = false;
           partnersStatus = {
             connected: true,
             trackingId: 'AF9148506',
@@ -1819,7 +1879,7 @@
                 <div class="grocery-price">${g.total.toLocaleString()}원</div>
                 <div style="display: flex; align-items: center; gap: 5px; margin-top: 6px;">
                   <button type="button" class="btn-coupang-sm ${isAdded ? 'success' : ''}" data-query="${escapeForAttr(g.query)}" ${isAdded ? 'disabled' : ''} onclick="addSingleProductToCart(this, '${escapeForAttr(g.query)}', '${escapeForAttr(g.name)}', ${g.qty || 1}, '${escapeForAttr(g.spec)}')">
-                    ${isAdded ? '✅ 담김!' : ((isLocalEngineAvailable && !isMobile) ? `🛒 자동 담기${g.qty > 1 ? ` (${g.qty}개)` : ''}` : `🛒 쿠팡 담기${g.qty > 1 ? ` (${g.qty}개)` : ''}`)}
+                    ${isAdded ? '✅ 담김!' : (isLocalEngineAvailable ? `🛒 자동 담기${g.qty > 1 ? ` (${g.qty}개)` : ''}` : `🛒 쿠팡 열기${g.qty > 1 ? ` (${g.qty}개)` : ''}`)}
                   </button>
                   <a href="${coupangUrl}" target="_blank" class="btn-affiliate-link" title="내 쿠팡 파트너스 수익 링크 (AF9148506)">
                     🔗 파트너스
@@ -1869,7 +1929,7 @@
           <td>
             <div style="display: flex; align-items: center; gap: 6px;">
               <button type="button" class="btn-coupang-sm ${isAdded ? 'success' : ''}" data-query="${escapeForAttr(p.query)}" ${isAdded ? 'disabled' : ''} onclick="addSingleProductToCart(this, '${escapeForAttr(p.query)}', '${escapeForAttr(p.name)}', ${p.qty || 1}, '${escapeForAttr(p.spec)}')">
-                ${isAdded ? '✅ 담김!' : ((isLocalEngineAvailable && !isMobile) ? `🛒 자동 담기${p.qty > 1 ? ` (${p.qty}개)` : ''}` : `🛒 쿠팡 담기${p.qty > 1 ? ` (${p.qty}개)` : ''}`)}
+                ${isAdded ? '✅ 담김!' : (isLocalEngineAvailable ? `🛒 자동 담기${p.qty > 1 ? ` (${p.qty}개)` : ''}` : `🛒 쿠팡 열기${p.qty > 1 ? ` (${p.qty}개)` : ''}`)}
               </button>
               <a href="${coupangUrl}" target="_blank" class="btn-affiliate-link" title="내 쿠팡 파트너스 수익 링크 (AF9148506)">
                 🔗 링크
@@ -1899,15 +1959,14 @@
 
       const coupangUrl = getPartnerUrl(query);
 
-      // 모바일 환경이거나 로컬 백엔드 자동화 엔진이 없는 배포 환경: 사용자 직접 터치 내에서 즉시 열기 (팝업 차단 방지)
-      if (isMobile || !isLocalEngineAvailable) {
+      // 자동화 엔진 미연결(오프라인) 상태: 사용자 직접 터치로 쿠팡 열기
+      if (!isLocalEngineAvailable) {
         safeOpenUrl(coupangUrl);
         markQueryAdded(query);
         btn.classList.add('success');
-        btn.innerHTML = '✅ 담김!';
-        btn.disabled = true;
+        btn.innerHTML = '✅ 확인';
         refreshAllAddedButtons();
-        showToast(`🛒 [${name}] 쿠팡으로 이동했습니다.`);
+        showToast(`📱 [${name}] 쿠팡으로 이동했습니다. 화면의 [장바구니 담기] 버튼을 직접 눌러주세요!`);
         return;
       }
 
@@ -1920,7 +1979,7 @@
       showToast(`🛒 [${name}]${qtyText} 쿠팡 장바구니에 담는 중입니다...`);
 
       try {
-        const res = await fetch('/api/add-to-cart', {
+        const res = await fetch(`${apiBase}/api/add-to-cart`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ query: query, name: name, qty: qty, spec: spec })
@@ -1930,13 +1989,16 @@
 
         if (data.success) {
           markQueryAdded(query);
+          btn.classList.remove('loading');
+          btn.classList.add('success');
+          btn.innerHTML = '✅ 담김!';
           refreshAllAddedButtons();
-          showToast(`🎉 [${name}]${qtyText}이(가) 쿠팡 장바구니에 정상 담겼습니다!`);
+          showToast(`🎉 [${name}]${qtyText}이(가) 내 쿠팡 장바구니에 정상 담겼습니다!`);
         } else if (data.access_denied) {
           btn.classList.remove('loading');
           btn.disabled = false;
           btn.innerHTML = '⚠️ 잠시 후 재시도';
-          showToast(`🛡️ 쿠팡 방화벽 보호 작동: 자동 봇 플래그 정리 완료. 5초 후 다시 눌러주세요.`);
+          showToast(`🛡️ 쿠팡 방화벽 보호 작동: 5초 후 다시 눌러주세요.`);
         } else {
           btn.classList.remove('loading');
           btn.disabled = false;
@@ -1945,23 +2007,25 @@
         }
       } catch (err) {
         btn.classList.remove('loading');
-        btn.classList.add('success');
-        btn.innerHTML = '✅ 담김!';
-        markQueryAdded(query);
-        refreshAllAddedButtons();
-        safeOpenUrl(coupangUrl);
-        showToast(`🔗 [${name}] 쿠팡 링크로 연결합니다.`);
+        btn.disabled = false;
+        btn.innerHTML = origHtml;
+        showToast(`⚠️ 자동 담기 오류: ${err.message}`);
       }
     }
 
     async function openCartDirect() {
-      if (isMobile || !isLocalEngineAvailable) {
+      if (isMobile) {
+        safeOpenUrl("https://cart.coupang.com/cartView.pang");
+        showToast("🛍️ 쿠팡 장바구니로 이동합니다.");
+        return;
+      }
+      if (!isLocalEngineAvailable) {
         safeOpenUrl("https://cart.coupang.com/cartView.pang");
         showToast("🛍️ 쿠팡 장바구니로 이동합니다.");
         return;
       }
       try {
-        await fetch('/api/open-cart', { method: 'POST' });
+        await fetch(`${apiBase}/api/open-cart`, { method: 'POST' });
         showToast("🛍️ 쿠팡 장바구니 창으로 즉시 이동했습니다!");
       } catch (e) {
         safeOpenUrl("https://cart.coupang.com/cartView.pang");
@@ -1971,7 +2035,7 @@
     async function fixCartQuantities() {
       try {
         showToast("🔍 장바구니 중복 수량 자동 점검 및 1개로 보정 중...");
-        const res = await fetch('/api/fix-quantities', { method: 'POST' });
+        const res = await fetch(`${apiBase}/api/fix-quantities`, { method: 'POST' });
         const data = await res.json();
         showToast(`✅ 장바구니 수량 보정 완료! (${data.result})`);
       } catch (err) {
@@ -2001,15 +2065,15 @@
       currentBatchItems = items;
       isBatchRunning = false;
 
-      const isMobileOrWeb = isMobile || !isLocalEngineAvailable;
+      const isAutoEngineReady = isLocalEngineAvailable;
       const alreadyAdded = items.filter(it => isItemAdded(it.query));
       const pendingItems = items.filter(it => !isItemAdded(it.query));
 
       const bgBanner = document.getElementById('batch-bg-banner');
 
-      if (isMobileOrWeb) {
-        document.getElementById('batch-modal-title').innerText = `🛒 ${title}`;
-        let descHtml = `총 <strong>${items.length}개</strong>의 식재료입니다. 쿠팡 앱(파트너스 링크)으로 바로 연결되어 편리하게 담으실 수 있습니다.<br>`;
+      if (!isAutoEngineReady) {
+        document.getElementById('batch-modal-title').innerText = `📋 ${title}`;
+        let descHtml = `총 <strong>${items.length}개</strong>의 식재료입니다. 쿠팡 페이지로 순차적으로 이동하여 직접 장바구니에 담으실 수 있습니다.<br>`;
         if (alreadyAdded.length > 0) {
           descHtml += `<div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin-top: 8px; background: rgba(16, 185, 129, 0.12); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 8px; padding: 8px 12px;">
             <span style="color: #34d399; font-weight: 700; font-size: 0.86rem;">
@@ -2023,29 +2087,18 @@
         document.getElementById('modal-desc-text').innerHTML = descHtml;
 
         if (bgBanner) {
-          const isKakao = navigator.userAgent.toLowerCase().includes('kakaotalk');
-          if (isKakao) {
-            bgBanner.innerHTML = `
-              <span style="font-size: 1.3rem; flex-shrink: 0;">💬</span>
-              <div>
-                <strong style="color: #fde047;">카카오톡 사용자 안내:</strong><br>
-                아래 <strong>[👉 순서대로 열기]</strong>를 누르면 쿠팡 앱으로 이동합니다.<br>
-                만약 쿠팡 차단 오류가 발생할 경우 우측 하단 <strong>[공유/⋯] ➔ [Safari로 열기]</strong>를 이용하시면 오류 없이 원활하게 담깁니다!
-              </div>
-            `;
-          } else {
-            bgBanner.innerHTML = `
-              <span style="font-size: 1.3rem; flex-shrink: 0;">📱</span>
-              <div>
-                <strong style="color: #38bdf8;">모바일 간편 담기:</strong><br>
-                아래 <strong>[👉 1번 상품부터 순서대로 열기]</strong> 버튼을 누르시면 쿠팡 앱으로 바로 연결되어 편리하게 장바구니에 담으실 수 있습니다!
-              </div>
-            `;
-          }
+          bgBanner.innerHTML = `
+            <span style="font-size: 1.3rem; flex-shrink: 0;">📱</span>
+            <div>
+              <strong style="color: #38bdf8;">수동 담기 모드 안내:</strong><br>
+              현재 맥북 집밥봇 서버가 오프라인입니다. 아래 <strong>[👉 1번 상품부터 순서대로 열기]</strong>를 누르시면 쿠팡 창이 열리며, 화면의 <strong>[장바구니 담기]</strong> 버튼을 직접 터치해 주세요.<br>
+              <span style="color: #cbd5e1; font-size: 0.78rem;">💡 맥북에서 <code>python3 server.py</code>를 켜두시면 핸드폰에서도 100% 원클릭 무인 자동 담기가 작동합니다.</span>
+            </div>
+          `;
         }
       } else {
         document.getElementById('batch-modal-title').innerText = `⚡ ${title} 자동 담기`;
-        let descHtml = `총 <strong>${items.length}개</strong>의 식재료를 백그라운드 크롬 창에서 로켓배송 최적 상품으로 자동 탐색하여 담습니다.<br>`;
+        let descHtml = `총 <strong>${items.length}개</strong>의 식재료를 맥북 백그라운드 엔진이 로켓배송 최적 상품으로 자동 탐색하여 내 쿠팡 장바구니에 담습니다.<br>`;
         if (alreadyAdded.length > 0) {
           descHtml += `<div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin-top: 8px; background: rgba(16, 185, 129, 0.12); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 8px; padding: 8px 12px;">
             <span style="color: #34d399; font-weight: 700; font-size: 0.86rem;">
@@ -2060,10 +2113,10 @@
 
         if (bgBanner) {
           bgBanner.innerHTML = `
-            <span style="font-size: 1.3rem; flex-shrink: 0;">🔇</span>
+            <span style="font-size: 1.3rem; flex-shrink: 0;">🚀</span>
             <div>
-              <strong style="color: #38bdf8;">무간섭 백그라운드 담기 지원:</strong><br>
-              담는 동안 화면을 가리거나 창이 깜빡이지 않으며, <strong>모든 품목을 다 담았을 때 쿠팡 장바구니 창이 자동으로 전면에 팝업</strong>됩니다!
+              <strong style="color: #38bdf8;">100% 무인 원클릭 자동 담기 지원:</strong><br>
+              아래 <strong>[🚀 자동 담기 시작]</strong>을 누르시면 화면 전환 없이 내 장바구니에 자동으로 담깁니다. 모든 품목을 다 담은 후 [내 쿠팡 장바구니 확인] 버튼을 누르면 쿠팡 앱/장바구니로 바로 이동합니다!
             </div>
           `;
         }
@@ -2081,7 +2134,7 @@
       btnConfirm.style.display = 'inline-block';
       btnConfirm.disabled = false;
 
-      if (isMobileOrWeb) {
+      if (!isAutoEngineReady) {
         if (pendingItems.length === 0) {
           btnConfirm.innerHTML = '🛍️ 쿠팡 장바구니 확인하기';
           btnConfirm.className = 'btn-action success';
@@ -2112,7 +2165,7 @@
         row.id = `batch-row-${idx}`;
         row.style.cssText = 'display: flex; justify-content: space-between; align-items: center; padding: 8px 6px; border-bottom: 1px solid rgba(255,255,255,0.06); font-size: 0.85rem;';
         
-        if (isMobileOrWeb) {
+        if (!isAutoEngineReady) {
           row.innerHTML = `
             <div style="flex: 1; min-width: 0; padding-right: 8px;">
               <div style="display: flex; align-items: center; gap: 4px; flex-wrap: wrap;">
@@ -2123,18 +2176,20 @@
             </div>
             <div style="display: flex; align-items: center; gap: 6px;">
               <button type="button" id="batch-item-btn-${idx}" class="btn-coupang-sm ${isAdded ? 'success' : ''}" style="padding: 5px 11px; font-size: 0.8rem; white-space: nowrap;" onclick="onModalItemClick(this, '${escapeForAttr(item.query)}', '${escapeForAttr(item.name)}', ${idx})">
-                ${isAdded ? '✅ 담김' : '🛒 쿠팡 담기'}
+                ${isAdded ? '✅ 확인' : '🛒 쿠팡 열기'}
               </button>
             </div>
           `;
         } else {
           row.innerHTML = `
-            <div>
-              <span class="type-badge ${item.storage}" style="margin-right: 6px;">${item.cat}</span>
-              <span style="font-weight: 700; color: #fff;">${item.name}</span>
-              <span style="font-size: 0.78rem; color: #94a3b8; margin-left: 4px;">(${item.spec})</span>
+            <div style="flex: 1; min-width: 0; padding-right: 8px;">
+              <div style="display: flex; align-items: center; gap: 4px; flex-wrap: wrap;">
+                <span class="type-badge ${item.storage}">${item.cat}</span>
+                <span style="font-weight: 700; color: #fff;">${item.name}</span>
+              </div>
+              <div style="font-size: 0.78rem; color: #94a3b8; margin-top: 2px;">${item.spec} (${item.qty}개) · ${item.total.toLocaleString()}원</div>
             </div>
-            <div id="batch-status-${idx}" style="font-weight: 700; color: ${isAdded ? '#10b981' : '#64748b'}; font-size: 0.8rem;">
+            <div id="batch-status-${idx}" style="font-weight: 700; color: ${isAdded ? '#10b981' : '#64748b'}; font-size: 0.8rem; white-space: nowrap;">
               ${isAdded ? '✅ 이미 담김' : '대기 중'}
             </div>
           `;
@@ -2158,7 +2213,7 @@
       const nextItem = unadded[0];
       const url = getPartnerUrl(nextItem.query);
       
-      // 안전한 URL 열기 (카카오톡 탈출 및 모바일 앱 연동)
+      // 안전한 URL 열기
       safeOpenUrl(url);
       markQueryAdded(nextItem.query);
 
@@ -2167,13 +2222,13 @@
         const btn = document.getElementById(`batch-item-btn-${itemIdx}`);
         if (btn) {
           btn.className = 'btn-coupang-sm success';
-          btn.innerHTML = '✅ 담김';
+          btn.innerHTML = '✅ 확인';
         }
       }
 
       refreshAllAddedButtons();
       updateMobileBatchProgress();
-      showToast(`🛒 [${nextItem.name}] 쿠팡으로 이동했습니다.`);
+      showToast(`📱 [${nextItem.name}] 쿠팡으로 이동했습니다. 화면의 [장바구니 담기] 버튼을 직접 눌러주세요!`);
     }
 
     function onModalItemClick(btn, query, name, idx) {
@@ -2182,11 +2237,11 @@
       markQueryAdded(query);
       if (btn) {
         btn.className = 'btn-coupang-sm success';
-        btn.innerHTML = '✅ 담김';
+        btn.innerHTML = '✅ 확인';
       }
       refreshAllAddedButtons();
       updateMobileBatchProgress();
-      showToast(`🛒 [${name}] 쿠팡으로 이동했습니다.`);
+      showToast(`📱 [${name}] 쿠팡으로 이동했습니다. 화면의 [장바구니 담기] 버튼을 직접 눌러주세요!`);
     }
 
     function updateMobileBatchProgress() {
@@ -2268,12 +2323,20 @@
     }
 
     async function startBatchAutoAdd(onlyPending = true) {
-      if (isMobile || !isLocalEngineAvailable) {
+      if (!isLocalEngineAvailable) {
         openNextPendingModalItem();
         return;
       }
       if (isBatchRunning) return;
       isBatchRunning = true;
+
+      // 모바일 사파리 화면 꺼짐 방지
+      let wakeLock = null;
+      try {
+        if ('wakeLock' in navigator) {
+          wakeLock = await navigator.wakeLock.request('screen');
+        }
+      } catch (e) {}
 
       const btnConfirm = document.getElementById('modal-confirm-btn');
       btnConfirm.disabled = true;
@@ -2300,18 +2363,21 @@
       }
 
       if (targetList.length === 0) {
+        if (wakeLock) { try { await wakeLock.release(); } catch(e){} }
         if (btnStop) btnStop.style.display = 'none';
         if (btnHeaderStop) btnHeaderStop.style.display = 'none';
         document.getElementById('batch-progress-bar').style.width = '100%';
         document.getElementById('batch-progress-percent').innerText = '100%';
-        document.getElementById('batch-progress-status').innerHTML = '🎉 모든 품목이 이미 담겨 있습니다! ➔ <span style="color: #38bdf8;">장바구니 창을 엽니다.</span>';
+        document.getElementById('batch-progress-status').innerHTML = '🎉 모든 품목이 이미 담겨 있습니다! ➔ <span style="color: #38bdf8;">장바구니 확인</span>';
         btnConfirm.style.display = 'none';
         document.getElementById('btn-batch-view-cart').style.display = 'inline-block';
-        showToast('🎉 모든 식재료가 이미 장바구니에 담겨 있어 장바구니 창을 엽니다!');
+        showToast('🎉 모든 식재료가 이미 장바구니에 담겨 있습니다!');
         isBatchRunning = false;
-        try {
-          await fetch('/api/open-cart', { method: 'POST' });
-        } catch (e) {}
+        if (!isMobile) {
+          try {
+            await fetch(`${apiBase}/api/open-cart`, { method: 'POST' });
+          } catch (e) {}
+        }
         return;
       }
 
@@ -2330,10 +2396,10 @@
         const pct = Math.round(((step) / targetList.length) * 100);
         document.getElementById('batch-progress-bar').style.width = `${pct}%`;
         document.getElementById('batch-progress-percent').innerText = `${pct}%`;
-        document.getElementById('batch-progress-status').innerText = `[${step + 1}/${targetList.length}] ${item.name} 담는 중... (백그라운드)`;
+        document.getElementById('batch-progress-status').innerText = `[${step + 1}/${targetList.length}] ${item.name} 담는 중... (자동)`;
 
         try {
-          const res = await fetch('/api/add-to-cart', {
+          const res = await fetch(`${apiBase}/api/add-to-cart`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ query: item.query, name: item.name, qty: item.qty || 1, spec: item.spec || '' })
@@ -2370,6 +2436,8 @@
         }
       }
 
+      if (wakeLock) { try { await wakeLock.release(); } catch(e){} }
+
       // Check if user stopped it early
       if (!isBatchRunning) {
         if (btnStop) btnStop.style.display = 'none';
@@ -2399,18 +2467,20 @@
       document.getElementById('batch-progress-bar').style.width = '100%';
       document.getElementById('batch-progress-percent').innerText = '100%';
       document.getElementById('batch-progress-status').innerHTML =
-        `🎉 <strong>전체 담기 완료!</strong> (${successCount}/${targetList.length}개 성공) ➔ <span style="color: #38bdf8; font-weight: 700;">쿠팡 장바구니 창을 전면으로 띄웁니다!</span>`;
+        `🎉 <strong>전체 담기 완료!</strong> (${successCount}/${targetList.length}개 성공) ➔ <span style="color: #38bdf8; font-weight: 700;">쿠팡 장바구니에서 확인하세요!</span>`;
 
       btnConfirm.style.display = 'none';
       document.getElementById('btn-batch-view-cart').style.display = 'inline-block';
-      showToast(`🎉 총 ${successCount}개 식재료 백그라운드 담기 완료! 쿠팡 장바구니 창을 띄웁니다.`);
+      showToast(`🎉 총 ${successCount}개 식재료 담기 완료! 쿠팡 장바구니에서 확인하세요.`);
       isBatchRunning = false;
 
-      // 백그라운드 담기 완료 후 쿠팡 장바구니 창을 최상위 전면으로 자동 팝업!
-      try {
-        await fetch('/api/open-cart', { method: 'POST' });
-      } catch (err) {
-        console.error('Auto open cart failed:', err);
+      // 데스크톱에서는 백그라운드 담기 완료 후 쿠팡 장바구니 창을 최상위 전면으로 자동 팝업
+      if (!isMobile) {
+        try {
+          await fetch(`${apiBase}/api/open-cart`, { method: 'POST' });
+        } catch (err) {
+          console.error('Auto open cart failed:', err);
+        }
       }
     }
 

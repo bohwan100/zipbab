@@ -4,6 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>🍳 [1인 가구] 한·일·중·양 4대 요리 30일 황금 레시피 & 영양 매니저</title>
+  <script>
+    (function() {
+      var ua = navigator.userAgent.toLowerCase();
+      if (ua.indexOf('kakaotalk') !== -1) {
+        location.href = 'kakaotalk://web/openExternal?url=' + encodeURIComponent(window.location.href);
+      }
+    })();
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -1573,6 +1581,24 @@
       .then(data => { partnersLinks = data || {}; })
       .catch(e => console.warn('Partners links load warning:', e));
 
+    function safeOpenUrl(url) {
+      if (!url) return;
+      const ua = navigator.userAgent.toLowerCase();
+      if (ua.indexOf('kakaotalk') !== -1) {
+        location.href = 'kakaotalk://web/openExternal?url=' + encodeURIComponent(url);
+        return;
+      }
+      const a = document.createElement('a');
+      a.href = url;
+      a.target = '_blank';
+      a.rel = 'noopener noreferrer';
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(() => {
+        try { document.body.removeChild(a); } catch (e) {}
+      }, 100);
+    }
+
     function openIngredientLink(raw) {
       let clean = raw.replace(/\[[^\]]+\]/g, '')
                      .replace(/\([^)]*\)/g, '')
@@ -1592,14 +1618,14 @@
       }
 
       if (foundUrl) {
-        window.open(foundUrl, '_blank');
+        safeOpenUrl(foundUrl);
         return;
       }
 
-      // 모바일 또는 웹 배포 환경에서는 비동기 팝업 차단을 방지하기 위해 즉시 검색창 열기
+      // 모바일 또는 웹 배포 환경에서는 즉시 검색창 열기 (카카오톡 탈출 지원)
       const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
       if (isMobile || (!window.location.hostname.includes('localhost') && !window.location.hostname.includes('127.0.0.1'))) {
-        window.open(`https://www.coupang.com/np/search?q=${encodeURIComponent(clean)}&channel=user`, '_blank');
+        safeOpenUrl(`https://www.coupang.com/np/search?q=${encodeURIComponent(clean)}&channel=user`);
         return;
       }
 

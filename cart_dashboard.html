@@ -3,8 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>🛒 [1인 가구] 소형 냉동실 & 신선 채소 주차별 분할 장보기 매니저</title>
-  <script>window.addEventListener('error', e => { window.__lastError = e.message + ' at ' + e.filename + ':' + e.lineno; console.error(e); });</script>
+  <script>
+    // 카카오톡 인앱 브라우저 감지 시 사파리/크롬 외부 브라우저로 자동 전환 (쿠팡 Akamai 403 차단 방지)
+    (function() {
+      var ua = navigator.userAgent.toLowerCase();
+      if (ua.indexOf('kakaotalk') !== -1) {
+        location.href = 'kakaotalk://web/openExternal?url=' + encodeURIComponent(window.location.href);
+      }
+    })();
+    window.addEventListener('error', e => { window.__lastError = e.message + ' at ' + e.filename + ':' + e.lineno; console.error(e); });
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -771,6 +779,14 @@
       <div class="badge-top">👤 1인 가구 20만원 예산 | 소형 냉동실 & 신선 채소 주차별 분할 매니저</div>
       <p>냉동실 폭발 방지(최대 2kg 제한) + 채소 썩음 0% + 로켓프레시 무료배송(15,000원↑) 4회 분할!</p>
       
+      <!-- KakaoTalk In-App Notice Bar -->
+      <div id="kakaotalk-notice" style="display: none; background: #fee500; color: #191919; padding: 12px 16px; border-radius: 10px; font-size: 0.88rem; font-weight: 700; margin: 12px 0 16px; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;">
+        <span>💬 카카오톡 인앱 브라우저 감지됨 (쿠팡 403 보안 차단 방지)</span>
+        <button type="button" onclick="openInExternalBrowser()" style="background: #191919; color: #fff; border: none; padding: 6px 14px; border-radius: 6px; font-weight: 700; font-size: 0.82rem; cursor: pointer;">
+          🧭 Safari / Chrome으로 열기
+        </button>
+      </div>
+
       <!-- Coupang Partners Status & FTC Disclosure Notice -->
       <div class="partners-status-bar" id="partners-status-bar">
         <div class="partners-badge-group">
@@ -1088,6 +1104,30 @@
       return `https://www.coupang.com/np/search?q=${encodeURIComponent(query)}&channel=user`;
     }
 
+    function openInExternalBrowser() {
+      location.href = 'kakaotalk://web/openExternal?url=' + encodeURIComponent(window.location.href);
+    }
+
+    function safeOpenUrl(url) {
+      if (!url) return;
+      const ua = navigator.userAgent.toLowerCase();
+      if (ua.indexOf('kakaotalk') !== -1) {
+        // 카카오톡 내부 브라우저에서 쿠팡 403 차단 방지: 즉시 Safari/Chrome 외부 브라우저(쿠팡 앱)로 토스
+        location.href = 'kakaotalk://web/openExternal?url=' + encodeURIComponent(url);
+        return;
+      }
+      // 일반 모바일/PC 브라우저: <a> 태그 클릭 시뮬레이션 (새 탭 및 쿠팡 앱 유니버설 링크 보장)
+      const a = document.createElement('a');
+      a.href = url;
+      a.target = '_blank';
+      a.rel = 'noopener noreferrer';
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(() => {
+        try { document.body.removeChild(a); } catch (e) {}
+      }, 100);
+    }
+
     function copyAffiliateLink(query, btn) {
       const url = getPartnerUrl(query);
       navigator.clipboard.writeText(url).then(() => {
@@ -1129,6 +1169,10 @@
         const trackingEl = document.getElementById('partners-tracking-tag');
         if (trackingEl && partnersStatus.trackingId) {
           trackingEl.innerText = `Tracking ID: ${partnersStatus.trackingId}`;
+        }
+        if (navigator.userAgent.toLowerCase().includes('kakaotalk')) {
+          const ktNotice = document.getElementById('kakaotalk-notice');
+          if (ktNotice) ktNotice.style.display = 'flex';
         }
         if (typeof renderWeekView === 'function') renderWeekView(currentSelectedWeek);
         if (typeof renderAllProductsTables === 'function') renderAllProductsTables();
@@ -1830,7 +1874,7 @@
 
       // 모바일 환경이거나 로컬 백엔드 자동화 엔진이 없는 배포 환경: 사용자 직접 터치 내에서 즉시 열기 (팝업 차단 방지)
       if (isMobile || !isLocalEngineAvailable) {
-        window.open(coupangUrl, '_blank');
+        safeOpenUrl(coupangUrl);
         markQueryAdded(query);
         btn.classList.add('success');
         btn.innerHTML = '✅ 담김!';
@@ -1878,14 +1922,14 @@
         btn.innerHTML = '✅ 담김!';
         markQueryAdded(query);
         refreshAllAddedButtons();
-        window.open(coupangUrl, '_blank');
+        safeOpenUrl(coupangUrl);
         showToast(`🔗 [${name}] 쿠팡 링크로 연결합니다.`);
       }
     }
 
     async function openCartDirect() {
       if (isMobile || !isLocalEngineAvailable) {
-        window.open("https://cart.coupang.com/cartView.pang", "_blank");
+        safeOpenUrl("https://cart.coupang.com/cartView.pang");
         showToast("🛍️ 쿠팡 장바구니로 이동합니다.");
         return;
       }
@@ -1893,7 +1937,7 @@
         await fetch('/api/open-cart', { method: 'POST' });
         showToast("🛍️ 쿠팡 장바구니 창으로 즉시 이동했습니다!");
       } catch (e) {
-        window.open("https://cart.coupang.com/cartView.pang", "_blank");
+        safeOpenUrl("https://cart.coupang.com/cartView.pang");
       }
     }
 
@@ -2075,8 +2119,8 @@
       const nextItem = unadded[0];
       const url = getPartnerUrl(nextItem.query);
       
-      // 사용자 클릭 제스처 내에서 즉시 열기 (모바일 팝업 차단 방지)
-      window.open(url, '_blank');
+      // 안전한 URL 열기 (카카오톡 탈출 및 모바일 앱 연동)
+      safeOpenUrl(url);
       markQueryAdded(nextItem.query);
 
       const itemIdx = currentBatchItems.findIndex(it => it.query === nextItem.query);
@@ -2095,7 +2139,7 @@
 
     function onModalItemClick(btn, query, name, idx) {
       const url = getPartnerUrl(query);
-      window.open(url, '_blank');
+      safeOpenUrl(url);
       markQueryAdded(query);
       if (btn) {
         btn.className = 'btn-coupang-sm success';
@@ -2335,7 +2379,7 @@
       closeModal();
       currentBatchItems.forEach(item => {
         const url = getPartnerUrl(item.query);
-        window.open(url, "_blank");
+        safeOpenUrl(url);
       });
       showToast("선택하신 식재료의 파트너스 링크 탭들이 열렸습니다.");
     }

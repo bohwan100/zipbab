@@ -36,29 +36,8 @@ def get_public_tunnel_url(host=None):
     if host and 'localhost' not in host and '127.0.0.1' not in host:
         return f"https://{host}"
 
-    # 3. Local Cloudflare tunnel fallback
-    if not os.environ.get("RENDER"):
-        ensure_cloudflared()
-        tunnel_log = os.path.join(DIRECTORY, "scratch", "tunnel.log")
-        if os.path.exists(tunnel_log):
-            try:
-                with open(tunnel_log, "r", encoding="utf-8", errors="ignore") as f:
-                    content = f.read()
-                    import re
-                    matches = re.findall(r'https://[a-zA-Z0-9-]+\.trycloudflare\.com', content)
-                    if matches:
-                        return matches[-1]
-            except Exception:
-                pass
-    try:
-        import socket
-        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        s.connect(("8.8.8.8", 80))
-        local_ip = s.getsockname()[0]
-        s.close()
-        return f"http://{local_ip}:{PORT}"
-    except Exception:
-        return f"http://localhost:{PORT}"
+    # 3. Permanent 24/7 Cloud URL
+    return "https://zipbabot.onrender.com"
 
 class CoupangAutoServer(http.server.SimpleHTTPRequestHandler):
     def __init__(self, *args, **kwargs):

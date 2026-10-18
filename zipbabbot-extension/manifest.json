@@ -18,11 +18,7 @@
     "storage"
   ],
   "host_permissions": [
-    "*://*.coupang.com/*",
-    "*://bohwan100.github.io/*",
-    "*://localhost/*",
-    "*://127.0.0.1/*",
-    "*://192.168.*.*/*"
+    "<all_urls>"
   ],
   "background": {
     "service_worker": "background.js"
@@ -30,10 +26,9 @@
   "content_scripts": [
     {
       "matches": [
-        "*://bohwan100.github.io/*",
-        "*://localhost/*",
-        "*://127.0.0.1/*",
-        "*://192.168.*.*/*"
+        "https://bohwan100.github.io/*",
+        "http://localhost/*",
+        "http://127.0.0.1/*"
       ],
       "js": ["content-dashboard.js"],
       "run_at": "document_start"

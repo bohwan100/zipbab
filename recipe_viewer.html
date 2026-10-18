@@ -394,14 +394,50 @@
       background: rgba(255, 255, 255, 0.1);
       border-color: rgba(255, 255, 255, 0.25);
     }
-    .nav-btn.cyan {
-      background: linear-gradient(135deg, #0284c7, #0369a1);
-      color: #fff;
-      border-color: transparent;
-      box-shadow: 0 4px 14px rgba(2, 132, 199, 0.35);
+    .nav-btn.recipe:hover:not(.active) {
+      border-color: rgba(249, 115, 22, 0.5);
+      color: #fb923c;
+      background: rgba(249, 115, 22, 0.1);
     }
-    .nav-btn.cyan:hover {
-      background: linear-gradient(135deg, #0369a1, #075985);
+    .nav-btn.cart:hover:not(.active) {
+      border-color: rgba(56, 189, 248, 0.5);
+      color: #38bdf8;
+      background: rgba(56, 189, 248, 0.1);
+    }
+    .nav-btn.storage:hover:not(.active) {
+      border-color: rgba(52, 211, 153, 0.5);
+      color: #34d399;
+      background: rgba(52, 211, 153, 0.1);
+    }
+    /* 3대 핵심 서비스 버튼 활성화 (주황색, 파란색, 초록색) */
+    .nav-btn.orange.active, .nav-btn.recipe.active {
+      background: linear-gradient(135deg, #f97316, #ea580c);
+      color: #fff !important;
+      border-color: transparent;
+      box-shadow: 0 4px 14px rgba(249, 115, 22, 0.45);
+    }
+    .nav-btn.orange.active:hover, .nav-btn.recipe.active:hover {
+      background: linear-gradient(135deg, #ea580c, #c2410c);
+      transform: translateY(-1px);
+    }
+    .nav-btn.blue.active, .nav-btn.cart.active, .nav-btn.cyan.active {
+      background: linear-gradient(135deg, #0284c7, #0ea5e9);
+      color: #fff !important;
+      border-color: transparent;
+      box-shadow: 0 4px 14px rgba(14, 165, 233, 0.45);
+    }
+    .nav-btn.blue.active:hover, .nav-btn.cart.active:hover, .nav-btn.cyan.active:hover {
+      background: linear-gradient(135deg, #0369a1, #0284c7);
+      transform: translateY(-1px);
+    }
+    .nav-btn.green.active, .nav-btn.storage.active {
+      background: linear-gradient(135deg, #10b981, #059669);
+      color: #fff !important;
+      border-color: transparent;
+      box-shadow: 0 4px 14px rgba(16, 185, 129, 0.45);
+    }
+    .nav-btn.green.active:hover, .nav-btn.storage.active:hover {
+      background: linear-gradient(135deg, #059669, #047857);
       transform: translateY(-1px);
     }
   
@@ -452,8 +488,9 @@
       </a>
       <div class="nav-links">
         <a href="index.html" class="nav-btn">🏠 홈</a>
-        <a href="cart_dashboard.html" class="nav-btn cyan">🛒 장바구니 매니저</a>
-        <a href="storage_guide.html" class="nav-btn">❄️ 재료별 보관방법</a>
+        <a href="recipe_viewer.html" class="nav-btn recipe orange active">🍳 30일 레시피</a>
+        <a href="cart_dashboard.html" class="nav-btn cart">🛒 장바구니 매니저</a>
+        <a href="storage_guide.html" class="nav-btn storage">❄️ 재료별 보관방법</a>
       </div>
     </div>
   </header>

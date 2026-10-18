@@ -1,0 +1,2052 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>주말 30분, 배달 탈출 | 4주 샐러드 밀프랩 챌린지</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;700;800;900&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <!-- Canvas Confetti & html2canvas -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            forest: {
+              50: '#F0F9F4',
+              100: '#D8F3E2',
+              200: '#B2E5C5',
+              500: '#40916C',
+              600: '#2D6A4F',
+              700: '#1B4332',
+              800: '#133526',
+              900: '#081C15'
+            },
+            warm: {
+              orange: '#E76F51',
+              amber: '#F4A261',
+              light: '#FFF4EE'
+            }
+          },
+          fontFamily: {
+            pretendard: ['Pretendard', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+            outfit: ['Outfit', 'sans-serif']
+          },
+          boxShadow: {
+            'app': '0 10px 35px -5px rgba(27, 67, 50, 0.1), 0 2px 8px -1px rgba(0, 0, 0, 0.04)',
+            'app-lg': '0 20px 45px -10px rgba(27, 67, 50, 0.16), 0 6px 16px -2px rgba(0, 0, 0, 0.06)'
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    * {
+      -webkit-tap-highlight-color: transparent;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: #E9ECE9;
+      color: #1F2937;
+      overflow-x: hidden;
+      margin: 0;
+      padding: 0;
+    }
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    .active-pill {
+      background-color: #1B4332 !important;
+      color: #FFFFFF !important;
+      border-color: #1B4332 !important;
+      box-shadow: 0 4px 14px rgba(27, 67, 50, 0.25);
+    }
+    .active-sauce-chip {
+      background: linear-gradient(135deg, #1B4332, #2D6A4F) !important;
+      color: #FFFFFF !important;
+      border-color: #1B4332 !important;
+      box-shadow: 0 6px 16px rgba(27, 67, 50, 0.22);
+      transform: translateY(-2px);
+    }
+    .active-quiz-card {
+      border-color: #2D6A4F !important;
+      background-color: #F0F9F4 !important;
+      box-shadow: 0 8px 24px -4px rgba(45, 106, 79, 0.2) !important;
+      transform: translateY(-2px);
+    }
+    .layer-card-hover {
+      transition: all 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .layer-card-hover:hover {
+      transform: scale(1.015);
+    }
+    @keyframes pulseSoft {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.03); opacity: 0.92; }
+    }
+    .animate-pulse-soft {
+      animation: pulseSoft 2.4s infinite ease-in-out;
+    }
+    .page-fade {
+      animation: pageFadeIn 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    @keyframes pageFadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body class="flex justify-center min-h-screen">
+
+  <!-- Mobile Shell (Max-Width 480px) -->
+  <div id="appContainer" class="w-full max-w-[480px] min-h-screen bg-[#F8F9FA] shadow-2xl relative flex flex-col border-x border-slate-200/80">
+    
+    <!-- =========================================================================
+         VIEW 1: ONBOARDING & 3-STEP QUIZ FUNNEL (각각 독립된 단일 페이지로 진행)
+         ========================================================================= -->
+    <div id="quizFunnelView" class="flex-1 flex flex-col justify-between p-5">
+      
+      <!-- Top Step Header & Segmented Progress Bar -->
+      <div>
+        <div class="flex items-center justify-between pt-1 pb-3">
+          <div class="flex items-center gap-2">
+            <button id="quizBackBtn" onclick="handleQuizBack()" class="p-1.5 -ml-1.5 text-slate-400 hover:text-slate-800 rounded-xl transition-all">
+              <i data-lucide="chevron-left" class="w-5 h-5"></i>
+            </button>
+            <span class="text-xs font-black tracking-wider text-forest-700 uppercase" id="stepIndicatorText">
+              STEP 0 · 신체 프로필 입력
+            </span>
+          </div>
+          <button onclick="skipToDefaultResult()" class="text-[11px] font-bold text-slate-400 hover:text-forest-700 transition-colors">
+            건너뛰기
+          </button>
+        </div>
+
+        <!-- 4-Phase Progress Bar (0, 1, 2, 3) -->
+        <div class="w-full h-1.5 bg-slate-200 rounded-full overflow-hidden flex gap-1 mb-5">
+          <div id="stepBar0" class="h-full bg-forest-700 flex-1 transition-all duration-300"></div>
+          <div id="stepBar1" class="h-full bg-slate-200 flex-1 transition-all duration-300"></div>
+          <div id="stepBar2" class="h-full bg-slate-200 flex-1 transition-all duration-300"></div>
+          <div id="stepBar3" class="h-full bg-slate-200 flex-1 transition-all duration-300"></div>
+        </div>
+      </div>
+
+      <!-- ==================== STEP 0: 온보딩 신체 프로필 입력 ==================== -->
+      <div id="stepCard0" class="quiz-step-page page-fade flex-1 space-y-5">
+        <div>
+          <div class="inline-flex items-center gap-1.5 bg-forest-100 text-forest-700 text-[11px] font-extrabold px-2.5 py-1 rounded-full mb-2">
+            <span>🥗</span>
+            <span>주말 30분, 배달 탈출 챌린지</span>
+          </div>
+          <h2 class="text-2xl font-black text-slate-900 tracking-tight leading-tight">
+            나만의 맞춤 식단을 위해<br>
+            <span class="text-forest-700">기본 프로필</span>을 알려주세요
+          </h2>
+          <p class="text-xs text-slate-500 mt-1.5 leading-relaxed">
+            성별과 체중에 맞춘 과학적 BMR 및 활동대사량(TDEE)을 자동 계산하여 일일 영양 쿼터를 정밀 매칭합니다.
+          </p>
+        </div>
+
+        <!-- Gender Selection -->
+        <div class="space-y-1.5">
+          <label class="block text-xs font-bold text-slate-700">성별</label>
+          <div class="grid grid-cols-2 gap-2.5">
+            <button type="button" onclick="setGender('male')" id="qGenderMale" class="gender-btn active-pill p-3.5 rounded-2xl border border-slate-200 text-xs font-black flex items-center justify-center gap-2 transition-all">
+              <span class="text-lg">👨</span>
+              <span>남성 (BMR 24)</span>
+            </button>
+            <button type="button" onclick="setGender('female')" id="qGenderFemale" class="gender-btn p-3.5 rounded-2xl border border-slate-200 bg-white text-slate-700 text-xs font-black flex items-center justify-center gap-2 transition-all hover:border-forest-500">
+              <span class="text-lg">👩</span>
+              <span>여성 (BMR 22)</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Weight Selection Slider -->
+        <div class="space-y-2 bg-white p-4 rounded-3xl border border-slate-200 shadow-sm">
+          <div class="flex justify-between items-center">
+            <label class="text-xs font-bold text-slate-700">현재 체중</label>
+            <span id="qWeightDisplay" class="text-lg font-black text-forest-700 font-outfit">70 kg</span>
+          </div>
+          <div class="flex items-center gap-3 pt-1">
+            <button type="button" onclick="adjustWeight(-1)" class="w-10 h-10 rounded-2xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-black text-lg flex items-center justify-center active:scale-95 transition-all">-</button>
+            <input type="range" id="qWeightSlider" min="40" max="130" value="70" oninput="onWeightChange(this.value)" class="flex-1 accent-forest-700 cursor-pointer h-2 bg-slate-100 rounded-lg">
+            <button type="button" onclick="adjustWeight(1)" class="w-10 h-10 rounded-2xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-black text-lg flex items-center justify-center active:scale-95 transition-all">+</button>
+          </div>
+        </div>
+
+        <!-- Activity Factor Selection -->
+        <div class="space-y-2">
+          <label class="block text-xs font-bold text-slate-700">평소 활동량 (활동계수)</label>
+          <div class="grid grid-cols-1 gap-2" id="qActivityList">
+            <button type="button" onclick="setActivity(1.2)" data-factor="1.2" class="q-activity-btn p-3 rounded-2xl border border-slate-200 bg-white text-left text-xs transition-all flex items-center justify-between text-slate-700">
+              <div>
+                <div class="font-extrabold text-slate-900">🛋️ 비활동적 (사무직·좌식 생활)</div>
+                <div class="text-[10px] text-slate-400 mt-0.5">운동 거의 안 함 (계수 1.2)</div>
+              </div>
+            </button>
+            <button type="button" onclick="setActivity(1.375)" data-factor="1.375" class="q-activity-btn active-pill p-3 rounded-2xl border border-slate-200 text-left text-xs transition-all flex items-center justify-between">
+              <div>
+                <div class="font-extrabold">🚶 가벼운 활동 (주 1~3회 가벼운 운동)</div>
+                <div class="text-[10px] opacity-80 mt-0.5">산책/가벼운 조깅 (계수 1.375)</div>
+              </div>
+            </button>
+            <button type="button" onclick="setActivity(1.55)" data-factor="1.55" class="q-activity-btn p-3 rounded-2xl border border-slate-200 bg-white text-left text-xs transition-all flex items-center justify-between text-slate-700">
+              <div>
+                <div class="font-extrabold text-slate-900">🏃 보통 활동 (주 3~5회 중강도 운동)</div>
+                <div class="text-[10px] text-slate-400 mt-0.5">헬스/필라테스/러닝 (계수 1.55)</div>
+              </div>
+            </button>
+            <button type="button" onclick="setActivity(1.725)" data-factor="1.725" class="q-activity-btn p-3 rounded-2xl border border-slate-200 bg-white text-left text-xs transition-all flex items-center justify-between text-slate-700">
+              <div>
+                <div class="font-extrabold text-slate-900">⚡ 매우 활동적 (주 6~7회 강한 운동)</div>
+                <div class="text-[10px] text-slate-400 mt-0.5">고강도 운동선수급 (계수 1.725)</div>
+              </div>
+            </button>
+          </div>
+        </div>
+
+        <!-- Live BMR/TDEE Banner -->
+        <div class="p-3.5 bg-forest-50 rounded-2xl border border-forest-200 flex items-center justify-between text-xs">
+          <div>
+            <span class="text-[10px] text-forest-700 font-bold block">기초대사량 (BMR)</span>
+            <span id="qBmrVal" class="font-black text-slate-900 text-sm">1,680 kcal</span>
+          </div>
+          <div class="text-right">
+            <span class="text-[10px] text-forest-700 font-bold block">활동대사량 (TDEE)</span>
+            <span id="qTdeeVal" class="font-black text-forest-700 text-base font-outfit">2,310 kcal</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== STEP 1: Q1. 이번 주 식단의 핵심 목표 ==================== -->
+      <div id="stepCard1" class="quiz-step-page page-fade flex-1 space-y-6 hidden">
+        <div>
+          <div class="inline-flex items-center gap-1.5 bg-forest-100 text-forest-700 text-[11px] font-extrabold px-2.5 py-1 rounded-full mb-2">
+            <span>QUESTION 1 / 3</span>
+          </div>
+          <h2 class="text-2xl font-black text-slate-900 tracking-tight leading-tight">
+            이번 주 식단의<br>
+            <span class="text-forest-700">핵심 목표</span>는 무엇인가요?
+          </h2>
+          <p class="text-xs text-slate-500 mt-1.5 leading-relaxed">
+            목표에 따라 목표 칼로리 쿼터와 단백질 비율, 최적의 5일 밀프랩 메뉴가 자동 매칭됩니다.
+          </p>
+        </div>
+
+        <div class="space-y-3 pt-1">
+          <!-- Option A: 다이어트 / 붓기 -->
+          <button type="button" onclick="selectQuizGoal('diet')" id="qGoal-diet" class="q-goal-card active-quiz-card w-full p-4 rounded-3xl border-2 border-forest-700 bg-forest-50 text-left transition-all flex items-center justify-between group shadow-sm">
+            <div class="flex items-center gap-3.5">
+              <div class="w-12 h-12 rounded-2xl bg-white shadow-sm flex items-center justify-center text-2xl border border-forest-100">
+                🥗
+              </div>
+              <div>
+                <div class="font-black text-slate-900 text-sm">다이어트 / 붓기 고민</div>
+                <div class="text-xs text-forest-700 font-bold mt-0.5">목표: TDEE - 400 kcal</div>
+                <p class="text-[11px] text-slate-500 mt-0.5">저염 당근라페 & 고섬유질 클린 식단</p>
+              </div>
+            </div>
+            <i data-lucide="check-circle-2" class="w-6 h-6 text-forest-700 shrink-0"></i>
+          </button>
+
+          <!-- Option B: 고단백 / 벌크업 -->
+          <button type="button" onclick="selectQuizGoal('bulk')" id="qGoal-bulk" class="q-goal-card w-full p-4 rounded-3xl border-2 border-slate-200 bg-white text-left transition-all flex items-center justify-between group hover:border-forest-500">
+            <div class="flex items-center gap-3.5">
+              <div class="w-12 h-12 rounded-2xl bg-slate-50 shadow-sm flex items-center justify-center text-2xl border border-slate-100">
+                🥩
+              </div>
+              <div>
+                <div class="font-black text-slate-900 text-sm">고단백 / 에너지 충전 (벌크업)</div>
+                <div class="text-xs text-forest-700 font-bold mt-0.5">목표: TDEE + 250 kcal</div>
+                <p class="text-[11px] text-slate-500 mt-0.5">1끼 단백질 40g+ 멕시칸 파히타 비프/치킨</p>
+              </div>
+            </div>
+            <i data-lucide="circle" class="w-6 h-6 text-slate-300 shrink-0"></i>
+          </button>
+
+          <!-- Option C: 식비 아끼기 / 냉털 자립 -->
+          <button type="button" onclick="selectQuizGoal('save')" id="qGoal-save" class="q-goal-card w-full p-4 rounded-3xl border-2 border-slate-200 bg-white text-left transition-all flex items-center justify-between group hover:border-forest-500">
+            <div class="flex items-center gap-3.5">
+              <div class="w-12 h-12 rounded-2xl bg-slate-50 shadow-sm flex items-center justify-center text-2xl border border-slate-100">
+                🪙
+              </div>
+              <div>
+                <div class="font-black text-slate-900 text-sm">식비 아끼기 / 냉털 자립</div>
+                <div class="text-xs text-forest-700 font-bold mt-0.5">목표: TDEE 유지 (초저비용 식재료)</div>
+                <p class="text-[11px] text-slate-500 mt-0.5">참치·두부·양배추 냉파로 1끼 3천원대 실현</p>
+              </div>
+            </div>
+            <i data-lucide="circle" class="w-6 h-6 text-slate-300 shrink-0"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- ==================== STEP 2: Q2. 제외할 알레르기 성분 ==================== -->
+      <div id="stepCard2" class="quiz-step-page page-fade flex-1 space-y-6 hidden">
+        <div>
+          <div class="inline-flex items-center gap-1.5 bg-forest-100 text-forest-700 text-[11px] font-extrabold px-2.5 py-1 rounded-full mb-2">
+            <span>QUESTION 2 / 3</span>
+          </div>
+          <h2 class="text-2xl font-black text-slate-900 tracking-tight leading-tight">
+            제외해야 할<br>
+            <span class="text-forest-700">알레르기 성분</span>이 있나요?
+          </h2>
+          <p class="text-xs text-slate-500 mt-1.5 leading-relaxed">
+            복수 선택 가능하며, 해당 성분이 포함된 식재료와 소스를 안전한 재료로 대체합니다.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-2 gap-2.5 pt-1" id="qAllergyGrid">
+          <button type="button" onclick="toggleQuizAllergy('갑각류')" data-allergy="갑각류" class="q-allergy-chip p-4 rounded-2xl border border-slate-200 bg-white text-left transition-all hover:border-forest-500">
+            <span class="text-2xl block mb-1">🦐</span>
+            <div class="font-extrabold text-xs text-slate-800">갑각류</div>
+            <div class="text-[10px] text-slate-400">새우 / 게 등</div>
+          </button>
+          <button type="button" onclick="toggleQuizAllergy('견과류')" data-allergy="견과류" class="q-allergy-chip p-4 rounded-2xl border border-slate-200 bg-white text-left transition-all hover:border-forest-500">
+            <span class="text-2xl block mb-1">🥜</span>
+            <div class="font-extrabold text-xs text-slate-800">견과류</div>
+            <div class="text-[10px] text-slate-400">땅콩 / 아몬드</div>
+          </button>
+          <button type="button" onclick="toggleQuizAllergy('유제품')" data-allergy="유제품" class="q-allergy-chip p-4 rounded-2xl border border-slate-200 bg-white text-left transition-all hover:border-forest-500">
+            <span class="text-2xl block mb-1">🥛</span>
+            <div class="font-extrabold text-xs text-slate-800">유제품(유당)</div>
+            <div class="text-[10px] text-slate-400">치즈 / 우유</div>
+          </button>
+          <button type="button" onclick="toggleQuizAllergy('대두')" data-allergy="대두" class="q-allergy-chip p-4 rounded-2xl border border-slate-200 bg-white text-left transition-all hover:border-forest-500">
+            <span class="text-2xl block mb-1">🫘</span>
+            <div class="font-extrabold text-xs text-slate-800">대두(콩)</div>
+            <div class="text-[10px] text-slate-400">두부 / 된장</div>
+          </button>
+          <button type="button" onclick="toggleQuizAllergy('달걀')" data-allergy="달걀" class="q-allergy-chip p-4 rounded-2xl border border-slate-200 bg-white text-left transition-all hover:border-forest-500">
+            <span class="text-2xl block mb-1">🥚</span>
+            <div class="font-extrabold text-xs text-slate-800">달걀</div>
+            <div class="text-[10px] text-slate-400">삶은달걀 / 마요</div>
+          </button>
+          <button type="button" onclick="toggleQuizAllergy('none')" data-allergy="none" class="q-allergy-chip active-pill p-4 rounded-2xl border border-slate-200 text-left transition-all">
+            <span class="text-2xl block mb-1">✨</span>
+            <div class="font-extrabold text-xs">없음</div>
+            <div class="text-[10px] opacity-80">모든 식재료 OK</div>
+          </button>
+        </div>
+      </div>
+
+      <!-- ==================== STEP 3: Q3. 냉장고 털이 식재료 ==================== -->
+      <div id="stepCard3" class="quiz-step-page page-fade flex-1 space-y-6 hidden">
+        <div>
+          <div class="inline-flex items-center gap-1.5 bg-forest-100 text-forest-700 text-[11px] font-extrabold px-2.5 py-1 rounded-full mb-2">
+            <span>QUESTION 3 / 3</span>
+          </div>
+          <h2 class="text-2xl font-black text-slate-900 tracking-tight leading-tight">
+            냉장고에서 썩어가는<br>
+            <span class="text-warm-orange">털어낼 식재료</span>가 있나요?
+          </h2>
+          <p class="text-xs text-slate-500 mt-1.5 leading-relaxed">
+            선택하신 식재료를 1순위 소진하며, <strong class="text-forest-700">장보기 목록에서 자동 차감</strong>되어 실질 식비를 아껴줍니다!
+          </p>
+        </div>
+
+        <div class="grid grid-cols-2 gap-2.5 pt-1" id="qFridgeGrid">
+          <button type="button" onclick="toggleQuizFridge('양배추')" data-fridge="양배추" class="q-fridge-chip p-3.5 rounded-2xl border border-slate-200 bg-white text-left transition-all hover:border-forest-500">
+            <span class="text-xl block mb-1">🥬</span>
+            <div class="font-extrabold text-xs text-slate-800">양배추</div>
+            <div class="text-[10px] text-slate-400">크런치 콥 샐러드</div>
+          </button>
+          <button type="button" onclick="toggleQuizFridge('양파/대파')" data-fridge="양파/대파" class="q-fridge-chip p-3.5 rounded-2xl border border-slate-200 bg-white text-left transition-all hover:border-forest-500">
+            <span class="text-xl block mb-1">🧅</span>
+            <div class="font-extrabold text-xs text-slate-800">양파/대파</div>
+            <div class="text-[10px] text-slate-400">파히타 보울</div>
+          </button>
+          <button type="button" onclick="toggleQuizFridge('오이')" data-fridge="오이" class="q-fridge-chip p-3.5 rounded-2xl border border-slate-200 bg-white text-left transition-all hover:border-forest-500">
+            <span class="text-xl block mb-1">🥒</span>
+            <div class="font-extrabold text-xs text-slate-800">오이</div>
+            <div class="text-[10px] text-slate-400">지중해 그릭 보울</div>
+          </button>
+          <button type="button" onclick="toggleQuizFridge('방울토마토')" data-fridge="방울토마토" class="q-fridge-chip p-3.5 rounded-2xl border border-slate-200 bg-white text-left transition-all hover:border-forest-500">
+            <span class="text-xl block mb-1">🍅</span>
+            <div class="font-extrabold text-xs text-slate-800">방울토마토</div>
+            <div class="text-[10px] text-slate-400">당근라페 보울</div>
+          </button>
+          <button type="button" onclick="toggleQuizFridge('캔참치')" data-fridge="캔참치" class="q-fridge-chip p-3.5 rounded-2xl border border-slate-200 bg-white text-left transition-all hover:border-forest-500">
+            <span class="text-xl block mb-1">🐟</span>
+            <div class="font-extrabold text-xs text-slate-800">캔참치</div>
+            <div class="text-[10px] text-slate-400">참치 두부 콥</div>
+          </button>
+          <button type="button" onclick="toggleQuizFridge('감자')" data-fridge="감자" class="q-fridge-chip p-3.5 rounded-2xl border border-slate-200 bg-white text-left transition-all hover:border-forest-500">
+            <span class="text-xl block mb-1">🥔</span>
+            <div class="font-extrabold text-xs text-slate-800">감자</div>
+            <div class="text-[10px] text-slate-400">포슬 감자 에그마요</div>
+          </button>
+          <button type="button" onclick="toggleQuizFridge('none')" data-fridge="none" class="col-span-2 q-fridge-chip active-pill p-3.5 rounded-2xl border border-slate-200 text-left transition-all flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="text-xl">🛒</span>
+              <div>
+                <div class="font-extrabold text-xs">없음 (전부 장보기)</div>
+                <div class="text-[10px] opacity-80">5일 0g 소진 1인 가구 번들 추천</div>
+              </div>
+            </div>
+            <i data-lucide="check" class="w-4 h-4"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- ==================== STEP LOADING: AI 분석 트랜지션 ==================== -->
+      <div id="stepCardLoading" class="quiz-step-page flex-1 flex flex-col items-center justify-center text-center space-y-5 hidden py-14">
+        <div class="relative">
+          <div class="w-20 h-20 rounded-3xl bg-forest-700 text-white flex items-center justify-center text-4xl shadow-xl shadow-forest-900/30 animate-pulse-soft">
+            🥗
+          </div>
+          <div class="w-7 h-7 rounded-full bg-warm-orange text-white text-xs font-black flex items-center justify-center absolute -top-2 -right-2 shadow-md animate-bounce">
+            AI
+          </div>
+        </div>
+        <div class="space-y-2">
+          <h3 class="text-xl font-black text-slate-900">
+            나만의 5일 0g 밀프랩 큐레이팅 중...
+          </h3>
+          <p class="text-xs text-slate-500 max-w-xs leading-relaxed" id="loadingDynamicMsg">
+            냉장고 식재료 자동 차감 및 과학적 탄단지 쿼터를 계산하고 있습니다.
+          </p>
+        </div>
+        <div class="w-48 h-1.5 bg-slate-200 rounded-full overflow-hidden">
+          <div class="h-full bg-forest-600 rounded-full animate-pulse" style="width: 85%;"></div>
+        </div>
+      </div>
+
+      <!-- Bottom Next CTA Button -->
+      <div class="pt-6" id="quizBottomNav">
+        <button type="button" id="quizNextBtn" onclick="handleQuizNext()" class="w-full bg-forest-700 hover:bg-forest-600 text-white font-extrabold text-sm py-4 px-6 rounded-2xl shadow-lg shadow-forest-900/20 flex items-center justify-center gap-2 transition-all active:scale-[0.98]">
+          <span id="quizNextBtnText">다음: 식단 핵심 목표 (1/3)</span>
+          <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+    </div>
+
+
+    <!-- =========================================================================
+         VIEW 2: RESULT DASHBOARD (진단 완료 시 질문에 최적화된 메인 화면)
+         ========================================================================= -->
+    <div id="resultAppView" class="hidden flex-1 flex flex-col">
+      
+      <!-- Top Navigation & Profile Status -->
+      <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200/80 px-4 py-3">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <div class="w-9 h-9 rounded-xl bg-forest-700 text-white flex items-center justify-center shadow-sm">
+              <span class="text-lg">🥗</span>
+            </div>
+            <div>
+              <div class="flex items-center gap-1.5">
+                <span class="text-[10px] font-extrabold uppercase tracking-wider text-forest-700 bg-forest-50 px-2 py-0.5 rounded-full border border-forest-200">CHEF'S SPA</span>
+                <span class="text-[10px] text-slate-400 font-medium">4-WEEK CHALLENGE</span>
+              </div>
+              <h1 class="text-sm font-extrabold text-slate-900 tracking-tight leading-tight">주말 30분, 배달 탈출</h1>
+            </div>
+          </div>
+          
+          <div class="flex items-center gap-1.5">
+            <!-- Retake Quiz Button -->
+            <button onclick="retakeQuiz()" class="flex items-center gap-1 bg-slate-100 hover:bg-slate-200 text-slate-700 text-[11px] font-bold px-2.5 py-1.5 rounded-xl transition-all border border-slate-200 active:scale-95" title="질문 다시 풀기">
+              <i data-lucide="refresh-cw" class="w-3 h-3 text-forest-700"></i>
+              <span>다시 진단</span>
+            </button>
+
+            <!-- Quick Profile Pill -->
+            <button onclick="openProfileModal()" class="flex items-center gap-1 bg-forest-50 hover:bg-forest-100 text-forest-800 text-[11px] font-extrabold px-2.5 py-1.5 rounded-xl transition-all border border-forest-200 active:scale-95">
+              <i data-lucide="sliders-horizontal" class="w-3 h-3 text-forest-700"></i>
+              <span id="quickProfileText">남성 · 70kg</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Diagnostic Summary Mini Banner -->
+        <div class="mt-2.5 pt-2 border-t border-slate-100 flex items-center justify-between text-[11px]">
+          <div class="flex items-center gap-1.5 truncate">
+            <span class="font-extrabold text-forest-700" id="headerGoalSummary">🎯 다이어트 (-400kcal)</span>
+            <span class="text-slate-300">·</span>
+            <span class="text-slate-500 truncate" id="headerFridgeSummary">냉털: 없음</span>
+          </div>
+          <span class="text-emerald-700 font-extrabold text-[10px] bg-emerald-50 px-2 py-0.5 rounded-md shrink-0 border border-emerald-200">AI 맞춤 매칭</span>
+        </div>
+      </header>
+
+      <!-- Main Content Area -->
+      <main class="flex-1 px-4 py-4 space-y-6 pb-32">
+        
+        <!-- Hero Dopamine Banner -->
+        <section class="bg-gradient-to-br from-forest-800 via-forest-700 to-forest-900 rounded-3xl p-5 text-white shadow-app relative overflow-hidden">
+          <div class="absolute -right-6 -bottom-6 opacity-15 text-8xl select-none pointer-events-none">🥑</div>
+          <div class="relative z-10">
+            <div class="inline-flex items-center gap-1.5 bg-white/15 backdrop-blur-md px-2.5 py-1 rounded-full text-[11px] font-semibold text-forest-100 mb-2 border border-white/10">
+              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+              1인 가구 직장인 0g 소진 밀프랩
+            </div>
+            <h2 class="text-xl font-extrabold tracking-tight leading-snug">
+              이번 주말 30분 투자로,<br>
+              <span class="text-warm-amber">배달비 61,000원</span> 완벽 방어!
+            </h2>
+            <p class="text-xs text-forest-100/80 mt-1 leading-relaxed font-normal">
+              냉장고 찌꺼기 0g 설계 · 과학적 일일 탄단지 쿼터 · 5일 신선도 보증
+            </p>
+          </div>
+        </section>
+
+        <!-- 3. 핵심 기능 A: 추천 샐러드 메인 카드 (5일 치 0g 소진 설계) -->
+        <section class="space-y-3">
+          <!-- 4-Week Menu Tab Bar -->
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-1.5">
+              <span class="text-xs font-extrabold text-forest-700">4주 순환 식단 셀렉터</span>
+              <span id="matchScoreBadge" class="text-[10px] bg-warm-orange text-white font-bold px-2 py-0.5 rounded-full shadow-sm">AI 100% 매칭</span>
+            </div>
+            <span class="text-[11px] text-slate-400 font-medium">탭하여 메뉴 변경</span>
+          </div>
+
+          <div class="flex gap-2 overflow-x-auto no-scrollbar pb-1" id="weekTabs">
+            <!-- Dynamically generated week buttons -->
+          </div>
+
+          <!-- Recipe Main Card -->
+          <div id="recipeMainCard" class="bg-white rounded-3xl p-5 shadow-app border border-slate-200/90 space-y-4 relative overflow-hidden">
+            <!-- Top Tag & Title -->
+            <div class="flex items-start justify-between">
+              <div>
+                <span id="recipeWeekTag" class="text-[10px] font-extrabold text-forest-700 bg-forest-100 px-2 py-0.5 rounded-full">WEEK 1 RECOMMEND</span>
+                <h4 id="recipeTitle" class="text-lg font-black text-slate-900 mt-1 tracking-tight">당근라페 크런치 닭가슴살 보울</h4>
+                <p id="recipeOneLiner" class="text-xs text-slate-500 mt-0.5">상큼아삭 프랑스식 당근라페와 고단백 닭가슴살의 황금 밸런스</p>
+              </div>
+              <div id="recipeEmoji" class="text-3xl bg-forest-50 p-2.5 rounded-2xl border border-forest-100 shadow-sm">
+                🥕
+              </div>
+            </div>
+
+            <!-- Allergy Substitution Alert (if applicable) -->
+            <div id="allergySafeBanner" class="hidden p-2.5 rounded-xl bg-amber-50 border border-amber-200 text-[11px] text-amber-900 flex items-center gap-1.5 font-medium">
+              <span>🛡️</span>
+              <span id="allergySafeText">알레르기 성분 대체 조치 완료</span>
+            </div>
+
+            <!-- Quick Spec Badges -->
+            <div class="grid grid-cols-4 gap-2 py-2.5 px-3 bg-slate-50 rounded-2xl border border-slate-100 text-center">
+              <div>
+                <div class="text-[10px] text-slate-400 font-medium">1끼 열량</div>
+                <div id="recipeKcal" class="text-xs font-extrabold text-slate-800">410 kcal</div>
+              </div>
+              <div>
+                <div class="text-[10px] text-slate-400 font-medium">단백질</div>
+                <div id="recipeProtein" class="text-xs font-extrabold text-emerald-600">38g</div>
+              </div>
+              <div>
+                <div class="text-[10px] text-slate-400 font-medium">조리 시간</div>
+                <div class="text-xs font-extrabold text-slate-800">⏱️ 30분</div>
+              </div>
+              <div>
+                <div class="text-[10px] text-slate-400 font-medium">보관 기간</div>
+                <div class="text-xs font-extrabold text-forest-700">❄️ 5일 완벽</div>
+              </div>
+            </div>
+
+            <!-- 5일 신선도 보증 수직 적재(Layering) 가이드 인터랙티브 UI -->
+            <div class="bg-gradient-to-b from-[#F0F9F4] to-white rounded-2xl p-4 border border-forest-200 space-y-3">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-1.5">
+                  <i data-lucide="layers" class="w-4 h-4 text-forest-700"></i>
+                  <h5 class="text-xs font-extrabold text-forest-900">5일 신선도 보증 수직 적재 (Layering)</h5>
+                </div>
+                <span class="text-[10px] text-forest-700 font-semibold bg-white px-2 py-0.5 rounded-full border border-forest-200">수분 침투 0% 차단</span>
+              </div>
+
+              <!-- Vertical Layer Stack Graphic -->
+              <div class="space-y-2" id="layerStack">
+                <!-- Top Layer: Leafy Greens -->
+                <div onclick="showLayerDetail('top')" class="layer-card-hover cursor-pointer p-3 rounded-xl bg-emerald-50/90 border border-emerald-200 flex items-center justify-between text-xs transition-all hover:shadow-sm">
+                  <div class="flex items-center gap-2.5">
+                    <span class="w-6 h-6 rounded-lg bg-emerald-600 text-white font-extrabold text-[11px] flex items-center justify-center">상단</span>
+                    <div>
+                      <span class="font-bold text-slate-800" id="layerTopTitle">연약한 잎채소 (로메인/양상추 100g)</span>
+                      <p class="text-[10px] text-slate-500">수분·드레싱 접촉 완전 차단 (5일 내내 바삭함 유지)</p>
+                    </div>
+                  </div>
+                  <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-slate-400"></i>
+                </div>
+
+                <!-- Mid Layer: Protein -->
+                <div onclick="showLayerDetail('mid')" class="layer-card-hover cursor-pointer p-3 rounded-xl bg-orange-50/90 border border-orange-200 flex items-center justify-between text-xs transition-all hover:shadow-sm">
+                  <div class="flex items-center gap-2.5">
+                    <span class="w-6 h-6 rounded-lg bg-warm-orange text-white font-extrabold text-[11px] flex items-center justify-center">중간</span>
+                    <div>
+                      <span class="font-bold text-slate-800" id="layerMidTitle">단백질 레이어 (닭가슴살 1팩/100g)</span>
+                      <p class="text-[10px] text-slate-500">바닥 수분과 상단 잎을 차단하는 보호막 역할</p>
+                    </div>
+                  </div>
+                  <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-slate-400"></i>
+                </div>
+
+                <!-- Base Layer: Dense Veg & Carb -->
+                <div onclick="showLayerDetail('base')" class="layer-card-hover cursor-pointer p-3 rounded-xl bg-amber-50/90 border border-amber-200 flex items-center justify-between text-xs transition-all hover:shadow-sm">
+                  <div class="flex items-center gap-2.5">
+                    <span class="w-6 h-6 rounded-lg bg-amber-600 text-white font-extrabold text-[11px] flex items-center justify-center">바닥</span>
+                    <div>
+                      <span class="font-bold text-slate-800" id="layerBaseTitle">단단한 채소/곡물 (방울토마토 10알, 당근라페)</span>
+                      <p class="text-[10px] text-slate-500">수분에 강하며 물기가 아래로 모여도 아삭함 유지</p>
+                    </div>
+                  </div>
+                  <i data-lucide="chevron-right" class="w-3.5 h-3.5 text-slate-400"></i>
+                </div>
+              </div>
+
+              <div id="layerDetailBox" class="hidden p-3 rounded-xl bg-white border border-forest-200 text-xs text-slate-700 leading-relaxed transition-all">
+                <!-- Detail injected via JS -->
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 4. 핵심 기능 B: 5대 만능 셰프 드레싱 (키오스크형 탭 선택 기능) -->
+        <section class="bg-white rounded-3xl p-5 shadow-app border border-slate-200/90 space-y-4">
+          <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+            <div class="flex items-center gap-2">
+              <span class="text-base">🥣</span>
+              <div>
+                <h3 class="text-sm font-bold text-slate-900">5대 만능 셰프 드레싱</h3>
+                <p class="text-[11px] text-slate-400">키오스크 탭으로 즉시 레시피 비율 전환</p>
+              </div>
+            </div>
+            <span id="autoSauceBadge" class="text-[10px] bg-forest-100 text-forest-700 font-bold px-2 py-0.5 rounded-full">추천 드레싱 매칭</span>
+          </div>
+
+          <!-- 5 Sauce Chips -->
+          <div class="grid grid-cols-2 gap-2" id="sauceSelector">
+            <button type="button" onclick="selectSauce(0)" id="sauce-btn-0" class="sauce-pill active-sauce-chip p-2.5 rounded-2xl border border-slate-200 bg-slate-50 text-left transition-all text-xs font-bold flex items-center gap-2">
+              <span class="text-lg">🌶️</span>
+              <div>
+                <div class="text-[12px] font-extrabold">스리라차 마요</div>
+                <div class="text-[10px] opacity-80 font-normal">매콤고소 다이어트 1위</div>
+              </div>
+            </button>
+            <button type="button" onclick="selectSauce(1)" id="sauce-btn-1" class="sauce-pill p-2.5 rounded-2xl border border-slate-200 bg-slate-50 text-left transition-all text-xs font-bold flex items-center gap-2 text-slate-700 hover:border-forest-500">
+              <span class="text-lg">🥢</span>
+              <div>
+                <div class="text-[12px] font-extrabold">클래식 오리엔탈</div>
+                <div class="text-[10px] text-slate-400 font-normal">질리지 않는 만능 기본</div>
+              </div>
+            </button>
+            <button type="button" onclick="selectSauce(2)" id="sauce-btn-2" class="sauce-pill p-2.5 rounded-2xl border border-slate-200 bg-slate-50 text-left transition-all text-xs font-bold flex items-center gap-2 text-slate-700 hover:border-forest-500">
+              <span class="text-lg">🥜</span>
+              <div>
+                <div class="text-[12px] font-extrabold">참깨 된장</div>
+                <div class="text-[10px] text-slate-400 font-normal">구수한 감칠맛 폭발</div>
+              </div>
+            </button>
+            <button type="button" onclick="selectSauce(3)" id="sauce-btn-3" class="sauce-pill p-2.5 rounded-2xl border border-slate-200 bg-slate-50 text-left transition-all text-xs font-bold flex items-center gap-2 text-slate-700 hover:border-forest-500">
+              <span class="text-lg">🍇</span>
+              <div>
+                <div class="text-[12px] font-extrabold">발사믹 비네거</div>
+                <div class="text-[10px] text-slate-400 font-normal">고급 레스토랑 무드</div>
+              </div>
+            </button>
+            <button type="button" onclick="selectSauce(4)" id="sauce-btn-4" class="col-span-2 sauce-pill p-2.5 rounded-2xl border border-slate-200 bg-slate-50 text-left transition-all text-xs font-bold flex items-center gap-2 text-slate-700 hover:border-forest-500">
+              <span class="text-lg">🍋</span>
+              <div>
+                <div class="text-[12px] font-extrabold">와사비 레몬</div>
+                <div class="text-[10px] text-slate-400 font-normal">닭가슴살 비린내 0% 산뜻한 킥</div>
+              </div>
+            </button>
+          </div>
+
+          <!-- Selected Sauce Display Card -->
+          <div id="sauceDisplayCard" class="bg-forest-50 rounded-2xl p-4 border border-forest-200 space-y-3">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <span id="sauceBadgeIcon" class="text-xl">🌶️</span>
+                <span id="sauceName" class="text-sm font-extrabold text-forest-900">스리라차 마요 드레싱</span>
+              </div>
+              <span class="text-[11px] font-bold text-forest-700 bg-white px-2 py-0.5 rounded-full border border-forest-200" id="sauceCalorie">약 45 kcal</span>
+            </div>
+
+            <!-- Golden Ratio Formula -->
+            <div class="bg-white rounded-xl p-3 border border-forest-100 shadow-sm">
+              <div class="text-[11px] font-bold text-slate-500 mb-1 flex items-center gap-1">
+                <i data-lucide="scale" class="w-3.5 h-3.5 text-forest-600"></i>
+                셰프 황금 비율 (1회 제공량 기준)
+              </div>
+              <div id="sauceFormula" class="text-xs font-black text-slate-900 leading-relaxed">
+                하프마요 2T + 스리라차 1.5T + 알룰로스 0.5T + 레몬즙 0.5T
+              </div>
+            </div>
+
+            <!-- Chef Tip Box -->
+            <div class="flex items-start gap-2 text-xs text-forest-800 leading-snug">
+              <span class="text-sm mt-0.5">💡</span>
+              <span id="sauceTip" class="font-medium">점성이 있으니 처음엔 통에 붓지 말고 소스컵에 담아 '찍먹'하면 샐러드가 눅눅해지지 않습니다!</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- 5. 핵심 기능 C: 쿠팡 1클릭 장바구니 리스트 (5일 치 남는 재료 0g) -->
+        <section class="bg-white rounded-3xl p-5 shadow-app border border-slate-200/90 space-y-4">
+          <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+            <div class="flex items-center gap-2">
+              <span class="text-base">🛒</span>
+              <div>
+                <h3 class="text-sm font-bold text-slate-900">쿠팡 1클릭 장바구니 (0g 소진)</h3>
+                <p class="text-[11px] text-slate-400">1인 가구 소용량 규격 5일치 장보기</p>
+              </div>
+            </div>
+            <span class="text-[10px] text-emerald-700 bg-emerald-50 font-bold px-2 py-0.5 rounded-full border border-emerald-200">5통 소진율 100%</span>
+          </div>
+
+          <!-- Fridge items excluded notice banner -->
+          <div id="fridgeExcludeNotice" class="hidden p-3 rounded-2xl bg-orange-50 border border-orange-200 text-xs text-orange-900 flex items-center justify-between">
+            <div class="flex items-center gap-1.5 font-medium">
+              <span>✨</span>
+              <span id="fridgeExcludeText">냉장고 식재료 0개 자동 차감 완료!</span>
+            </div>
+            <span class="text-[11px] font-extrabold text-warm-orange" id="fridgeDiscountText">-0원</span>
+          </div>
+
+          <!-- Checklist of 5-day items -->
+          <div class="space-y-2" id="cartItemList">
+            <!-- Injected via JS -->
+          </div>
+
+          <!-- Price Summary & Cart Button -->
+          <div class="pt-3 border-t border-slate-100 space-y-3">
+            <div class="flex items-center justify-between text-xs text-slate-500">
+              <span>5일 치 총 예상 식비</span>
+              <div class="text-right">
+                <span id="originalPriceText" class="line-through text-slate-400 mr-1.5 hidden">24,500원</span>
+                <span id="finalCartPrice" class="text-base font-extrabold text-forest-700">19,800원</span>
+              </div>
+            </div>
+            <div class="flex items-center justify-between text-[11px] text-forest-700 bg-forest-50 p-2.5 rounded-xl border border-forest-100 font-medium">
+              <span>🥗 1끼 실질 원가</span>
+              <span class="font-extrabold" id="perMealPriceText">약 3,800원 (배달 샐러드의 1/4)</span>
+            </div>
+
+            <button type="button" onclick="handleCoupangCartAction()" class="w-full bg-gradient-to-r from-red-500 to-rose-600 hover:from-red-600 hover:to-rose-700 text-white font-extrabold text-sm py-3.5 px-4 rounded-2xl shadow-lg shadow-rose-500/25 flex items-center justify-center gap-2 transition-all active:scale-[0.98]">
+              <i data-lucide="shopping-cart" class="w-4 h-4"></i>
+              <span>쿠팡 장바구니 담기 & 체크리스트 복사</span>
+            </button>
+          </div>
+        </section>
+
+        <!-- 6. 실시간 대시보드: 일일 영양 쿼터 (OT 공식 적용) -->
+        <section class="bg-white rounded-3xl p-5 shadow-app border border-slate-200/90 space-y-4">
+          <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+            <div class="flex items-center gap-2">
+              <span class="text-base">📊</span>
+              <div>
+                <h3 class="text-sm font-bold text-slate-900">일일 영양 쿼터 대시보드</h3>
+                <p class="text-[11px] text-slate-400">샐러드 1끼 차감 후 '남은 오늘 섭취량'</p>
+              </div>
+            </div>
+            <span class="text-[10px] bg-slate-100 text-slate-600 font-bold px-2 py-0.5 rounded-full" id="tdeeBadge">TDEE 2,310 kcal</span>
+          </div>
+
+          <!-- Macro Progress Gauges -->
+          <div class="space-y-3.5" id="macroGauges">
+            <!-- Calorie Gauge -->
+            <div>
+              <div class="flex justify-between items-baseline text-xs mb-1">
+                <span class="font-bold text-slate-800 flex items-center gap-1">
+                  🔥 칼로리 (목표: <span id="targetKcalLabel">1,910</span> kcal)
+                </span>
+                <span class="text-slate-500 text-[11px]">
+                  남은 양: <strong class="text-forest-700 font-extrabold text-xs" id="remainKcalLabel">1,500 kcal</strong>
+                </span>
+              </div>
+              <div class="w-full h-3 bg-slate-100 rounded-full overflow-hidden flex">
+                <div id="gaugeKcalSalad" class="h-full bg-forest-600 transition-all duration-500" style="width: 22%"></div>
+                <div id="gaugeKcalRemain" class="h-full bg-slate-200 transition-all duration-500" style="width: 78%"></div>
+              </div>
+              <div class="flex justify-between text-[10px] text-slate-400 mt-0.5 font-medium">
+                <span>샐러드 1끼 충족 (<span id="saladKcalVal">410</span>kcal)</span>
+                <span>남은 끼니 쿼터</span>
+              </div>
+            </div>
+
+            <!-- Protein Gauge -->
+            <div>
+              <div class="flex justify-between items-baseline text-xs mb-1">
+                <span class="font-bold text-slate-800 flex items-center gap-1">
+                  🥩 단백질 (체중×2.0g: <span id="targetProteinLabel">140</span>g)
+                </span>
+                <span class="text-slate-500 text-[11px]">
+                  남은 양: <strong class="text-emerald-600 font-extrabold text-xs" id="remainProteinLabel">102g</strong>
+                </span>
+              </div>
+              <div class="w-full h-2.5 bg-slate-100 rounded-full overflow-hidden flex">
+                <div id="gaugeProteinSalad" class="h-full bg-emerald-500 transition-all duration-500" style="width: 27%"></div>
+                <div id="gaugeProteinRemain" class="h-full bg-slate-200 transition-all duration-500" style="width: 73%"></div>
+              </div>
+            </div>
+
+            <!-- Fat Gauge -->
+            <div>
+              <div class="flex justify-between items-baseline text-xs mb-1">
+                <span class="font-bold text-slate-800 flex items-center gap-1">
+                  🥑 지방 (총 열량 25%: <span id="targetFatLabel">53</span>g)
+                </span>
+                <span class="text-slate-500 text-[11px]">
+                  남은 양: <strong class="text-amber-600 font-extrabold text-xs" id="remainFatLabel">41g</strong>
+                </span>
+              </div>
+              <div class="w-full h-2.5 bg-slate-100 rounded-full overflow-hidden flex">
+                <div id="gaugeFatSalad" class="h-full bg-amber-500 transition-all duration-500" style="width: 23%"></div>
+                <div id="gaugeFatRemain" class="h-full bg-slate-200 transition-all duration-500" style="width: 77%"></div>
+              </div>
+            </div>
+
+            <!-- Carb Gauge -->
+            <div>
+              <div class="flex justify-between items-baseline text-xs mb-1">
+                <span class="font-bold text-slate-800 flex items-center gap-1">
+                  🌾 탄수화물 (잔여 쿼터: <span id="targetCarbLabel">218</span>g)
+                </span>
+                <span class="text-slate-500 text-[11px]">
+                  남은 양: <strong class="text-blue-600 font-extrabold text-xs" id="remainCarbLabel">180g</strong>
+                </span>
+              </div>
+              <div class="w-full h-2.5 bg-slate-100 rounded-full overflow-hidden flex">
+                <div id="gaugeCarbSalad" class="h-full bg-blue-500 transition-all duration-500" style="width: 17%"></div>
+                <div id="gaugeCarbRemain" class="h-full bg-slate-200 transition-all duration-500" style="width: 83%"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 셰프의 저녁 끼니 가이드 팁 -->
+          <div class="p-3.5 rounded-2xl bg-gradient-to-r from-forest-50 to-emerald-50 border border-forest-200 space-y-1">
+            <div class="flex items-center gap-1.5 text-xs font-black text-forest-800">
+              <span>👨‍🍳</span>
+              <span>셰프의 남은 끼니 솔루션</span>
+            </div>
+            <p id="chefDinnerTip" class="text-xs text-slate-700 leading-relaxed font-medium">
+              "남은 끼니는 햇반 1공기 + 생선구이 또는 닭가슴살/살코기 위주로 드시면 오늘 목표 100% 완벽 달성입니다!"
+            </p>
+          </div>
+        </section>
+
+        <!-- 7. 실시간 대시보드: 배달비 방어 도파민 트래커 -->
+        <section class="bg-gradient-to-br from-slate-900 via-forest-900 to-slate-900 text-white rounded-3xl p-5 shadow-app-lg relative overflow-hidden space-y-4">
+          <div class="flex items-center justify-between pb-3 border-b border-white/10">
+            <div class="flex items-center gap-2">
+              <span class="text-lg">💸</span>
+              <div>
+                <h3 class="text-sm font-extrabold text-white">배달비 방어 도파민 트래커</h3>
+                <p class="text-[11px] text-slate-400">배달 앱 지출 대비 순수 세이브 머니</p>
+              </div>
+            </div>
+            <span class="text-[10px] bg-warm-orange text-white font-extrabold px-2 py-0.5 rounded-full animate-bounce">DOPAMINE UP</span>
+          </div>
+
+          <!-- Comparison Numbers -->
+          <div class="grid grid-cols-2 gap-3 text-center">
+            <div class="bg-white/5 rounded-2xl p-3 border border-white/10">
+              <div class="text-[10px] text-slate-400 font-medium">밖에서 시켜먹을 때</div>
+              <div class="text-sm font-extrabold text-rose-400 line-through mt-0.5">16,000원</div>
+              <div class="text-[10px] text-slate-500 mt-0.5">배달팁 포함 1끼</div>
+            </div>
+            <div class="bg-emerald-500/20 rounded-2xl p-3 border border-emerald-500/30">
+              <div class="text-[10px] text-emerald-300 font-medium">밀프랩 1끼 실질 원가</div>
+              <div id="dopamineMealCost" class="text-sm font-extrabold text-emerald-400 mt-0.5">3,800원</div>
+              <div class="text-[10px] text-emerald-300/80 mt-0.5">0g 소진 장보기</div>
+            </div>
+          </div>
+
+          <!-- Highlight Saved Box -->
+          <div class="bg-gradient-to-r from-emerald-500/20 to-teal-500/20 rounded-2xl p-4 border border-emerald-400/30 flex items-center justify-between">
+            <div>
+              <div class="text-xs text-slate-300 font-medium">오늘 1끼 세이브</div>
+              <div id="dopamineTodaySave" class="text-xl font-black text-emerald-400 font-outfit mt-0.5">+12,200원</div>
+            </div>
+            <div class="text-right">
+              <div class="text-xs text-slate-300 font-medium">이번 주 5일 누적 세이브</div>
+              <div id="dopamineWeekSave" class="text-xl font-black text-warm-amber font-outfit mt-0.5">+61,000원</div>
+            </div>
+          </div>
+
+          <div class="flex items-center justify-between text-[11px] text-slate-300 bg-white/5 p-2.5 rounded-xl border border-white/10">
+            <span>📅 한 달(4주) 누적 예상 방어액</span>
+            <span class="font-extrabold text-emerald-300 text-xs font-outfit" id="dopamineMonthSave">약 260,000원 세이브!</span>
+          </div>
+
+          <!-- Confetti Trigger Button -->
+          <button type="button" onclick="celebrateDopamine()" class="w-full bg-gradient-to-r from-warm-orange to-warm-amber hover:brightness-110 text-white font-extrabold text-sm py-3 px-4 rounded-2xl shadow-lg shadow-orange-500/30 flex items-center justify-center gap-2 transition-all active:scale-95">
+            <span>🎉</span>
+            <span>도파민 충전 & 축하 팡파레 터뜨리기!</span>
+          </button>
+        </section>
+
+        <!-- Footer Info -->
+        <footer class="pt-6 pb-12 text-center text-xs text-slate-400 space-y-1">
+          <p class="font-bold text-slate-500">4주 샐러드 밀프랩 챌린지</p>
+          <p class="text-[11px]">1인 가구 직장인 자취생을 위한 주말 30분 배달 탈출 SPA</p>
+        </footer>
+
+      </main>
+
+      <!-- Floating Bottom Quick Action Bar -->
+      <div class="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[480px] bg-white/95 backdrop-blur-md border-t border-slate-200/80 px-4 py-2.5 z-30 shadow-lg flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <div class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center text-sm font-black">
+            💰
+          </div>
+          <div>
+            <div class="text-[10px] text-slate-400 font-medium">5일 방어 성공 시</div>
+            <div class="text-xs font-black text-forest-700 font-outfit" id="bottomSavedAmount">+61,000원 세이브</div>
+          </div>
+        </div>
+        <div class="flex gap-2">
+          <button onclick="retakeQuiz()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold px-3 py-2 rounded-xl transition-all border border-slate-200 active:scale-95">
+            다시 진단
+          </button>
+          <button onclick="handleCoupangCartAction()" class="bg-forest-700 hover:bg-forest-600 text-white text-xs font-extrabold px-3.5 py-2 rounded-xl shadow-sm transition-all active:scale-95 flex items-center gap-1.5">
+            <span>쿠팡 1클릭</span>
+            <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- MODAL 1: Quick Profile Modal -->
+  <div id="profileModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-3xl max-w-sm w-full p-6 shadow-2xl border border-slate-100 space-y-5">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+        <div class="flex items-center gap-2">
+          <span class="text-xl">🏃</span>
+          <h3 class="text-base font-extrabold text-slate-900">신체 프로필 & 대사량 설정</h3>
+        </div>
+        <button onclick="closeProfileModal()" class="text-slate-400 hover:text-slate-600 p-1">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <!-- Gender Selection -->
+      <div>
+        <label class="block text-xs font-bold text-slate-700 mb-1.5">성별</label>
+        <div class="grid grid-cols-2 gap-2">
+          <button type="button" onclick="setGender('male')" id="gender-male" class="gender-btn active-pill py-2.5 rounded-xl border border-slate-200 text-xs font-extrabold flex items-center justify-center gap-1.5 transition-all">
+            <span>👨</span>
+            <span>남성 (BMR 24)</span>
+          </button>
+          <button type="button" onclick="setGender('female')" id="gender-female" class="gender-btn py-2.5 rounded-xl border border-slate-200 text-slate-700 text-xs font-extrabold flex items-center justify-center gap-1.5 transition-all">
+            <span>👩</span>
+            <span>여성 (BMR 22)</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Weight Selection -->
+      <div>
+        <div class="flex justify-between items-center mb-1.5">
+          <label class="text-xs font-bold text-slate-700">현재 체중 (kg)</label>
+          <span id="weightDisplayVal" class="text-sm font-extrabold text-forest-700">70 kg</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <button onclick="adjustWeight(-1)" class="w-10 h-10 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-extrabold text-base flex items-center justify-center active:scale-95">-</button>
+          <input type="range" id="weightSlider" min="40" max="130" value="70" oninput="onWeightChange(this.value)" class="flex-1 accent-forest-700 cursor-pointer">
+          <button onclick="adjustWeight(1)" class="w-10 h-10 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-extrabold text-base flex items-center justify-center active:scale-95">+</button>
+        </div>
+      </div>
+
+      <!-- Activity Level -->
+      <div>
+        <label class="block text-xs font-bold text-slate-700 mb-1.5">평소 활동량 (활동계수)</label>
+        <div class="space-y-1.5" id="activityOptions">
+          <button type="button" onclick="setActivity(1.2)" data-factor="1.2" class="activity-btn w-full p-2.5 rounded-xl border border-slate-200 text-left text-xs transition-all flex items-center justify-between text-slate-700">
+            <div>
+              <div class="font-bold">🛋️ 비활동적 (사무직·좌식 생활)</div>
+              <div class="text-[10px] text-slate-400">운동 거의 안 함 (계수 1.2)</div>
+            </div>
+          </button>
+          <button type="button" onclick="setActivity(1.375)" data-factor="1.375" class="activity-btn active-pill w-full p-2.5 rounded-xl border border-slate-200 text-left text-xs transition-all flex items-center justify-between">
+            <div>
+              <div class="font-bold">🚶 가벼운 활동 (주 1~3회 가벼운 운동)</div>
+              <div class="text-[10px] opacity-80">산책/가벼운 조깅 (계수 1.375)</div>
+            </div>
+          </button>
+          <button type="button" onclick="setActivity(1.55)" data-factor="1.55" class="activity-btn w-full p-2.5 rounded-xl border border-slate-200 text-left text-xs transition-all flex items-center justify-between text-slate-700">
+            <div>
+              <div class="font-bold">🏃 보통 활동 (주 3~5회 중강도 운동)</div>
+              <div class="text-[10px] text-slate-400">헬스/필라테스/러닝 (계수 1.55)</div>
+            </div>
+          </button>
+          <button type="button" onclick="setActivity(1.725)" data-factor="1.725" class="activity-btn w-full p-2.5 rounded-xl border border-slate-200 text-left text-xs transition-all flex items-center justify-between text-slate-700">
+            <div>
+              <div class="font-bold">⚡ 매우 활동적 (주 6~7회 강한 운동)</div>
+              <div class="text-[10px] text-slate-400">고강도 운동선수급 (계수 1.725)</div>
+            </div>
+          </button>
+        </div>
+      </div>
+
+      <!-- Live Calculated Summary -->
+      <div class="p-3 bg-forest-50 rounded-2xl border border-forest-200 text-xs flex items-center justify-between">
+        <div>
+          <div class="text-slate-500 text-[10px]">기초대사량 (BMR)</div>
+          <div id="modalBmrVal" class="font-bold text-slate-800">1,680 kcal</div>
+        </div>
+        <div class="text-right">
+          <div class="text-slate-500 text-[10px]">활동대사량 (TDEE)</div>
+          <div id="modalTdeeVal" class="font-extrabold text-forest-700 text-sm">2,310 kcal</div>
+        </div>
+      </div>
+
+      <button type="button" onclick="saveProfileModal()" class="w-full bg-forest-700 hover:bg-forest-600 text-white font-extrabold text-sm py-3 rounded-2xl shadow-md transition-all active:scale-[0.98]">
+        저장하고 맞춤 계산 반영하기
+      </button>
+    </div>
+  </div>
+
+  <!-- MODAL 2: Coupang Cart Checklist Modal -->
+  <div id="cartModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-3xl max-w-sm w-full p-5 shadow-2xl border border-slate-100 space-y-4">
+      <div class="flex items-center justify-between pb-2 border-b border-slate-100">
+        <div class="flex items-center gap-2">
+          <span class="text-xl">🛒</span>
+          <h3 class="text-sm font-extrabold text-slate-900">쿠팡 1클릭 장바구니 안내</h3>
+        </div>
+        <button onclick="closeCartModal()" class="text-slate-400 hover:text-slate-600 p-1">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <div class="space-y-2 text-xs text-slate-600 leading-relaxed">
+        <div class="p-3 bg-emerald-50 rounded-2xl border border-emerald-200 text-emerald-900 flex items-center gap-2">
+          <i data-lucide="check-circle" class="w-4 h-4 text-emerald-600 shrink-0"></i>
+          <span>장보기 리스트가 클립보드에 복사되었습니다!</span>
+        </div>
+        <p>
+          5일 동안 버리는 재료 0g을 위해 <strong>1인 자취생 소용량 단품 규격</strong>으로 구성되었습니다.
+        </p>
+        <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 text-[11px] font-mono text-slate-700 whitespace-pre-line max-h-48 overflow-y-auto" id="clipboardPreviewBox">
+          <!-- Injected text -->
+        </div>
+      </div>
+
+      <div class="flex gap-2 pt-1">
+        <button onclick="closeCartModal()" class="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs py-3 rounded-xl transition-all">
+          닫기
+        </button>
+        <a href="https://www.coupang.com" target="_blank" rel="noopener noreferrer" class="flex-1 bg-rose-600 hover:bg-rose-700 text-white font-extrabold text-xs py-3 rounded-xl shadow-md flex items-center justify-center gap-1.5 transition-all">
+          <span>쿠팡 앱 열기</span>
+          <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Application Logic (Vanilla JS) -->
+  <script>
+    /* ==========================================================
+       DATA STORE: 5-Week Salad Recipes, Sauces & Coupang Items
+       ========================================================== */
+    const RECIPES = [
+      {
+        id: 'week1',
+        week: 'Week 1',
+        title: '당근라페 크런치 닭가슴살 보울',
+        targetGoal: 'diet',
+        oneLiner: '상큼아삭 프랑스식 당근라페와 고단백 닭가슴살의 황금 밸런스',
+        emoji: '🥕',
+        kcal: 410,
+        protein: 38,
+        fat: 12,
+        carb: 38,
+        prepTime: '30분',
+        shelfLife: '5일 완벽',
+        defaultSauceIdx: 0, // 스리라차 마요
+        layers: {
+          top: {
+            title: '연약한 잎채소 (로메인/양상추 100g)',
+            desc: '드레싱과 수분 접촉을 원천 차단하여 금요일까지 첫날처럼 아삭아삭합니다.'
+          },
+          mid: {
+            title: '단백질 레이어 (닭가슴살 1팩/100g)',
+            desc: '촉촉하게 삶은 닭가슴살 슬라이스를 중간에 배치해 수분 방어벽을 형성합니다.'
+          },
+          base: {
+            title: '단단한 채소/곡물 (방울토마토 10알, 당근라페 80g)',
+            desc: '올리브유와 홀그레인 머스타드에 절인 당근라페와 통토마토를 깔아 바닥 수분을 흡수합니다.'
+          }
+        },
+        cartItems: [
+          { id: 'c1', name: '혼합 샐러드 잎채소 500g', spec: '통당 100g씩 5통 분할', price: 6900, category: 'leaf', fridgeKey: null, partnerUrl: null },
+          { id: 'c2', name: '방울토마토 500g', spec: '통당 10알씩 5통 분할', price: 4900, category: 'tomato', fridgeKey: '방울토마토', partnerUrl: null },
+          { id: 'c3', name: '냉동 닭가슴살 100g x 5팩', spec: '통당 1팩(100g)씩 5통', price: 7900, category: 'protein', fridgeKey: null, partnerUrl: null },
+          { id: 'c4', name: '흙당근 1봉 (3~4개입)', spec: '채칼로 라페 5회분 대용량', price: 2900, category: 'veg', fridgeKey: null, partnerUrl: null },
+          { id: 'c5', name: '백오이 5개입 번들', spec: '통당 1개씩 아삭 큐브 썰기', price: 3800, category: 'cucumber', fridgeKey: '오이', partnerUrl: null }
+        ]
+      },
+      {
+        id: 'week2',
+        week: 'Week 2',
+        title: '멕시칸 비프/치킨 파히타 보울',
+        targetGoal: 'bulk',
+        oneLiner: '스모키한 파프리카 파우더 향과 든든한 단백질 폭탄 파히타',
+        emoji: '🌯',
+        kcal: 465,
+        protein: 42,
+        fat: 15,
+        carb: 41,
+        prepTime: '30분',
+        shelfLife: '5일 완벽',
+        defaultSauceIdx: 0, // 스리라차 마요
+        layers: {
+          top: {
+            title: '연약한 잎채소 (믹스 샐러드채소 100g)',
+            desc: '스모키한 고기 열기가 식은 뒤 가장 상단에 얹어 신선함을 지킵니다.'
+          },
+          mid: {
+            title: '단백질 레이어 (시즈닝 치킨/우둔살 120g)',
+            desc: '타코 시즈닝으로 구운 고기를 듬뿍 올려 1끼 단백질 42g을 보장합니다.'
+          },
+          base: {
+            title: '단단한 채소/곡물 (스위트콘 40g, 볶은양파/파프리카)',
+            desc: '살짝 볶아 수분을 날린 양파와 단단한 곡물이 바닥에서 깊은 풍미를 지탱합니다.'
+          }
+        },
+        cartItems: [
+          { id: 'c21', name: '혼합 샐러드 잎채소 500g', spec: '통당 100g씩 5통 분할', price: 6900, category: 'leaf', fridgeKey: null, partnerUrl: null },
+          { id: 'c22', name: '닭가슴살 or 우둔살 슬라이스 5팩', spec: '통당 1팩씩 5통', price: 8900, category: 'protein', fridgeKey: null, partnerUrl: null },
+          { id: 'c23', name: '깐 양파 1.5kg', spec: '파히타용 볶음양파 5일치', price: 3200, category: 'onion', fridgeKey: '양파/대파', partnerUrl: 'https://link.coupang.com/a/hCGO1UdBM4' },
+          { id: 'c24', name: '파프리카 5개입 번들', spec: '통당 1개씩 색감과 비타민C', price: 4500, category: 'veg', fridgeKey: null, partnerUrl: null },
+          { id: 'c25', name: '스위트콘 통조림 340g', spec: '통당 2~3스푼씩 5일 소진', price: 1800, category: 'corn', fridgeKey: null, partnerUrl: null }
+        ]
+      },
+      {
+        id: 'week3',
+        week: 'Week 3',
+        title: '크런치 참치 두부 콥 샐러드',
+        targetGoal: 'save',
+        oneLiner: '냉장고 털이 극대화! 노릇한 두부구이와 담백한 캔참치의 초가성비',
+        emoji: '🐟',
+        kcal: 395,
+        protein: 36,
+        fat: 13,
+        carb: 34,
+        prepTime: '25분',
+        shelfLife: '5일 완벽',
+        defaultSauceIdx: 1, // 클래식 오리엔탈
+        layers: {
+          top: {
+            title: '연약한 잎채소 (양배추채 + 샐러드믹스 100g)',
+            desc: '가늘게 채 썬 양배추와 어린잎이 상단에서 크런치한 식감을 선물합니다.'
+          },
+          mid: {
+            title: '단백질 레이어 (기름 뺀 참치 반캔 + 구운 두부큐브)',
+            desc: '에어프라이어에 겉바속촉으로 구운 단단한 두부와 기름 쫙 뺀 참치를 적재합니다.'
+          },
+          base: {
+            title: '단단한 채소 (오이 큐브 + 방울토마토 8알)',
+            desc: '물기가 생겨도 문제없는 오이와 토마토가 바닥에서 시원한 즙을 머금습니다.'
+          }
+        },
+        cartItems: [
+          { id: 'c31', name: '양배추 반통 (친환경)', spec: '가늘게 채 썰어 5일치 크런치', price: 2400, category: 'cabbage', fridgeKey: '양배추', partnerUrl: 'https://link.coupang.com/a/hCGO29eLq8' },
+          { id: 'c32', name: '동원참치 100g 1캔 번들', spec: '통당 1캔씩 기름 쏙 빼고 적재', price: 8500, category: 'tuna', fridgeKey: '캔참치', partnerUrl: 'https://link.coupang.com/a/hCGO3sBkWk' },
+          { id: 'c33', name: '국산 두부 300g 3구', spec: '큐브로 썰어 에어프라이어 10분', price: 3400, category: 'tofu', fridgeKey: null, partnerUrl: 'https://link.coupang.com/a/hCGO122eS4' },
+          { id: 'c34', name: '백오이 5개입 번들', spec: '통당 1개씩 깍둑썰기', price: 3800, category: 'cucumber', fridgeKey: '오이', partnerUrl: null },
+          { id: 'c35', name: '방울토마토 500g', spec: '통당 8~10알씩 소진', price: 4900, category: 'tomato', fridgeKey: '방울토마토', partnerUrl: null }
+        ]
+      },
+      {
+        id: 'week4',
+        week: 'Week 4',
+        title: '포슬 감자 & 에그마요 든든 보울',
+        targetGoal: 'save',
+        oneLiner: '냉장고 감자 완벽 소진! 담백한 감자 큐브와 단백질 에그마요의 만남',
+        emoji: '🥔',
+        kcal: 420,
+        protein: 35,
+        fat: 14,
+        carb: 42,
+        prepTime: '28분',
+        shelfLife: '5일 완벽',
+        defaultSauceIdx: 0, // 스리라차 마요
+        layers: {
+          top: {
+            title: '연약한 잎채소 (로메인/치커리 100g)',
+            desc: '감자의 온기를 한 김 식힌 뒤 가장 위에 얹어 신선함을 유지합니다.'
+          },
+          mid: {
+            title: '단백질 레이어 (삶은 달걀 2알 으깸 / 닭가슴살)',
+            desc: '고단백 에그마요 토핑으로 든든함과 감칠맛을 동시에 확보합니다.'
+          },
+          base: {
+            title: '단단한 탄수 (포슬 삶은 감자 큐브 100g + 방울토마토)',
+            desc: '바닥에서 든든하게 탄수화물 에너지를 받쳐주어 오후 근무 피로를 방지합니다.'
+          }
+        },
+        cartItems: [
+          { id: 'c41', name: '감자 1kg (햇감자)', spec: '통당 1~2개 깍둑썰어 찌기', price: 3500, category: 'potato', fridgeKey: '감자', partnerUrl: 'https://link.coupang.com/a/hCGO1WGv24' },
+          { id: 'c42', name: '무항생제 대란 30구', spec: '통당 2알씩 삶아 토핑', price: 7900, category: 'egg', fridgeKey: null, partnerUrl: null },
+          { id: 'c43', name: '혼합 샐러드 잎채소 500g', spec: '통당 100g씩 5통 분할', price: 6900, category: 'leaf', fridgeKey: null, partnerUrl: null },
+          { id: 'c44', name: '방울토마토 500g', spec: '통당 8알씩 산뜻함 추가', price: 4900, category: 'tomato', fridgeKey: '방울토마토', partnerUrl: null },
+          { id: 'c45', name: '손질 대파 500g or 양파', spec: '감자 샐러드 향미 토핑', price: 2900, category: 'onion', fridgeKey: '양파/대파', partnerUrl: 'https://link.coupang.com/a/hCGO1QWHPo' }
+        ]
+      },
+      {
+        id: 'week5',
+        week: 'Week 5',
+        title: '그릭 그릴드 치킨 & 후무스 퀴노아 보울',
+        targetGoal: 'diet',
+        oneLiner: '지중해 장수 식단 무드! 올리브와 오이, 상큼한 레몬와사비의 조화',
+        emoji: '🫒',
+        kcal: 425,
+        protein: 39,
+        fat: 14,
+        carb: 36,
+        prepTime: '30분',
+        shelfLife: '5일 완벽',
+        defaultSauceIdx: 4, // 와사비 레몬
+        layers: {
+          top: {
+            title: '연약한 잎채소 (로메인 + 치커리 100g)',
+            desc: '씁쓸달콤한 유럽 샐러드 잎채소가 드레싱을 만나기 전까지 바삭함을 유지합니다.'
+          },
+          mid: {
+            title: '단백질 레이어 (허브 닭가슴살 100g)',
+            desc: '오레가노와 후추로 마리네이드한 그릴 치킨을 슬라이스해 올립니다.'
+          },
+          base: {
+            title: '단단한 채소/곡물 (병아리콩/퀴노아 50g, 블랙올리브, 오이)',
+            desc: '수분을 머금어도 불지 않는 고단백 병아리콩과 오이가 풍성한 식감을 만듭니다.'
+          }
+        },
+        cartItems: [
+          { id: 'c51', name: '혼합 로메인 샐러드채소 500g', spec: '통당 100g씩 5통 분할', price: 6900, category: 'leaf', fridgeKey: null, partnerUrl: null },
+          { id: 'c52', name: '허브 닭가슴살 100g x 5팩', spec: '통당 1팩씩 5통', price: 8200, category: 'protein', fridgeKey: null, partnerUrl: null },
+          { id: 'c53', name: '삶은 병아리콩 캔 (400g)', spec: '통당 2스푼씩 고단백 탄수', price: 2100, category: 'bean', fridgeKey: null, partnerUrl: null },
+          { id: 'c54', name: '블랙 올리브 슬라이스 캔', spec: '지중해 풍미 토핑', price: 2500, category: 'olive', fridgeKey: null, partnerUrl: null },
+          { id: 'c55', name: '백오이 5개입 번들', spec: '통당 1개씩 아삭 슬라이스', price: 3800, category: 'cucumber', fridgeKey: '오이', partnerUrl: null }
+        ]
+      }
+    ];
+
+    const SAUCES = [
+      {
+        name: '스리라차 마요',
+        emoji: '🌶️',
+        kcal: 45,
+        formula: '하프마요 2T + 스리라차 1.5T + 알룰로스 0.5T + 레몬즙 0.5T',
+        tip: '점성이 있으니 처음엔 통에 붓지 말고 소스컵에 담아 "찍먹"하면 샐러드가 눅눅해지지 않습니다! 닭가슴살, 파히타와 찰떡궁합입니다.',
+        shelfLife: '냉장 7일'
+      },
+      {
+        name: '클래식 오리엔탈',
+        emoji: '🥢',
+        kcal: 38,
+        formula: '진간장 1.5T + 올리브유 1.5T + 식초 1T + 알룰로스 1T + 다진마늘 0.3T + 참깨',
+        tip: '참치 두부 샐러드나 기본 샐러드에 가장 산뜻하고 매일 먹어도 질리지 않는 한국인 원픽 드레싱입니다.',
+        shelfLife: '냉장 10일'
+      },
+      {
+        name: '참깨 된장',
+        emoji: '🥜',
+        kcal: 52,
+        formula: '된장 0.5T + 참깨 1.5T + 올리브유/들기름 1T + 알룰로스 1T + 식초 1T + 물 1T',
+        tip: '구수한 감칠맛 폭발! 닭가슴살과 두부의 퍽퍽함을 완전히 감싸주며 고소함이 입안 가득 돕니다.',
+        shelfLife: '냉장 5일'
+      },
+      {
+        name: '발사믹 비네거',
+        emoji: '🍇',
+        kcal: 42,
+        formula: '올리브유 2T + 발사믹식초 1.5T + 알룰로스 0.8T + 소금/후추 톡톡',
+        tip: '클래식 이탈리안 스타일! 토마토, 치즈, 잎채소 본연의 단맛과 풍미를 200% 끌어올립니다.',
+        shelfLife: '냉장 14일'
+      },
+      {
+        name: '와사비 레몬',
+        emoji: '🍋',
+        kcal: 32,
+        formula: '양조간장 1.5T + 레몬즙 1T + 생와사비 0.5T + 알룰로스 0.8T + 올리브유 0.5T + 물 1T',
+        tip: '알싸하고 상큼한 킥! 닭가슴살 특유의 비린내를 0%로 완벽 제어하며 뒷맛이 매우 깔끔합니다.',
+        shelfLife: '냉장 7일'
+      }
+    ];
+
+    /* ==========================================================
+       GLOBAL STATE
+       ========================================================== */
+    const state = {
+      currentView: 'quiz',
+      quizStep: 0, // 0: Profile, 1: Goal, 2: Allergies, 3: Fridge, 'loading': AI
+
+      // Step 0: Body Profile
+      gender: 'male',
+      weight: 70,
+      activityFactor: 1.375,
+
+      // Step 1: Quiz Inputs
+      goal: 'diet', // 'diet' | 'bulk' | 'save'
+      allergies: ['none'],
+      fridgeItems: ['none'],
+
+      // Step 2 & 3: Selected Recipe & Sauce
+      selectedRecipeIdx: 0,
+      selectedSauceIdx: 0,
+
+      // Coupang Cart Checkbox overrides (item.id => boolean excluded)
+      manualCartExcludes: {},
+      currentCartTotal: 19800,
+      currentPerMealCost: 3800
+    };
+
+    /* ==========================================================
+       CALCULATION FUNCTIONS (OT FORMULAS)
+       ========================================================== */
+    function calculateBMR() {
+      // 남성 = 체중 * 24, 여성 = 체중 * 22
+      return state.gender === 'male' ? state.weight * 24 : state.weight * 22;
+    }
+
+    function calculateTDEE() {
+      return Math.round(calculateBMR() * state.activityFactor);
+    }
+
+    function calculateTargetCalories() {
+      const tdee = calculateTDEE();
+      if (state.goal === 'diet') {
+        return Math.max(1200, tdee - 400);
+      } else if (state.goal === 'bulk') {
+        return tdee + 250;
+      } else {
+        return tdee;
+      }
+    }
+
+    function calculateMacroTargets() {
+      const targetKcal = calculateTargetCalories();
+      // 단백질(g): 체중 * 2.0g
+      const targetProtein = Math.round(state.weight * 2.0);
+      const proteinKcal = targetProtein * 4;
+
+      // 지방(g): 총 목표 칼로리의 25% / 9
+      const targetFat = Math.round((targetKcal * 0.25) / 9);
+      const fatKcal = targetFat * 9;
+
+      // 탄수화물(g): [총 목표 칼로리 - (단백질kcal + 지방kcal)] / 4
+      const remainingKcalForCarb = targetKcal - (proteinKcal + fatKcal);
+      const targetCarb = Math.max(50, Math.round(remainingKcalForCarb / 4));
+
+      return {
+        targetKcal,
+        targetProtein,
+        targetFat,
+        targetCarb
+      };
+    }
+
+    /* ==========================================================
+       AUTO MATCHING: Select best recipe based on Goal & Fridge
+       ========================================================== */
+    function autoMatchRecipe() {
+      // 1. If fridge has 감자, recommend Week 4 (포슬 감자 에그마요)
+      if (state.fridgeItems.includes('감자')) {
+        return 3; // Week 4
+      }
+      // 2. If fridge has tuna or cabbage, prefer Week 3 (참치 두부 콥)
+      if (state.fridgeItems.includes('캔참치') || state.fridgeItems.includes('양배추')) {
+        return 2; // Week 3
+      }
+      // 3. If bulk goal, prefer Week 2 (파히타 보울)
+      if (state.goal === 'bulk') {
+        return 1; // Week 2
+      }
+      // 4. If save goal, prefer Week 3
+      if (state.goal === 'save') {
+        return 2; // Week 3
+      }
+      // 5. Default for diet: Week 1
+      return 0; // Week 1
+    }
+
+    /* ==========================================================
+       QUIZ FUNNEL CONTROLLER (각 페이지로 전환)
+       ========================================================== */
+    function updateQuizFunnelUI() {
+      // Hide all step cards
+      document.getElementById('stepCard0').classList.add('hidden');
+      document.getElementById('stepCard1').classList.add('hidden');
+      document.getElementById('stepCard2').classList.add('hidden');
+      document.getElementById('stepCard3').classList.add('hidden');
+      document.getElementById('stepCardLoading').classList.add('hidden');
+
+      const nextBtn = document.getElementById('quizNextBtn');
+      const nextBtnText = document.getElementById('quizNextBtnText');
+      const backBtn = document.getElementById('quizBackBtn');
+      const stepIndicator = document.getElementById('stepIndicatorText');
+      const bottomNav = document.getElementById('quizBottomNav');
+
+      // Update progress bar
+      const bars = [
+        document.getElementById('stepBar0'),
+        document.getElementById('stepBar1'),
+        document.getElementById('stepBar2'),
+        document.getElementById('stepBar3')
+      ];
+
+      bars.forEach((b, idx) => {
+        if (state.quizStep === 'loading' || idx <= state.quizStep) {
+          b.className = 'h-full bg-forest-700 flex-1 transition-all duration-300';
+        } else {
+          b.className = 'h-full bg-slate-200 flex-1 transition-all duration-300';
+        }
+      });
+
+      if (state.quizStep === 0) {
+        document.getElementById('stepCard0').classList.remove('hidden');
+        stepIndicator.textContent = 'STEP 0 · 온보딩 신체 프로필';
+        backBtn.classList.add('invisible');
+        nextBtnText.textContent = '다음: 식단 핵심 목표 (1/3)';
+        bottomNav.classList.remove('hidden');
+        syncProfileInputs();
+      } else if (state.quizStep === 1) {
+        document.getElementById('stepCard1').classList.remove('hidden');
+        stepIndicator.textContent = 'STEP 1 / 3 · 식단 핵심 목표';
+        backBtn.classList.remove('invisible');
+        nextBtnText.textContent = '다음: 알레르기 체크 (2/3)';
+        bottomNav.classList.remove('hidden');
+        syncGoalSelection();
+      } else if (state.quizStep === 2) {
+        document.getElementById('stepCard2').classList.remove('hidden');
+        stepIndicator.textContent = 'STEP 2 / 3 · 알레르기 성분';
+        backBtn.classList.remove('invisible');
+        nextBtnText.textContent = '다음: 냉장고 파먹기 (3/3)';
+        bottomNav.classList.remove('hidden');
+        syncAllergySelection();
+      } else if (state.quizStep === 3) {
+        document.getElementById('stepCard3').classList.remove('hidden');
+        stepIndicator.textContent = 'STEP 3 / 3 · 냉장고 털이 식재료';
+        backBtn.classList.remove('invisible');
+        nextBtnText.textContent = '🎯 5일 맞춤 밀프랩 식단 보기';
+        bottomNav.classList.remove('hidden');
+        syncFridgeSelection();
+      } else if (state.quizStep === 'loading') {
+        document.getElementById('stepCardLoading').classList.remove('hidden');
+        stepIndicator.textContent = 'AI ANALYSIS · 실시간 큐레이팅';
+        backBtn.classList.add('invisible');
+        bottomNav.classList.add('hidden');
+      }
+
+      if (window.lucide) lucide.createIcons();
+    }
+
+    function handleQuizNext() {
+      if (state.quizStep === 0) {
+        state.quizStep = 1;
+        updateQuizFunnelUI();
+      } else if (state.quizStep === 1) {
+        state.quizStep = 2;
+        updateQuizFunnelUI();
+      } else if (state.quizStep === 2) {
+        state.quizStep = 3;
+        updateQuizFunnelUI();
+      } else if (state.quizStep === 3) {
+        // Run AI Matching
+        state.quizStep = 'loading';
+        updateQuizFunnelUI();
+
+        state.selectedRecipeIdx = autoMatchRecipe();
+        state.selectedSauceIdx = RECIPES[state.selectedRecipeIdx].defaultSauceIdx;
+
+        const msgEl = document.getElementById('loadingDynamicMsg');
+        if (state.fridgeItems.includes('none')) {
+          msgEl.textContent = '5일치 0g 소진 1인 가구 번들 및 영양 쿼터를 계산 중입니다...';
+        } else {
+          msgEl.textContent = `냉장고 재료(${state.fridgeItems.join(', ')})를 1순위 소진하도록 식비를 차감 중입니다...`;
+        }
+
+        setTimeout(() => {
+          showResultView();
+        }, 700);
+      }
+    }
+
+    function handleQuizBack() {
+      if (state.quizStep > 0 && state.quizStep !== 'loading') {
+        state.quizStep--;
+        updateQuizFunnelUI();
+      }
+    }
+
+    function skipToDefaultResult() {
+      state.selectedRecipeIdx = autoMatchRecipe();
+      state.selectedSauceIdx = RECIPES[state.selectedRecipeIdx].defaultSauceIdx;
+      showResultView();
+    }
+
+    function retakeQuiz() {
+      state.currentView = 'quiz';
+      state.quizStep = 1; // Start at Q1 directly
+      document.getElementById('quizFunnelView').classList.remove('hidden');
+      document.getElementById('resultAppView').classList.add('hidden');
+      updateQuizFunnelUI();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function showResultView() {
+      state.currentView = 'result';
+      document.getElementById('quizFunnelView').classList.add('hidden');
+      document.getElementById('resultAppView').classList.remove('hidden');
+      renderApp();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    /* ---------------- Sync Quiz Step Selections ---------------- */
+    function syncProfileInputs() {
+      document.getElementById('qGenderMale').className = state.gender === 'male' ? 'gender-btn active-pill p-3.5 rounded-2xl border border-slate-200 text-xs font-black flex items-center justify-center gap-2 transition-all' : 'gender-btn p-3.5 rounded-2xl border border-slate-200 bg-white text-slate-700 text-xs font-black flex items-center justify-center gap-2 transition-all hover:border-forest-500';
+      document.getElementById('qGenderFemale').className = state.gender === 'female' ? 'gender-btn active-pill p-3.5 rounded-2xl border border-slate-200 text-xs font-black flex items-center justify-center gap-2 transition-all' : 'gender-btn p-3.5 rounded-2xl border border-slate-200 bg-white text-slate-700 text-xs font-black flex items-center justify-center gap-2 transition-all hover:border-forest-500';
+
+      document.getElementById('qWeightDisplay').textContent = `${state.weight} kg`;
+      document.getElementById('qWeightSlider').value = state.weight;
+
+      document.querySelectorAll('.q-activity-btn').forEach(btn => {
+        const factor = parseFloat(btn.getAttribute('data-factor'));
+        if (factor === state.activityFactor) {
+          btn.className = 'q-activity-btn active-pill p-3 rounded-2xl border border-slate-200 text-left text-xs transition-all flex items-center justify-between';
+        } else {
+          btn.className = 'q-activity-btn p-3 rounded-2xl border border-slate-200 bg-white text-left text-xs transition-all flex items-center justify-between text-slate-700 hover:border-forest-500';
+        }
+      });
+
+      const bmr = calculateBMR();
+      const tdee = calculateTDEE();
+      document.getElementById('qBmrVal').textContent = `${bmr.toLocaleString()} kcal`;
+      document.getElementById('qTdeeVal').textContent = `${tdee.toLocaleString()} kcal`;
+    }
+
+    function selectQuizGoal(goalType) {
+      state.goal = goalType;
+      syncGoalSelection();
+    }
+
+    function syncGoalSelection() {
+      const goals = ['diet', 'bulk', 'save'];
+      goals.forEach(g => {
+        const btn = document.getElementById(`qGoal-${g}`);
+        if (!btn) return;
+        const icon = btn.querySelector('svg, i');
+        if (g === state.goal) {
+          btn.className = 'q-goal-card active-quiz-card w-full p-4 rounded-3xl border-2 border-forest-700 bg-forest-50 text-left transition-all flex items-center justify-between group shadow-sm';
+          if (icon) icon.setAttribute('data-lucide', 'check-circle-2');
+          if (icon) icon.className = 'w-6 h-6 text-forest-700 shrink-0';
+        } else {
+          btn.className = 'q-goal-card w-full p-4 rounded-3xl border-2 border-slate-200 bg-white text-left transition-all flex items-center justify-between group hover:border-forest-500';
+          if (icon) icon.setAttribute('data-lucide', 'circle');
+          if (icon) icon.className = 'w-6 h-6 text-slate-300 shrink-0';
+        }
+      });
+      if (window.lucide) lucide.createIcons();
+    }
+
+    function toggleQuizAllergy(allergy) {
+      if (allergy === 'none') {
+        state.allergies = ['none'];
+      } else {
+        state.allergies = state.allergies.filter(a => a !== 'none');
+        if (state.allergies.includes(allergy)) {
+          state.allergies = state.allergies.filter(a => a !== allergy);
+        } else {
+          state.allergies.push(allergy);
+        }
+        if (state.allergies.length === 0) {
+          state.allergies = ['none'];
+        }
+      }
+      syncAllergySelection();
+    }
+
+    function syncAllergySelection() {
+      document.querySelectorAll('.q-allergy-chip').forEach(chip => {
+        const key = chip.getAttribute('data-allergy');
+        if (state.allergies.includes(key)) {
+          chip.classList.add('active-pill');
+          chip.classList.remove('bg-white', 'text-slate-800');
+        } else {
+          chip.classList.remove('active-pill');
+          chip.classList.add('bg-white', 'text-slate-800');
+        }
+      });
+    }
+
+    function toggleQuizFridge(item) {
+      if (item === 'none') {
+        state.fridgeItems = ['none'];
+      } else {
+        state.fridgeItems = state.fridgeItems.filter(f => f !== 'none');
+        if (state.fridgeItems.includes(item)) {
+          state.fridgeItems = state.fridgeItems.filter(f => f !== item);
+        } else {
+          state.fridgeItems.push(item);
+        }
+        if (state.fridgeItems.length === 0) {
+          state.fridgeItems = ['none'];
+        }
+      }
+      syncFridgeSelection();
+    }
+
+    function syncFridgeSelection() {
+      document.querySelectorAll('.q-fridge-chip').forEach(chip => {
+        const key = chip.getAttribute('data-fridge');
+        if (state.fridgeItems.includes(key)) {
+          chip.classList.add('active-pill');
+          chip.classList.remove('bg-white', 'text-slate-800');
+        } else {
+          chip.classList.remove('active-pill');
+          chip.classList.add('bg-white', 'text-slate-800');
+        }
+      });
+    }
+
+
+    /* ==========================================================
+       RENDER CONTROLLER (RESULT DASHBOARD)
+       ========================================================== */
+    function renderApp() {
+      const recipe = RECIPES[state.selectedRecipeIdx];
+      const sauce = SAUCES[state.selectedSauceIdx];
+      const macros = calculateMacroTargets();
+      const tdee = calculateTDEE();
+
+      // 1. Update Header Quick Profile & Summary
+      const genderKorean = state.gender === 'male' ? '남성' : '여성';
+      document.getElementById('quickProfileText').textContent = `${genderKorean} · ${state.weight}kg · 계수 ${state.activityFactor}`;
+
+      const goalNames = {
+        diet: '🎯 다이어트 (-400kcal)',
+        bulk: '🥩 고단백 벌크업 (+250kcal)',
+        save: '🪙 식비절약 냉파 (TDEE 유지)'
+      };
+      document.getElementById('headerGoalSummary').textContent = goalNames[state.goal] || '식단 맞춤';
+      
+      const fridgeSummary = state.fridgeItems.includes('none') 
+        ? '냉장고: 전부 장보기' 
+        : `냉털: ${state.fridgeItems.join(', ')}`;
+      document.getElementById('headerFridgeSummary').textContent = fridgeSummary;
+
+      // 2. Render 4-Week Tabs
+      renderWeekTabs();
+
+      // 3. Render Main Recipe Card
+      document.getElementById('recipeWeekTag').textContent = `${recipe.week} RECOMMEND`;
+      document.getElementById('recipeTitle').textContent = recipe.title;
+      document.getElementById('recipeOneLiner').textContent = recipe.oneLiner;
+      document.getElementById('recipeEmoji').textContent = recipe.emoji;
+      document.getElementById('recipeKcal').textContent = `${recipe.kcal} kcal`;
+      document.getElementById('recipeProtein').textContent = `${recipe.protein}g`;
+
+      // Allergy Banner Check
+      const allergyBanner = document.getElementById('allergySafeBanner');
+      const allergyText = document.getElementById('allergySafeText');
+      if (!state.allergies.includes('none') && state.allergies.length > 0) {
+        allergyBanner.classList.remove('hidden');
+        allergyText.textContent = `제외 성분 [${state.allergies.join(', ')}] 반영: 안전한 대체 단백질/무첨가 레시피가 적용되었습니다.`;
+      } else {
+        allergyBanner.classList.add('hidden');
+      }
+
+      // Render Layering Guide
+      document.getElementById('layerTopTitle').textContent = recipe.layers.top.title;
+      document.getElementById('layerMidTitle').textContent = recipe.layers.mid.title;
+      document.getElementById('layerBaseTitle').textContent = recipe.layers.base.title;
+
+      // 4. Render Sauce Section
+      renderSauceSection(sauce);
+
+      // 5. Render Coupang Cart & Price
+      renderCartSection(recipe);
+
+      // 6. Render Macro Nutrient Quota Dashboard
+      renderMacroDashboard(recipe, macros, tdee);
+
+      // 7. Render Dopamine Tracker
+      renderDopamineTracker();
+
+      if (window.lucide) {
+        lucide.createIcons();
+      }
+    }
+
+    /* ---------------- Week Tabs ---------------- */
+    function renderWeekTabs() {
+      const container = document.getElementById('weekTabs');
+      container.innerHTML = '';
+      RECIPES.forEach((rec, idx) => {
+        const isActive = idx === state.selectedRecipeIdx;
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = `px-3.5 py-2 rounded-2xl text-xs font-bold whitespace-nowrap transition-all flex items-center gap-1.5 ${
+          isActive 
+            ? 'active-pill shadow-md' 
+            : 'bg-white border border-slate-200 text-slate-700 hover:border-forest-500'
+        }`;
+        btn.innerHTML = `<span>${rec.emoji}</span><span>${rec.week}</span>`;
+        btn.onclick = () => {
+          state.selectedRecipeIdx = idx;
+          state.selectedSauceIdx = rec.defaultSauceIdx;
+          renderApp();
+        };
+        container.appendChild(btn);
+      });
+    }
+
+    /* ---------------- Layer Detail Accordion ---------------- */
+    let currentActiveLayer = null;
+    function showLayerDetail(layerKey) {
+      const box = document.getElementById('layerDetailBox');
+      const recipe = RECIPES[state.selectedRecipeIdx];
+      const layer = recipe.layers[layerKey];
+
+      if (currentActiveLayer === layerKey && !box.classList.contains('hidden')) {
+        box.classList.add('hidden');
+        currentActiveLayer = null;
+        return;
+      }
+
+      currentActiveLayer = layerKey;
+      box.classList.remove('hidden');
+      box.innerHTML = `
+        <div class="flex items-center gap-1.5 font-bold text-forest-800 mb-1">
+          <i data-lucide="info" class="w-3.5 h-3.5 text-forest-700"></i>
+          <span>${layer.title} 셰프 꿀팁</span>
+        </div>
+        <p class="text-slate-600 text-[11px] leading-relaxed">${layer.desc}</p>
+        <div class="mt-2 pt-2 border-t border-slate-100 flex items-center justify-between text-[10px] text-slate-400">
+          <span>* 밀폐용기 세척 후 물기를 100% 키친타월로 닦아내고 적재하세요.</span>
+          <button onclick="document.getElementById('layerDetailBox').classList.add('hidden')" class="text-forest-700 font-bold hover:underline">닫기</button>
+        </div>
+      `;
+      if (window.lucide) lucide.createIcons();
+    }
+
+    /* ---------------- Sauce Section ---------------- */
+    function renderSauceSection(sauce) {
+      for (let i = 0; i < SAUCES.length; i++) {
+        const btn = document.getElementById(`sauce-btn-${i}`);
+        if (btn) {
+          if (i === state.selectedSauceIdx) {
+            btn.className = 'sauce-pill active-sauce-chip p-2.5 rounded-2xl border border-slate-200 bg-slate-50 text-left transition-all text-xs font-bold flex items-center gap-2';
+            const sub = btn.querySelector('.text-\\[10px\\]');
+            if (sub) {
+              sub.classList.add('text-white/80');
+              sub.classList.remove('text-slate-400');
+            }
+          } else {
+            btn.className = 'sauce-pill p-2.5 rounded-2xl border border-slate-200 bg-slate-50 text-left transition-all text-xs font-bold flex items-center gap-2 text-slate-700 hover:border-forest-500';
+            const sub = btn.querySelector('.text-\\[10px\\]');
+            if (sub) {
+              sub.classList.remove('text-white/80');
+              sub.classList.add('text-slate-400');
+            }
+          }
+        }
+      }
+
+      document.getElementById('sauceBadgeIcon').textContent = sauce.emoji;
+      document.getElementById('sauceName').textContent = `${sauce.name} 드레싱`;
+      document.getElementById('sauceCalorie').textContent = `약 ${sauce.kcal} kcal · ${sauce.shelfLife}`;
+      document.getElementById('sauceFormula').textContent = sauce.formula;
+      document.getElementById('sauceTip').textContent = sauce.tip;
+    }
+
+    function selectSauce(idx) {
+      state.selectedSauceIdx = idx;
+      renderApp();
+    }
+
+    /* ---------------- Coupang Cart Section ---------------- */
+    function renderCartSection(recipe) {
+      const container = document.getElementById('cartItemList');
+      container.innerHTML = '';
+
+      let originalTotal = 0;
+      let finalTotal = 0;
+      let excludedCount = 0;
+      let discountAmount = 0;
+
+      recipe.cartItems.forEach(item => {
+        originalTotal += item.price;
+
+        const isAutoFridgeExcluded = item.fridgeKey && state.fridgeItems.includes(item.fridgeKey);
+        const isManuallyExcluded = state.manualCartExcludes[item.id] === true;
+        const isExcluded = isAutoFridgeExcluded || isManuallyExcluded;
+
+        if (isExcluded) {
+          excludedCount++;
+          discountAmount += item.price;
+        } else {
+          finalTotal += item.price;
+        }
+
+        const div = document.createElement('div');
+        div.className = `p-3 rounded-2xl border transition-all flex items-center justify-between text-xs ${
+          isExcluded 
+            ? 'bg-slate-50/80 border-slate-200 opacity-60' 
+            : 'bg-white border-slate-200 shadow-sm'
+        }`;
+
+        div.innerHTML = `
+          <div class="flex items-center gap-2.5 flex-1 min-w-0 pr-2">
+            <input type="checkbox" ${isExcluded ? '' : 'checked'} onchange="toggleCartItemManual('${item.id}')" class="w-4 h-4 rounded text-forest-700 accent-forest-700 cursor-pointer">
+            <div class="truncate">
+              <div class="font-bold text-slate-800 flex items-center gap-1.5 ${isExcluded ? 'line-through text-slate-400' : ''}">
+                <span class="truncate">${item.name}</span>
+                ${isAutoFridgeExcluded ? '<span class="text-[9px] text-warm-orange font-black bg-orange-100 px-1.5 py-0.5 rounded-full shrink-0">냉장고 있음</span>' : ''}
+              </div>
+              <div class="text-[10px] text-slate-400 flex items-center gap-2">
+                <span>${item.spec}</span>
+                ${item.partnerUrl ? `<a href="${item.partnerUrl}" target="_blank" rel="noopener noreferrer" class="text-[10px] text-rose-600 hover:underline font-bold">쿠팡 직링크</a>` : ''}
+              </div>
+            </div>
+          </div>
+          <div class="text-right shrink-0">
+            <div class="font-extrabold ${isExcluded ? 'line-through text-slate-400' : 'text-slate-900'}">
+              ${item.price.toLocaleString()}원
+            </div>
+            <div class="text-[10px] text-slate-400 font-medium">5일 소진용</div>
+          </div>
+        `;
+        container.appendChild(div);
+      });
+
+      const noticeBanner = document.getElementById('fridgeExcludeNotice');
+      if (excludedCount > 0) {
+        noticeBanner.classList.remove('hidden');
+        document.getElementById('fridgeExcludeText').textContent = `냉장고 식재료 등 ${excludedCount}개 품목 장보기 제외 완료!`;
+        document.getElementById('fridgeDiscountText').textContent = `-${discountAmount.toLocaleString()}원 절약`;
+        document.getElementById('originalPriceText').classList.remove('hidden');
+        document.getElementById('originalPriceText').textContent = `${originalTotal.toLocaleString()}원`;
+      } else {
+        noticeBanner.classList.add('hidden');
+        document.getElementById('originalPriceText').classList.add('hidden');
+      }
+
+      document.getElementById('finalCartPrice').textContent = `${finalTotal.toLocaleString()}원`;
+      const perMeal = Math.round(finalTotal / 5);
+      document.getElementById('perMealPriceText').textContent = `약 ${perMeal.toLocaleString()}원 (배달 샐러드의 1/4)`;
+
+      state.currentCartTotal = finalTotal;
+      state.currentPerMealCost = perMeal;
+    }
+
+    function toggleCartItemManual(itemId) {
+      state.manualCartExcludes[itemId] = !state.manualCartExcludes[itemId];
+      renderApp();
+    }
+
+    /* ---------------- Macro Dashboard Section ---------------- */
+    function renderMacroDashboard(recipe, macros, tdee) {
+      document.getElementById('tdeeBadge').textContent = `TDEE ${tdee.toLocaleString()} kcal`;
+      document.getElementById('targetKcalLabel').textContent = macros.targetKcal.toLocaleString();
+      document.getElementById('targetProteinLabel').textContent = macros.targetProtein;
+      document.getElementById('targetFatLabel').textContent = macros.targetFat;
+      document.getElementById('targetCarbLabel').textContent = macros.targetCarb;
+
+      const remainKcal = Math.max(0, macros.targetKcal - recipe.kcal);
+      const remainProtein = Math.max(0, macros.targetProtein - recipe.protein);
+      const remainFat = Math.max(0, macros.targetFat - recipe.fat);
+      const remainCarb = Math.max(0, macros.targetCarb - recipe.carb);
+
+      document.getElementById('remainKcalLabel').textContent = `${remainKcal.toLocaleString()} kcal`;
+      document.getElementById('remainProteinLabel').textContent = `${remainProtein}g`;
+      document.getElementById('remainFatLabel').textContent = `${remainFat}g`;
+      document.getElementById('remainCarbLabel').textContent = `${remainCarb}g`;
+      document.getElementById('saladKcalVal').textContent = recipe.kcal;
+
+      const saladKcalPct = Math.min(100, Math.round((recipe.kcal / macros.targetKcal) * 100));
+      const remainKcalPct = 100 - saladKcalPct;
+      document.getElementById('gaugeKcalSalad').style.width = `${saladKcalPct}%`;
+      document.getElementById('gaugeKcalRemain').style.width = `${remainKcalPct}%`;
+
+      const proteinSaladPct = Math.min(100, Math.round((recipe.protein / macros.targetProtein) * 100));
+      const proteinRemainPct = 100 - proteinSaladPct;
+      document.getElementById('gaugeProteinSalad').style.width = `${proteinSaladPct}%`;
+      document.getElementById('gaugeProteinRemain').style.width = `${proteinRemainPct}%`;
+
+      const fatSaladPct = Math.min(100, Math.round((recipe.fat / macros.targetFat) * 100));
+      const fatRemainPct = 100 - fatSaladPct;
+      document.getElementById('gaugeFatSalad').style.width = `${fatSaladPct}%`;
+      document.getElementById('gaugeFatRemain').style.width = `${fatRemainPct}%`;
+
+      const carbSaladPct = Math.min(100, Math.round((recipe.carb / macros.targetCarb) * 100));
+      const carbRemainPct = 100 - carbSaladPct;
+      document.getElementById('gaugeCarbSalad').style.width = `${carbSaladPct}%`;
+      document.getElementById('gaugeCarbRemain').style.width = `${remainCarbPct}%`;
+
+      const tipBox = document.getElementById('chefDinnerTip');
+      if (state.goal === 'diet') {
+        tipBox.textContent = `"오늘 남은 쿼터: 탄수 ${remainCarb}g, 단백질 ${remainProtein}g! 저녁은 현미밥 반공기(탄 35g) + 흰살생선구이 또는 계란 2알 위주로 드시면 다이어트 쿼터 100% 달성입니다!"`;
+      } else if (state.goal === 'bulk') {
+        tipBox.textContent = `"고단백 벌크업을 위해 오늘 단백질 ${remainProtein}g이 남았습니다. 저녁은 햇반 1공기 + 소고기 우둔살/소등심 150g 또는 연어 스테이크를 섭취해 근성장을 극대화하세요!"`;
+      } else {
+        tipBox.textContent = `"남은 끼니는 햇반 1공기 + 집 반찬(김치/나물/계란찜) 위주로 소박하게 드시면 오늘 식비 0원 & 완벽한 균형 식단이 완성됩니다!"`;
+      }
+    }
+
+    /* ---------------- Dopamine Tracker ---------------- */
+    function renderDopamineTracker() {
+      const deliveryBaseline = 16000;
+      const mealCost = state.currentPerMealCost || 3800;
+      const todaySave = deliveryBaseline - mealCost;
+      const weekSave = todaySave * 5;
+      const monthSave = Math.round(weekSave * 4.2);
+
+      document.getElementById('dopamineMealCost').textContent = `${mealCost.toLocaleString()}원`;
+      document.getElementById('dopamineTodaySave').textContent = `+${todaySave.toLocaleString()}원`;
+      document.getElementById('dopamineWeekSave').textContent = `+${weekSave.toLocaleString()}원`;
+      document.getElementById('dopamineMonthSave').textContent = `약 ${monthSave.toLocaleString()}원 세이브!`;
+      document.getElementById('bottomSavedAmount').textContent = `+${weekSave.toLocaleString()}원 세이브`;
+    }
+
+    function celebrateDopamine() {
+      if (window.confetti) {
+        confetti({
+          particleCount: 100,
+          spread: 70,
+          origin: { y: 0.6 }
+        });
+      }
+    }
+
+    /* ==========================================================
+       PROFILE MODAL HANDLERS
+       ========================================================== */
+    function openProfileModal() {
+      document.getElementById('profileModal').classList.remove('hidden');
+      updateProfileModalFields();
+      if (window.lucide) lucide.createIcons();
+    }
+
+    function closeProfileModal() {
+      document.getElementById('profileModal').classList.add('hidden');
+    }
+
+    function updateProfileModalFields() {
+      document.getElementById('gender-male').className = state.gender === 'male' ? 'gender-btn active-pill py-2.5 rounded-xl border border-slate-200 text-xs font-extrabold flex items-center justify-center gap-1.5 transition-all' : 'gender-btn py-2.5 rounded-xl border border-slate-200 text-slate-700 text-xs font-extrabold flex items-center justify-center gap-1.5 transition-all';
+      document.getElementById('gender-female').className = state.gender === 'female' ? 'gender-btn active-pill py-2.5 rounded-xl border border-slate-200 text-xs font-extrabold flex items-center justify-center gap-1.5 transition-all' : 'gender-btn py-2.5 rounded-xl border border-slate-200 text-slate-700 text-xs font-extrabold flex items-center justify-center gap-1.5 transition-all';
+
+      document.getElementById('weightDisplayVal').textContent = `${state.weight} kg`;
+      document.getElementById('weightSlider').value = state.weight;
+
+      document.querySelectorAll('.activity-btn').forEach(btn => {
+        const factor = parseFloat(btn.getAttribute('data-factor'));
+        if (factor === state.activityFactor) {
+          btn.classList.add('active-pill');
+          btn.classList.remove('text-slate-700');
+        } else {
+          btn.classList.remove('active-pill');
+          btn.classList.add('text-slate-700');
+        }
+      });
+
+      const bmr = calculateBMR();
+      const tdee = calculateTDEE();
+      document.getElementById('modalBmrVal').textContent = `${bmr.toLocaleString()} kcal`;
+      document.getElementById('modalTdeeVal').textContent = `${tdee.toLocaleString()} kcal`;
+    }
+
+    function setGender(gender) {
+      state.gender = gender;
+      syncProfileInputs();
+      updateProfileModalFields();
+    }
+
+    function onWeightChange(val) {
+      state.weight = parseInt(val, 10);
+      syncProfileInputs();
+      updateProfileModalFields();
+    }
+
+    function adjustWeight(delta) {
+      state.weight = Math.min(130, Math.max(40, state.weight + delta));
+      syncProfileInputs();
+      updateProfileModalFields();
+    }
+
+    function setActivity(factor) {
+      state.activityFactor = factor;
+      syncProfileInputs();
+      updateProfileModalFields();
+    }
+
+    function saveProfileModal() {
+      closeProfileModal();
+      renderApp();
+    }
+
+    /* ---------------- Coupang Cart Action ---------------- */
+    function handleCoupangCartAction() {
+      const recipe = RECIPES[state.selectedRecipeIdx];
+      let checklistText = `[5일 샐러드 밀프랩 장보기 리스트 - ${recipe.title}]\n`;
+      let total = 0;
+
+      recipe.cartItems.forEach(item => {
+        const isExcluded = (item.fridgeKey && state.fridgeItems.includes(item.fridgeKey)) || state.manualCartExcludes[item.id];
+        if (!isExcluded) {
+          checklistText += `▪ ${item.name} (${item.spec}) - ${item.price.toLocaleString()}원`;
+          if (item.partnerUrl) {
+            checklistText += ` [${item.partnerUrl}]`;
+          }
+          checklistText += `\n`;
+          total += item.price;
+        } else {
+          checklistText += `▪ [냉장고 소진/제외] ${item.name} (${item.spec})\n`;
+        }
+      });
+
+      checklistText += `\n총 예상 비용: ${total.toLocaleString()}원 (1끼 실질원가 약 ${Math.round(total/5).toLocaleString()}원)\n추천 소스: ${SAUCES[state.selectedSauceIdx].name} (${SAUCES[state.selectedSauceIdx].formula})`;
+
+      navigator.clipboard.writeText(checklistText).then(() => {
+        document.getElementById('clipboardPreviewBox').textContent = checklistText;
+        document.getElementById('cartModal').classList.remove('hidden');
+        if (window.lucide) lucide.createIcons();
+      }).catch(() => {
+        document.getElementById('clipboardPreviewBox').textContent = checklistText;
+        document.getElementById('cartModal').classList.remove('hidden');
+        if (window.lucide) lucide.createIcons();
+      });
+    }
+
+    function closeCartModal() {
+      document.getElementById('cartModal').classList.add('hidden');
+    }
+
+    /* ==========================================================
+       INITIALIZATION
+       ========================================================== */
+    window.addEventListener('DOMContentLoaded', () => {
+      state.quizStep = 0;
+      updateQuizFunnelUI();
+    });
+  </script>
+</body>
+</html>

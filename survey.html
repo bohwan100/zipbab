@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>30일 식단 설계 조건 | 집밥봇</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #111827;
+      --primary-hover: #000000;
+      --accent: #2563eb;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --card-border: #e2e8f0;
+      --text: #0f172a;
+      --text-muted: #64748b;
+      --radius: 18px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif; }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      padding: 30px 16px 80px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .form-container {
+      width: 100%;
+      max-width: 680px;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+      padding: 36px 32px;
+    }
+
+    header {
+      margin-bottom: 28px;
+      border-bottom: 1px solid #f1f5f9;
+      padding-bottom: 20px;
+    }
+
+    .header-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #eff6ff;
+      color: #2563eb;
+      font-size: 0.8rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 999px;
+      margin-bottom: 12px;
+    }
+
+    h1 {
+      font-size: 1.65rem;
+      font-weight: 800;
+      color: #0f172a;
+      margin-bottom: 8px;
+      letter-spacing: -0.5px;
+    }
+
+    .sub-desc {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    .question-block {
+      margin-bottom: 26px;
+    }
+
+    .question-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #1e293b;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .question-title .num {
+      color: #0f172a;
+    }
+
+    .question-title .required {
+      color: #ef4444;
+      font-size: 0.85rem;
+    }
+
+    /* Radio Group - Horizontal inline */
+    .radio-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px 24px;
+    }
+
+    /* Radio Group - Vertical stacked */
+    .radio-col {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .radio-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      font-size: 0.96rem;
+      font-weight: 500;
+      color: #334155;
+      user-select: none;
+    }
+
+    .radio-label input[type="radio"] {
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      border: 2px solid #cbd5e1;
+      border-radius: 50%;
+      outline: none;
+      transition: all 0.2s ease;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .radio-label input[type="radio"]:checked {
+      border-color: #0f172a;
+      background-color: #0f172a;
+      box-shadow: inset 0 0 0 4px #ffffff;
+    }
+
+    .radio-label input[type="checkbox"] {
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      border: 2px solid #cbd5e1;
+      border-radius: 6px;
+      outline: none;
+      transition: all 0.2s ease;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .radio-label input[type="checkbox"]:checked {
+      border-color: #0f172a;
+      background-color: #0f172a;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M12.207 4.793a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-2-2a1 1 0 011.414-1.414L6.5 9.086l4.293-4.293a1 1 0 011.414 0z'/%3E%3C/svg%3E");
+      background-size: 14px;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
+    /* Text Input Styling */
+    .input-text {
+      width: 100%;
+      padding: 13px 18px;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 12px;
+      font-size: 1rem;
+      color: #0f172a;
+      background: #ffffff;
+      transition: all 0.2s;
+      outline: none;
+    }
+
+    .input-text:focus {
+      border-color: #0f172a;
+      box-shadow: 0 0 0 3px rgba(15, 23, 42, 0.08);
+    }
+
+    .input-text::placeholder {
+      color: #94a3b8;
+      opacity: 0.85;
+      font-size: 0.95rem;
+    }
+
+    /* Submit Button */
+    .btn-submit {
+      width: 100%;
+      padding: 16px;
+      background: #0f172a;
+      color: #ffffff;
+      border: none;
+      border-radius: 14px;
+      font-size: 1.05rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 36px;
+      transition: all 0.2s;
+      box-shadow: 0 4px 14px rgba(15, 23, 42, 0.2);
+    }
+
+    .btn-submit:hover {
+      background: #1e293b;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(15, 23, 42, 0.25);
+    }
+
+    .btn-submit:active {
+      transform: translateY(0);
+    }
+
+    /* Success Result Modal */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.65);
+      backdrop-filter: blur(4px);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal-card {
+      background: #ffffff;
+      width: 100%;
+      max-width: 520px;
+      border-radius: 20px;
+      padding: 30px;
+      text-align: center;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+      animation: popIn 0.3s ease;
+    }
+
+    @keyframes popIn {
+      from { transform: scale(0.95); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    .modal-icon { font-size: 3rem; margin-bottom: 12px; }
+    .modal-title { font-size: 1.4rem; font-weight: 800; color: #0f172a; margin-bottom: 6px; }
+    .modal-desc { color: #64748b; font-size: 0.95rem; margin-bottom: 20px; }
+
+    .result-link-box {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 14px;
+      margin-bottom: 18px;
+      text-align: left;
+    }
+
+    .result-link-title { font-size: 0.8rem; font-weight: 700; color: #64748b; margin-bottom: 4px; }
+    .result-link-val { font-size: 0.95rem; font-weight: 700; color: #2563eb; word-break: break-all; }
+
+    .modal-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .btn-action-primary {
+      padding: 13px;
+      background: #2563eb;
+      color: #fff;
+      font-weight: 700;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      text-decoration: none;
+      font-size: 0.95rem;
+    }
+
+    .btn-action-secondary {
+      padding: 12px;
+      background: #f1f5f9;
+      color: #334155;
+      font-weight: 700;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+
+    /* 1인 자취생 기본 조건 심플 안내 배너 */
+    .fixed-spec-note {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: rgba(56, 189, 248, 0.08);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      border-left: 4px solid #0284c7;
+      border-radius: 12px;
+      padding: 14px 18px;
+      margin-bottom: 24px;
+      font-size: 0.88rem;
+      color: #334155;
+      line-height: 1.45;
+    }
+    .note-icon {
+      font-size: 1.4rem;
+      flex-shrink: 0;
+    }
+    .note-text strong {
+      color: #0284c7;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="form-container">
+    <header>
+      <div class="header-badge">✨ 집밥봇 1:1 맞춤 컨설팅</div>
+      <h1>30일 식단 설계 조건</h1>
+      <p class="sub-desc">1인 자취생을 위한 퇴근 후 맛있는 저녁 한 끼(30일 일반식 플랜)를 기본값으로 설정했습니다. 구성 인원(1인)과 식사 기준(퇴근 후 저녁 30끼) 및 일반식 콘셉트는 1인 자취생에게 최적화되어 자동 설계되며, 아래 설문 조건을 자유롭게 변경하여 맞춤 신청할 수 있습니다.</p>
+    </header>
+
+    <form id="intake-form" onsubmit="handleFormSubmit(event)">
+
+      <!-- 고정값 히든 필드 (자동 전달) -->
+      <input type="hidden" name="household" value="1명">
+      <input type="hidden" name="frequency" value="하루 한 끼 (퇴근 후 저녁 30끼)">
+      <input type="hidden" name="concept" value="일반식">
+
+      <!-- 1. 성함 및 나이 -->
+      <div class="question-block">
+        <label class="question-title">
+          <span class="num">1.</span> 성함 및 나이 <span class="required">*</span>
+        </label>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+          <input type="text" id="client_name" class="input-text" placeholder="예: 김민수" required>
+          <input type="text" id="client_age" class="input-text" placeholder="예: 31세">
+        </div>
+      </div>
+
+      <!-- 2. 한 달 식비 예산 (원) -->
+      <div class="question-block">
+        <label class="question-title">
+          <span class="num">2.</span> 한 달 식비 예산 (원) <span class="required">*</span>
+        </label>
+        <input type="number" id="budget" class="input-text" step="10000" placeholder="예: 300000" required>
+        <p style="font-size: 0.82rem; color: #64748b; margin-top: 6px;">💡 원하시는 한 달 식비 예산(원)을 자유롭게 입력해 주세요. (예: 200,000 / 300,000 등)</p>
+      </div>
+
+      <!-- 3. 선호하는 음식 취향 -->
+      <div class="question-block">
+        <label class="question-title">
+          <span class="num">3.</span> 선호하는 음식 취향 (복수 선택 가능) <span class="required">*</span>
+        </label>
+        <div class="radio-row">
+          <label class="radio-label">
+            <input type="checkbox" name="cuisine" value="한식" checked> 🇰🇷 한식
+          </label>
+          <label class="radio-label">
+            <input type="checkbox" name="cuisine" value="일식"> 🇯🇵 일식
+          </label>
+          <label class="radio-label">
+            <input type="checkbox" name="cuisine" value="양식"> 🇪🇺 양식
+          </label>
+          <label class="radio-label">
+            <input type="checkbox" name="cuisine" value="중식"> 🇨🇳 중식
+          </label>
+        </div>
+      </div>
+
+      <!-- 4. 알레르기 및 제외 식품 -->
+      <div class="question-block">
+        <label class="question-title">
+          <span class="num">4.</span> 알레르기 및 제외 식품
+        </label>
+        <input type="text" id="exclude" class="input-text" placeholder="예: 오이, 갑각류, 견과류 등 (없으면 빈칸)">
+      </div>
+
+      <!-- 5. 집에 있는 식재료 -->
+      <div class="question-block">
+        <label class="question-title">
+          <span class="num">5.</span> 집에 있는 식재료
+        </label>
+        <p style="font-size: 0.82rem; color: #64748b; margin-top: -4px; margin-bottom: 8px; line-height: 1.4;">
+          ※ 이 정보가 빠지면 식단이나 구매량이 크게 달라질 수 있습니다.
+        </p>
+        <input type="text" id="pantry" class="input-text" placeholder="예: 쌀, 간장, 고추장, 참기름 등 (없으면 빈칸)">
+      </div>
+
+      <!-- 6. 기대하는 변화 및 목표 -->
+      <div class="question-block">
+        <label class="question-title">
+          <span class="num">6.</span> 집밥봇을 통해 어떤 도움을 받고 싶고, 앞으로 어떻게 변화하고 싶으신가요?
+        </label>
+        <p style="font-size: 0.82rem; color: #64748b; margin-top: -4px; margin-bottom: 8px; line-height: 1.4;">
+          ※ 작성해 주신 목표와 고민을 반영하여 30일 식단 구성에 적극 반영해 드립니다.
+        </p>
+        <textarea id="goal_notes" class="input-text" rows="3" style="resize: vertical; min-height: 72px; line-height: 1.5; font-family: inherit;" placeholder="예: 매일 시켜 먹는 배달 음식을 끊고 식비를 절약하고 싶어요 / 퇴근 후 간편하고 건강한 집밥을 직접 챙겨 먹는 건강한 자취생이 되고 싶어요."></textarea>
+      </div>
+
+      <!-- 제출 버튼 -->
+      <button type="submit" id="btn-submit" class="btn-submit">
+        <span>🚀 맞춤 30일 식단 & 장바구니 생성하기</span>
+      </button>
+
+    </form>
+  </div>
+
+  <!-- 간결한 단일 통합 링크 모달 창 -->
+  <div id="result-modal" class="modal-overlay">
+    <div class="modal-card" style="max-width: 440px; padding: 28px 24px;">
+      <div class="modal-icon" style="font-size: 2.8rem; margin-bottom: 8px;">🎉</div>
+      <h3 class="modal-title" style="font-size: 1.35rem; margin-bottom: 6px;">맞춤 사이트가 완성되었습니다!</h3>
+      <p class="modal-desc" id="modal-desc" style="font-size: 0.92rem; color: #64748b; margin-bottom: 20px; line-height: 1.5;">
+        고객님의 30일 맞춤 식단과 장바구니가 통합 생성되었습니다.
+      </p>
+
+      <!-- 단일 통합 링크 박스 -->
+      <div style="background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 12px; padding: 14px; margin-bottom: 20px; text-align: left;">
+        <div style="font-size: 0.78rem; font-weight: 700; color: #64748b; margin-bottom: 6px; display: flex; align-items: center; justify-content: space-between;">
+          <span>📱 맞춤 사이트 전용 링크 (모바일·PC 공용)</span>
+          <span style="color: #10b981; font-weight: 700;">● 바로 접속</span>
+        </div>
+        <div style="font-size: 0.9rem; font-weight: 700; color: #0284c7; word-break: break-all; line-height: 1.45;" id="unified-link-text">
+          생성 중...
+        </div>
+      </div>
+
+      <!-- 직관적인 통합 버튼 -->
+      <div style="display: flex; flex-direction: column; gap: 10px;">
+        <button type="button" onclick="copyUnifiedUrl()" style="width: 100%; padding: 15px; background: #0f172a; color: #fff; font-weight: 800; font-size: 1rem; border: none; border-radius: 12px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 14px rgba(15, 23, 42, 0.25); transition: all 0.2s;">
+          📋 링크 복사하기 (카톡 / 문자 전송)
+        </button>
+
+        <a id="btn-open-portal" href="#" target="_blank" style="width: 100%; padding: 13px; background: #f1f5f9; color: #334155; font-weight: 700; font-size: 0.95rem; border: 1px solid #cbd5e1; border-radius: 12px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; text-decoration: none; box-sizing: border-box; transition: all 0.2s;">
+          🚀 새 창으로 바로 열기 ➔
+        </a>
+
+        <button type="button" onclick="closeModal()" style="background: transparent; border: none; color: #94a3b8; font-size: 0.88rem; cursor: pointer; padding: 6px; margin-top: 4px;">
+          닫기
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    async function handleFormSubmit(e) {
+      e.preventDefault();
+      const btn = document.getElementById('btn-submit');
+      btn.disabled = true;
+      btn.innerHTML = '<span>⚙️ 맞춤 식단 및 장바구니 생성 중...</span>';
+
+      const name = document.getElementById('client_name').value.trim() || '고객님';
+      const age = document.getElementById('client_age').value.trim() || '30대';
+      const household = document.querySelector('input[name="household"]')?.value || '1명';
+      const budget = parseInt(document.getElementById('budget')?.value, 10) || 300000;
+      const frequency = document.querySelector('input[name="frequency"]')?.value || '하루 한 끼 (퇴근 후 저녁 30끼)';
+      const concept = document.querySelector('input[name="concept"]')?.value || '일반식';
+      const cuisineElements = Array.from(document.querySelectorAll('input[name="cuisine"]:checked'));
+      const cuisine = cuisineElements.map(el => el.value).join(', ') || '한식';
+      const exclude = document.getElementById('exclude').value.trim() || '없음';
+      const pantry = document.getElementById('pantry').value.trim() || '아무것도 없음';
+      const goal_notes = document.getElementById('goal_notes')?.value.trim() || '';
+
+      const payload = {
+        name,
+        age,
+        household,
+        budget,
+        frequency,
+        concept,
+        cuisine,
+        exclude,
+        pantry,
+        goal_notes
+      };
+
+      try {
+        const isFile = window.location.protocol === 'file:' || !window.location.origin || window.location.origin === 'null';
+        const apiBase = isFile ? 'http://localhost:8080' : '';
+        const endpoint = apiBase + '/api/create-client';
+
+        const res = await fetch(endpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const result = await res.json();
+
+        if (result.success && result.portal_url) {
+          showModal(name, result);
+        } else {
+          throw new Error(result.error || '맞춤 식단 사이트 생성에 실패했습니다.');
+        }
+      } catch (err) {
+        console.error('Create client error:', err);
+        alert('⚠️ 맞춤 사이트 생성 중 오류가 발생했습니다:\n\n' + (err.message || err) + '\n\n로컬 서버(server.py)가 가동 중인지 확인해 주세요. (http://localhost:8080)');
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<span>🚀 맞춤 30일 식단 & 장바구니 생성하기</span>';
+      }
+    }
+
+    let activeUnifiedUrl = '';
+
+    function showModal(name, result) {
+      activeUnifiedUrl = result.portal_url || result.mobile_portal_url || '';
+      
+      document.getElementById('modal-desc').innerText = `${name}님의 30일 맞춤 식단과 장바구니가 통합 생성되었습니다.`;
+      
+      try {
+        document.getElementById('unified-link-text').innerText = decodeURIComponent(activeUnifiedUrl);
+      } catch (e) {
+        document.getElementById('unified-link-text').innerText = activeUnifiedUrl;
+      }
+
+      document.getElementById('btn-open-portal').href = activeUnifiedUrl;
+      document.getElementById('result-modal').style.display = 'flex';
+    }
+
+    function closeModal() {
+      document.getElementById('result-modal').style.display = 'none';
+    }
+
+    function copyUnifiedUrl() {
+      navigator.clipboard.writeText(activeUnifiedUrl).then(() => {
+        alert('📋 맞춤 사이트 링크가 복사되었습니다!\n카카오톡에 붙여넣어 바로 전송하세요.\n\n' + activeUnifiedUrl);
+      }).catch(() => {
+        prompt('아래 링크를 복사하여 카카오톡에 전송해 주세요:', activeUnifiedUrl);
+      });
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<body style="margin: 0; background: #000; display: flex; justify-content: center; align-items: center; height: 100vh;">
+  <video id="v" src="./reference_reel.mp4" muted style="height: 90vh;"></video>
+  <script>
+    const v = document.getElementById('v');
+    const params = new URLSearchParams(window.location.search);
+    const t = parseFloat(params.get('t') || '0');
+    v.currentTime = t;
+    v.onseeked = () => {
+      document.title = "SEEKED_" + t;
+    };
+  </script>
+</body>
+</html>

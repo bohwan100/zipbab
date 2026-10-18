@@ -1,15 +1,12 @@
 // ZipbabBot Chrome Extension - Dashboard Bridge
 (function() {
-  // Inject flag into webpage context
-  const script = document.createElement('script');
-  script.textContent = `
-    window.__ZIPBABBOT_EXTENSION_ACTIVE__ = true;
-    window.dispatchEvent(new CustomEvent('zipbabbot-extension-ready'));
-  `;
-  (document.head || document.documentElement).appendChild(script);
-  script.remove();
+  // 1. Mark DOM attribute for immediate detection
+  try {
+    document.documentElement.setAttribute('data-zipbabbot-extension', 'true');
+    window.postMessage({ type: 'ZIPBABBOT_EXTENSION_READY' }, '*');
+  } catch(e) {}
 
-  // Listen for batch add request from webpage
+  // 2. Listen for batch add request from webpage
   window.addEventListener('message', function(event) {
     if (event.source !== window || !event.data) return;
     
@@ -26,7 +23,7 @@
     }
   });
 
-  // Relay messages from extension background to webpage
+  // 3. Relay messages from extension background to webpage
   chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
     if (msg && msg.type && msg.type.startsWith('ZIPBABBOT_')) {
       window.postMessage(msg, '*');

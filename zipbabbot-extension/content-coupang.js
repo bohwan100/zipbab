@@ -4,14 +4,14 @@
     if (request.action === 'FIND_BEST_PRODUCT') {
       try {
         const targetQty = request.targetQty || 1;
-        const links = Array.from(document.querySelectorAll('a[href*="/vp/products/"]'))
-          .filter(a => !a.href.includes('view_together') 
+        const rawLinks = Array.from(document.querySelectorAll('a[href*="/vp/products/"]'));
+        const links = rawLinks.filter(a => !a.href.includes('view_together') 
                     && !a.closest('.recently-viewed-item') 
                     && !a.closest('#recent-view') 
-                    && a.innerText.length > 5);
+                    && (a.innerText || '').trim().length > 3);
 
         if (!links.length) {
-          sendResponse({ success: false, error: 'NO_LINKS' });
+          sendResponse({ success: false, error: 'NO_LINKS', rawCount: rawLinks.length });
           return true;
         }
 
@@ -55,6 +55,11 @@
 
     if (request.action === 'CLICK_ADD_TO_CART') {
       try {
+        if (!window.location.href.includes('/vp/products/')) {
+          sendResponse({ success: false, error: 'NOT_PRODUCT_PAGE', url: window.location.href });
+          return true;
+        }
+
         const targetQty = request.targetQty || 1;
         const titleEl = document.querySelector('h1.prod-buy-header__title, .prod-title, .title');
         const titleText = titleEl ? titleEl.innerText : '';
@@ -76,9 +81,12 @@
           qtyInput.dispatchEvent(new Event("change", { bubbles: true }));
         }
 
-        // Click cart button
+        // Find cart button with various selectors
         const btn = document.querySelector(".prod-cart-btn") || 
-                    Array.from(document.querySelectorAll("button")).find(b => b.innerText && b.innerText.includes("장바구니 담기"));
+                    Array.from(document.querySelectorAll("button")).find(b => {
+                      const t = (b.innerText || '').trim();
+                      return t.includes("장바구니 담기") || t === "장바구니" || b.classList.contains("prod-cart-btn");
+                    });
 
         if (btn) {
           btn.click();

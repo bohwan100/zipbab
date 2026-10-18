@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1920, height=1080">
+    <title>Antigravity × HyperFrames Showcase</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Outfit:wght@400;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #030712;
+        color: #ffffff;
+        font-family: "Plus Jakarta Sans", sans-serif;
+        -webkit-font-smoothing: antialiased;
+      }
+      .font-mono {
+        font-family: "JetBrains Mono", monospace;
+      }
+      .font-display {
+        font-family: "Outfit", sans-serif;
+      }
+
+      /* Root Canvas */
+      #root {
+        position: relative;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: radial-gradient(circle at 50% 30%, #0f172a 0%, #030712 70%);
+      }
+
+      /* Global Ambient & Grid */
+      .ambient-layer {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+      }
+      .bg-grid {
+        position: absolute;
+        inset: -100px;
+        background-size: 60px 60px;
+        background-image: 
+          linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+          linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+        mask-image: radial-gradient(ellipse at center, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 75%);
+        -webkit-mask-image: radial-gradient(ellipse at center, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 75%);
+      }
+      .glow-orb {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(120px);
+        opacity: 0.45;
+        pointer-events: none;
+      }
+      .orb-cyan {
+        width: 600px;
+        height: 600px;
+        background: #06b6d4;
+        top: -150px;
+        left: 200px;
+      }
+      .orb-purple {
+        width: 700px;
+        height: 700px;
+        background: #8b5cf6;
+        bottom: -200px;
+        right: 150px;
+      }
+      .orb-emerald {
+        width: 500px;
+        height: 500px;
+        background: #10b981;
+        top: 250px;
+        right: 300px;
+      }
+
+      /* Top HUD Header */
+      .hud-header {
+        position: absolute;
+        top: 40px;
+        left: 60px;
+        right: 60px;
+        height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        z-index: 100;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        padding-bottom: 20px;
+      }
+      .hud-left {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+      }
+      .live-dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: #10b981;
+        box-shadow: 0 0 12px #10b981;
+      }
+      .hud-tag {
+        font-size: 14px;
+        font-weight: 700;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: #94a3b8;
+      }
+      .hud-right {
+        display: flex;
+        align-items: center;
+        gap: 24px;
+      }
+      .hud-badge {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 6px 14px;
+        border-radius: 9999px;
+        font-size: 13px;
+        font-weight: 600;
+        color: #cbd5e1;
+        letter-spacing: 1px;
+      }
+
+      /* Bottom HUD Status */
+      .hud-footer {
+        position: absolute;
+        bottom: 35px;
+        left: 60px;
+        right: 60px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        z-index: 100;
+        border-top: 1px solid rgba(255, 255, 255, 0.12);
+        padding-top: 18px;
+        font-size: 13px;
+        letter-spacing: 1.5px;
+        color: #94a3b8;
+      }
+
+      /* Clips / Scenes Base */
+      .clip {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 80px 120px;
+      }
+
+      /* =========================================
+         SCENE 1: THE IGNITION
+         ========================================= */
+      #scene-1 {
+        z-index: 10;
+      }
+      .scene-1-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        max-width: 1680px;
+        gap: 80px;
+      }
+      .s1-left {
+        flex: 1.1;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .pill-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        background: linear-gradient(90deg, rgba(6, 182, 212, 0.15), rgba(139, 92, 246, 0.15));
+        border: 1px solid rgba(6, 182, 212, 0.4);
+        padding: 8px 18px;
+        border-radius: 100px;
+        margin-bottom: 24px;
+      }
+      .pill-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #06b6d4;
+        box-shadow: 0 0 10px #06b6d4;
+      }
+      .pill-text {
+        font-size: 14px;
+        font-weight: 700;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: #38bdf8;
+      }
+      .s1-title {
+        font-size: 88px;
+        font-weight: 900;
+        line-height: 1.05;
+        letter-spacing: -2px;
+        margin-bottom: 24px;
+        color: #ffffff;
+      }
+      .gradient-text-cyan {
+        background: linear-gradient(135deg, #38bdf8 0%, #a855f7 50%, #ec4899 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      .s1-subtitle {
+        font-size: 26px;
+        font-weight: 500;
+        line-height: 1.5;
+        color: #94a3b8;
+        max-width: 680px;
+        margin-bottom: 36px;
+      }
+      .s1-stats {
+        display: flex;
+        gap: 36px;
+      }
+      .s1-stat-item {
+        display: flex;
+        flex-direction: column;
+      }
+      .s1-stat-val {
+        font-size: 32px;
+        font-weight: 800;
+        color: #f8fafc;
+      }
+      .s1-stat-lbl {
+        font-size: 13px;
+        font-weight: 600;
+        color: #94a3b8;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+      }
+
+      .s1-right {
+        flex: 0.9;
+        display: flex;
+        justify-content: center;
+        perspective: 1200px;
+      }
+      .glass-terminal {
+        width: 620px;
+        background: rgba(15, 23, 42, 0.85);
+        backdrop-filter: blur(28px);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6), 0 0 40px rgba(6, 182, 212, 0.15);
+      }
+      .terminal-header {
+        background: rgba(255, 255, 255, 0.05);
+        padding: 16px 20px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      }
+      .terminal-dots {
+        display: flex;
+        gap: 8px;
+      }
+      .t-dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+      }
+      .t-red { background: #ef4444; }
+      .t-yellow { background: #f59e0b; }
+      .t-green { background: #10b981; }
+      .terminal-title {
+        font-size: 13px;
+        font-weight: 600;
+        color: #cbd5e1;
+      }
+      .terminal-body {
+        padding: 28px 28px;
+        font-size: 16px;
+        line-height: 1.7;
+        color: #f1f5f9;
+      }
+      .code-line {
+        display: flex;
+        gap: 16px;
+      }
+      .c-num {
+        color: #94a3b8;
+        user-select: none;
+      }
+      .c-kw { color: #f43f5e; font-weight: 600; }
+      .c-fn { color: #38bdf8; font-weight: 600; }
+      .c-str { color: #34d399; }
+      .c-prop { color: #fbbf24; }
+      .c-val { color: #c084fc; }
+
+      /* =========================================
+         SCENE 2: CORE PILLARS
+         ========================================= */
+      #scene-2 {
+        z-index: 20;
+      }
+      .s2-header {
+        text-align: center;
+        margin-bottom: 50px;
+      }
+      .s2-tag {
+        font-size: 14px;
+        font-weight: 700;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        color: #06b6d4;
+        margin-bottom: 12px;
+      }
+      .s2-heading {
+        font-size: 56px;
+        font-weight: 800;
+        letter-spacing: -1.5px;
+      }
+      .s2-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 32px;
+        width: 100%;
+        max-width: 1640px;
+      }
+      .pillar-card {
+        background: rgba(15, 23, 42, 0.7);
+        backdrop-filter: blur(24px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 24px;
+        padding: 44px 36px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 480px;
+        position: relative;
+        overflow: hidden;
+      }
+      .card-glow-bg {
+        position: absolute;
+        width: 250px;
+        height: 250px;
+        border-radius: 50%;
+        filter: blur(80px);
+        top: -60px;
+        right: -60px;
+        opacity: 0.25;
+        pointer-events: none;
+      }
+      .card-icon-wrap {
+        width: 68px;
+        height: 68px;
+        border-radius: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 24px;
+        border: 1px solid rgba(255, 255, 255, 0.15);
+      }
+      .card-num {
+        font-size: 52px;
+        font-weight: 900;
+        letter-spacing: -1px;
+        line-height: 1;
+        margin-bottom: 8px;
+      }
+      .card-title {
+        font-size: 26px;
+        font-weight: 700;
+        margin-bottom: 14px;
+        color: #ffffff;
+      }
+      .card-desc {
+        font-size: 16px;
+        line-height: 1.6;
+        color: #94a3b8;
+      }
+      .card-footer-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 16px;
+        border-radius: 100px;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        font-size: 13px;
+        font-weight: 700;
+        letter-spacing: 1px;
+        width: fit-content;
+      }
+
+      /* Card 1 specifics */
+      .c1-icon { background: linear-gradient(135deg, #06b6d4, #0284c7); color: #fff; }
+      .c1-num { color: #38bdf8; }
+      .c1-glow { background: #06b6d4; }
+
+      /* Card 2 specifics */
+      .c2-icon { background: linear-gradient(135deg, #a855f7, #7c3aed); color: #fff; }
+      .c2-num { color: #c084fc; }
+      .c2-glow { background: #a855f7; }
+
+      /* Card 3 specifics */
+      .c3-icon { background: linear-gradient(135deg, #10b981, #059669); color: #fff; }
+      .c3-num { color: #34d399; }
+      .c3-glow { background: #10b981; }
+
+      /* =========================================
+         SCENE 3: CLIMAX & BRAND LOCKUP
+         ========================================= */
+      #scene-3 {
+        z-index: 30;
+      }
+      .s3-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        max-width: 1400px;
+      }
+      .logo-emblem-wrap {
+        position: relative;
+        width: 140px;
+        height: 140px;
+        margin-bottom: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .emblem-ring {
+        position: absolute;
+        inset: 0;
+        border-radius: 36px;
+        border: 2px solid rgba(6, 182, 212, 0.5);
+        box-shadow: 0 0 35px rgba(6, 182, 212, 0.4), inset 0 0 25px rgba(139, 92, 246, 0.3);
+      }
+      .emblem-core {
+        width: 80px;
+        height: 80px;
+        border-radius: 20px;
+        background: linear-gradient(135deg, #06b6d4 0%, #8b5cf6 50%, #ec4899 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 0 40px rgba(139, 92, 246, 0.8);
+      }
+      .s3-main-title {
+        font-size: 110px;
+        font-weight: 900;
+        line-height: 0.95;
+        letter-spacing: -3px;
+        margin-bottom: 24px;
+      }
+      .title-gradient-hero {
+        background: linear-gradient(135deg, #ffffff 0%, #38bdf8 35%, #c084fc 70%, #f472b6 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      .s3-tagline {
+        font-size: 32px;
+        font-weight: 600;
+        color: #cbd5e1;
+        letter-spacing: 4px;
+        text-transform: uppercase;
+        margin-bottom: 40px;
+      }
+      .cta-container {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+      }
+      .primary-pill-btn {
+        background: linear-gradient(135deg, #06b6d4, #8b5cf6);
+        padding: 16px 40px;
+        border-radius: 100px;
+        font-size: 18px;
+        font-weight: 700;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: #ffffff;
+        box-shadow: 0 10px 30px rgba(6, 182, 212, 0.4);
+      }
+      .secondary-pill-btn {
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        padding: 16px 36px;
+        border-radius: 100px;
+        font-size: 18px;
+        font-weight: 700;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        color: #e2e8f0;
+      }
+
+      /* Energy Ring Burst in Climax */
+      .energy-wave {
+        position: absolute;
+        width: 1200px;
+        height: 1200px;
+        border-radius: 50%;
+        border: 2px solid rgba(56, 189, 248, 0.6);
+        pointer-events: none;
+        box-shadow: 0 0 60px rgba(168, 85, 247, 0.4);
+      }
+    </style>
+  </head>
+  <body>
+    <div data-hf-id="hf-199x" id="root" data-composition-id="main" data-start="0" data-duration="10" data-width="1920" data-height="1080">
+      <!-- Background Ambient & Grid (Persistent) -->
+      <div data-hf-id="hf-ji9k" class="ambient-layer">
+        <div data-hf-id="hf-er9m" id="bg-grid" class="bg-grid"></div>
+        <div data-hf-id="hf-a4ur" id="orb-1" class="glow-orb orb-cyan"></div>
+        <div data-hf-id="hf-74rh" id="orb-2" class="glow-orb orb-purple"></div>
+        <div data-hf-id="hf-5evs" id="orb-3" class="glow-orb orb-emerald"></div>
+      </div>
+
+      <!-- Static HUD Overlay -->
+      <header data-hf-id="hf-6ew3" class="hud-header">
+        <div data-hf-id="hf-pch3" class="hud-left">
+          <div data-hf-id="hf-sv8g" class="live-dot"></div>
+          <span data-hf-id="hf-2yct" class="hud-tag font-mono">HYPERFRAMES // 4K ENGINE</span>
+        </div>
+        <div data-hf-id="hf-smdj" class="hud-right font-mono">
+          <div data-hf-id="hf-rz0e" class="hud-badge">60 FPS DETERMINISTIC</div>
+          <div data-hf-id="hf-aa83" class="hud-badge">ANTIGRAVITY V2</div>
+        </div>
+      </header>
+
+      <footer data-hf-id="hf-8ady" class="hud-footer font-mono">
+        <div data-hf-id="hf-jakv">COORDINATES [37.5665° N, 126.9780° E]</div>
+        <div data-hf-id="hf-ahkm">VIDEO-AS-CODE PROTOCOL ACTIVE</div>
+        <div data-hf-id="hf-m8bl">STATUS: ALL SYSTEMS NOMINAL</div>
+      </footer>
+
+      <!-- =========================================
+           SCENE 1: THE IGNITION (0.0s - 3.2s)
+           ========================================= -->
+      <section data-hf-id="hf-k13n" id="scene-1" class="clip" data-start="0" data-duration="3.4">
+        <div data-hf-id="hf-sntc" class="scene-1-container">
+          <div data-hf-id="hf-91q2" class="s1-left">
+            <div data-hf-id="hf-1w2v" id="s1-badge" class="pill-badge">
+              <span data-hf-id="hf-5k6y" class="pill-dot"></span>
+              <span data-hf-id="hf-f7j4" class="pill-text font-mono">AI AGENT-FIRST ARCHITECTURE</span>
+            </div>
+            <h1 data-hf-id="hf-vcnj" id="s1-title" class="s1-title font-display">
+              CODE BECOMES<br data-hf-id="hf-x5px">
+              <span data-hf-id="hf-0u8k" class="gradient-text-cyan">PURE CINEMA.</span>
+            </h1>
+            <p data-hf-id="hf-dno3" id="s1-desc" class="s1-subtitle">
+              Turn code, briefs, and autonomous agent thoughts into frame-perfect, broadcast-grade MP4 video.
+            </p>
+            <div data-hf-id="hf-006i" id="s1-stats" class="s1-stats">
+              <div data-hf-id="hf-eblh" class="s1-stat-item">
+                <span data-hf-id="hf-9m5l" class="s1-stat-val font-mono">0.00ms</span>
+                <span data-hf-id="hf-a6hl" class="s1-stat-lbl">Render Jitter</span>
+              </div>
+              <div data-hf-id="hf-5v1l" class="s1-stat-item">
+                <span data-hf-id="hf-78rd" class="s1-stat-val font-mono">100%</span>
+                <span data-hf-id="hf-jhjm" class="s1-stat-lbl">DOM Determinism</span>
+              </div>
+              <div data-hf-id="hf-71yo" class="s1-stat-item">
+                <span data-hf-id="hf-pvhq" class="s1-stat-val font-mono">60 FPS</span>
+                <span data-hf-id="hf-5fa1" class="s1-stat-lbl">Output Quality</span>
+              </div>
+            </div>
+          </div>
+
+          <div data-hf-id="hf-y6fd" class="s1-right">
+            <div data-hf-id="hf-xzsn" id="s1-terminal" class="glass-terminal font-mono">
+              <div data-hf-id="hf-0zlm" class="terminal-header">
+                <div data-hf-id="hf-i1fl" class="terminal-dots">
+                  <div data-hf-id="hf-i8yk" class="t-dot t-red"></div>
+                  <div data-hf-id="hf-pnej" class="t-dot t-yellow"></div>
+                  <div data-hf-id="hf-wuss" class="t-dot t-green"></div>
+                </div>
+                <div data-hf-id="hf-n8rw" class="terminal-title">pipeline.config.ts</div>
+                <div data-hf-id="hf-yeow"></div>
+              </div>
+              <div data-hf-id="hf-vv39" class="terminal-body">
+                <div data-hf-id="hf-pnna" class="code-line">
+                  <span data-hf-id="hf-t1uw" class="c-num">01</span>
+                  <span data-hf-id="hf-se8e"><span data-hf-id="hf-b2h2" class="c-kw">import</span> { <span data-hf-id="hf-grs1" class="c-fn">Antigravity</span> } <span data-hf-id="hf-9uuz" class="c-kw">from</span> <span data-hf-id="hf-hrm1" class="c-str">'@agent/core'</span>;</span>
+                </div>
+                <div data-hf-id="hf-2esa" class="code-line">
+                  <span data-hf-id="hf-ruxt" class="c-num">02</span>
+                  <span data-hf-id="hf-dt02"><span data-hf-id="hf-rcju" class="c-kw">import</span> { <span data-hf-id="hf-snlz" class="c-fn">HyperFrames</span> } <span data-hf-id="hf-exq3" class="c-kw">from</span> <span data-hf-id="hf-qini" class="c-str">'hyperframes'</span>;</span>
+                </div>
+                <div data-hf-id="hf-2t3b" class="code-line">
+                  <span data-hf-id="hf-s98u" class="c-num">03</span>
+                  <span data-hf-id="hf-uckh">&#160;</span>
+                </div>
+                <div data-hf-id="hf-37ec" class="code-line">
+                  <span data-hf-id="hf-r2br" class="c-num">04</span>
+                  <span data-hf-id="hf-wzst"><span data-hf-id="hf-0wwi" class="c-kw">const</span> <span data-hf-id="hf-0tos" class="c-val">engine</span> = <span data-hf-id="hf-moqv" class="c-kw">new</span> <span data-hf-id="hf-eief" class="c-fn">HyperFrames</span>({</span>
+                </div>
+                <div data-hf-id="hf-3lpd" class="code-line">
+                  <span data-hf-id="hf-rgms" class="c-num">05</span>
+                  <span data-hf-id="hf-4c5p">&#160;&#160;<span data-hf-id="hf-ta4h" class="c-prop">mode</span>: <span data-hf-id="hf-j1bk" class="c-str">'deterministic'</span>,</span>
+                </div>
+                <div data-hf-id="hf-400e" class="code-line">
+                  <span data-hf-id="hf-q9pp" class="c-num">06</span>
+                  <span data-hf-id="hf-9wox">&#160;&#160;<span data-hf-id="hf-wbcw" class="c-prop">resolution</span>: <span data-hf-id="hf-4m5q" class="c-str">'3840x2160_4K'</span>,</span>
+                </div>
+                <div data-hf-id="hf-4ebf" class="code-line">
+                  <span data-hf-id="hf-qo0q" class="c-num">07</span>
+                  <span data-hf-id="hf-6lcs">&#160;&#160;<span data-hf-id="hf-2rjl" class="c-prop">timeline</span>: <span data-hf-id="hf-6tj6" class="c-val">AgentWorkflow</span>.<span data-hf-id="hf-q4lp" class="c-fn">autonomous</span>()</span>
+                </div>
+                <div data-hf-id="hf-4smg" class="code-line">
+                  <span data-hf-id="hf-vu03" class="c-num">08</span>
+                  <span data-hf-id="hf-27g4">});</span>
+                </div>
+                <div data-hf-id="hf-56xh" class="code-line">
+                  <span data-hf-id="hf-w8b4" class="c-num">09</span>
+                  <span data-hf-id="hf-g8mj"><span data-hf-id="hf-8rnr" class="c-kw">await</span> <span data-hf-id="hf-geas" class="c-val">engine</span>.<span data-hf-id="hf-et3x" class="c-fn">renderCinemaMP4</span>();</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- =========================================
+           SCENE 2: THE THREE PILLARS (3.2s - 6.6s)
+           ========================================= -->
+      <section data-hf-id="hf-8jg7" id="scene-2" class="clip" data-start="3.2" data-duration="3.6">
+        <div data-hf-id="hf-yd4b" class="s2-header">
+          <div data-hf-id="hf-ej6h" id="s2-tag" class="s2-tag font-mono">UNMATCHED PERFORMANCE ARCHITECTURE</div>
+          <h2 data-hf-id="hf-y221" id="s2-heading" class="s2-heading font-display">Engineered for Autonomous Video</h2>
+        </div>
+        <div data-hf-id="hf-4pyc" class="s2-grid">
+          <!-- Pillar 1 -->
+          <div data-hf-id="hf-d7m3" id="pillar-1" class="pillar-card">
+            <div data-hf-id="hf-y7dq" class="card-glow-bg c1-glow"></div>
+            <div data-hf-id="hf-y7yw">
+              <div data-hf-id="hf-cbtf" class="card-icon-wrap c1-icon">
+                <svg data-hf-id="hf-o0zt" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path data-hf-id="hf-67os" d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+                </svg>
+              </div>
+              <div data-hf-id="hf-gdrl" class="card-num font-mono c1-num">01. SYNC</div>
+              <h3 data-hf-id="hf-pt7b" class="card-title">100% Deterministic</h3>
+              <p data-hf-id="hf-lvs6" class="card-desc">
+                Frame-by-frame exact capture. Every single pixel, animation tick, and shader curve renders identically on every machine.
+              </p>
+            </div>
+            <div data-hf-id="hf-kj0d" class="card-footer-pill font-mono">
+              <span data-hf-id="hf-d399" class="live-dot"></span> ZERO FRAME DROP
+            </div>
+          </div>
+
+          <!-- Pillar 2 -->
+          <div data-hf-id="hf-2c4g" id="pillar-2" class="pillar-card">
+            <div data-hf-id="hf-4lyf" class="card-glow-bg c2-glow"></div>
+            <div data-hf-id="hf-x11t">
+              <div data-hf-id="hf-qowe" class="card-icon-wrap c2-icon">
+                <svg data-hf-id="hf-bj0d" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polygon data-hf-id="hf-oz1e" points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+                </svg>
+              </div>
+              <div data-hf-id="hf-yodp" class="card-num font-mono c2-num">02. AGENT</div>
+              <h3 data-hf-id="hf-nr6w" class="card-title">Native AI Workflows</h3>
+              <p data-hf-id="hf-11zw" class="card-desc">
+                Designed for AI coding assistants. Direct manipulation of HTML/CSS elements with built-in validation gates and CLI toolkits.
+              </p>
+            </div>
+            <div data-hf-id="hf-ys0v" class="card-footer-pill font-mono">
+              <span data-hf-id="hf-7h8i" class="live-dot" style="background:#a855f7; box-shadow:0 0 10px #a855f7;"></span> ANTIGRAVITY COMPATIBLE
+            </div>
+          </div>
+
+          <!-- Pillar 3 -->
+          <div data-hf-id="hf-z1t5" id="pillar-3" class="pillar-card">
+            <div data-hf-id="hf-hz1s" class="card-glow-bg c3-glow"></div>
+            <div data-hf-id="hf-xfcu">
+              <div data-hf-id="hf-8c75" class="card-icon-wrap c3-icon">
+                <svg data-hf-id="hf-cpxg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle data-hf-id="hf-m1lh" cx="12" cy="12" r="10" />
+                  <path data-hf-id="hf-asge" d="m4.93 4.93 4.24 4.24M14.83 9.17l4.24-4.24M14.83 14.83l4.24 4.24M9.17 14.83l-4.24 4.24" />
+                </svg>
+              </div>
+              <div data-hf-id="hf-nuxy" class="card-num font-mono c3-num">03. ECOSYSTEM</div>
+              <h3 data-hf-id="hf-ib8o" class="card-title">Limitless Runtimes</h3>
+              <p data-hf-id="hf-oedi" class="card-desc">
+                Full power of GSAP, Three.js 3D meshes, Lottie animations, and WebGPU compute shaders running seamlessly in one pipeline.
+              </p>
+            </div>
+            <div data-hf-id="hf-iim2" class="card-footer-pill font-mono">
+              <span data-hf-id="hf-06hw" class="live-dot" style="background:#10b981; box-shadow:0 0 10px #10b981;"></span> WEBGL · THREE.JS · GSAP
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- =========================================
+           SCENE 3: THE CLIMAX & BRAND LOCKUP (6.6s - 10.0s)
+           ========================================= -->
+      <section data-hf-id="hf-1ykj" id="scene-3" class="clip" data-start="6.6" data-duration="3.4">
+        <div data-hf-id="hf-nhhm" id="energy-wave" class="energy-wave"></div>
+        <div data-hf-id="hf-e3a4" class="s3-container">
+          <div data-hf-id="hf-ym8k" id="s3-emblem" class="logo-emblem-wrap">
+            <div data-hf-id="hf-vwad" class="emblem-ring"></div>
+            <div data-hf-id="hf-aiau" class="emblem-core">
+              <svg data-hf-id="hf-10k5" width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.5">
+                <polygon data-hf-id="hf-q33a" points="12 2 2 7 12 12 22 7 12 2" />
+                <polyline data-hf-id="hf-00a9" points="2 17 12 22 22 17" />
+                <polyline data-hf-id="hf-jabd" points="2 12 12 17 22 12" />
+              </svg>
+            </div>
+          </div>
+          <h1 data-hf-id="hf-gmo7" id="s3-title" class="s3-main-title font-display title-gradient-hero">
+            ANTIGRAVITY<br data-hf-id="hf-rsrt">
+            × HYPERFRAMES
+          </h1>
+          <p data-hf-id="hf-k776" id="s3-tagline" class="s3-tagline font-mono">
+            THE FUTURE OF VIDEO-AS-CODE IS UNLOCKED
+          </p>
+          <div data-hf-id="hf-oxlo" id="s3-cta" class="cta-container font-mono">
+            <div data-hf-id="hf-bx8k" class="primary-pill-btn">LAUNCH STUDIO NOW</div>
+            <div data-hf-id="hf-07py" class="secondary-pill-btn">GET STARTED</div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- GSAP Master Orchestration Script -->
+    <script>
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+
+      // ==========================================
+      // AMBIENT BACKGROUND ANIMATION (Persistent)
+      // ==========================================
+      tl.fromTo("#bg-grid", 
+        { scale: 1, rotation: 0 }, 
+        { scale: 1.08, rotation: 2, duration: 10, ease: "none" }, 
+        0
+      );
+      tl.fromTo("#orb-1", 
+        { x: -50, y: 0 }, 
+        { x: 120, y: 80, duration: 10, ease: "none" }, 
+        0
+      );
+      tl.fromTo("#orb-2", 
+        { x: 50, y: 0 }, 
+        { x: -100, y: -60, duration: 10, ease: "none" }, 
+        0
+      );
+
+      // ==========================================
+      // SCENE 1: THE IGNITION (0.0s - 3.2s)
+      // ==========================================
+      tl.fromTo("#s1-badge", 
+        { autoAlpha: 0, y: -20, scale: 0.9 }, 
+        { autoAlpha: 1, y: 0, scale: 1, duration: 0.6, ease: "back.out(1.7)" }, 
+        0.1
+      );
+
+      tl.fromTo("#s1-title", 
+        { autoAlpha: 0, y: 40, scale: 0.96 }, 
+        { autoAlpha: 1, y: 0, scale: 1, duration: 0.8, ease: "power4.out" }, 
+        0.3
+      );
+
+      tl.fromTo("#s1-desc", 
+        { autoAlpha: 0, y: 25 }, 
+        { autoAlpha: 1, y: 0, duration: 0.7, ease: "power3.out" }, 
+        0.5
+      );
+
+      tl.fromTo("#s1-stats .s1-stat-item", 
+        { autoAlpha: 0, y: 20 }, 
+        { autoAlpha: 1, y: 0, duration: 0.5, stagger: 0.12, ease: "power3.out" }, 
+        0.7
+      );
+
+      tl.fromTo("#s1-terminal", 
+        { autoAlpha: 0, x: 80, rotationY: -15, scale: 0.92 }, 
+        { autoAlpha: 1, x: 0, rotationY: 0, scale: 1, duration: 0.9, ease: "power4.out" }, 
+        0.4
+      );
+
+      // Scene 1 Exit (Velocity push left)
+      tl.to("#scene-1", 
+        { autoAlpha: 0, x: -120, scale: 0.95, duration: 0.45, ease: "power4.in" }, 
+        2.9
+      );
+
+      // ==========================================
+      // SCENE 2: THE THREE PILLARS (3.2s - 6.6s)
+      // ==========================================
+      // Staggered Entrance from right
+      tl.fromTo("#s2-tag", 
+        { autoAlpha: 0, y: -15 }, 
+        { autoAlpha: 1, y: 0, duration: 0.4, ease: "power3.out" }, 
+        3.2
+      );
+
+      tl.fromTo("#s2-heading", 
+        { autoAlpha: 0, y: 25 }, 
+        { autoAlpha: 1, y: 0, duration: 0.5, ease: "power3.out" }, 
+        3.3
+      );
+
+      tl.fromTo(["#pillar-1", "#pillar-2", "#pillar-3"], 
+        { autoAlpha: 0, y: 60, scale: 0.92, rotationX: 10 }, 
+        { autoAlpha: 1, y: 0, scale: 1, rotationX: 0, duration: 0.7, stagger: 0.15, ease: "back.out(1.4)" }, 
+        3.5
+      );
+
+      // Scene 2 Exit (Camera Zoom-through forward)
+      tl.to("#scene-2", 
+        { autoAlpha: 0, scale: 1.12, duration: 0.4, ease: "power4.in" }, 
+        6.25
+      );
+
+      // ==========================================
+      // SCENE 3: CLIMAX & BRAND LOCKUP (6.6s - 10.0s)
+      // ==========================================
+      tl.fromTo("#energy-wave", 
+        { scale: 0.2, autoAlpha: 0.9 }, 
+        { scale: 2.2, autoAlpha: 0, duration: 1.2, ease: "power2.out" }, 
+        6.6
+      );
+
+      tl.fromTo("#s3-emblem", 
+        { autoAlpha: 0, scale: 0.3, rotation: -30 }, 
+        { autoAlpha: 1, scale: 1, rotation: 0, duration: 0.8, ease: "back.out(1.7)" }, 
+        6.6
+      );
+
+      tl.fromTo(".emblem-ring", 
+        { rotation: 0 }, 
+        { rotation: 90, duration: 3.4, ease: "none" }, 
+        6.6
+      );
+
+      tl.fromTo("#s3-title", 
+        { autoAlpha: 0, y: 40, scale: 0.92 }, 
+        { autoAlpha: 1, y: 0, scale: 1, duration: 0.8, ease: "power4.out" }, 
+        6.8
+      );
+
+      tl.fromTo("#s3-tagline", 
+        { autoAlpha: 0, y: 20 }, 
+        { autoAlpha: 1, y: 0, duration: 0.6, ease: "power3.out" }, 
+        7.1
+      );
+
+      tl.fromTo("#s3-cta", 
+        { autoAlpha: 0, y: 25, scale: 0.95 }, 
+        { autoAlpha: 1, y: 0, scale: 1, duration: 0.6, ease: "back.out(1.5)" }, 
+        7.3
+      );
+
+      // Final Master Register
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>

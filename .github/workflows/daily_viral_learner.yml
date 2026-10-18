@@ -1,0 +1,57 @@
+name: Daily 100+ Viral Scanner & Self-Evolution Learner
+
+on:
+  schedule:
+    # ⏰ 매일 새벽 06:30 KST (21:30 UTC) - 아침 07:30 첫 업로드 전 자동 실행
+    - cron: '30 21 * * *'
+
+  # 언제든 수동으로 즉시 100개 바이럴 학습 트리거 가능
+  workflow_dispatch:
+    inputs:
+      count:
+        description: '수집 및 학습할 1만뷰 이상 게시물 수'
+        required: false
+        default: '50'
+        type: string
+
+jobs:
+  learn-and-evolve:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install Python Dependencies & Playwright Browser
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          playwright install --with-deps chromium
+
+      - name: Run Multi-Category Viral Crawler & DNA Synthesizer
+        env:
+          ONLY_APPLES_SESSION_ID: ${{ secrets.ONLY_APPLES_SESSION_ID }}
+          ONLY_APPLES_USER_ID: ${{ secrets.ONLY_APPLES_USER_ID }}
+          GGUL_BAMM_SESSION_ID: ${{ secrets.GGUL_BAMM_SESSION_ID }}
+          GGUL_BAMM_USER_ID: ${{ secrets.GGUL_BAMM_USER_ID }}
+        run: |
+          python viral_crawler_and_learner.py --count "${{ github.event.inputs.count || '50' }}" --headless
+
+      - name: Commit & Push Learned Patterns Back to Repo
+        if: always()
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git pull --rebase origin main || true
+          git add data/viral_posts_db.json data/learned_patterns.json
+          git commit -m "chore(auto-learner): update daily 10k+ viral DNA patterns [skip ci]" || echo "No changes to commit"
+          git push origin main || echo "Push failed or nothing to push"

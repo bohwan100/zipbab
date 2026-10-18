@@ -7,17 +7,95 @@ import threading
 from urllib.parse import urlparse, parse_qs
 import coupang_engine
 
-PORT = 8080
+PORT = int(os.environ.get("PORT", 8080))
 DIRECTORY = os.path.dirname(os.path.abspath(__file__))
+
+def ensure_cloudflared():
+    if os.environ.get("RENDER") or os.environ.get("RAILWAY_STATIC_URL"):
+        return
+    import subprocess
+    try:
+        res = subprocess.run(["pgrep", "-f", "cloudflared tunnel"], capture_output=True, text=True)
+        if res.returncode == 0 and res.stdout.strip():
+            return
+    except Exception:
+        pass
+    
+    cf_bin = os.path.join(DIRECTORY, "scratch", "cloudflared")
+    if os.path.exists(cf_bin):
+        log_file = open(os.path.join(DIRECTORY, "scratch", "tunnel.log"), "a", encoding="utf-8")
+        subprocess.Popen([cf_bin, "tunnel", "--url", f"http://127.0.0.1:{PORT}"], stdout=log_file, stderr=log_file)
+
+def get_public_tunnel_url(host=None):
+    # 1. Render provided external URL
+    render_url = os.environ.get("RENDER_EXTERNAL_URL")
+    if render_url:
+        return render_url.rstrip("/")
+    
+    # 2. Host header if running on any cloud or domain
+    if host and 'localhost' not in host and '127.0.0.1' not in host:
+        return f"https://{host}"
+
+    # 3. Local Cloudflare tunnel fallback
+    if not os.environ.get("RENDER"):
+        ensure_cloudflared()
+        tunnel_log = os.path.join(DIRECTORY, "scratch", "tunnel.log")
+        if os.path.exists(tunnel_log):
+            try:
+                with open(tunnel_log, "r", encoding="utf-8", errors="ignore") as f:
+                    content = f.read()
+                    import re
+                    matches = re.findall(r'https://[a-zA-Z0-9-]+\.trycloudflare\.com', content)
+                    if matches:
+                        return matches[-1]
+            except Exception:
+                pass
+    try:
+        import socket
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        s.connect(("8.8.8.8", 80))
+        local_ip = s.getsockname()[0]
+        s.close()
+        return f"http://{local_ip}:{PORT}"
+    except Exception:
+        return f"http://localhost:{PORT}"
 
 class CoupangAutoServer(http.server.SimpleHTTPRequestHandler):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, directory=DIRECTORY, **kwargs)
 
+    def translate_path(self, path):
+        resolved = super().translate_path(path)
+        if not os.path.exists(resolved):
+            import unicodedata
+            # macOS filesystem NFD/NFC normalization matching
+            parts = resolved.split(os.sep)
+            curr = "/" if resolved.startswith("/") else ""
+            for part in parts:
+                if not part: continue
+                match = None
+                target_nfc = unicodedata.normalize('NFC', part)
+                target_nfd = unicodedata.normalize('NFD', part)
+                if os.path.exists(curr):
+                    try:
+                        for entry in os.listdir(curr):
+                            entry_nfc = unicodedata.normalize('NFC', entry)
+                            entry_nfd = unicodedata.normalize('NFD', entry)
+                            if entry == part or entry_nfc == target_nfc or entry_nfd == target_nfd:
+                                match = entry
+                                break
+                    except Exception:
+                        pass
+                curr = os.path.join(curr, match if match else part)
+            if os.path.exists(curr):
+                return curr
+        return resolved
+
     def end_headers(self):
         self.send_header('Access-Control-Allow-Origin', '*')
         self.send_header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
-        self.send_header('Access-Control-Allow-Headers', 'Content-Type')
+        self.send_header('Access-Control-Allow-Headers', '*')
+        self.send_header('Access-Control-Allow-Private-Network', 'true')
         self.send_header('Cache-Control', 'no-store, no-cache, must-revalidate')
         super().end_headers()
 
@@ -46,7 +124,28 @@ class CoupangAutoServer(http.server.SimpleHTTPRequestHandler):
             importlib.reload(coupang_partners)
             self._send_json(coupang_partners.get_all_cached_links())
             return
+        elif parsed.path == '/api/public-url':
+            host = self.headers.get('Host')
+            tunnel_url = get_public_tunnel_url(host=host)
+            self._send_json({"success": True, "public_url": tunnel_url})
+            return
+
+        # Friendly URL routing
+        if parsed.path == '/survey':
+            self.path = '/survey.html'
+        elif parsed.path in ['/clients', '/admin', '/manage']:
+            self.path = '/clients.html'
+
         super().do_GET()
+
+    def do_HEAD(self):
+        parsed = urlparse(self.path)
+        if parsed.path in ['/api/ping', '/api/partners/status', '/api/partners/links', '/api/public-url']:
+            self.send_response(200)
+            self.send_header('Content-Type', 'application/json; charset=utf-8')
+            self.end_headers()
+            return
+        super().do_HEAD()
 
     def do_POST(self):
         parsed = urlparse(self.path)
@@ -57,6 +156,10 @@ class CoupangAutoServer(http.server.SimpleHTTPRequestHandler):
             data = json.loads(body) if body else {}
         except Exception:
             data = {}
+
+        if parsed.path == '/api/ping':
+            self._send_json({"status": "ok", "message": "Coupang Auto Server is active!"})
+            return
 
         if parsed.path == '/api/add-to-cart':
             query = data.get('query', '')
@@ -128,6 +231,146 @@ class CoupangAutoServer(http.server.SimpleHTTPRequestHandler):
                     self._send_json({"success": False, "error": "Failed to generate deeplink"}, 500)
             else:
                 self._send_json({"success": False, "error": "query or url required"}, 400)
+            return
+
+        elif parsed.path == '/api/create-client':
+            import time
+            name = data.get('name', '고객님')
+            age = data.get('age', '30대')
+            household = data.get('household', '1명')
+            budget = int(data.get('budget', 300000))
+            frequency = data.get('frequency', '저녁만 (30끼)')
+            concept = data.get('concept', '다이어트')
+            cuisine = data.get('cuisine', '한식, 일식')
+            exclude = data.get('exclude', '없음')
+            pantry = data.get('pantry', '아무것도 없음')
+            goal_notes = data.get('goal_notes', '')
+
+            import re
+            from urllib.parse import quote
+            clean_name = re.sub(r'[^\w가-힣]', '', name.strip()) or '고객님'
+            clean_age = re.sub(r'[^\w가-힣]', '', age.strip()) or '연령미상'
+            base_id = f"{clean_name}_{clean_age}"
+            client_id = base_id
+
+            # 동명이인/재설문 시 폴더 중복 방지 (예: 이보환_27세, 이보환_27세_2)
+            count = 2
+            target_clients_dir = os.path.join(DIRECTORY, "clients")
+            while os.path.exists(os.path.join(target_clients_dir, client_id)):
+                client_id = f"{base_id}_{count}"
+                count += 1
+
+            print(f"[API] Creating client folder [{client_id}] for {name} ({household}, {budget:,}원, {concept}, {cuisine})...")
+            try:
+                sys.path.insert(0, os.path.join(DIRECTORY, "generator"))
+                import importlib
+                import recipe_engine
+                import build_client as builder
+                importlib.reload(recipe_engine)
+                importlib.reload(builder)
+                builder.build_client(
+                    client_id=client_id,
+                    name=name,
+                    age=age,
+                    household=household,
+                    budget=budget,
+                    frequency=frequency,
+                    goal=concept,
+                    cuisine=cuisine,
+                    exclude=exclude,
+                    pantry=pantry,
+                    goal_notes=goal_notes
+                )
+
+                # clients.html 자동 동기화 갱신
+                try:
+                    import subprocess
+                    subprocess.run([sys.executable, os.path.join(DIRECTORY, "scratch", "generate_clients_dashboard.py")], check=False)
+                except Exception as ex:
+                    print(f"[Warning] Failed to update clients.html: {ex}")
+
+                host = self.headers.get('Host', f'localhost:{PORT}')
+                encoded_client_id = quote(client_id)
+                mobile_base = get_public_tunnel_url(host=host)
+
+                self._send_json({
+                    "success": True,
+                    "client_id": client_id,
+                    "portal_url": f"{mobile_base}/clients/{encoded_client_id}/index.html",
+                    "cart_url": f"{mobile_base}/clients/{encoded_client_id}/cart.html",
+                    "mobile_portal_url": f"{mobile_base}/clients/{encoded_client_id}/index.html",
+                    "mobile_cart_url": f"{mobile_base}/clients/{encoded_client_id}/cart.html",
+                    "local_portal_url": f"http://localhost:{PORT}/clients/{encoded_client_id}/index.html",
+                    "local_cart_url": f"http://localhost:{PORT}/clients/{encoded_client_id}/cart.html",
+                    "public_tunnel_url": mobile_base,
+                    "survey_public_url": f"{mobile_base}/survey.html"
+                })
+            except Exception as e:
+                print(f"[API Error] Failed to build client: {e}")
+                self._send_json({"success": False, "error": str(e)}, 500)
+            return
+
+        elif parsed.path == '/api/delete-client':
+            import shutil
+            import unicodedata
+
+            client_ids = data.get('client_ids', [])
+            single_id = data.get('client_id')
+            if single_id and single_id not in client_ids:
+                client_ids.append(single_id)
+
+            if not client_ids:
+                self._send_json({"success": False, "error": "client_id or client_ids required"}, 400)
+                return
+
+            clients_base = os.path.abspath(os.path.join(DIRECTORY, "clients"))
+            deleted = []
+            errors = []
+
+            for cid in client_ids:
+                if not cid or not isinstance(cid, str):
+                    continue
+                cid_nfc = unicodedata.normalize('NFC', cid.strip())
+                cid_nfd = unicodedata.normalize('NFD', cid.strip())
+
+                matched_dir = None
+                if os.path.exists(clients_base):
+                    for entry in os.listdir(clients_base):
+                        entry_nfc = unicodedata.normalize('NFC', entry)
+                        entry_nfd = unicodedata.normalize('NFD', entry)
+                        if entry == cid or entry_nfc == cid_nfc or entry_nfd == cid_nfd:
+                            matched_dir = os.path.join(clients_base, entry)
+                            break
+
+                if not matched_dir or not os.path.isdir(matched_dir):
+                    errors.append(f"Folder not found: {cid}")
+                    continue
+
+                real_path = os.path.abspath(matched_dir)
+                if not real_path.startswith(clients_base) or real_path == clients_base:
+                    errors.append(f"Invalid path: {cid}")
+                    continue
+
+                try:
+                    shutil.rmtree(real_path)
+                    deleted.append(cid)
+                    print(f"[API] Successfully deleted client folder: {real_path}")
+                except Exception as err:
+                    errors.append(f"Failed to delete {cid}: {str(err)}")
+
+            # clients.html 자동 동기화 갱신
+            try:
+                import subprocess
+                subprocess.run([sys.executable, os.path.join(DIRECTORY, "scratch", "generate_clients_dashboard.py")], check=False)
+            except Exception as ex:
+                print(f"[Warning] Failed to update clients.html after delete: {ex}")
+
+            self._send_json({
+                "success": len(deleted) > 0,
+                "deleted": deleted,
+                "errors": errors,
+                "remaining_count": len([d for d in os.listdir(clients_base) if os.path.isdir(os.path.join(clients_base, d))]) if os.path.exists(clients_base) else 0
+            })
             return
 
         self.send_error(404, "Endpoint not found")

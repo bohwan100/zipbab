@@ -126,7 +126,77 @@ def get_deeplink_for_query(query: str) -> str:
         save_cache(cache)
         return cache[query]["shortenUrl"]
 
-    return raw_url
+def search_best_product(keyword: str) -> dict:
+    """
+    Calls Coupang Partners Open API Product Search to find the top matching specific product.
+    Returns: {"productName": ..., "productPrice": ..., "productUrl": ..., "productId": ...}
+    """
+    url_path = "/v2/providers/affiliate_open_api/apis/openapi/v1/products/search"
+    query_encoded = urllib.parse.quote(keyword)
+    query_str = f"keyword={query_encoded}&limit=1"
+
+    datetime_str = time.strftime('%y%m%d', time.gmtime()) + 'T' + time.strftime('%H%M%S', time.gmtime()) + 'Z'
+    message = datetime_str + "GET" + url_path + query_str
+    signature = hmac.new(SECRET_KEY.encode('utf-8'), message.encode('utf-8'), hashlib.sha256).hexdigest()
+    auth_header = f"CEA algorithm=HmacSHA256, access-key={ACCESS_KEY}, signed-date={datetime_str}, signature={signature}"
+
+    headers = {
+        "Authorization": auth_header,
+        "Content-Type": "application/json"
+    }
+
+    try:
+        resp = requests.get(f"{GATEWAY_HOST}{url_path}?{query_str}", headers=headers, timeout=10)
+        if resp.status_code == 200:
+            data = resp.json()
+            if data.get("rCode") == "0" and "data" in data:
+                items = data["data"].get("productData", [])
+                if items:
+                    return items[0]
+    except Exception as e:
+        print(f"[Coupang Partners] Search error for '{keyword}': {e}")
+    return {}
+
+
+def get_direct_product_deeplink(keyword: str, allow_search_fallback: bool = False) -> tuple[str, str]:
+    """
+    Returns (shortenUrl, productName) linking DIRECTLY to a specific single product page.
+    If no valid single-product affiliate link can be generated (e.g. seller-restricted, raw meat),
+    returns ("", keyword) to prevent generating non-earning or invalid links.
+    """
+    cache = load_cache()
+    cache_key = f"prod::{keyword}"
+    if cache_key in cache:
+        cached_url = cache[cache_key].get("shortenUrl", "")
+        # If cached link is just a search query link and user disallowed non-direct links, filter it out
+        if not allow_search_fallback and "np/search" in cached_url:
+            return "", cache[cache_key].get("productName", keyword)
+        return cached_url, cache[cache_key].get("productName", keyword)
+
+    prod = search_best_product(keyword)
+    if prod and prod.get("productId"):
+        prod_name = prod.get("productName", keyword)
+        raw_prod_url = f"https://www.coupang.com/vp/products/{prod['productId']}"
+        # Shorten via deeplink API
+        short_res = generate_deeplinks([raw_prod_url])
+        if short_res and short_res[0].get("shortenUrl") and "link.coupang.com/a/" in short_res[0].get("shortenUrl", ""):
+            short_url = short_res[0].get("shortenUrl")
+            cache[cache_key] = {
+                "query": keyword,
+                "productName": prod_name,
+                "shortenUrl": short_url,
+                "originalUrl": raw_prod_url,
+                "updatedAt": time.strftime("%Y-%m-%d %H:%M:%S")
+            }
+            save_cache(cache)
+            return short_url, prod_name
+
+    if allow_search_fallback:
+        fallback_url = get_deeplink_for_query(keyword)
+        return fallback_url, keyword
+
+    return "", keyword
+
 
 
 def warm_up_product_links(queries: list[str]) -> dict:

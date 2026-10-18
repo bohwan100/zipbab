@@ -1,0 +1,33 @@
+name: Daily YouTube Comments Collector
+
+on:
+  schedule:
+    # 한국 시간(KST) 매일 아침 06:00 (UTC 기준 21:00)
+    - cron: '0 21 * * *'
+  # GitHub 웹사이트에서 언제든 'Run workflow' 버튼으로 즉시 수동 실행 가능
+  workflow_dispatch:
+
+jobs:
+  collect-and-send:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run YouTube Comment Fetcher & Send Telegram
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: |
+          python fetch_and_notify.py

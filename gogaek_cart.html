@@ -8,7 +8,7 @@
   <meta http-equiv="Expires" content="0">
   <title>고객 맞춤 장바구니 매니저 | 집밥봇</title>
   <script>
-    // 카카오톡 인앱 브라우저 감지 시 사파리/크롬 외부 브라우저로 자동 전환 (쿠팡 Akamai 403 차단 방지)
+    // 외부 브라우저 최적화
     (function() {
       var ua = navigator.userAgent.toLowerCase();
       if (ua.indexOf('kakaotalk') !== -1) {
@@ -720,6 +720,52 @@
       background: rgba(255, 255, 255, 0.1);
       border-color: rgba(255, 255, 255, 0.25);
     }
+    .nav-btn.recipe:hover:not(.active) {
+      border-color: rgba(249, 115, 22, 0.5);
+      color: #fb923c;
+      background: rgba(249, 115, 22, 0.1);
+    }
+    .nav-btn.cart:hover:not(.active) {
+      border-color: rgba(56, 189, 248, 0.5);
+      color: #38bdf8;
+      background: rgba(56, 189, 248, 0.1);
+    }
+    .nav-btn.storage:hover:not(.active) {
+      border-color: rgba(52, 211, 153, 0.5);
+      color: #34d399;
+      background: rgba(52, 211, 153, 0.1);
+    }
+    /* 3대 핵심 서비스 버튼 활성화 (주황색, 파란색, 초록색) */
+    .nav-btn.orange.active, .nav-btn.recipe.active {
+      background: linear-gradient(135deg, #f97316, #ea580c);
+      color: #fff !important;
+      border-color: transparent;
+      box-shadow: 0 4px 14px rgba(249, 115, 22, 0.45);
+    }
+    .nav-btn.orange.active:hover, .nav-btn.recipe.active:hover {
+      background: linear-gradient(135deg, #ea580c, #c2410c);
+      transform: translateY(-1px);
+    }
+    .nav-btn.blue.active, .nav-btn.cart.active, .nav-btn.cyan.active {
+      background: linear-gradient(135deg, #0284c7, #0ea5e9);
+      color: #fff !important;
+      border-color: transparent;
+      box-shadow: 0 4px 14px rgba(14, 165, 233, 0.45);
+    }
+    .nav-btn.blue.active:hover, .nav-btn.cart.active:hover, .nav-btn.cyan.active:hover {
+      background: linear-gradient(135deg, #0369a1, #0284c7);
+      transform: translateY(-1px);
+    }
+    .nav-btn.green.active, .nav-btn.storage.active {
+      background: linear-gradient(135deg, #10b981, #059669);
+      color: #fff !important;
+      border-color: transparent;
+      box-shadow: 0 4px 14px rgba(16, 185, 129, 0.45);
+    }
+    .nav-btn.green.active:hover, .nav-btn.storage.active:hover {
+      background: linear-gradient(135deg, #059669, #047857);
+      transform: translateY(-1px);
+    }
     /* 눈에 확 띄는 30일 레시피 최상단 하이라이트 버튼 */
     .nav-btn-highlight-recipe {
       padding: 9px 20px;
@@ -985,8 +1031,9 @@
       </a>
       <div class="nav-links">
         <a href="index.html" class="nav-btn">🏠 홈</a>
-        <a href="gogaek_recipe.html" class="nav-btn-highlight-recipe">🍳 고객 맞춤 30일 레시피 전체보기</a>
-        <a href="storage_guide.html" class="nav-btn">❄️ 재료별 보관방법</a>
+        <a href="gogaek_recipe.html" class="nav-btn recipe">🍳 30일 레시피</a>
+        <a href="gogaek_cart.html" class="nav-btn cart blue active">🛒 맞춤 장바구니 매니저</a>
+        <a href="storage_guide.html" class="nav-btn storage">❄️ 재료별 보관방법</a>
       </div>
     </div>
   </header>
@@ -1006,26 +1053,7 @@
           🚀 무간섭 백그라운드 모드로 열기
         </button>
       </div>
-
-      <!-- KakaoTalk In-App Notice Bar -->
-      <div id="kakaotalk-notice" style="display: none; background: linear-gradient(135deg, #fee500 0%, #facc15 100%); color: #1e1b4b; padding: 14px 18px; border-radius: 12px; margin: 12px 0 18px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); border: 2px solid #eab308; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
-        <div style="flex: 1; min-width: 240px;">
-          <div style="font-size: 0.95rem; font-weight: 800; display: flex; align-items: center; gap: 6px;">
-            <span>⚠️</span> 카카오톡으로 접속하셨나요?
-          </div>
-          <div style="font-size: 0.82rem; color: #334155; margin-top: 4px; line-height: 1.4;">
-            쿠팡 보안 방화벽으로 인해 카톡 안에서는 장바구니 담기가 멈추거나 차단될 수 있습니다. <strong>[Safari로 전환]</strong> 후 이용하시면 1초 만에 쿠팡 앱으로 바로 담깁니다!
-          </div>
-        </div>
-        <div style="display: flex; gap: 8px; align-items: center;">
-          <button type="button" onclick="openInExternalBrowser()" style="background: #1e1b4b; color: #fff; border: none; padding: 8px 16px; border-radius: 8px; font-weight: 800; font-size: 0.85rem; cursor: pointer; box-shadow: 0 2px 6px rgba(0,0,0,0.2);">
-            🧭 Safari로 전환
-          </button>
-          <button type="button" onclick="copyCurrentUrlAndGuide()" style="background: rgba(0,0,0,0.08); color: #1e1b4b; border: 1px solid rgba(0,0,0,0.25); padding: 8px 12px; border-radius: 8px; font-weight: 700; font-size: 0.82rem; cursor: pointer;">
-            📋 주소 복사
-          </button>
-        </div>
-      </div>
+      <!-- Pantry Banner Anchor -->
 
       <!-- Coupang Partners Status & FTC Disclosure Notice -->
       <div class="partners-status-bar" id="partners-status-bar">
@@ -1106,7 +1134,7 @@
         <p>💡 <strong>4주 총 구매액</strong>: <strong>186,980원</strong> (예산 20만 원 대비 <strong style="color: #34d399;">+13,020원</strong> 절감 성공, 4회 배송비 전액 0원, 잔여 쓰레기 0%)</p>
       </div>
       <div class="action-btn-group">
-        <button type="button" class="btn-action" style="background: rgba(59, 130, 246, 0.2); color: #93c5fd; border: 1px solid rgba(59, 130, 246, 0.5);" onclick="event.stopPropagation(); copyAndOpenBookmarkletModal(event);">📱 사파리 1초 담기 설정</button>
+        <button type="button" class="btn-action" style="background: rgba(56, 189, 248, 0.18); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.45); font-weight: 800;" onclick="event.stopPropagation(); openExtensionModal();">🧩 PC 크롬 1초 담기 확장 프로그램</button>
         <button class="btn-action orange" id="btn-week-batch-top" onclick="openThisWeekGroceries(false)">1주차 품목 한 번에 담기</button>
         <button class="btn-action success" onclick="openCartDirect()">🛍️ 내 쿠팡 장바구니 확인</button>
         <button class="btn-action" style="background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.4);" onclick="resetAllAddedStatus()" title="모든 상품의 담김 상태를 초기화하여 처음부터 다시 담기">🔄 담기 버튼 초기화</button>
@@ -1122,7 +1150,7 @@
         <div class="panel-box">
           <div class="panel-title">
             <span id="week-title-left">📅 1주차 7가지 저녁 메뉴</span>
-            <a href="gogaek_recipe.html" class="panel-recipe-banner-btn">🍳 고객 맞춤 레시피 보기 →</a>
+            <a href="recipe_viewer.html" class="panel-recipe-banner-btn">🍳 30일 전체 레시피 보기 →</a>
           </div>
           <div id="week-meals-container">
             <!-- Injected via JS -->
@@ -1134,9 +1162,6 @@
           <div class="panel-title">
             <span id="week-title-right">🛒 1주차 주문 식재료</span>
             <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
-              <button type="button" class="btn-action" style="background: rgba(59, 130, 246, 0.15); border: 1px solid rgba(59, 130, 246, 0.4); color: #93c5fd; padding: 7px 12px; font-size: 0.8rem; font-weight: 800;" onclick="event.stopPropagation(); copyAndOpenBookmarkletModal(event);">
-                📱 사파리 1초 담기 설정
-              </button>
               <button class="btn-action orange" id="btn-week-batch-panel" style="padding: 7px 15px; font-size: 0.85rem; font-weight: 800;" onclick="openThisWeekGroceries(false)">
                 1주차 품목 한 번에 담기
               </button>
@@ -1292,12 +1317,12 @@
         <div style="background: rgba(15, 23, 42, 0.8); border: 1px solid #334155; border-radius: 12px; padding: 16px;">
           <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
             <span style="background: #3b82f6; color: #fff; width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.85rem;">2</span>
-            <span style="font-weight: 800; color: #fff; font-size: 1rem;">Safari(아이폰)에서 즐겨찾기 등록 (1회만)</span>
+            <span style="font-weight: 800; color: #fff; font-size: 1rem;">모바일 브라우저에서 즐겨찾기 등록 (1회만)</span>
           </div>
           <div style="font-size: 0.85rem; color: #cbd5e1; line-height: 1.6;">
-            ① Safari 화면 하단 바의 <strong>[공유 버튼 ⬆️]</strong> 터치 (화면을 살짝 올리면 하단 바가 보입니다)<br>
+            ① 브라우저 화면의 <strong>[공유 버튼 ⬆️]</strong> 또는 메뉴(⋯) 터치<br>
             ② 목록에서 <strong>[즐겨찾기에 추가]</strong>(또는 책갈피 추가) 터치 ➔ 이름을 <strong>[집밥봇]</strong>으로 적고 저장<br>
-            ③ Safari 하단의 <strong>[책 모양 📖 아이콘]</strong> 터치 ➔ 우측 하단 <strong>[편집]</strong> 터치<br>
+            ③ 즐겨찾기(북마크) 목록 열기 ➔ <strong>[편집]</strong> 터치<br>
             ④ 방금 저장한 <strong>[집밥봇]</strong> 터치 ➔ <strong>주소(URL) 전체를 싹 지우고</strong> 위 1단계 코드를 <strong>[붙여넣기]</strong> ➔ 완료!
           </div>
         </div>
@@ -1309,7 +1334,7 @@
             <span style="font-weight: 800; color: #fff; font-size: 1rem;">쿠팡(m.coupang.com)에서 즐겨찾기 누르면 끝!</span>
           </div>
           <div style="font-size: 0.85rem; color: #cbd5e1; line-height: 1.6; margin-bottom: 10px;">
-            ① 사파리로 <strong>쿠팡(m.coupang.com)</strong>에 로그인합니다.<br>
+            ① <strong>쿠팡(m.coupang.com)</strong>에 로그인합니다.<br>
             ② 책 모양(📖) 즐겨찾기를 열어 <strong>[집밥봇]</strong>을 누릅니다.<br>
             ③ 쿠팡 화면 상단에 <strong>집밥봇 장바구니 도우미</strong>가 나타나며, 이번 주 식재료가 순식간에 내 장바구니로 쏙 들어갑니다!
           </div>
@@ -1389,6 +1414,61 @@
     </div>
   </div>
 
+  <!-- Chrome Extension Guide Modal -->
+  <div class="modal-overlay" id="extension-modal" style="display: none;">
+    <div class="modal-content" style="max-width: 580px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 10px;">
+        <h3 class="modal-title" style="margin-bottom: 0; display: flex; align-items: center; gap: 8px;">
+          <span>🧩</span> 집밥봇 크롬 확장 프로그램 10초 설치 가이드
+        </h3>
+        <button type="button" class="btn-action" style="background: #334155; padding: 4px 10px; font-size: 0.85rem;" onclick="closeExtensionModal()">✕</button>
+      </div>
+
+      <div style="background: rgba(56, 189, 248, 0.1); border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 12px; padding: 12px 16px; margin-bottom: 16px; font-size: 0.88rem; color: #bae6fd; line-height: 1.5;">
+        💡 <strong>윈도우 PC / 맥북 크롬 사용자 전용 (단 1회 등록):</strong><br>
+        크롬에 확장 프로그램을 딱 1번만 등록해두시면, [한 번에 담기] 클릭 시 백그라운드에서 쿠팡 장바구니에 <strong>진짜로 쏙 자동 담기</strong>가 실행됩니다! (결제는 스마트폰 앱에서 완료 가능)
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 14px; margin-bottom: 20px; font-size: 0.88rem;">
+        <div style="display: flex; gap: 12px; background: rgba(15, 23, 42, 0.6); padding: 12px 14px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.06);">
+          <span style="font-weight: 800; color: #f97316; font-size: 1.1rem;">Step 1</span>
+          <div style="flex: 1;">
+            <div style="font-weight: 700; color: #fff; margin-bottom: 6px;">확장 프로그램 압축 파일 다운로드 & 압축 풀기</div>
+            <a href="zipbabbot-extension.zip" download="zipbabbot-extension.zip" class="btn-action orange" style="display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; font-size: 0.84rem; text-decoration: none;">
+              📥 zipbabbot-extension.zip 다운로드 (10KB)
+            </a>
+            <div style="font-size: 0.78rem; color: #94a3b8; margin-top: 6px;">다운로드 후 다운로드 폴더에서 압축을 풀어 <code>zipbabbot-extension</code> 폴더를 만듭니다.</div>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 12px; background: rgba(15, 23, 42, 0.6); padding: 12px 14px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.06);">
+          <span style="font-weight: 800; color: #38bdf8; font-size: 1.1rem;">Step 2</span>
+          <div style="flex: 1;">
+            <div style="font-weight: 700; color: #fff; margin-bottom: 4px;">크롬 확장 프로그램 관리 페이지 열기</div>
+            <div style="font-size: 0.82rem; color: #cbd5e1; line-height: 1.5;">
+              크롬 새 탭 주소창에 <code style="background: rgba(0,0,0,0.4); padding: 2px 6px; border-radius: 4px; color: #38bdf8;">chrome://extensions</code> 입력 후 이동 ➔ 우측 상단 <strong>[개발자 모드]</strong> 스위치를 켭니다 (ON).
+            </div>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 12px; background: rgba(15, 23, 42, 0.6); padding: 12px 14px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.06);">
+          <span style="font-weight: 800; color: #10b981; font-size: 1.1rem;">Step 3</span>
+          <div style="flex: 1;">
+            <div style="font-weight: 700; color: #fff; margin-bottom: 4px;">폴더 등록하기 (드래그 한 번!)</div>
+            <div style="font-size: 0.82rem; color: #cbd5e1; line-height: 1.5;">
+              좌측 상단 <strong>[압축해제된 확장 프로그램을 로드합니다]</strong>를 누르고 아까 압축 푼 <code>zipbabbot-extension</code> 폴더를 선택하거나, 브라우저 화면 안으로 폴더를 끌어다 놓으면 끝!
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="display: flex; justify-content: flex-end; gap: 8px;">
+        <button type="button" class="btn-action" style="background: #334155;" onclick="closeExtensionModal()">닫기</button>
+        <button type="button" class="btn-action success" onclick="location.reload()">🔄 등록 완료 후 새로고침하기</button>
+      </div>
+    </div>
+  </div>
+
 
 
 
@@ -1406,27 +1486,6 @@
         return `https://m.coupang.com/nm/search?q=${encodeURIComponent(query)}`;
       }
       return `https://www.coupang.com/np/search?q=${encodeURIComponent(query)}&channel=user`;
-    }
-
-    function openInExternalBrowser() {
-      const currentUrl = window.location.href;
-      const ua = navigator.userAgent.toLowerCase();
-      if (/android/i.test(ua)) {
-        location.href = 'intent://' + currentUrl.replace(/https?:\/\//i, '') + '#Intent;scheme=https;package=com.android.chrome;end';
-        return;
-      }
-      location.href = 'kakaotalk://web/openExternal?url=' + encodeURIComponent(currentUrl);
-      setTimeout(() => {
-        showToast('💡 Safari 전환이 안 되면 화면 오른쪽 아래 [⋯] 또는 [공유] ➔ [Safari로 열기]를 눌러주세요!');
-      }, 1500);
-    }
-
-    function copyCurrentUrlAndGuide() {
-      navigator.clipboard.writeText(window.location.href).then(() => {
-        showToast('📋 링크가 복사되었습니다! Safari나 Chrome 주소창에 붙여넣어 주세요.');
-      }).catch(() => {
-        prompt('아래 링크를 복사하여 Safari나 Chrome에서 열어주세요:', window.location.href);
-      });
     }
 
     function safeOpenUrl(url) {
@@ -1475,10 +1534,6 @@
         const trackingEl = document.getElementById('partners-tracking-tag');
         if (trackingEl && partnersStatus.trackingId) {
           trackingEl.innerText = `Tracking ID: ${partnersStatus.trackingId}`;
-        }
-        if (navigator.userAgent.toLowerCase().includes('kakaotalk')) {
-          const ktNotice = document.getElementById('kakaotalk-notice');
-          if (ktNotice) ktNotice.style.display = 'flex';
         }
         if (typeof renderWeekView === 'function') renderWeekView(currentSelectedWeek);
         if (typeof renderAllProductsTables === 'function') renderAllProductsTables();
@@ -2030,12 +2085,12 @@
         card.setAttribute('tabindex', '0');
         card.title = `${m.day} ${m.name} 상세 레시피 보기 (클릭 시 이동)`;
         card.onclick = () => {
-          window.location.href = `gogaek_recipe.html?day=${dayNum}#day-${dayNum}`;
+          window.location.href = `recipe_viewer.html?day=${dayNum}#day-${dayNum}`;
         };
         card.onkeydown = (e) => {
           if (e.key === 'Enter' || e.key === ' ') {
             e.preventDefault();
-            window.location.href = `gogaek_recipe.html?day=${dayNum}#day-${dayNum}`;
+            window.location.href = `recipe_viewer.html?day=${dayNum}#day-${dayNum}`;
           }
         };
         card.innerHTML = `
@@ -2283,7 +2338,7 @@
       }
 
       const isLocal = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
-      const isExtension = (typeof window.__ZIPBABBOT_EXTENSION_ACTIVE__ !== 'undefined' && window.__ZIPBABBOT_EXTENSION_ACTIVE__);
+      const isExtension = (typeof window.__ZIPBABBOT_EXTENSION_ACTIVE__ !== 'undefined' && window.__ZIPBABBOT_EXTENSION_ACTIVE__) || document.documentElement.hasAttribute('data-zipbabbot-extension');
 
       const bgBanner = document.getElementById('batch-bg-banner');
       if (bgBanner) {
@@ -2350,6 +2405,20 @@
         `;
         container.appendChild(row);
       });
+    }
+
+    function markBatchItemAdded(idx, query) {
+      markQueryAdded(query);
+      const tag = document.getElementById(`batch-tag-${idx}`);
+      if (tag) {
+        tag.innerHTML = '<span style="color: #10b981;">✅ 담김!</span>';
+      }
+      const row = document.getElementById(`batch-row-${idx}`);
+      if (row) {
+        row.style.background = 'rgba(16, 185, 129, 0.08)';
+      }
+      updateBatchModalProgress();
+      refreshAllAddedButtons();
     }
 
     function updateBatchModalProgress() {
@@ -2427,6 +2496,40 @@
         showToast('🎉 모든 식재료가 이미 장바구니에 담겨 있어 장바구니 창을 엽니다!');
         isBatchRunning = false;
         openCartDirect();
+        return;
+      }
+
+      // Check environment: Chrome Extension vs Localhost vs Remote
+      const isExt = (typeof window.__ZIPBABBOT_EXTENSION_ACTIVE__ !== 'undefined' && window.__ZIPBABBOT_EXTENSION_ACTIVE__) || document.documentElement.hasAttribute('data-zipbabbot-extension');
+      const isLocal = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
+
+      if (isExt) {
+        document.getElementById('batch-progress-status').innerText = `🧩 크롬 확장 프로그램을 통해 자동 담기 시작 중...`;
+        const extensionPayload = targetList.map(t => ({
+          index: t.originalIndex,
+          query: t.item.query,
+          name: t.item.name,
+          qty: t.item.qty || 1,
+          spec: t.item.spec || '',
+          url: getPartnerUrl(t.item.query)
+        }));
+        window.postMessage({
+          type: 'ZIPBABBOT_START_BATCH',
+          items: extensionPayload
+        }, '*');
+        return;
+      }
+
+      if (!isLocal) {
+        // Remote visitor on GitHub Pages without extension
+        isBatchRunning = false;
+        if (btnConfirm) {
+          btnConfirm.disabled = false;
+          btnConfirm.innerText = '🚀 한 번에 담기 시작';
+        }
+        if (btnStop) btnStop.style.display = 'none';
+        if (btnHeaderStop) btnHeaderStop.style.display = 'none';
+        openExtensionModal();
         return;
       }
 
@@ -2534,12 +2637,82 @@
 
     function stopBatchAutoAdd() {
       isBatchRunning = false;
+      try { window.postMessage({ type: 'ZIPBABBOT_STOP_BATCH' }, '*'); } catch(e) {}
       const btnStop = document.getElementById('modal-stop-btn');
       const btnHeaderStop = document.getElementById('modal-header-stop-btn');
       if (btnStop) btnStop.style.display = 'none';
       if (btnHeaderStop) btnHeaderStop.style.display = 'none';
       showToast('⏹️ 자동 담기를 중단했습니다.');
     }
+
+    function openExtensionModal() {
+      const m = document.getElementById('extension-modal');
+      if (m) m.style.display = 'flex';
+    }
+
+    function closeExtensionModal() {
+      const m = document.getElementById('extension-modal');
+      if (m) m.style.display = 'none';
+    }
+
+    // Chrome Extension message listener
+    window.addEventListener('message', function(event) {
+      if (event.source !== window || !event.data) return;
+      const data = event.data;
+      if (data.type === 'ZIPBABBOT_PROGRESS') {
+        const pct = Math.round((data.step / data.total) * 100);
+        const pBar = document.getElementById('batch-progress-bar');
+        const pPct = document.getElementById('batch-progress-percent');
+        const pStatus = document.getElementById('batch-progress-status');
+        if (pBar) pBar.style.width = `${pct}%`;
+        if (pPct) pPct.innerText = `${pct}%`;
+        if (pStatus) pStatus.innerText = `[${data.step}/${data.total}] ${data.item.name} 담는 중... (크롬 확장 프로그램)`;
+      } else if (data.type === 'ZIPBABBOT_ITEM_DONE') {
+        const item = currentBatchItems[data.index];
+        const tagEl = document.getElementById(`batch-tag-${data.index}`);
+        const rowEl = document.getElementById(`batch-row-${data.index}`);
+        if (data.success) {
+          if (item) {
+            markQueryAdded(item.query);
+          }
+          if (tagEl) tagEl.innerHTML = '<span style="color: #10b981;">✅ 담김!</span>';
+          if (rowEl) rowEl.style.background = 'rgba(16, 185, 129, 0.08)';
+        } else {
+          if (tagEl) tagEl.innerHTML = '<span style="color: #f87171;">⚠️ 수동 담기</span>';
+          if (rowEl) rowEl.style.background = 'rgba(239, 68, 68, 0.08)';
+        }
+        refreshAllAddedButtons();
+        updateBatchModalProgress();
+      } else if (data.type === 'ZIPBABBOT_COMPLETE') {
+        isBatchRunning = false;
+        const btnStop = document.getElementById('modal-stop-btn');
+        const btnHeaderStop = document.getElementById('modal-header-stop-btn');
+        const btnConfirm = document.getElementById('modal-confirm-btn');
+        const btnViewCart = document.getElementById('btn-batch-view-cart');
+        if (btnStop) btnStop.style.display = 'none';
+        if (btnHeaderStop) btnHeaderStop.style.display = 'none';
+        if (btnConfirm) btnConfirm.style.display = 'none';
+        if (btnViewCart) btnViewCart.style.display = 'inline-block';
+        document.getElementById('batch-progress-bar').style.width = '100%';
+        document.getElementById('batch-progress-percent').innerText = '100%';
+        document.getElementById('batch-progress-status').innerHTML = '🎉 <strong>모든 품목 담기 완료!</strong> ➔ <span style="color: #38bdf8;">쿠팡 장바구니 창을 열었습니다.</span>';
+        showToast('🎉 크롬 확장 프로그램을 통해 모든 식재료가 쿠팡 장바구니에 정상 담겼습니다!');
+      }
+    });
+
+    window.addEventListener('zipbabbot-extension-ready', function() {
+      const banner = document.getElementById('batch-bg-banner');
+      if (banner) {
+        banner.innerHTML = `
+          <span style="font-size: 1.4rem; flex-shrink: 0;">⚡</span>
+          <div>
+            <strong style="color: #34d399;">🟢 집밥봇 크롬 확장 프로그램 활성화됨:</strong><br>
+            아래 [🚀 한 번에 담기 시작]을 누르시면 백그라운드 탭에서 쿠팡 장바구니에 진짜로 쏙 담깁니다!<br>
+            <span style="font-size: 0.78rem; color: #94a3b8;">📱 담긴 후 스마트폰 쿠팡 앱을 열어보시면 실시간 100% 동기화되어 모바일로 편하게 결제 가능합니다.</span>
+          </div>
+        `;
+      }
+    });
 
     function startBatchOpenManual() {
       if (!currentBatchItems || currentBatchItems.length === 0) return;
@@ -2795,6 +2968,8 @@
     window.copyAndOpenBookmarkletModal = copyAndOpenBookmarkletModal;
     window.openBookmarkletModal = openBookmarkletModal;
     window.closeBookmarkletModal = closeBookmarkletModal;
+    window.openExtensionModal = openExtensionModal;
+    window.closeExtensionModal = closeExtensionModal;
     window.openCategoryBatch = openCategoryBatch;
     window.selectWeek = selectWeek;
     window.switchViewMode = switchViewMode;

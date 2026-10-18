@@ -403,7 +403,7 @@
         <button type="button" onclick="copySurveyLink()" style="background: linear-gradient(135deg, #fee500 0%, #facc15 100%); color: #1e1b4b; border: none; padding: 10px 18px; border-radius: 10px; font-weight: 800; font-size: 0.88rem; cursor: pointer; display: flex; align-items: center; gap: 6px; box-shadow: 0 2px 10px rgba(250, 204, 21, 0.35);">
           📋 고객 배포용 설문 링크 복사
         </button>
-        <a href="https://theater-comp-lamp-gary.trycloudflare.com/survey.html" target="_blank" style="background: rgba(255, 255, 255, 0.08); color: #cbd5e1; border: 1px solid rgba(255, 255, 255, 0.2); padding: 10px 16px; border-radius: 10px; font-weight: 700; font-size: 0.85rem; text-decoration: none;">
+        <a href="https://remain-nuke-divide-differently.trycloudflare.com/survey.html" target="_blank" style="background: rgba(255, 255, 255, 0.08); color: #cbd5e1; border: 1px solid rgba(255, 255, 255, 0.2); padding: 10px 16px; border-radius: 10px; font-weight: 700; font-size: 0.85rem; text-decoration: none;">
           🌐 설문지 열기 ➔
         </a>
       </div>
@@ -413,7 +413,7 @@
     <div class="stats-grid">
       <div class="stat-card">
         <div class="stat-label">등록된 고객 수</div>
-        <div class="stat-val"><span id="stat-total-clients">1</span><span style="font-size: 1rem; color: var(--text-muted); font-weight: normal;"> 명</span></div>
+        <div class="stat-val"><span id="stat-total-clients">2</span><span style="font-size: 1rem; color: var(--text-muted); font-weight: normal;"> 명</span></div>
       </div>
       <div class="stat-card">
         <div class="stat-label">평균 식비 예산</div>
@@ -434,12 +434,56 @@
         </button>
       </div>
       <div style="color: var(--text-muted); font-size: 0.88rem;">
-        총 <strong style="color: #fff;" id="client-count">1</strong>명의 고객이 등록되어 있습니다.
+        총 <strong style="color: #fff;" id="client-count">2</strong>명의 고객이 등록되어 있습니다.
       </div>
     </div>
 
     <!-- Grid -->
     <div class="client-grid" id="grid">
+      <div class="client-card" id="card-앙기모_111" data-name="앙기모 앙기모_111 일반식 한식">
+        <div>
+          <div class="client-head">
+            <div style="display: flex; align-items: flex-start; gap: 12px;">
+              <input type="checkbox" class="client-select-chk" value="앙기모_111" data-name="앙기모" onchange="onSelectionChange(this)" title="삭제 대상 선택">
+              <div>
+                <div class="client-name">앙기모</div>
+                <div class="client-meta">📁 앙기모_111</div>
+              </div>
+            </div>
+            <div class="head-right-tools">
+              <span class="badge-goal">일반식</span>
+              <button type="button" onclick="deleteSingleClient('앙기모_111', '앙기모')" class="btn-card-delete" title="[앙기모] 고객 폴더 및 파일 영구 삭제">
+                🗑️
+              </button>
+            </div>
+          </div>
+
+          <div class="client-details">
+            <div class="detail-row">
+              <span class="k">구성 인원</span>
+              <span class="v">1명 (111)</span>
+            </div>
+            <div class="detail-row">
+              <span class="k">한 달 예산</span>
+              <span class="v">300,000원 (실구매 265,400원)</span>
+            </div>
+            <div class="detail-row">
+              <span class="k">선호 취향</span>
+              <span class="v">한식</span>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="client-actions">
+          <button type="button" onclick="copyKakaoLink('앙기모', '앙기모_111')" class="action-link btn-kakao-copy">
+            💬 카톡 전송용 맞춤 링크 복사 (1초 접속)
+          </button>
+          <a href="clients/앙기모_111/index.html" target="_blank" class="action-link action-portal">
+            🏠 고객 맞춤 포털 열기 ➔
+          </a>
+        </div>
+      </div>
       <div class="client-card" id="card-최종본_100세_2" data-name="최종본 !!! 최종본_100세_2 일반식 한식, 일식">
         <div>
           <div class="client-head">
@@ -498,7 +542,7 @@
       }).catch(() => {});
     }
 
-    const publicTunnelUrl = (window.location.origin && !window.location.origin.includes('file:')) ? window.location.origin : 'https://theater-comp-lamp-gary.trycloudflare.com';
+    const publicTunnelUrl = (window.location.origin && !window.location.origin.includes('file:')) ? window.location.origin : 'https://remain-nuke-divide-differently.trycloudflare.com';
 
     function copySurveyLink() {
       const surveyUrl = `${publicTunnelUrl}/survey.html`;

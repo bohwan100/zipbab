@@ -4,6 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>30일 식단 설계 조건 | 집밥봇</title>
+  <script>
+    if (window.location.protocol === 'file:') {
+      window.location.replace('https://zipbabot.onrender.com/survey');
+    }
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -345,8 +350,8 @@
         <label class="question-title">
           <span class="num">2.</span> 한 달 식비 예산 (원) <span class="required">*</span>
         </label>
-        <input type="number" id="budget" class="input-text" step="10000" placeholder="예: 300000" required>
-        <p style="font-size: 0.82rem; color: #64748b; margin-top: 6px;">💡 원하시는 한 달 식비 예산(원)을 자유롭게 입력해 주세요. (예: 200,000 / 300,000 등)</p>
+        <input type="text" id="budget" class="input-text" inputmode="numeric" placeholder="예: 300,000 (또는 30만원)" required>
+        <p style="font-size: 0.82rem; color: #64748b; margin-top: 6px;">💡 원하시는 한 달 식비 예산을 자유롭게 입력해 주세요. (예: 200,000 / 30만원 / 300000 등)</p>
       </div>
 
       <!-- 3. 선호하는 음식 취향 -->
@@ -455,7 +460,23 @@
       const name = document.getElementById('client_name').value.trim() || '고객님';
       const age = document.getElementById('client_age').value.trim() || '30대';
       const household = document.querySelector('input[name="household"]')?.value || '1명';
-      const budget = parseInt(document.getElementById('budget')?.value, 10) || 300000;
+      
+      let rawBudget = (document.getElementById('budget')?.value || '300000').replace(/,/g, '').trim();
+      let budget = 300000;
+      if (rawBudget.includes('만')) {
+        const numPart = parseFloat(rawBudget.replace(/[^0-9.]/g, '')) || 30;
+        budget = Math.round(numPart * 10000);
+      } else {
+        const parsedNum = parseInt(rawBudget.replace(/[^0-9]/g, ''), 10);
+        if (!isNaN(parsedNum)) {
+          if (parsedNum >= 5 && parsedNum <= 200) {
+            budget = parsedNum * 10000;
+          } else {
+            budget = parsedNum;
+          }
+        }
+      }
+
       const frequency = document.querySelector('input[name="frequency"]')?.value || '하루 한 끼 (퇴근 후 저녁 30끼)';
       const concept = document.querySelector('input[name="concept"]')?.value || '일반식';
       const cuisineElements = Array.from(document.querySelectorAll('input[name="cuisine"]:checked'));
@@ -479,7 +500,7 @@
 
       try {
         const isFile = window.location.protocol === 'file:' || !window.location.origin || window.location.origin === 'null';
-        const apiBase = isFile ? 'http://localhost:8080' : '';
+        const apiBase = isFile ? 'https://zipbabot.onrender.com' : '';
         const endpoint = apiBase + '/api/create-client';
 
         const res = await fetch(endpoint, {
@@ -496,7 +517,7 @@
         }
       } catch (err) {
         console.error('Create client error:', err);
-        alert('⚠️ 맞춤 사이트 생성 중 오류가 발생했습니다:\n\n' + (err.message || err) + '\n\n로컬 서버(server.py)가 가동 중인지 확인해 주세요. (http://localhost:8080)');
+        alert('⚠️ 맞춤 사이트 생성 중 오류가 발생했습니다:\n\n' + (err.message || err));
       } finally {
         btn.disabled = false;
         btn.innerHTML = '<span>🚀 맞춤 30일 식단 & 장바구니 생성하기</span>';

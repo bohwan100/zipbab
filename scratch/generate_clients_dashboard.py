@@ -13,7 +13,7 @@ def get_live_tunnel_url():
                     return matches[-1]
         except Exception:
             pass
-    return "https://theater-comp-lamp-gary.trycloudflare.com"
+    return "https://zipbabot.onrender.com"
 
 tunnel_base = get_live_tunnel_url()
 

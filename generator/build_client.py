@@ -30,7 +30,7 @@ def get_live_public_url():
                     return matches[-1]
         except Exception:
             pass
-    return "https://theater-comp-lamp-gary.trycloudflare.com"
+    return "https://zipbabot.onrender.com"
 
 def build_client(
     client_id,

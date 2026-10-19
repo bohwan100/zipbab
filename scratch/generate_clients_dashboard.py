@@ -51,6 +51,27 @@ if os.path.exists(clients_dir):
                 }
             })
 
+# 정유진_37부터 최상단에 뜨도록 우선순위 정렬
+priority_order = [
+    '정유진_37',
+    '최민석_26',
+    '차민홍_34',
+    '정진향_41',
+    '노한석_30',
+    '정수원_21세',
+    '최종본_100세_2',
+    '테스트_22',
+    '테스트_30대'
+]
+
+def get_sort_key(item):
+    fname = item.get('folder_name', item.get('client_id', ''))
+    if fname in priority_order:
+        return (0, priority_order.index(fname))
+    return (1, fname)
+
+clients_data.sort(key=get_sort_key)
+
 total_clients = len(clients_data)
 avg_budget = int(sum(c.get('budget', 300000) for c in clients_data) / max(total_clients, 1))
 total_meals = sum(c.get('total_meals', 30) for c in clients_data)

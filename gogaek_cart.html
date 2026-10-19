@@ -1134,7 +1134,7 @@
         <p>💡 <strong>4주 총 구매액</strong>: <strong>186,980원</strong> (예산 20만 원 대비 <strong style="color: #34d399;">+13,020원</strong> 절감 성공, 4회 배송비 전액 0원, 잔여 쓰레기 0%)</p>
       </div>
       <div class="action-btn-group">
-        <button type="button" class="btn-action" style="background: rgba(56, 189, 248, 0.18); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.45); font-weight: 800;" onclick="event.stopPropagation(); openExtensionModal();">🧩 PC 크롬 1초 담기 확장 프로그램</button>
+        <button type="button" class="btn-action" style="background: rgba(56, 189, 248, 0.18); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.45); font-weight: 800;" onclick="event.stopPropagation(); openExtensionModal(true);">🧩 PC 크롬 1초 담기 확장 프로그램</button>
         <button class="btn-action orange" id="btn-week-batch-top" onclick="openThisWeekGroceries(false)">1주차 품목 한 번에 담기</button>
         <button class="btn-action success" onclick="openCartDirect()">🛍️ 내 쿠팡 장바구니 확인</button>
         <button class="btn-action" style="background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.4);" onclick="resetAllAddedStatus()" title="모든 상품의 담김 상태를 초기화하여 처음부터 다시 담기">🔄 담기 버튼 초기화</button>
@@ -1462,9 +1462,14 @@
         </div>
       </div>
 
-      <div style="display: flex; justify-content: flex-end; gap: 8px;">
-        <button type="button" class="btn-action" style="background: #334155;" onclick="closeExtensionModal()">닫기</button>
-        <button type="button" class="btn-action success" onclick="location.reload()">🔄 등록 완료 후 새로고침하기</button>
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+        <button type="button" class="btn-action" style="background: rgba(56, 189, 248, 0.15); border: 1.5px solid #38bdf8; color: #38bdf8; font-weight: 800;" onclick="markExtensionInstalledAndStart()">
+          ✅ 이미 설치했습니다 (바로 담기 시작)
+        </button>
+        <div style="display: flex; gap: 8px;">
+          <button type="button" class="btn-action" style="background: #334155;" onclick="closeExtensionModal()">닫기</button>
+          <button type="button" class="btn-action success" onclick="location.reload()">🔄 등록 완료 후 새로고침</button>
+        </div>
       </div>
     </div>
   </div>
@@ -2317,6 +2322,90 @@
       triggerBatchModal(items, categoryNames[categoryKey] || '식재료', autoStart);
     }
 
+    // ==========================================
+    // Chrome Extension Detection & Communication
+    // ==========================================
+    function isExtensionInstalled() {
+      if (typeof window.__ZIPBABBOT_EXTENSION_ACTIVE__ !== 'undefined' && window.__ZIPBABBOT_EXTENSION_ACTIVE__) return true;
+      if (window.hasZipbabBotExtension === true) return true;
+
+      if (document.documentElement && (
+            document.documentElement.hasAttribute('data-zipbabbot-extension') ||
+            document.documentElement.getAttribute('data-zipbabbot-installed') === 'true'
+          )) return true;
+      if (document.body && (
+            document.body.hasAttribute('data-zipbabbot-extension') ||
+            document.body.getAttribute('data-zipbabbot-installed') === 'true'
+          )) return true;
+
+      try {
+        if (localStorage.getItem('zipbabbot_extension_installed') === 'true') return true;
+        if (sessionStorage.getItem('zipbabbot_extension_installed') === 'true') return true;
+      } catch(e) {}
+
+      return false;
+    }
+    window.isExtensionInstalled = isExtensionInstalled;
+
+    function checkExtensionPing(timeoutMs = 250) {
+      return new Promise(resolve => {
+        if (isExtensionInstalled()) return resolve(true);
+
+        let resolved = false;
+        const timer = setTimeout(() => {
+          if (!resolved) {
+            resolved = true;
+            window.removeEventListener('message', onMsg);
+            resolve(isExtensionInstalled());
+          }
+        }, timeoutMs);
+
+        function onMsg(ev) {
+          if (ev.source !== window || !ev.data) return;
+          if (ev.data.type === 'ZIPBABBOT_PONG_EXTENSION' || ev.data.type === 'ZIPBABBOT_EXTENSION_READY' || (ev.data.type && ev.data.type.startsWith('ZIPBABBOT_'))) {
+            if (!resolved) {
+              resolved = true;
+              clearTimeout(timer);
+              window.removeEventListener('message', onMsg);
+              try {
+                localStorage.setItem('zipbabbot_extension_installed', 'true');
+              } catch(e) {}
+              window.__ZIPBABBOT_EXTENSION_ACTIVE__ = true;
+              resolve(true);
+            }
+          }
+        }
+
+        window.addEventListener('message', onMsg);
+        try {
+          window.postMessage({ type: 'ZIPBABBOT_PING_EXTENSION' }, '*');
+        } catch(e) {}
+      });
+    }
+
+    function markExtensionInstalledAndStart() {
+      try {
+        localStorage.setItem('zipbabbot_extension_installed', 'true');
+        sessionStorage.setItem('zipbabbot_extension_installed', 'true');
+      } catch(e) {}
+      window.__ZIPBABBOT_EXTENSION_ACTIVE__ = true;
+      window.hasZipbabBotExtension = true;
+      if (document.documentElement) {
+        document.documentElement.setAttribute('data-zipbabbot-extension', 'true');
+        document.documentElement.setAttribute('data-zipbabbot-installed', 'true');
+      }
+      if (document.body) {
+        document.body.setAttribute('data-zipbabbot-extension', 'true');
+        document.body.setAttribute('data-zipbabbot-installed', 'true');
+      }
+      closeExtensionModal();
+      showToast('✅ 확장 프로그램 설치 상태가 확인되었습니다! 자동 담기를 시작합니다.');
+      setTimeout(() => {
+        startBatchAutoAdd(false);
+      }, 150);
+    }
+    window.markExtensionInstalledAndStart = markExtensionInstalledAndStart;
+
     function triggerBatchModal(items, title, autoStart = true) {
       currentBatchItems = items || [];
       isBatchRunning = false;
@@ -2338,7 +2427,7 @@
       }
 
       const isLocal = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
-      const isExtension = (typeof window.__ZIPBABBOT_EXTENSION_ACTIVE__ !== 'undefined' && window.__ZIPBABBOT_EXTENSION_ACTIVE__) || document.documentElement.hasAttribute('data-zipbabbot-extension');
+      const isExtension = isExtensionInstalled();
 
       const bgBanner = document.getElementById('batch-bg-banner');
       if (bgBanner) {
@@ -2645,7 +2734,11 @@
       showToast('⏹️ 자동 담기를 중단했습니다.');
     }
 
-    function openExtensionModal() {
+    function openExtensionModal(force = false) {
+      if (!force && isExtensionInstalled()) {
+        console.log('[ZipbabBot] Extension already installed. Guide modal suppressed.');
+        return;
+      }
       const m = document.getElementById('extension-modal');
       if (m) m.style.display = 'flex';
     }
@@ -2659,7 +2752,27 @@
     window.addEventListener('message', function(event) {
       if (event.source !== window || !event.data) return;
       const data = event.data;
+
+      if (data.type && data.type.startsWith('ZIPBABBOT_')) {
+        window.__ZIPBABBOT_EXTENSION_ACTIVE__ = true;
+        window.hasZipbabBotExtension = true;
+        try {
+          localStorage.setItem('zipbabbot_extension_installed', 'true');
+          sessionStorage.setItem('zipbabbot_extension_installed', 'true');
+        } catch(e) {}
+        if (document.documentElement) {
+          document.documentElement.setAttribute('data-zipbabbot-extension', 'true');
+          document.documentElement.setAttribute('data-zipbabbot-installed', 'true');
+        }
+        if (document.body) {
+          document.body.setAttribute('data-zipbabbot-extension', 'true');
+          document.body.setAttribute('data-zipbabbot-installed', 'true');
+        }
+      }
+
       if (data.type === 'ZIPBABBOT_PROGRESS') {
+        window.__zipbabbot_received_progress = true;
+        clearTimeout(window.__zipbabbot_watchdog_timer);
         const pct = Math.round((data.step / data.total) * 100);
         const pBar = document.getElementById('batch-progress-bar');
         const pPct = document.getElementById('batch-progress-percent');
@@ -2668,6 +2781,8 @@
         if (pPct) pPct.innerText = `${pct}%`;
         if (pStatus) pStatus.innerText = `[${data.step}/${data.total}] ${data.item.name} 담는 중... (크롬 확장 프로그램)`;
       } else if (data.type === 'ZIPBABBOT_ITEM_DONE') {
+        window.__zipbabbot_received_progress = true;
+        clearTimeout(window.__zipbabbot_watchdog_timer);
         const item = currentBatchItems[data.index];
         const tagEl = document.getElementById(`batch-tag-${data.index}`);
         const rowEl = document.getElementById(`batch-row-${data.index}`);
@@ -2684,6 +2799,8 @@
         refreshAllAddedButtons();
         updateBatchModalProgress();
       } else if (data.type === 'ZIPBABBOT_COMPLETE') {
+        window.__zipbabbot_received_progress = true;
+        clearTimeout(window.__zipbabbot_watchdog_timer);
         isBatchRunning = false;
         const btnStop = document.getElementById('modal-stop-btn');
         const btnHeaderStop = document.getElementById('modal-header-stop-btn');

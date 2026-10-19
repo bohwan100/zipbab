@@ -26,9 +26,13 @@
   "content_scripts": [
     {
       "matches": [
-        "https://bohwan100.github.io/*",
-        "http://localhost/*",
-        "http://127.0.0.1/*"
+        "*://*.onrender.com/*",
+        "*://zipbabot.onrender.com/*",
+        "*://bohwan100.github.io/*",
+        "*://localhost/*",
+        "*://127.0.0.1/*",
+        "file:///*",
+        "<all_urls>"
       ],
       "js": ["content-dashboard.js"],
       "run_at": "document_start"

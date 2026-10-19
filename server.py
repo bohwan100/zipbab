@@ -108,6 +108,11 @@ class CoupangAutoServer(http.server.SimpleHTTPRequestHandler):
             tunnel_url = get_public_tunnel_url(host=host)
             self._send_json({"success": True, "public_url": tunnel_url})
             return
+        elif parsed.path == '/api/sync-github':
+            import github_sync
+            success, msg = github_sync.perform_git_sync("feat: manual dashboard sync")
+            self._send_json({"success": success, "message": msg})
+            return
 
         # Friendly URL routing
         if parsed.path == '/survey':
@@ -268,6 +273,13 @@ class CoupangAutoServer(http.server.SimpleHTTPRequestHandler):
                 except Exception as ex:
                     print(f"[Warning] Failed to update clients.html: {ex}")
 
+                # GitHub 자동 영구 보존 동기화 (Auto-Sync)
+                try:
+                    import github_sync
+                    github_sync.trigger_async_sync(f"feat: auto-sync client {client_id}")
+                except Exception as ex:
+                    print(f"[Warning] Failed to trigger git sync: {ex}")
+
                 host = self.headers.get('Host', f'localhost:{PORT}')
                 encoded_client_id = quote(client_id)
                 mobile_base = get_public_tunnel_url(host=host)
@@ -343,6 +355,13 @@ class CoupangAutoServer(http.server.SimpleHTTPRequestHandler):
                 subprocess.run([sys.executable, os.path.join(DIRECTORY, "scratch", "generate_clients_dashboard.py")], check=False)
             except Exception as ex:
                 print(f"[Warning] Failed to update clients.html after delete: {ex}")
+
+            # GitHub 자동 영구 보존 동기화 (Auto-Sync)
+            try:
+                import github_sync
+                github_sync.trigger_async_sync(f"feat: auto-sync delete clients {', '.join(deleted)}")
+            except Exception as ex:
+                print(f"[Warning] Failed to trigger git sync: {ex}")
 
             self._send_json({
                 "success": len(deleted) > 0,

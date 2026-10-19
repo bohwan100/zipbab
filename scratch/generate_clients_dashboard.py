@@ -458,6 +458,7 @@ html_content = f"""<!DOCTYPE html>
         </div>
       </div>
       <div class="header-actions">
+        <button type="button" onclick="triggerManualGitSync(this)" class="btn btn-ghost" style="border-color: rgba(56, 189, 248, 0.4); color: #38bdf8;">☁️ GitHub 영구 저장 (Sync)</button>
         <a href="survey.html" class="btn btn-orange">➕ 신규 고객 등록 (설문)</a>
         <a href="index.html" class="btn btn-ghost">🏠 포털 홈</a>
       </div>
@@ -630,6 +631,28 @@ html_content += f"""    </div>
       toast.innerText = msg;
       toast.style.display = 'flex';
       setTimeout(() => {{ toast.style.display = 'none'; }}, 3500);
+    }}
+
+    async function triggerManualGitSync(btn) {{
+      const originalText = btn.innerHTML;
+      btn.disabled = true;
+      btn.innerHTML = '<span>⏳ GitHub 저장 중...</span>';
+      try {{
+        const isFile = window.location.protocol === 'file:' || !window.location.origin || window.location.origin === 'null';
+        const apiBase = isFile ? 'http://localhost:8080' : '';
+        const res = await fetch(apiBase + '/api/sync-github');
+        const data = await res.json();
+        if (data.success) {{
+          showCopyToast('✅ 모든 고객 데이터가 GitHub에 영구 보존(커밋 & 푸시)되었습니다!');
+        }} else {{
+          alert('GitHub 동기화 안내: ' + (data.message || '완료'));
+        }}
+      }} catch (err) {{
+        alert('동기화 통신 오류: ' + err.message + '\\n\\n로컬 서버가 실행 중인지 확인해 주세요.');
+      }} finally {{
+        btn.disabled = false;
+        btn.innerHTML = originalText;
+      }}
     }}
 
     function filterClients() {{

@@ -1,11 +1,19 @@
 import os
 import sys
 import json
+import gc
 import http.server
 import socketserver
 import threading
 from urllib.parse import urlparse, parse_qs
 import coupang_engine
+
+# Memory optimization for 512MB RAM cloud containers (Render Free Tier):
+# Reduce per-thread stack size from default 8MB to 256KB (32x memory savings per thread)
+try:
+    threading.stack_size(256 * 1024)
+except Exception:
+    pass
 
 PORT = int(os.environ.get("PORT", 8080))
 DIRECTORY = os.path.dirname(os.path.abspath(__file__))
@@ -42,6 +50,13 @@ def get_public_tunnel_url(host=None):
 class CoupangAutoServer(http.server.SimpleHTTPRequestHandler):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, directory=DIRECTORY, **kwargs)
+
+    def setup(self):
+        super().setup()
+        try:
+            self.request.settimeout(15.0)  # Close dead/hanging sockets after 15s
+        except Exception:
+            pass
 
     def translate_path(self, path):
         resolved = super().translate_path(path)
@@ -384,6 +399,7 @@ class CoupangAutoServer(http.server.SimpleHTTPRequestHandler):
 class ThreadedHTTPServer(socketserver.ThreadingMixIn, http.server.HTTPServer):
     daemon_threads = True
     allow_reuse_address = True
+    timeout = 10
 
 def run():
     httpd = ThreadedHTTPServer(("", PORT), CoupangAutoServer)

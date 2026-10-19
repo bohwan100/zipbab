@@ -1,0 +1,33 @@
+{
+  "client_id": "한재원_21살",
+  "client_name": "한재원",
+  "client_age": "21살",
+  "household_size": "1명",
+  "people_count": 1,
+  "budget": 300000,
+  "total_spent": 299600,
+  "saved_from_budget": 400,
+  "total_saved_pantry": 0,
+  "meal_frequency": "하루 한 끼 (퇴근 후 저녁 30끼)",
+  "total_meals": 30,
+  "goal": "일반식",
+  "cuisine": "일식, 양식",
+  "excluded_foods": "오이",
+  "pantry_items": "쌀, 각종 양념, 삼겹살",
+  "goal_notes": "배달음식을 끊고 식비를 절약하고 싶습니다. 건강하게 살고싶습니다!",
+  "theme": "한재원님을 위한 1명 일반식 맞춤 식단 (일식, 양식)",
+  "created_at": "2026-10-17",
+  "recipes_summary": [
+    "소고기 규동 (우삼겹 덮밥) (1인분)",
+    "알리오 올리오 파스타 (1인분)",
+    "촉촉한 반숙 돈카츠 가츠동 (1인분)",
+    "정통 베이컨 노른자 까르보나라 (1인분)",
+    "생강타레 부타동 (돼지고기 덮밥) (1인분)"
+  ],
+  "pages": {
+    "portal": "clients/한재원_21살/index.html",
+    "cart": "clients/한재원_21살/cart.html",
+    "recipes": "clients/한재원_21살/recipes.html",
+    "storage": "clients/한재원_21살/storage.html"
+  }
+}

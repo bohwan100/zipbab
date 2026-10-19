@@ -1,0 +1,33 @@
+{
+  "client_id": "정민_26",
+  "client_name": "정민",
+  "client_age": "26",
+  "household_size": "1명",
+  "people_count": 1,
+  "budget": 400000,
+  "total_spent": 289200,
+  "saved_from_budget": 110800,
+  "total_saved_pantry": 103200,
+  "meal_frequency": "하루 한 끼 (퇴근 후 저녁 30끼)",
+  "total_meals": 30,
+  "goal": "일반식",
+  "cuisine": "일식, 양식, 중식",
+  "excluded_foods": "오이",
+  "pantry_items": "소고기 패티7장 /냉동 닭다리 원육/쌀 /간장 /고추장 /스리라차 소스 /냉동 새송이버섯 /냉동삼치 /치킨 스톡/ 냉동 미니양배추/미소 된장/가스오부시/냉동 삼겹살",
+  "goal_notes": "야채요리를 좀 다양하게 해볼수있게 도움받고싶습니다,",
+  "theme": "정민님을 위한 1명 일반식 맞춤 식단 (일식, 양식, 중식)",
+  "created_at": "2026-10-17",
+  "recipes_summary": [
+    "소고기 규동 (우삼겹 덮밥) (1인분)",
+    "알리오 올리오 파스타 (1인분)",
+    "사천풍 마파두부덮밥 (1인분)",
+    "촉촉한 반숙 돈카츠 가츠동 (1인분)",
+    "정통 베이컨 노른자 까르보나라 (1인분)"
+  ],
+  "pages": {
+    "portal": "clients/정민_26/index.html",
+    "cart": "clients/정민_26/cart.html",
+    "recipes": "clients/정민_26/recipes.html",
+    "storage": "clients/정민_26/storage.html"
+  }
+}

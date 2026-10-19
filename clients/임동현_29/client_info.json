@@ -1,0 +1,33 @@
+{
+  "client_id": "임동현_29",
+  "client_name": "임동현",
+  "client_age": "29",
+  "household_size": "1명",
+  "people_count": 1,
+  "budget": 400000,
+  "total_spent": 398000,
+  "saved_from_budget": 2000,
+  "total_saved_pantry": 0,
+  "meal_frequency": "하루 한 끼 (퇴근 후 저녁 30끼)",
+  "total_meals": 30,
+  "goal": "일반식",
+  "cuisine": "한식, 일식, 양식, 중식",
+  "excluded_foods": "없음",
+  "pantry_items": "아무것도 없음",
+  "goal_notes": "거의 배달음식으로 끼니를 떼워왔는데, 돈이 너무 많이 드는 것 같아 식비를 아끼고 싶어요!",
+  "theme": "임동현님을 위한 1명 일반식 맞춤 식단 (한식, 일식, 양식, 중식)",
+  "created_at": "2026-10-17",
+  "recipes_summary": [
+    "불맛 제육볶음 + 계란파국 (1인분)",
+    "소고기 규동 (우삼겹 덮밥) (1인분)",
+    "알리오 올리오 파스타 (1인분)",
+    "사천풍 마파두부덮밥 (1인분)",
+    "갈아만든 배 제육볶음 (1인분)"
+  ],
+  "pages": {
+    "portal": "clients/임동현_29/index.html",
+    "cart": "clients/임동현_29/cart.html",
+    "recipes": "clients/임동현_29/recipes.html",
+    "storage": "clients/임동현_29/storage.html"
+  }
+}

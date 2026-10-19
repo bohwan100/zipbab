@@ -25,8 +25,10 @@ def _log(msg):
         pass
 
 def _run_cmd(cmd, cwd=DIRECTORY, timeout=30):
+    env = os.environ.copy()
+    env["GIT_TERMINAL_PROMPT"] = "0"
     try:
-        res = subprocess.run(cmd, cwd=cwd, capture_output=True, text=True, timeout=timeout)
+        res = subprocess.run(cmd, cwd=cwd, env=env, capture_output=True, text=True, timeout=timeout)
         return res.returncode == 0, res.stdout.strip(), res.stderr.strip()
     except Exception as e:
         return False, "", str(e)

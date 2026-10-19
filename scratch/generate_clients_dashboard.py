@@ -2,20 +2,7 @@ import os
 import json
 import re
 
-def get_live_tunnel_url():
-    tunnel_log = os.path.join(os.path.dirname(__file__), "tunnel.log")
-    if os.path.exists(tunnel_log):
-        try:
-            with open(tunnel_log, "r", encoding="utf-8", errors="ignore") as f:
-                content = f.read()
-                matches = re.findall(r'https://[a-zA-Z0-9-]+\.trycloudflare\.com', content)
-                if matches:
-                    return matches[-1]
-        except Exception:
-            pass
-    return "https://zipbabot.onrender.com"
-
-tunnel_base = get_live_tunnel_url()
+tunnel_base = "https://zipbabot.onrender.com"
 
 clients_dir = 'clients'
 clients_data = []
@@ -593,11 +580,9 @@ html_content += f"""    </div>
   </div>
 
   <script>
-    // file:// 로 직접 열었을 경우 자동으로 백그라운드 서버(http://localhost:8080/clients.html)로 즉시 전환
+    // file:// 로 직접 열었을 경우 자동으로 온라인 Render 주소(https://zipbabot.onrender.com/clients)로 즉시 전환
     if (window.location.protocol === 'file:') {{
-      fetch('http://localhost:8080/api/ping', {{ mode: 'no-cors' }}).then(() => {{
-        window.location.replace('http://localhost:8080/clients.html');
-      }}).catch(() => {{}});
+      window.location.replace('https://zipbabot.onrender.com/clients');
     }}
 
     const publicTunnelUrl = (window.location.origin && !window.location.origin.includes('file:')) ? window.location.origin : '{tunnel_base}';
@@ -639,7 +624,7 @@ html_content += f"""    </div>
       btn.innerHTML = '<span>⏳ GitHub 저장 중...</span>';
       try {{
         const isFile = window.location.protocol === 'file:' || !window.location.origin || window.location.origin === 'null';
-        const apiBase = isFile ? 'http://localhost:8080' : '';
+        const apiBase = isFile ? 'https://zipbabot.onrender.com' : '';
         const res = await fetch(apiBase + '/api/sync-github');
         const data = await res.json();
         if (data.success) {{
@@ -740,9 +725,9 @@ html_content += f"""    </div>
       btn.disabled = true;
       btn.innerHTML = '⏳ 실제 파일 삭제 중...';
 
-      // file:// 환경이거나 외부 접속 환경이어도 localhost 또는 현재 도메인으로 정상 라우팅
+      // file:// 환경이거나 외부 접속 환경이어도 Render 온라인 도메인으로 정상 라우팅
       const isFile = window.location.protocol === 'file:' || !window.location.origin || window.location.origin === 'null';
-      const apiBase = isFile ? 'http://localhost:8080' : '';
+      const apiBase = isFile ? 'https://zipbabot.onrender.com' : '';
       const endpoint = apiBase + '/api/delete-client';
 
       try {{
@@ -755,11 +740,7 @@ html_content += f"""    </div>
         if (result.success) {{
           showCopyToast(`🗑️ ${{result.deleted.length}}명의 고객 데이터가 실제 파일에서 완전히 삭제되었습니다!`);
           setTimeout(() => {{
-            if (window.location.protocol === 'file:') {{
-              window.location.replace('http://localhost:8080/clients.html');
-            }} else {{
-              window.location.reload();
-            }}
+            window.location.reload();
           }}, 600);
         }} else {{
           alert('삭제 중 오류가 발생했습니다: ' + (result.errors || []).join(', '));
@@ -768,7 +749,7 @@ html_content += f"""    </div>
         }}
       }} catch (err) {{
         console.error('Delete request error:', err);
-        alert('⚠️ 삭제 요청 중 통신 오류가 발생했습니다: ' + err.message + '\\n\\n로컬 서버(http://localhost:8080)가 실행 중인지 확인해 주세요.');
+        alert('⚠️ 삭제 요청 중 통신 오류가 발생했습니다: ' + err.message);
         btn.disabled = false;
         btn.innerHTML = originalText;
       }}

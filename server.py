@@ -115,9 +115,9 @@ class CoupangAutoServer(http.server.SimpleHTTPRequestHandler):
             return
 
         # Friendly URL routing
-        if parsed.path == '/survey':
+        if parsed.path in ['/survey', '/survey/']:
             self.path = '/survey.html'
-        elif parsed.path in ['/clients', '/admin', '/manage']:
+        elif parsed.path in ['/clients', '/clients/', '/admin', '/admin/', '/manage', '/manage/']:
             self.path = '/clients.html'
 
         super().do_GET()

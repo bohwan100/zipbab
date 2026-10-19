@@ -404,7 +404,7 @@
         <button type="button" onclick="copySurveyLink()" style="background: linear-gradient(135deg, #fee500 0%, #facc15 100%); color: #1e1b4b; border: none; padding: 10px 18px; border-radius: 10px; font-weight: 800; font-size: 0.88rem; cursor: pointer; display: flex; align-items: center; gap: 6px; box-shadow: 0 2px 10px rgba(250, 204, 21, 0.35);">
           📋 고객 배포용 설문 링크 복사
         </button>
-        <a href="https://remain-nuke-divide-differently.trycloudflare.com/survey.html" target="_blank" style="background: rgba(255, 255, 255, 0.08); color: #cbd5e1; border: 1px solid rgba(255, 255, 255, 0.2); padding: 10px 16px; border-radius: 10px; font-weight: 700; font-size: 0.85rem; text-decoration: none;">
+        <a href="https://zipbabot.onrender.com/survey.html" target="_blank" style="background: rgba(255, 255, 255, 0.08); color: #cbd5e1; border: 1px solid rgba(255, 255, 255, 0.2); padding: 10px 16px; border-radius: 10px; font-weight: 700; font-size: 0.85rem; text-decoration: none;">
           🌐 설문지 열기 ➔
         </a>
       </div>
@@ -862,14 +862,12 @@
   </div>
 
   <script>
-    // file:// 로 직접 열었을 경우 자동으로 백그라운드 서버(http://localhost:8080/clients.html)로 즉시 전환
+    // file:// 로 직접 열었을 경우 자동으로 온라인 Render 주소(https://zipbabot.onrender.com/clients)로 즉시 전환
     if (window.location.protocol === 'file:') {
-      fetch('http://localhost:8080/api/ping', { mode: 'no-cors' }).then(() => {
-        window.location.replace('http://localhost:8080/clients.html');
-      }).catch(() => {});
+      window.location.replace('https://zipbabot.onrender.com/clients');
     }
 
-    const publicTunnelUrl = (window.location.origin && !window.location.origin.includes('file:')) ? window.location.origin : 'https://remain-nuke-divide-differently.trycloudflare.com';
+    const publicTunnelUrl = (window.location.origin && !window.location.origin.includes('file:')) ? window.location.origin : 'https://zipbabot.onrender.com';
 
     function copySurveyLink() {
       const surveyUrl = `${publicTunnelUrl}/survey.html`;
@@ -908,7 +906,7 @@
       btn.innerHTML = '<span>⏳ GitHub 저장 중...</span>';
       try {
         const isFile = window.location.protocol === 'file:' || !window.location.origin || window.location.origin === 'null';
-        const apiBase = isFile ? 'http://localhost:8080' : '';
+        const apiBase = isFile ? 'https://zipbabot.onrender.com' : '';
         const res = await fetch(apiBase + '/api/sync-github');
         const data = await res.json();
         if (data.success) {
@@ -1009,9 +1007,9 @@
       btn.disabled = true;
       btn.innerHTML = '⏳ 실제 파일 삭제 중...';
 
-      // file:// 환경이거나 외부 접속 환경이어도 localhost 또는 현재 도메인으로 정상 라우팅
+      // file:// 환경이거나 외부 접속 환경이어도 Render 온라인 도메인으로 정상 라우팅
       const isFile = window.location.protocol === 'file:' || !window.location.origin || window.location.origin === 'null';
-      const apiBase = isFile ? 'http://localhost:8080' : '';
+      const apiBase = isFile ? 'https://zipbabot.onrender.com' : '';
       const endpoint = apiBase + '/api/delete-client';
 
       try {
@@ -1024,11 +1022,7 @@
         if (result.success) {
           showCopyToast(`🗑️ ${result.deleted.length}명의 고객 데이터가 실제 파일에서 완전히 삭제되었습니다!`);
           setTimeout(() => {
-            if (window.location.protocol === 'file:') {
-              window.location.replace('http://localhost:8080/clients.html');
-            } else {
-              window.location.reload();
-            }
+            window.location.reload();
           }, 600);
         } else {
           alert('삭제 중 오류가 발생했습니다: ' + (result.errors || []).join(', '));
@@ -1037,7 +1031,7 @@
         }
       } catch (err) {
         console.error('Delete request error:', err);
-        alert('⚠️ 삭제 요청 중 통신 오류가 발생했습니다: ' + err.message + '\n\n로컬 서버(http://localhost:8080)가 실행 중인지 확인해 주세요.');
+        alert('⚠️ 삭제 요청 중 통신 오류가 발생했습니다: ' + err.message);
         btn.disabled = false;
         btn.innerHTML = originalText;
       }

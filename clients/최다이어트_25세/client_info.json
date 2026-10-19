@@ -1,0 +1,33 @@
+{
+  "client_id": "최다이어트_25세",
+  "client_name": "최다이어트",
+  "client_age": "25세",
+  "household_size": "1명",
+  "people_count": 1,
+  "budget": 200000,
+  "total_spent": 174700,
+  "saved_from_budget": 25300,
+  "total_saved_pantry": 0,
+  "meal_frequency": "저녁만 (30끼)",
+  "total_meals": 30,
+  "goal": "다이어트",
+  "cuisine": "한식",
+  "excluded_foods": "밀가루",
+  "pantry_items": "아무것도 없음",
+  "goal_notes": "단백질 위주의 가성비 20만원 한식 다이어트.",
+  "theme": "최다이어트님을 위한 1명 다이어트 맞춤 식단 (한식)",
+  "created_at": "2026-10-17",
+  "recipes_summary": [
+    "으깬스팸 불맛 순두부찌개 (1인분)",
+    "돼지고기 김치찌개 (1인분)",
+    "우삼겹 된장찌개 + 콩나물무침 (1인분)",
+    "우삼겹 숙주볶음 (1인분)",
+    "으깬스팸 불맛 순두부찌개 (1인분)"
+  ],
+  "pages": {
+    "portal": "clients/최다이어트_25세/index.html",
+    "cart": "clients/최다이어트_25세/cart.html",
+    "recipes": "clients/최다이어트_25세/recipes.html",
+    "storage": "clients/최다이어트_25세/storage.html"
+  }
+}

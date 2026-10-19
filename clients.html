@@ -413,11 +413,11 @@
     <div class="stats-grid">
       <div class="stat-card">
         <div class="stat-label">등록된 고객 수</div>
-        <div class="stat-val"><span id="stat-total-clients">1</span><span style="font-size: 1rem; color: var(--text-muted); font-weight: normal;"> 명</span></div>
+        <div class="stat-val"><span id="stat-total-clients">10</span><span style="font-size: 1rem; color: var(--text-muted); font-weight: normal;"> 명</span></div>
       </div>
       <div class="stat-card">
         <div class="stat-label">평균 식비 예산</div>
-        <div class="stat-val">300,000<span style="font-size: 1rem; color: var(--text-muted); font-weight: normal;"> 원</span></div>
+        <div class="stat-val">350,000<span style="font-size: 1rem; color: var(--text-muted); font-weight: normal;"> 원</span></div>
       </div>
     </div>
 
@@ -434,12 +434,435 @@
         </button>
       </div>
       <div style="color: var(--text-muted); font-size: 0.88rem;">
-        총 <strong style="color: #fff;" id="client-count">1</strong>명의 고객이 등록되어 있습니다.
+        총 <strong style="color: #fff;" id="client-count">10</strong>명의 고객이 등록되어 있습니다.
       </div>
     </div>
 
     <!-- Grid -->
     <div class="client-grid" id="grid">
+      <div class="client-card" id="card-강프리미엄_35세" data-name="강프리미엄 강프리미엄_35세 고단백·근육 증가 한식, 일식, 양식">
+        <div>
+          <div class="client-head">
+            <div style="display: flex; align-items: flex-start; gap: 12px;">
+              <input type="checkbox" class="client-select-chk" value="강프리미엄_35세" data-name="강프리미엄" onchange="onSelectionChange(this)" title="삭제 대상 선택">
+              <div>
+                <div class="client-name">강프리미엄</div>
+                <div class="client-meta">📁 강프리미엄_35세</div>
+              </div>
+            </div>
+            <div class="head-right-tools">
+              <span class="badge-goal">고단백·근육 증가</span>
+              <button type="button" onclick="deleteSingleClient('강프리미엄_35세', '강프리미엄')" class="btn-card-delete" title="[강프리미엄] 고객 폴더 및 파일 영구 삭제">
+                🗑️
+              </button>
+            </div>
+          </div>
+
+          <div class="client-details">
+            <div class="detail-row">
+              <span class="k">구성 인원</span>
+              <span class="v">3명 (35세)</span>
+            </div>
+            <div class="detail-row">
+              <span class="k">한 달 예산</span>
+              <span class="v">500,000원 (실구매 481,300원)</span>
+            </div>
+            <div class="detail-row">
+              <span class="k">선호 취향</span>
+              <span class="v">한식, 일식, 양식</span>
+            </div>
+            <div class="detail-row" style="background: rgba(56, 189, 248, 0.08); border-left: 3px solid #38bdf8; border-radius: 6px; padding: 8px 10px; margin-top: 8px; flex-direction: column; align-items: flex-start; gap: 4px;">
+              <span class="k" style="color: #38bdf8; font-weight: 800; font-size: 0.78rem;">🎯 고객 목표 (설문 6번)</span>
+              <span class="v" style="color: #f1f5f9; font-size: 0.84rem; max-width: 100%; white-space: normal; line-height: 1.45; font-weight: 500;">"가족 3인이 함께 먹는 푸짐하고 든든한 고단백 맞춤 식단."</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="client-actions">
+          <button type="button" onclick="copyKakaoLink('강프리미엄', '강프리미엄_35세')" class="action-link btn-kakao-copy">
+            💬 카톡 전송용 맞춤 링크 복사 (1초 접속)
+          </button>
+          <a href="clients/강프리미엄_35세/index.html" target="_blank" class="action-link action-portal">
+            🏠 고객 맞춤 포털 열기 ➔
+          </a>
+        </div>
+      </div>
+      <div class="client-card" id="card-김민수_31세" data-name="김민수 김민수_31세 일반식 한식, 일식, 양식, 중식">
+        <div>
+          <div class="client-head">
+            <div style="display: flex; align-items: flex-start; gap: 12px;">
+              <input type="checkbox" class="client-select-chk" value="김민수_31세" data-name="김민수" onchange="onSelectionChange(this)" title="삭제 대상 선택">
+              <div>
+                <div class="client-name">김민수</div>
+                <div class="client-meta">📁 김민수_31세</div>
+              </div>
+            </div>
+            <div class="head-right-tools">
+              <span class="badge-goal">일반식</span>
+              <button type="button" onclick="deleteSingleClient('김민수_31세', '김민수')" class="btn-card-delete" title="[김민수] 고객 폴더 및 파일 영구 삭제">
+                🗑️
+              </button>
+            </div>
+          </div>
+
+          <div class="client-details">
+            <div class="detail-row">
+              <span class="k">구성 인원</span>
+              <span class="v">1명 (31세)</span>
+            </div>
+            <div class="detail-row">
+              <span class="k">한 달 예산</span>
+              <span class="v">300,000원 (실구매 295,200원)</span>
+            </div>
+            <div class="detail-row">
+              <span class="k">선호 취향</span>
+              <span class="v">한식, 일식, 양식, 중식</span>
+            </div>
+            <div class="detail-row" style="background: rgba(56, 189, 248, 0.08); border-left: 3px solid #38bdf8; border-radius: 6px; padding: 8px 10px; margin-top: 8px; flex-direction: column; align-items: flex-start; gap: 4px;">
+              <span class="k" style="color: #38bdf8; font-weight: 800; font-size: 0.78rem;">🎯 고객 목표 (설문 6번)</span>
+              <span class="v" style="color: #f1f5f9; font-size: 0.84rem; max-width: 100%; white-space: normal; line-height: 1.45; font-weight: 500;">"퇴근 후 15분 만에 맛있게 먹을 수 있는 가성비 식단."</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="client-actions">
+          <button type="button" onclick="copyKakaoLink('김민수', '김민수_31세')" class="action-link btn-kakao-copy">
+            💬 카톡 전송용 맞춤 링크 복사 (1초 접속)
+          </button>
+          <a href="clients/김민수_31세/index.html" target="_blank" class="action-link action-portal">
+            🏠 고객 맞춤 포털 열기 ➔
+          </a>
+        </div>
+      </div>
+      <div class="client-card" id="card-김민수_31세_2" data-name="김민수 김민수_31세_2 일반식 한식, 일식, 양식, 중식">
+        <div>
+          <div class="client-head">
+            <div style="display: flex; align-items: flex-start; gap: 12px;">
+              <input type="checkbox" class="client-select-chk" value="김민수_31세_2" data-name="김민수" onchange="onSelectionChange(this)" title="삭제 대상 선택">
+              <div>
+                <div class="client-name">김민수</div>
+                <div class="client-meta">📁 김민수_31세_2</div>
+              </div>
+            </div>
+            <div class="head-right-tools">
+              <span class="badge-goal">일반식</span>
+              <button type="button" onclick="deleteSingleClient('김민수_31세_2', '김민수')" class="btn-card-delete" title="[김민수] 고객 폴더 및 파일 영구 삭제">
+                🗑️
+              </button>
+            </div>
+          </div>
+
+          <div class="client-details">
+            <div class="detail-row">
+              <span class="k">구성 인원</span>
+              <span class="v">1명 (31세)</span>
+            </div>
+            <div class="detail-row">
+              <span class="k">한 달 예산</span>
+              <span class="v">300,000원 (실구매 299,700원)</span>
+            </div>
+            <div class="detail-row">
+              <span class="k">선호 취향</span>
+              <span class="v">한식, 일식, 양식, 중식</span>
+            </div>
+            <div class="detail-row" style="background: rgba(56, 189, 248, 0.08); border-left: 3px solid #38bdf8; border-radius: 6px; padding: 8px 10px; margin-top: 8px; flex-direction: column; align-items: flex-start; gap: 4px;">
+              <span class="k" style="color: #38bdf8; font-weight: 800; font-size: 0.78rem;">🎯 고객 목표 (설문 6번)</span>
+              <span class="v" style="color: #f1f5f9; font-size: 0.84rem; max-width: 100%; white-space: normal; line-height: 1.45; font-weight: 500;">"다양한 4개국 요리를 골고루 즐기는 집밥 플랜."</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="client-actions">
+          <button type="button" onclick="copyKakaoLink('김민수', '김민수_31세_2')" class="action-link btn-kakao-copy">
+            💬 카톡 전송용 맞춤 링크 복사 (1초 접속)
+          </button>
+          <a href="clients/김민수_31세_2/index.html" target="_blank" class="action-link action-portal">
+            🏠 고객 맞춤 포털 열기 ➔
+          </a>
+        </div>
+      </div>
+      <div class="client-card" id="card-김민수_40세" data-name="김민수 김민수_40세 다이어트 한식">
+        <div>
+          <div class="client-head">
+            <div style="display: flex; align-items: flex-start; gap: 12px;">
+              <input type="checkbox" class="client-select-chk" value="김민수_40세" data-name="김민수" onchange="onSelectionChange(this)" title="삭제 대상 선택">
+              <div>
+                <div class="client-name">김민수</div>
+                <div class="client-meta">📁 김민수_40세</div>
+              </div>
+            </div>
+            <div class="head-right-tools">
+              <span class="badge-goal">다이어트</span>
+              <button type="button" onclick="deleteSingleClient('김민수_40세', '김민수')" class="btn-card-delete" title="[김민수] 고객 폴더 및 파일 영구 삭제">
+                🗑️
+              </button>
+            </div>
+          </div>
+
+          <div class="client-details">
+            <div class="detail-row">
+              <span class="k">구성 인원</span>
+              <span class="v">2명 (40세)</span>
+            </div>
+            <div class="detail-row">
+              <span class="k">한 달 예산</span>
+              <span class="v">500,000원 (실구매 454,500원)</span>
+            </div>
+            <div class="detail-row">
+              <span class="k">선호 취향</span>
+              <span class="v">한식</span>
+            </div>
+            <div class="detail-row" style="background: rgba(56, 189, 248, 0.08); border-left: 3px solid #38bdf8; border-radius: 6px; padding: 8px 10px; margin-top: 8px; flex-direction: column; align-items: flex-start; gap: 4px;">
+              <span class="k" style="color: #38bdf8; font-weight: 800; font-size: 0.78rem;">🎯 고객 목표 (설문 6번)</span>
+              <span class="v" style="color: #f1f5f9; font-size: 0.84rem; max-width: 100%; white-space: normal; line-height: 1.45; font-weight: 500;">"부부가 함께 실천하는 건강한 저염식 식단."</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="client-actions">
+          <button type="button" onclick="copyKakaoLink('김민수', '김민수_40세')" class="action-link btn-kakao-copy">
+            💬 카톡 전송용 맞춤 링크 복사 (1초 접속)
+          </button>
+          <a href="clients/김민수_40세/index.html" target="_blank" class="action-link action-portal">
+            🏠 고객 맞춤 포털 열기 ➔
+          </a>
+        </div>
+      </div>
+      <div class="client-card" id="card-김민수_40세_2" data-name="김민수 김민수_40세_2 다이어트 한식">
+        <div>
+          <div class="client-head">
+            <div style="display: flex; align-items: flex-start; gap: 12px;">
+              <input type="checkbox" class="client-select-chk" value="김민수_40세_2" data-name="김민수" onchange="onSelectionChange(this)" title="삭제 대상 선택">
+              <div>
+                <div class="client-name">김민수</div>
+                <div class="client-meta">📁 김민수_40세_2</div>
+              </div>
+            </div>
+            <div class="head-right-tools">
+              <span class="badge-goal">다이어트</span>
+              <button type="button" onclick="deleteSingleClient('김민수_40세_2', '김민수')" class="btn-card-delete" title="[김민수] 고객 폴더 및 파일 영구 삭제">
+                🗑️
+              </button>
+            </div>
+          </div>
+
+          <div class="client-details">
+            <div class="detail-row">
+              <span class="k">구성 인원</span>
+              <span class="v">2명 (40세)</span>
+            </div>
+            <div class="detail-row">
+              <span class="k">한 달 예산</span>
+              <span class="v">500,000원 (실구매 382,800원)</span>
+            </div>
+            <div class="detail-row">
+              <span class="k">선호 취향</span>
+              <span class="v">한식</span>
+            </div>
+            <div class="detail-row" style="background: rgba(56, 189, 248, 0.08); border-left: 3px solid #38bdf8; border-radius: 6px; padding: 8px 10px; margin-top: 8px; flex-direction: column; align-items: flex-start; gap: 4px;">
+              <span class="k" style="color: #38bdf8; font-weight: 800; font-size: 0.78rem;">🎯 고객 목표 (설문 6번)</span>
+              <span class="v" style="color: #f1f5f9; font-size: 0.84rem; max-width: 100%; white-space: normal; line-height: 1.45; font-weight: 500;">"소고기와 닭고기 위주의 깔끔한 식단."</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="client-actions">
+          <button type="button" onclick="copyKakaoLink('김민수', '김민수_40세_2')" class="action-link btn-kakao-copy">
+            💬 카톡 전송용 맞춤 링크 복사 (1초 접속)
+          </button>
+          <a href="clients/김민수_40세_2/index.html" target="_blank" class="action-link action-portal">
+            🏠 고객 맞춤 포털 열기 ➔
+          </a>
+        </div>
+      </div>
+      <div class="client-card" id="card-김홍현_25세" data-name="김홍현 김홍현_25세 일반식 한식, 일식, 양식">
+        <div>
+          <div class="client-head">
+            <div style="display: flex; align-items: flex-start; gap: 12px;">
+              <input type="checkbox" class="client-select-chk" value="김홍현_25세" data-name="김홍현" onchange="onSelectionChange(this)" title="삭제 대상 선택">
+              <div>
+                <div class="client-name">김홍현</div>
+                <div class="client-meta">📁 김홍현_25세</div>
+              </div>
+            </div>
+            <div class="head-right-tools">
+              <span class="badge-goal">일반식</span>
+              <button type="button" onclick="deleteSingleClient('김홍현_25세', '김홍현')" class="btn-card-delete" title="[김홍현] 고객 폴더 및 파일 영구 삭제">
+                🗑️
+              </button>
+            </div>
+          </div>
+
+          <div class="client-details">
+            <div class="detail-row">
+              <span class="k">구성 인원</span>
+              <span class="v">1명 (25세)</span>
+            </div>
+            <div class="detail-row">
+              <span class="k">한 달 예산</span>
+              <span class="v">300,000원 (실구매 298,100원)</span>
+            </div>
+            <div class="detail-row">
+              <span class="k">선호 취향</span>
+              <span class="v">한식, 일식, 양식</span>
+            </div>
+            <div class="detail-row" style="background: rgba(56, 189, 248, 0.08); border-left: 3px solid #38bdf8; border-radius: 6px; padding: 8px 10px; margin-top: 8px; flex-direction: column; align-items: flex-start; gap: 4px;">
+              <span class="k" style="color: #38bdf8; font-weight: 800; font-size: 0.78rem;">🎯 고객 목표 (설문 6번)</span>
+              <span class="v" style="color: #f1f5f9; font-size: 0.84rem; max-width: 100%; white-space: normal; line-height: 1.45; font-weight: 500;">"배달 음식을 줄이고 건강한 자취 요리를 직접 해먹고 싶어요."</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="client-actions">
+          <button type="button" onclick="copyKakaoLink('김홍현', '김홍현_25세')" class="action-link btn-kakao-copy">
+            💬 카톡 전송용 맞춤 링크 복사 (1초 접속)
+          </button>
+          <a href="clients/김홍현_25세/index.html" target="_blank" class="action-link action-portal">
+            🏠 고객 맞춤 포털 열기 ➔
+          </a>
+        </div>
+      </div>
+      <div class="client-card" id="card-앙기모_31세" data-name="앙기모 앙기모_31세 벌크업 한식, 일식">
+        <div>
+          <div class="client-head">
+            <div style="display: flex; align-items: flex-start; gap: 12px;">
+              <input type="checkbox" class="client-select-chk" value="앙기모_31세" data-name="앙기모" onchange="onSelectionChange(this)" title="삭제 대상 선택">
+              <div>
+                <div class="client-name">앙기모</div>
+                <div class="client-meta">📁 앙기모_31세</div>
+              </div>
+            </div>
+            <div class="head-right-tools">
+              <span class="badge-goal">벌크업</span>
+              <button type="button" onclick="deleteSingleClient('앙기모_31세', '앙기모')" class="btn-card-delete" title="[앙기모] 고객 폴더 및 파일 영구 삭제">
+                🗑️
+              </button>
+            </div>
+          </div>
+
+          <div class="client-details">
+            <div class="detail-row">
+              <span class="k">구성 인원</span>
+              <span class="v">1명 (31세)</span>
+            </div>
+            <div class="detail-row">
+              <span class="k">한 달 예산</span>
+              <span class="v">300,000원 (실구매 275,000원)</span>
+            </div>
+            <div class="detail-row">
+              <span class="k">선호 취향</span>
+              <span class="v">한식, 일식</span>
+            </div>
+            <div class="detail-row" style="background: rgba(56, 189, 248, 0.08); border-left: 3px solid #38bdf8; border-radius: 6px; padding: 8px 10px; margin-top: 8px; flex-direction: column; align-items: flex-start; gap: 4px;">
+              <span class="k" style="color: #38bdf8; font-weight: 800; font-size: 0.78rem;">🎯 고객 목표 (설문 6번)</span>
+              <span class="v" style="color: #f1f5f9; font-size: 0.84rem; max-width: 100%; white-space: normal; line-height: 1.45; font-weight: 500;">"운동 후 근육 성장을 위한 탄단지 균형 식단."</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="client-actions">
+          <button type="button" onclick="copyKakaoLink('앙기모', '앙기모_31세')" class="action-link btn-kakao-copy">
+            💬 카톡 전송용 맞춤 링크 복사 (1초 접속)
+          </button>
+          <a href="clients/앙기모_31세/index.html" target="_blank" class="action-link action-portal">
+            🏠 고객 맞춤 포털 열기 ➔
+          </a>
+        </div>
+      </div>
+      <div class="client-card" id="card-이보환_30일집밥" data-name="이보환 이보환_30일집밥 다이어트 한식, 일식">
+        <div>
+          <div class="client-head">
+            <div style="display: flex; align-items: flex-start; gap: 12px;">
+              <input type="checkbox" class="client-select-chk" value="이보환_30일집밥" data-name="이보환" onchange="onSelectionChange(this)" title="삭제 대상 선택">
+              <div>
+                <div class="client-name">이보환</div>
+                <div class="client-meta">📁 이보환_30일집밥</div>
+              </div>
+            </div>
+            <div class="head-right-tools">
+              <span class="badge-goal">다이어트</span>
+              <button type="button" onclick="deleteSingleClient('이보환_30일집밥', '이보환')" class="btn-card-delete" title="[이보환] 고객 폴더 및 파일 영구 삭제">
+                🗑️
+              </button>
+            </div>
+          </div>
+
+          <div class="client-details">
+            <div class="detail-row">
+              <span class="k">구성 인원</span>
+              <span class="v">1명 (30대)</span>
+            </div>
+            <div class="detail-row">
+              <span class="k">한 달 예산</span>
+              <span class="v">300,000원 (실구매 286,300원)</span>
+            </div>
+            <div class="detail-row">
+              <span class="k">선호 취향</span>
+              <span class="v">한식, 일식</span>
+            </div>
+            <div class="detail-row" style="background: rgba(56, 189, 248, 0.08); border-left: 3px solid #38bdf8; border-radius: 6px; padding: 8px 10px; margin-top: 8px; flex-direction: column; align-items: flex-start; gap: 4px;">
+              <span class="k" style="color: #38bdf8; font-weight: 800; font-size: 0.78rem;">🎯 고객 목표 (설문 6번)</span>
+              <span class="v" style="color: #f1f5f9; font-size: 0.84rem; max-width: 100%; white-space: normal; line-height: 1.45; font-weight: 500;">"체중 감량과 식비 절약을 동시에 달성하는 건강한 집밥."</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="client-actions">
+          <button type="button" onclick="copyKakaoLink('이보환', '이보환_30일집밥')" class="action-link btn-kakao-copy">
+            💬 카톡 전송용 맞춤 링크 복사 (1초 접속)
+          </button>
+          <a href="clients/이보환_30일집밥/index.html" target="_blank" class="action-link action-portal">
+            🏠 고객 맞춤 포털 열기 ➔
+          </a>
+        </div>
+      </div>
+      <div class="client-card" id="card-최다이어트_25세" data-name="최다이어트 최다이어트_25세 다이어트 한식">
+        <div>
+          <div class="client-head">
+            <div style="display: flex; align-items: flex-start; gap: 12px;">
+              <input type="checkbox" class="client-select-chk" value="최다이어트_25세" data-name="최다이어트" onchange="onSelectionChange(this)" title="삭제 대상 선택">
+              <div>
+                <div class="client-name">최다이어트</div>
+                <div class="client-meta">📁 최다이어트_25세</div>
+              </div>
+            </div>
+            <div class="head-right-tools">
+              <span class="badge-goal">다이어트</span>
+              <button type="button" onclick="deleteSingleClient('최다이어트_25세', '최다이어트')" class="btn-card-delete" title="[최다이어트] 고객 폴더 및 파일 영구 삭제">
+                🗑️
+              </button>
+            </div>
+          </div>
+
+          <div class="client-details">
+            <div class="detail-row">
+              <span class="k">구성 인원</span>
+              <span class="v">1명 (25세)</span>
+            </div>
+            <div class="detail-row">
+              <span class="k">한 달 예산</span>
+              <span class="v">200,000원 (실구매 174,700원)</span>
+            </div>
+            <div class="detail-row">
+              <span class="k">선호 취향</span>
+              <span class="v">한식</span>
+            </div>
+            <div class="detail-row" style="background: rgba(56, 189, 248, 0.08); border-left: 3px solid #38bdf8; border-radius: 6px; padding: 8px 10px; margin-top: 8px; flex-direction: column; align-items: flex-start; gap: 4px;">
+              <span class="k" style="color: #38bdf8; font-weight: 800; font-size: 0.78rem;">🎯 고객 목표 (설문 6번)</span>
+              <span class="v" style="color: #f1f5f9; font-size: 0.84rem; max-width: 100%; white-space: normal; line-height: 1.45; font-weight: 500;">"단백질 위주의 가성비 20만원 한식 다이어트."</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="client-actions">
+          <button type="button" onclick="copyKakaoLink('최다이어트', '최다이어트_25세')" class="action-link btn-kakao-copy">
+            💬 카톡 전송용 맞춤 링크 복사 (1초 접속)
+          </button>
+          <a href="clients/최다이어트_25세/index.html" target="_blank" class="action-link action-portal">
+            🏠 고객 맞춤 포털 열기 ➔
+          </a>
+        </div>
+      </div>
       <div class="client-card" id="card-최종본_100세_2" data-name="최종본 !!! 최종본_100세_2 일반식 한식, 일식">
         <div>
           <div class="client-head">

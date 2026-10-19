@@ -1,0 +1,33 @@
+{
+  "client_id": "강프리미엄_35세",
+  "client_name": "강프리미엄",
+  "client_age": "35세",
+  "household_size": "3명",
+  "people_count": 3,
+  "budget": 500000,
+  "total_spent": 481300,
+  "saved_from_budget": 18700,
+  "total_saved_pantry": 0,
+  "meal_frequency": "저녁만 (30끼)",
+  "total_meals": 30,
+  "goal": "고단백·근육 증가",
+  "cuisine": "한식, 일식, 양식",
+  "excluded_foods": "없음",
+  "pantry_items": "쌀, 기본 조미료",
+  "goal_notes": "가족 3인이 함께 먹는 푸짐하고 든든한 고단백 맞춤 식단.",
+  "theme": "강프리미엄님을 위한 3명 고단백·근육 증가 맞춤 식단 (한식, 일식, 양식)",
+  "created_at": "2026-10-17",
+  "recipes_summary": [
+    "불맛 제육볶음 + 계란파국 (3인분)",
+    "소고기 규동 (우삼겹 덮밥) (3인분)",
+    "알리오 올리오 파스타 (3인분)",
+    "갈아만든 배 제육볶음 (3인분)",
+    "촉촉한 반숙 돈카츠 가츠동 (3인분)"
+  ],
+  "pages": {
+    "portal": "clients/강프리미엄_35세/index.html",
+    "cart": "clients/강프리미엄_35세/cart.html",
+    "recipes": "clients/강프리미엄_35세/recipes.html",
+    "storage": "clients/강프리미엄_35세/storage.html"
+  }
+}

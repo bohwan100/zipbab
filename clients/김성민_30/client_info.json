@@ -1,0 +1,33 @@
+{
+  "client_id": "김성민_30",
+  "client_name": "김성민",
+  "client_age": "30",
+  "household_size": "1명",
+  "people_count": 1,
+  "budget": 150000,
+  "total_spent": 146600,
+  "saved_from_budget": 3400,
+  "total_saved_pantry": 0,
+  "meal_frequency": "하루 한 끼 (퇴근 후 저녁 30끼)",
+  "total_meals": 30,
+  "goal": "일반식",
+  "cuisine": "한식",
+  "excluded_foods": "없음",
+  "pantry_items": "식재료 왠만하면 모두 구비",
+  "goal_notes": "귀찮아서 한달에 반 정도만 도시락 싸는데 고민할 필요없는 밀프랩을 실천하고싶어요",
+  "theme": "김성민님을 위한 1명 일반식 맞춤 식단 (한식)",
+  "created_at": "2026-10-17",
+  "recipes_summary": [
+    "불맛 제육볶음 + 계란파국 (1인분)",
+    "갈아만든 배 제육볶음 (1인분)",
+    "으깬스팸 불맛 순두부찌개 (1인분)",
+    "돼지고기 김치찌개 (1인분)",
+    "대패 콩나물 불고기 (콩불) (1인분)"
+  ],
+  "pages": {
+    "portal": "clients/김성민_30/index.html",
+    "cart": "clients/김성민_30/cart.html",
+    "recipes": "clients/김성민_30/recipes.html",
+    "storage": "clients/김성민_30/storage.html"
+  }
+}

@@ -42,7 +42,8 @@ def perform_git_sync(commit_message="feat: auto-sync clients data"):
         _log("⚠️ .git directory not found. Skipping git sync.")
         return False, "Not a git repository"
 
-    # 1. Git 작성자 정보 설정 (없을 경우 대비)
+    # 1. Git 작성자 정보 및 safe.directory 설정 (컨테이너/원격 환경 대비)
+    _run_cmd(["git", "config", "--global", "--add", "safe.directory", "*"])
     _run_cmd(["git", "config", "user.name", "ZipbabBot AutoSync"])
     _run_cmd(["git", "config", "user.email", "bot@zipbab.com"])
 

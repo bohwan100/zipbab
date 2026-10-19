@@ -48,14 +48,19 @@ def perform_git_sync(commit_message="feat: auto-sync clients data"):
 
     # 2. Render 또는 원격 환경에서 GITHUB_TOKEN이 있을 경우 remote URL 갱신
     token = os.environ.get("GITHUB_TOKEN") or os.environ.get("GH_TOKEN")
+    auth_target = "origin"
     if token and token.strip():
         token = token.strip()
         auth_url = f"https://x-access-token:{token}@github.com/bohwan100/zipbab.git"
-        ok, out, err = _run_cmd(["git", "remote", "set-url", "origin", auth_url])
-        if ok:
-            _log("Configured authenticated remote URL using GITHUB_TOKEN.")
+        auth_target = auth_url
+
+        ok, remotes, _ = _run_cmd(["git", "remote"])
+        remote_list = [r.strip() for r in remotes.split() if r.strip()]
+        if "origin" in remote_list:
+            _run_cmd(["git", "remote", "set-url", "origin", auth_url])
         else:
-            _log(f"Failed to set authenticated remote URL: {err}")
+            _run_cmd(["git", "remote", "add", "origin", auth_url])
+        _log("Configured authenticated remote URL using GITHUB_TOKEN.")
 
     # 3. 변경 사항 스테이징
     _run_cmd(["git", "add", "-A", "clients/", "clients.html"])
@@ -63,8 +68,14 @@ def perform_git_sync(commit_message="feat: auto-sync clients data"):
     # 4. 변경 사항 있는지 확인
     ok, status_out, _ = _run_cmd(["git", "status", "--porcelain"])
     if not status_out.strip():
-        _log("No changes to commit. Repository is already up to date.")
-        return True, "Already up to date"
+        _log("No local file changes to commit. Verifying remote repository access...")
+        ok, out, err = _run_cmd(["git", "ls-remote", auth_target, "main"])
+        if ok:
+            _log("✅ Remote repository access verified successfully with GitHub token!")
+            return True, "GitHub connection verified & repository up to date"
+        else:
+            _log(f"❌ Failed to connect to remote: {err or out}")
+            return False, err or out
 
     # 5. 커밋
     ok, out, err = _run_cmd(["git", "commit", "-m", commit_message])
@@ -72,10 +83,10 @@ def perform_git_sync(commit_message="feat: auto-sync clients data"):
         _log(f"Commit warning/failed: {err or out}")
 
     # 6. 원격 최신 변경사항 rebase
-    _run_cmd(["git", "pull", "--rebase", "origin", "main"])
+    _run_cmd(["git", "pull", "--rebase", auth_target, "main"])
 
     # 7. 푸시 실행
-    ok, out, err = _run_cmd(["git", "push", "origin", "main"])
+    ok, out, err = _run_cmd(["git", "push", auth_target, "HEAD:main"])
     if ok:
         _log("✅ Successfully pushed clients data to GitHub origin/main!")
         return True, "Successfully synced to GitHub"

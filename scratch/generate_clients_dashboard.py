@@ -578,14 +578,9 @@ for c in clients_data:
           <button type="button" onclick="copyKakaoLink('{name}', '{cid}')" class="action-link btn-kakao-copy">
             💬 카톡 전송용 맞춤 링크 복사 (CDN 분산)
           </button>
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
-            <a href="{portal_link}" target="_blank" class="action-link action-portal" style="padding: 10px 12px; font-size: 0.85rem; justify-content: center;">
-              🏠 맞춤 포털 열기
-            </a>
-            <a href="{render_base}/clients/{cid}/index.html" target="_blank" class="action-link" style="padding: 10px 12px; font-size: 0.85rem; background: rgba(255, 255, 255, 0.08); color: #cbd5e1; border: 1px solid rgba(255, 255, 255, 0.15); justify-content: center;">
-              ⚡ Render 직통 뷰
-            </a>
-          </div>
+          <a href="{portal_link}" target="_blank" class="action-link action-portal" style="padding: 12px; font-size: 0.9rem; justify-content: center;">
+            🏠 맞춤 포털 열기
+          </a>
         </div>
       </div>
 """

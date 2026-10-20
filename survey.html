@@ -435,7 +435,7 @@
 
       <!-- 직관적인 통합 버튼 -->
       <div style="display: flex; flex-direction: column; gap: 10px;">
-        <button type="button" onclick="copyUnifiedUrl()" style="width: 100%; padding: 15px; background: #0f172a; color: #fff; font-weight: 800; font-size: 1rem; border: none; border-radius: 12px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 14px rgba(15, 23, 42, 0.25); transition: all 0.2s;">
+        <button id="btn-copy-link" type="button" onclick="copyUnifiedUrl()" style="width: 100%; padding: 15px; background: #0f172a; color: #fff; font-weight: 800; font-size: 1rem; border: none; border-radius: 12px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 14px rgba(15, 23, 42, 0.25); transition: all 0.2s;">
           📋 링크 복사하기 (카톡 / 문자 전송)
         </button>
 
@@ -451,11 +451,27 @@
   </div>
 
   <script>
+    let loadingInterval = null;
+
     async function handleFormSubmit(e) {
       e.preventDefault();
       const btn = document.getElementById('btn-submit');
       btn.disabled = true;
-      btn.innerHTML = '<span>⚙️ 맞춤 식단 및 장바구니 생성 중...</span>';
+
+      // 단계별 친절한 로딩 안내 (Render 슬립 모드 대비)
+      const loadingStages = [
+        '⚙️ 107종 레시피 분석 및 고객 목표 매칭 중...',
+        '🛒 쿠팡 4주 분할 최저가 장바구니 계산 중...',
+        '🏠 보유 양념 0원 자동 공제 적용 중...',
+        '❄️ 식재료 보관법 및 맞춤 웹사이트 빌드 중...',
+        '🚀 클라우드 데이터 동기화 중... 거의 다 됐어요!'
+      ];
+      let stageIdx = 0;
+      btn.innerHTML = `<span>${loadingStages[0]}</span>`;
+      loadingInterval = setInterval(() => {
+        stageIdx = (stageIdx + 1) % loadingStages.length;
+        btn.innerHTML = `<span>${loadingStages[stageIdx]}</span>`;
+      }, 3500);
 
       const name = document.getElementById('client_name').value.trim() || '고객님';
       const age = document.getElementById('client_age').value.trim() || '30대';
@@ -503,11 +519,17 @@
         const apiBase = isLocal ? '' : 'https://zipbabot.onrender.com';
         const endpoint = apiBase + '/api/create-client';
 
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 90000); // 90초 타임아웃
+
         const res = await fetch(endpoint, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
+          body: JSON.stringify(payload),
+          signal: controller.signal
         });
+        clearTimeout(timeoutId);
+
         const result = await res.json();
 
         if (result.success && (result.portal_url || result.cdn_portal_url)) {
@@ -517,8 +539,13 @@
         }
       } catch (err) {
         console.error('Create client error:', err);
-        alert('⚠️ 맞춤 사이트 생성 중 오류가 발생했습니다:\n\n' + (err.message || err));
+        if (err.name === 'AbortError') {
+          alert('⚠️ 서버 응답 시간이 초과되었습니다. 잠시 후 다시 시도해 주세요.');
+        } else {
+          alert('⚠️ 맞춤 사이트 생성 중 오류가 발생했습니다:\n\n' + (err.message || err));
+        }
       } finally {
+        if (loadingInterval) clearInterval(loadingInterval);
         btn.disabled = false;
         btn.innerHTML = '<span>🚀 맞춤 30일 식단 & 장바구니 생성하기</span>';
       }
@@ -531,7 +558,7 @@
       activeCdnUrl = result.cdn_portal_url || result.portal_url || '';
       activeRenderUrl = result.render_portal_url || result.portal_url || '';
       
-      document.getElementById('modal-desc').innerText = `${name}님의 30일 맞춤 식단과 장바구니가 생성되었습니다.`;
+      document.getElementById('modal-desc').innerText = `${name}님의 30일 맞춤 식단과 장바구니가 통합 생성되었습니다.`;
       
       try {
         document.getElementById('unified-link-text').innerText = decodeURIComponent(activeCdnUrl);
@@ -539,7 +566,6 @@
         document.getElementById('unified-link-text').innerText = activeCdnUrl;
       }
 
-      // 즉시 열기는 Render 직통 뷰로 열고, 카톡 공유는 CDN 영구 링크 제공
       document.getElementById('btn-open-portal').href = activeRenderUrl;
       document.getElementById('result-modal').style.display = 'flex';
     }
@@ -549,8 +575,19 @@
     }
 
     function copyUnifiedUrl() {
+      const copyBtn = document.getElementById('btn-copy-link');
       navigator.clipboard.writeText(activeCdnUrl).then(() => {
-        alert('📋 [글로벌 CDN 초고속 링크]가 복사되었습니다!\n동시 10만 명이 접속해도 다운되지 않는 전 세계 무료 분산 호스팅 주소입니다.\n카카오톡에 붙여넣어 전송하세요.\n\n' + activeCdnUrl);
+        if (copyBtn) {
+          const originalHtml = copyBtn.innerHTML;
+          copyBtn.style.background = '#059669';
+          copyBtn.innerHTML = '<span>✅ 링크가 복사되었습니다!</span>';
+          setTimeout(() => {
+            copyBtn.style.background = '#0f172a';
+            copyBtn.innerHTML = originalHtml;
+          }, 2500);
+        } else {
+          alert('📋 [글로벌 CDN 링크]가 복사되었습니다!\n카카오톡에 붙여넣어 전송하세요.\n\n' + activeCdnUrl);
+        }
       }).catch(() => {
         prompt('아래 링크를 복사하여 카카오톡에 전송해 주세요:', activeCdnUrl);
       });

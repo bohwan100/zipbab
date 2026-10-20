@@ -14,11 +14,14 @@ if os.path.exists(clients_dir):
         if not os.path.isdir(c_path):
             continue
         info_file = os.path.join(c_path, 'client_info.json')
+        mtime = os.path.getmtime(c_path)
         if os.path.exists(info_file):
             try:
+                mtime = max(mtime, os.path.getmtime(info_file))
                 with open(info_file, 'r', encoding='utf-8') as f:
                     data = json.load(f)
                     data['folder_name'] = c
+                    data['mtime'] = mtime
                     clients_data.append(data)
             except Exception:
                 pass
@@ -27,6 +30,7 @@ if os.path.exists(clients_dir):
                 'client_id': c,
                 'client_name': c,
                 'folder_name': c,
+                'mtime': mtime,
                 'household_size': '1명',
                 'budget': 300000,
                 'goal': '일반식',
@@ -39,24 +43,15 @@ if os.path.exists(clients_dir):
                 }
             })
 
-# 정유진_37부터 최상단에 뜨도록 우선순위 정렬
-priority_order = [
-    '정유진_37',
-    '최민석_26',
-    '차민홍_34',
-    '정진향_41',
-    '노한석_30',
-    '정수원_21세',
-    '최종본_100세_2',
-    '테스트_22',
-    '테스트_30대'
-]
-
+# 1. '최종본 !!!'은 무조건 맨 첫 번째(왼쪽 상단 0순위) 고정
+# 2. 그 뒤로는 생성/수정 시간(mtime) 최신순 (내림차순) 정렬
 def get_sort_key(item):
     fname = item.get('folder_name', item.get('client_id', ''))
-    if fname in priority_order:
-        return (0, priority_order.index(fname))
-    return (1, fname)
+    cname = item.get('client_name', '')
+    if '최종본' in fname or '최종본' in cname:
+        return (0, 0)
+    mtime = item.get('mtime', 0)
+    return (1, -mtime)
 
 clients_data.sort(key=get_sort_key)
 
@@ -537,21 +532,28 @@ for c in clients_data:
               <span class="v" style="color: #f1f5f9; font-size: 0.84rem; max-width: 100%; white-space: normal; line-height: 1.45; font-weight: 500;">"{goal_notes}"</span>
             </div>"""
 
-    html_content += f"""      <div class="client-card" id="card-{cid}" data-name="{name} {cid} {goal} {cuisine}">
+    is_pinned = ('최종본' in cid or '최종본' in name)
+    pinned_badge = '<span style="background: linear-gradient(135deg, #f59e0b, #d97706); color: #fff; font-size: 0.75rem; font-weight: 800; padding: 3px 8px; border-radius: 6px; box-shadow: 0 2px 8px rgba(245, 158, 11, 0.35); display: inline-flex; align-items: center; gap: 4px;">📌 고정 검증용</span>' if is_pinned else ''
+    card_custom_style = 'style="border: 2px solid #f59e0b; background: rgba(26, 20, 10, 0.85); box-shadow: 0 6px 24px rgba(245, 158, 11, 0.18);"' if is_pinned else ''
+    chk_disabled = 'disabled title="검증 전용 포털은 삭제할 수 없습니다"' if is_pinned else 'title="삭제 대상 선택"'
+    del_btn = '<span style="font-size: 1rem; opacity: 0.6;" title="검증 전용 마스터 포털 (삭제 불가)">🔒</span>' if is_pinned else f"""<button type="button" onclick="deleteSingleClient('{cid}', '{name}')" class="btn-card-delete" title="[{name}] 고객 폴더 및 파일 영구 삭제">🗑️</button>"""
+
+    html_content += f"""      <div class="client-card" id="card-{cid}" data-name="{name} {cid} {goal} {cuisine}" {card_custom_style}>
         <div>
           <div class="client-head">
             <div style="display: flex; align-items: flex-start; gap: 12px;">
-              <input type="checkbox" class="client-select-chk" value="{cid}" data-name="{name}" onchange="onSelectionChange(this)" title="삭제 대상 선택">
+              <input type="checkbox" class="client-select-chk" value="{cid}" data-name="{name}" onchange="onSelectionChange(this)" {chk_disabled}>
               <div>
-                <div class="client-name">{name}</div>
+                <div style="display: flex; align-items: center; gap: 8px;">
+                  <div class="client-name">{name}</div>
+                  {pinned_badge}
+                </div>
                 <div class="client-meta">📁 {cid}</div>
               </div>
             </div>
             <div class="head-right-tools">
               <span class="badge-goal">{goal}</span>
-              <button type="button" onclick="deleteSingleClient('{cid}', '{name}')" class="btn-card-delete" title="[{name}] 고객 폴더 및 파일 영구 삭제">
-                🗑️
-              </button>
+              {del_btn}
             </div>
           </div>
 

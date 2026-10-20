@@ -1,0 +1,33 @@
+{
+  "client_id": "123_30대",
+  "client_name": "123",
+  "client_age": "30대",
+  "household_size": "1명",
+  "people_count": 1,
+  "budget": 12323,
+  "total_spent": 11400,
+  "saved_from_budget": 923,
+  "total_saved_pantry": 0,
+  "meal_frequency": "하루 한 끼 (퇴근 후 저녁 30끼)",
+  "total_meals": 30,
+  "goal": "일반식",
+  "cuisine": "한식",
+  "excluded_foods": "없음",
+  "pantry_items": "아무것도 없음",
+  "goal_notes": "",
+  "theme": "123님을 위한 1명 일반식 맞춤 식단 (한식)",
+  "created_at": "2026-10-17",
+  "recipes_summary": [
+    "불맛 제육볶음 + 계란파국 (1인분)",
+    "갈아만든 배 제육볶음 (1인분)",
+    "으깬스팸 불맛 순두부찌개 (1인분)",
+    "돼지고기 김치찌개 (1인분)",
+    "대패 콩나물 불고기 (콩불) (1인분)"
+  ],
+  "pages": {
+    "portal": "clients/123_30대/index.html",
+    "cart": "clients/123_30대/cart.html",
+    "recipes": "clients/123_30대/recipes.html",
+    "storage": "clients/123_30대/storage.html"
+  }
+}

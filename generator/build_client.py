@@ -107,7 +107,11 @@ def build_client(
 
             if plan['total_saved_pantry'] > 0:
                 pantry_badge = f'<div class="stat-pill" style="border-color: rgba(16, 185, 129, 0.4); background: rgba(16, 185, 129, 0.1);"><span>🏠 기존 재료 절감:</span><strong style="color: #34d399;">+{plan["total_saved_pantry"]:,}원 세이브!</strong></div>'
-                content = content.replace('<!-- Quick Stats Bar -->', f'<!-- Quick Stats Bar -->\n      {pantry_badge}')
+                content = content.replace('</div>\n\n    <!-- Program Guide CTA Button', f'  {pantry_badge}\n    </div>\n\n    <!-- Program Guide CTA Button')
+
+            if goal_notes and goal_notes.strip():
+                goal_badge = f'<div class="stat-pill" style="border-color: rgba(56, 189, 248, 0.4); background: rgba(56, 189, 248, 0.1); width: 100%; max-width: 680px; justify-content: flex-start; text-align: left; padding: 10px 16px; margin-top: 6px;"><span>🎯 목표:</span><strong style="color: #38bdf8; font-weight: 600; white-space: normal;">"{goal_notes}"</strong></div>'
+                content = content.replace('</div>\n\n    <!-- Program Guide CTA Button', f'  {goal_badge}\n    </div>\n\n    <!-- Program Guide CTA Button')
 
             # 4주 분할 주문 로드맵 (strategy-grid) 실시간 동적 주입
             w_totals = plan.get("week_totals", {1: 0, 2: 0, 3: 0, 4: 0})

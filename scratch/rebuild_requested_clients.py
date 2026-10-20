@@ -21,7 +21,7 @@ builder.build_client(
     cuisine="한식, 일식, 양식",
     exclude="어류",
     pantry="진간장, 식용유, 설탕, 고춧가루, 쌀",
-    goal_notes=""
+    goal_notes="인간사료급 개레전드성분 단백질 매끼니 60g3끼 먹고싶어요"
 )
 
 print("\n--- 2. Rebuilding 최종본_100세_2 with 한식, 일식, 양식, 중식 ---")

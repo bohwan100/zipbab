@@ -74,6 +74,11 @@ def perform_git_sync(commit_message="feat: auto-sync clients data"):
         _run_cmd(["git", "config", "--global", "--add", "safe.directory", "*"])
         _run_cmd(["git", "config", "user.name", "ZipbabBot AutoSync"])
         _run_cmd(["git", "config", "user.email", "bot@zipbab.com"])
+        # RAM 절약을 위한 Git 메모리 상한선 설정 (512MB 컨테이너 OOM 방지)
+        _run_cmd(["git", "config", "pack.windowMemory", "10m"])
+        _run_cmd(["git", "config", "pack.packSizeLimit", "20m"])
+        _run_cmd(["git", "config", "core.packedGitWindowSize", "10m"])
+        _run_cmd(["git", "config", "core.packedGitLimit", "20m"])
 
         # 2. Render 또는 원격 환경에서 GITHUB_TOKEN이 있을 경우 remote URL 갱신
         token = os.environ.get("GITHUB_TOKEN") or os.environ.get("GH_TOKEN")

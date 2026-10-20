@@ -281,12 +281,16 @@ class CoupangAutoServer(http.server.SimpleHTTPRequestHandler):
                     goal_notes=goal_notes
                 )
 
-                # clients.html 자동 동기화 갱신
+                # clients.html 자동 동기화 갱신 (메모리 절약을 위해 subprocess 대신 in-process 실행)
                 try:
-                    import subprocess
-                    subprocess.run([sys.executable, os.path.join(DIRECTORY, "scratch", "generate_clients_dashboard.py")], check=False)
+                    dash_script = os.path.join(DIRECTORY, "scratch", "generate_clients_dashboard.py")
+                    if os.path.exists(dash_script):
+                        with open(dash_script, "r", encoding="utf-8") as f:
+                            exec(f.read(), {"__name__": "__main__"})
                 except Exception as ex:
                     print(f"[Warning] Failed to update clients.html: {ex}")
+                finally:
+                    gc.collect()
 
                 # GitHub 자동 영구 보존 동기화 (Auto-Sync)
                 try:
@@ -364,12 +368,16 @@ class CoupangAutoServer(http.server.SimpleHTTPRequestHandler):
                 except Exception as err:
                     errors.append(f"Failed to delete {cid}: {str(err)}")
 
-            # clients.html 자동 동기화 갱신
+            # clients.html 자동 동기화 갱신 (메모리 절약을 위해 subprocess 대신 in-process 실행)
             try:
-                import subprocess
-                subprocess.run([sys.executable, os.path.join(DIRECTORY, "scratch", "generate_clients_dashboard.py")], check=False)
+                dash_script = os.path.join(DIRECTORY, "scratch", "generate_clients_dashboard.py")
+                if os.path.exists(dash_script):
+                    with open(dash_script, "r", encoding="utf-8") as f:
+                        exec(f.read(), {"__name__": "__main__"})
             except Exception as ex:
                 print(f"[Warning] Failed to update clients.html after delete: {ex}")
+            finally:
+                gc.collect()
 
             # GitHub 자동 영구 보존 동기화 (Auto-Sync)
             try:

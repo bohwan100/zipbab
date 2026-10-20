@@ -1,0 +1,33 @@
+{
+  "client_id": "곽경민_28",
+  "client_name": "곽경민",
+  "client_age": "28",
+  "household_size": "1명",
+  "people_count": 1,
+  "budget": 300000,
+  "total_spent": 278200,
+  "saved_from_budget": 21800,
+  "total_saved_pantry": 20600,
+  "meal_frequency": "하루 한 끼 (퇴근 후 저녁 30끼)",
+  "total_meals": 30,
+  "goal": "일반식",
+  "cuisine": "한식, 일식",
+  "excluded_foods": "없음",
+  "pantry_items": "햇반, 고추장, 참기름, 간장, 설탕",
+  "goal_notes": "퇴근이 늦어서 배달음식을 위주로 먹는데 간단하게 빠르게 조리할 수 있고 건강하게 집밥먹고싶어요 감사합니다!",
+  "theme": "곽경민님을 위한 1명 일반식 맞춤 식단 (한식, 일식)",
+  "created_at": "2026-10-17",
+  "recipes_summary": [
+    "불맛 제육볶음 + 계란파국 (1인분)",
+    "소고기 규동 (우삼겹 덮밥) (1인분)",
+    "갈아만든 배 제육볶음 (1인분)",
+    "촉촉한 반숙 돈카츠 가츠동 (1인분)",
+    "으깬스팸 불맛 순두부찌개 (1인분)"
+  ],
+  "pages": {
+    "portal": "clients/곽경민_28/index.html",
+    "cart": "clients/곽경민_28/cart.html",
+    "recipes": "clients/곽경민_28/recipes.html",
+    "storage": "clients/곽경민_28/storage.html"
+  }
+}

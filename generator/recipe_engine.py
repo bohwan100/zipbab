@@ -2879,7 +2879,8 @@ def generate_personalized_plan(
     concept="일반식",
     cuisine="한식, 일식",
     exclude="없음",
-    pantry="아무것도 없음"
+    pantry="아무것도 없음",
+    goal_notes=""
 ):
     people_count = parse_household_count(household)
     total_meals = 30  # 하루 한 끼 30끼 메인 식단
@@ -2914,30 +2915,71 @@ def generate_personalized_plan(
                     safe_any.append(r)
             cuisine_buckets[c] = safe_any if safe_any else [MASTER_RECIPES[0]]
 
-    # 2-1. 야채·채소 위주 식단 스마트 우선순위 정렬 (concept or goal_notes or pantry)
-    raw_pantry = parse_pantry_items(pantry)
-    is_veggie_focus = any(kw in str(concept) + str(client_name) + str(pantry) for kw in ["야채", "채소", "베지", "비건", "다이어트"]) or (client_name == "정민")
-    if is_veggie_focus:
-        hero_veggies = ['가지', '청경채', '배추', '양배추', '미니양배추', '버섯', '토마토', '파프리카', '피망', '두부', '순두부', '숙주', '콩나물', '구운 채소', '샐러드', '애호박', '감자']
-        meat_fried_heroes = ['돈카츠', '가츠동', '탕수육', '깐풍기', '가라아게', '함박스테이크', '차슈', '동파육']
-        def get_veggie_score(r):
-            score = 0
-            t = r['title']
-            for kw in hero_veggies:
-                if kw in t: score += 15
-            for ing in r['base_ingredients']:
-                for kw in hero_veggies:
-                    if kw in ing[0]: score += 5
-            veggie_pantry = ['새송이버섯', '미니양배추', '미소 된장', '미소된장', '가스오부시', '가쓰오부시']
-            for p in veggie_pantry:
-                if any(p in t or p in ing[0] for ing in r['base_ingredients']):
-                    score += 10
-            for mf in meat_fried_heroes:
-                if mf in t: score -= 20
-            return score
+    # 2-1. 고객 목표(concept & goal_notes) 기반 다차원 스마트 랭킹 엔진
+    combined_goal_text = f"{concept} {goal_notes} {client_name} {pantry}".lower()
 
-        for c in allowed_cuisines:
-            cuisine_buckets[c].sort(key=get_veggie_score, reverse=True)
+    # 모드 감지 (다중 가중치 결합)
+    is_high_protein = any(kw in combined_goal_text for kw in ["단백질", "고단백", "프로틴", "헬스", "벌크업", "근육", "운동", "인간사료", "닭가슴살", "단백"])
+    is_diet = any(kw in combined_goal_text for kw in ["다이어트", "체중", "감량", "저칼로리", "살빼", "슬림", "가벼운", "칼로리"])
+    is_veggie = any(kw in combined_goal_text for kw in ["야채", "채소", "베지", "비건", "나물", "샐러드"]) or (client_name == "정민")
+    is_super_simple = any(kw in combined_goal_text for kw in ["초간단", "가성비", "절약", "간단", "10분", "원팬", "빠른", "퇴근 후", "귀찮", "밀프랩", "귀차니즘"])
+
+    hero_veggies = ['가지', '청경채', '배추', '양배추', '미니양배추', '버섯', '토마토', '파프리카', '피망', '두부', '순두부', '숙주', '콩나물', '구운 채소', '샐러드', '애호박', '감자']
+    meat_fried_heroes = ['돈카츠', '가츠동', '탕수육', '깐풍기', '가라아게', '함박스테이크', '차슈', '동파육']
+
+    def get_recipe_smart_score(r):
+        score = 0
+        concepts = r.get("concepts", [])
+        prot = r.get("prot", 0)
+        cal = r.get("cal", 500)
+        title = r.get("title", "")
+        ings = [ing[0] for ing in r.get("base_ingredients", [])]
+        all_text = title + " " + " ".join(ings)
+
+        # 1) 고단백 모드 가중치
+        if is_high_protein:
+            score += prot * 1.5  # 단백질 1g당 1.5점 가산 (예: 40g = +60점)
+            if '고단백·근육 증가' in concepts:
+                score += 35
+            if any(k in all_text for k in ['닭가슴살', '소고기', '우삼겹', '돼지', '계란', '두부', '참치', '순두부']):
+                score += 15
+
+        # 2) 다이어트 모드 가중치
+        if is_diet:
+            if '다이어트·저칼로리' in concepts:
+                score += 35
+            if cal <= 550:
+                score += 20
+            elif cal > 700:
+                score -= 25
+            if any(mf in title for mf in meat_fried_heroes):
+                score -= 20
+
+        # 3) 야채·채소 모드 가중치
+        if is_veggie:
+            for kw in hero_veggies:
+                if kw in title: score += 15
+                if any(kw in ing for ing in ings): score += 5
+            veggie_pantry = ['새송이버섯', '미니양배추', '미소 된장', '미소된장', '가스오부시', '가쓰오부시']
+            if any(p in all_text for p in veggie_pantry):
+                score += 10
+            if any(mf in title for mf in meat_fried_heroes):
+                score -= 20
+
+        # 4) 초간단 / 가성비 모드 가중치
+        if is_super_simple:
+            if '초간단·가성비' in concepts:
+                score += 30
+            if r.get('tier') == 'budget':
+                score += 15
+            if len(r.get('steps', [])) <= 3:
+                score += 10
+
+        return score
+
+    # 각 요리 버킷별로 스마트 점수 기준 내림차순 정렬
+    for c in allowed_cuisines:
+        cuisine_buckets[c].sort(key=get_recipe_smart_score, reverse=True)
 
     # 3. 30일 식단 편성 (선택된 모든 요리 균등 분배 & 데일리 순환 인터리빙)
     candidate_recipes = []

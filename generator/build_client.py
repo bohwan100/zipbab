@@ -48,7 +48,8 @@ def build_client(
         concept=goal,
         cuisine=cuisine,
         exclude=exclude,
-        pantry=pantry
+        pantry=pantry,
+        goal_notes=goal_notes
     )
 
     theme_title = f"{name}님을 위한 {household} {goal} 맞춤 식단 ({cuisine})"

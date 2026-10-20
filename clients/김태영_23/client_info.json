@@ -1,0 +1,33 @@
+{
+  "client_id": "김태영_23",
+  "client_name": "김태영",
+  "client_age": "23",
+  "household_size": "1명",
+  "people_count": 1,
+  "budget": 200000,
+  "total_spent": 196900,
+  "saved_from_budget": 3100,
+  "total_saved_pantry": 10800,
+  "meal_frequency": "하루 한 끼 (퇴근 후 저녁 30끼)",
+  "total_meals": 30,
+  "goal": "일반식",
+  "cuisine": "한식, 일식, 양식",
+  "excluded_foods": "어류",
+  "pantry_items": "쌀",
+  "goal_notes": "인간사료급 개레전드성분 단백질 매끼니 60g3끼 먹고싶어요",
+  "theme": "김태영님을 위한 1명 일반식 맞춤 식단 (한식, 일식, 양식)",
+  "created_at": "2026-10-17",
+  "recipes_summary": [
+    "불맛 제육볶음 + 계란파국 (1인분)",
+    "소고기 규동 (우삼겹 덮밥) (1인분)",
+    "알리오 올리오 파스타 (1인분)",
+    "갈아만든 배 제육볶음 (1인분)",
+    "촉촉한 반숙 돈카츠 가츠동 (1인분)"
+  ],
+  "pages": {
+    "portal": "clients/김태영_23/index.html",
+    "cart": "clients/김태영_23/cart.html",
+    "recipes": "clients/김태영_23/recipes.html",
+    "storage": "clients/김태영_23/storage.html"
+  }
+}

@@ -302,18 +302,23 @@ class CoupangAutoServer(http.server.SimpleHTTPRequestHandler):
                 host = self.headers.get('Host', f'localhost:{PORT}')
                 encoded_client_id = quote(client_id)
                 mobile_base = get_public_tunnel_url(host=host)
+                cdn_base = "https://bohwan100.github.io/zipbab"
 
                 self._send_json({
                     "success": True,
                     "client_id": client_id,
-                    "portal_url": f"{mobile_base}/clients/{encoded_client_id}/index.html",
-                    "cart_url": f"{mobile_base}/clients/{encoded_client_id}/cart.html",
-                    "mobile_portal_url": f"{mobile_base}/clients/{encoded_client_id}/index.html",
-                    "mobile_cart_url": f"{mobile_base}/clients/{encoded_client_id}/cart.html",
+                    "portal_url": f"{cdn_base}/clients/{encoded_client_id}/index.html",
+                    "cart_url": f"{cdn_base}/clients/{encoded_client_id}/cart.html",
+                    "cdn_portal_url": f"{cdn_base}/clients/{encoded_client_id}/index.html",
+                    "cdn_cart_url": f"{cdn_base}/clients/{encoded_client_id}/cart.html",
+                    "render_portal_url": f"{mobile_base}/clients/{encoded_client_id}/index.html",
+                    "render_cart_url": f"{mobile_base}/clients/{encoded_client_id}/cart.html",
+                    "mobile_portal_url": f"{cdn_base}/clients/{encoded_client_id}/index.html",
+                    "mobile_cart_url": f"{cdn_base}/clients/{encoded_client_id}/cart.html",
                     "local_portal_url": f"http://localhost:{PORT}/clients/{encoded_client_id}/index.html",
                     "local_cart_url": f"http://localhost:{PORT}/clients/{encoded_client_id}/cart.html",
-                    "public_tunnel_url": mobile_base,
-                    "survey_public_url": f"{mobile_base}/survey.html"
+                    "public_tunnel_url": cdn_base,
+                    "survey_public_url": f"{cdn_base}/survey.html"
                 })
             except Exception as e:
                 print(f"[API Error] Failed to build client: {e}")

@@ -20,17 +20,7 @@ import recipe_engine
 import storage_engine
 
 def get_live_public_url():
-    tunnel_log = os.path.join(ROOT_DIR, "scratch", "tunnel.log")
-    if os.path.exists(tunnel_log):
-        try:
-            with open(tunnel_log, "r", encoding="utf-8", errors="ignore") as f:
-                content = f.read()
-                matches = re.findall(r'https://[a-zA-Z0-9-]+\.trycloudflare\.com', content)
-                if matches:
-                    return matches[-1]
-        except Exception:
-            pass
-    return "https://zipbabot.onrender.com"
+    return "https://bohwan100.github.io/zipbab"
 
 def build_client(
     client_id,

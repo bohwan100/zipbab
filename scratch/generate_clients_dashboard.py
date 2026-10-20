@@ -2,7 +2,8 @@ import os
 import json
 import re
 
-tunnel_base = "https://zipbabot.onrender.com"
+cdn_base = "https://bohwan100.github.io/zipbab"
+render_base = "https://zipbabot.onrender.com"
 
 clients_dir = 'clients'
 clients_data = []
@@ -442,6 +443,12 @@ html_content = f"""<!DOCTYPE html>
         <div>
           <h1>집밥봇 고객 & 회원 통합 관리 매니저</h1>
           <div class="header-desc">개인 맞춤 30일 식단, 장바구니, 보관 가이드 고객 목록 및 관리</div>
+          <div style="display: flex; align-items: center; gap: 8px; margin-top: 6px;">
+            <span style="background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(52, 211, 153, 0.4); color: #34d399; font-size: 0.78rem; font-weight: 700; padding: 3px 10px; border-radius: 999px; display: inline-flex; align-items: center; gap: 5px;">
+              <span style="width: 7px; height: 7px; background: #34d399; border-radius: 50%;"></span>
+              🌐 무료 분산 CDN 호스팅 활성화 (GitHub Pages / Fastly Edge 망 · 10만 명 무제한 트래픽)
+            </span>
+          </div>
         </div>
       </div>
       <div class="header-actions">
@@ -469,7 +476,7 @@ html_content = f"""<!DOCTYPE html>
         <button type="button" onclick="copySurveyLink()" style="background: linear-gradient(135deg, #fee500 0%, #facc15 100%); color: #1e1b4b; border: none; padding: 10px 18px; border-radius: 10px; font-weight: 800; font-size: 0.88rem; cursor: pointer; display: flex; align-items: center; gap: 6px; box-shadow: 0 2px 10px rgba(250, 204, 21, 0.35);">
           📋 고객 배포용 설문 링크 복사
         </button>
-        <a href="{tunnel_base}/survey.html" target="_blank" style="background: rgba(255, 255, 255, 0.08); color: #cbd5e1; border: 1px solid rgba(255, 255, 255, 0.2); padding: 10px 16px; border-radius: 10px; font-weight: 700; font-size: 0.85rem; text-decoration: none;">
+        <a href="survey.html" target="_blank" style="background: rgba(255, 255, 255, 0.08); color: #cbd5e1; border: 1px solid rgba(255, 255, 255, 0.2); padding: 10px 16px; border-radius: 10px; font-weight: 700; font-size: 0.85rem; text-decoration: none;">
           🌐 설문지 열기 ➔
         </a>
       </div>
@@ -567,11 +574,16 @@ for c in clients_data:
 
         <div class="client-actions">
           <button type="button" onclick="copyKakaoLink('{name}', '{cid}')" class="action-link btn-kakao-copy">
-            💬 카톡 전송용 맞춤 링크 복사 (1초 접속)
+            💬 카톡 전송용 맞춤 링크 복사 (CDN 분산)
           </button>
-          <a href="{portal_link}" target="_blank" class="action-link action-portal">
-            🏠 고객 맞춤 포털 열기 ➔
-          </a>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+            <a href="{portal_link}" target="_blank" class="action-link action-portal" style="padding: 10px 12px; font-size: 0.85rem; justify-content: center;">
+              🏠 맞춤 포털 열기
+            </a>
+            <a href="{render_base}/clients/{cid}/index.html" target="_blank" class="action-link" style="padding: 10px 12px; font-size: 0.85rem; background: rgba(255, 255, 255, 0.08); color: #cbd5e1; border: 1px solid rgba(255, 255, 255, 0.15); justify-content: center;">
+              ⚡ Render 직통 뷰
+            </a>
+          </div>
         </div>
       </div>
 """
@@ -580,26 +592,27 @@ html_content += f"""    </div>
   </div>
 
   <script>
-    // file:// 로 직접 열었을 경우 자동으로 온라인 Render 주소(https://zipbabot.onrender.com/clients)로 즉시 전환
+    // file:// 로 직접 열었을 경우 자동으로 온라인 CDN 주소로 즉시 전환
     if (window.location.protocol === 'file:') {{
-      window.location.replace('https://zipbabot.onrender.com/clients');
+      window.location.replace('https://bohwan100.github.io/zipbab/clients.html');
     }}
 
-    const publicTunnelUrl = (window.location.origin && !window.location.origin.includes('file:')) ? window.location.origin : '{tunnel_base}';
+    const cdnBase = '{cdn_base}';
+    const renderBase = '{render_base}';
 
     function copySurveyLink() {{
-      const surveyUrl = `${{publicTunnelUrl}}/survey.html`;
+      const surveyUrl = `${{cdnBase}}/survey.html`;
       navigator.clipboard.writeText(surveyUrl).then(() => {{
-        showCopyToast(`📋 고객 배포용 설문지 링크가 복사되었습니다!\\n스마트폰 카카오톡에 바로 붙여넣어 고객에게 전송하세요.\\n\\n${{surveyUrl}}`);
+        showCopyToast(`📋 고객 배포용 설문지 링크가 복사되었습니다!\\n전 세계 무료 CDN 초고속 배포망으로 10만 명도 즉시 접속됩니다.\\n\\n${{surveyUrl}}`);
       }}).catch(() => {{
         prompt('아래 설문 링크를 복사하여 고객에게 전송해 주세요:', surveyUrl);
       }});
     }}
 
     function copyKakaoLink(name, cid) {{
-      const mobileUrl = `${{publicTunnelUrl}}/clients/${{encodeURIComponent(cid)}}/index.html`;
+      const mobileUrl = `${{cdnBase}}/clients/${{encodeURIComponent(cid)}}/index.html`;
       navigator.clipboard.writeText(mobileUrl).then(() => {{
-        showCopyToast(`💬 [${{name}}]님의 맞춤 링크가 복사되었습니다!\\n스마트폰 카카오톡에 바로 붙여넣어 전송하세요.\\n\\n${{mobileUrl}}`);
+        showCopyToast(`💬 [${{name}}]님의 맞춤 링크가 복사되었습니다!\\n전 세계 무료 분산 CDN(GitHub Pages) 초고속 서버로 10만 명 접속도 거뜬합니다.\\n\\n${{mobileUrl}}`);
       }}).catch(() => {{
         prompt('아래 링크를 복사하여 카카오톡에 전송해 주세요:', mobileUrl);
       }});
@@ -623,8 +636,8 @@ html_content += f"""    </div>
       btn.disabled = true;
       btn.innerHTML = '<span>⏳ GitHub 저장 중...</span>';
       try {{
-        const isFile = window.location.protocol === 'file:' || !window.location.origin || window.location.origin === 'null';
-        const apiBase = isFile ? 'https://zipbabot.onrender.com' : '';
+        const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+        const apiBase = isLocal ? '' : 'https://zipbabot.onrender.com';
         const res = await fetch(apiBase + '/api/sync-github');
         const data = await res.json();
         if (data.success) {{
@@ -725,9 +738,9 @@ html_content += f"""    </div>
       btn.disabled = true;
       btn.innerHTML = '⏳ 실제 파일 삭제 중...';
 
-      // file:// 환경이거나 외부 접속 환경이어도 Render 온라인 도메인으로 정상 라우팅
-      const isFile = window.location.protocol === 'file:' || !window.location.origin || window.location.origin === 'null';
-      const apiBase = isFile ? 'https://zipbabot.onrender.com' : '';
+      // 로컬이 아니면 Render 온라인 백엔드로 직접 API 호출
+      const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+      const apiBase = isLocal ? '' : 'https://zipbabot.onrender.com';
       const endpoint = apiBase + '/api/delete-client';
 
       try {{

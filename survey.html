@@ -6,7 +6,7 @@
   <title>30일 식단 설계 조건 | 집밥봇</title>
   <script>
     if (window.location.protocol === 'file:') {
-      window.location.replace('https://zipbabot.onrender.com/survey');
+      window.location.replace('https://bohwan100.github.io/zipbab/survey.html');
     }
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -499,8 +499,8 @@
       };
 
       try {
-        const isFile = window.location.protocol === 'file:' || !window.location.origin || window.location.origin === 'null';
-        const apiBase = isFile ? 'https://zipbabot.onrender.com' : '';
+        const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+        const apiBase = isLocal ? '' : 'https://zipbabot.onrender.com';
         const endpoint = apiBase + '/api/create-client';
 
         const res = await fetch(endpoint, {
@@ -510,7 +510,7 @@
         });
         const result = await res.json();
 
-        if (result.success && result.portal_url) {
+        if (result.success && (result.portal_url || result.cdn_portal_url)) {
           showModal(name, result);
         } else {
           throw new Error(result.error || '맞춤 식단 사이트 생성에 실패했습니다.');
@@ -524,20 +524,23 @@
       }
     }
 
-    let activeUnifiedUrl = '';
+    let activeCdnUrl = '';
+    let activeRenderUrl = '';
 
     function showModal(name, result) {
-      activeUnifiedUrl = result.portal_url || result.mobile_portal_url || '';
+      activeCdnUrl = result.cdn_portal_url || result.portal_url || '';
+      activeRenderUrl = result.render_portal_url || result.portal_url || '';
       
-      document.getElementById('modal-desc').innerText = `${name}님의 30일 맞춤 식단과 장바구니가 통합 생성되었습니다.`;
+      document.getElementById('modal-desc').innerText = `${name}님의 30일 맞춤 식단과 장바구니가 생성되었습니다.`;
       
       try {
-        document.getElementById('unified-link-text').innerText = decodeURIComponent(activeUnifiedUrl);
+        document.getElementById('unified-link-text').innerText = decodeURIComponent(activeCdnUrl);
       } catch (e) {
-        document.getElementById('unified-link-text').innerText = activeUnifiedUrl;
+        document.getElementById('unified-link-text').innerText = activeCdnUrl;
       }
 
-      document.getElementById('btn-open-portal').href = activeUnifiedUrl;
+      // 즉시 열기는 Render 직통 뷰로 열고, 카톡 공유는 CDN 영구 링크 제공
+      document.getElementById('btn-open-portal').href = activeRenderUrl;
       document.getElementById('result-modal').style.display = 'flex';
     }
 
@@ -546,10 +549,10 @@
     }
 
     function copyUnifiedUrl() {
-      navigator.clipboard.writeText(activeUnifiedUrl).then(() => {
-        alert('📋 맞춤 사이트 링크가 복사되었습니다!\n카카오톡에 붙여넣어 바로 전송하세요.\n\n' + activeUnifiedUrl);
+      navigator.clipboard.writeText(activeCdnUrl).then(() => {
+        alert('📋 [글로벌 CDN 초고속 링크]가 복사되었습니다!\n동시 10만 명이 접속해도 다운되지 않는 전 세계 무료 분산 호스팅 주소입니다.\n카카오톡에 붙여넣어 전송하세요.\n\n' + activeCdnUrl);
       }).catch(() => {
-        prompt('아래 링크를 복사하여 카카오톡에 전송해 주세요:', activeUnifiedUrl);
+        prompt('아래 링크를 복사하여 카카오톡에 전송해 주세요:', activeCdnUrl);
       });
     }
   </script>

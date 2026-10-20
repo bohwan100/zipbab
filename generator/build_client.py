@@ -90,6 +90,9 @@ def build_client(
 
         # A. index.html (포털 홈) 개인화 주입
         if dest_name == "index.html":
+            content = content.replace('<title>집밥봇 | 1인 가구 20만원 30일 식단 & 스마트 장보기 포털</title>', f'<title>{name}님 맞춤 30일 식단 & 스마트 장보기 포털 | 집밥봇</title>')
+            content = content.replace('content="집밥봇 | 1인 가구 20만원 30일 식단 & 스마트 장보기 포털"', f'content="{name}님 {household} 맞춤 식단 & 스마트 장보기 포털 | 집밥봇"')
+            content = content.replace('content="1인 가구 20만원 한 달 식단 & 쿠팡 1초 원클릭 스마트 장바구니 자동화 솔루션"', f'content="{name}님을 위한 {goal} 맞춤 식단과 쿠팡 1초 원클릭 스마트 장바구니"')
             content = content.replace("1인 가구 20만원 식단 & 스마트 장보기", f"{name}님 {household} 맞춤 포털 | {cuisine}")
             content = content.replace("한 달 20만 원으로 누리는", f"{name}님 맞춤 플랜")
             content = content.replace('<p style="font-size: 1.25rem; font-weight: 600; color: #cbd5e1;">배달음식 끊고 집밥 해먹자!!</p>', '')
@@ -154,13 +157,16 @@ def build_client(
 
         # B. recipes.html (레시피 뷰어) 실시간 레시피 주입
         elif dest_name == "recipes.html":
-            content = content.replace("30일 메뉴 구성 (한식 12 · 일식 6 · 중식 6 · 양식 6)", f"{name}님 전용 {plan['total_meals']}끼 식단 ({cuisine_stat_str} · {household} 정량)")
+            tot_meals = plan["total_meals"]
+            content = content.replace('<title>🍳 [1인 가구] 한·일·중·양 4대 요리 30일 황금 레시피 & 영양 매니저</title>', f'<title>🍳 {name}님 전용 {tot_meals}끼 황금 레시피 | 집밥봇</title>')
+            content = content.replace('content="🍳 황금 레시피 & 영양 매니저 | 집밥봇"', f'content="🍳 {name}님 전용 {tot_meals}끼 황금 레시피 | 집밥봇"')
+            content = content.replace('content="퇴근 후 10분 컷 초간단 원팬 집밥 레시피 & 단백질 맞춤 식단"', f'content="{name}님 맞춤 {cuisine} 10분 컷 초간단 집밥 레시피"')
+            content = content.replace("30일 메뉴 구성 (한식 12 · 일식 6 · 중식 6 · 양식 6)", f"{name}님 전용 {tot_meals}끼 식단 ({cuisine_stat_str} · {household} 정량)")
             content = content.replace("1인분 정량 조리", f"{household} 정량 조리 ({plan['people_count']}인분)")
             content = content.replace("1인분 식재료", f"{household} 정량 식재료")
             content = content.replace("퇴근 후 15분 컷", f"목표: {goal}")
 
             # 필터 버튼 HTML 생성
-            tot_meals = plan["total_meals"]
             filter_buttons_html = f'<button class="btn-filter active" onclick="filterCuisine(\'all\', this)">전체 ({tot_meals}끼)</button>\n'
             for c, cnt in cuisine_counts.items():
                 flag = flag_map.get(c, "🍽️")
@@ -174,6 +180,10 @@ def build_client(
 
         # C. cart.html (장바구니 매니저) 실시간 예산 & 보유 재료 안내 & 주차별 장바구니 주입
         elif dest_name == "cart.html":
+            tot_spent = plan["total_spent"]
+            content = content.replace('<title>스마트 장바구니 매니저 | 집밥봇</title>', f'<title>{name}님 스마트 장바구니 매니저 | 집밥봇</title>')
+            content = content.replace('content="스마트 장바구니 매니저 | 집밥봇"', f'content="{name}님 스마트 장바구니 매니저 | 집밥봇"')
+            content = content.replace('content="4주 분할 장보기 & 쿠팡 로켓배송 1초 원클릭 자동 담기"', f'content="{name}님 4주 분할 장보기 ({tot_spent:,}원) & 쿠팡 1초 원클릭 자동 담기"')
             content = content.replace("1인 가구", household)
 
             # 주차별 4개 분할 카드 금액 교체
@@ -240,6 +250,9 @@ def build_client(
             seasoning_cnt = len([c for c in storage_cards if c['category'] == 'seasoning'])
             total_cnt = len(storage_cards)
 
+            content = content.replace('<title>1인 가구 37종 식재료 보관 & 소분 백과 | 집밥봇</title>', f'<title>{name}님 맞춤 식재료 보관 & 소분 백과 | 집밥봇</title>')
+            content = content.replace('content="식재료 소분 & 신선 보관 백과 | 집밥봇"', f'content="{name}님 맞춤 식재료 보관 & 소분 백과 | 집밥봇"')
+            content = content.replace('content="1인 가구 소형 냉장고 맞춤 식재료 완벽 소분 & 신선도 극대화 보관법"', f'content="{name}님 구매 식재료 100% 맞춤 신선도 극대화 보관법"')
             content = content.replace("1인 가구 37종 식재료 보관 & 소분 백과", f"{name}님 {household} 맞춤 {total_cnt}종 식재료 보관 & 소분 백과")
             content = content.replace("1인 가구 소형 냉장고 맞춤 솔루션", f"{name}님 {household} 구매 식재료 100% 맞춤 보관법")
             content = content.replace("❄️ 37종 식재료 완벽 소분 & 신선 보관 백과", f"❄️ {total_cnt}종 맞춤 식재료 완벽 소분 & 신선 보관 백과")

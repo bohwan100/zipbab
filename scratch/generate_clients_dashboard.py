@@ -277,6 +277,39 @@ html_content = f"""<!DOCTYPE html>
       transform: translateY(-1px);
     }}
 
+    /* Quick Filter Chips */
+    .quick-filters {{
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }}
+    .q-filter {{
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: #cbd5e1;
+      padding: 7px 15px;
+      border-radius: 9999px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }}
+    .q-filter:hover {{
+      background: rgba(255, 255, 255, 0.12);
+      color: #fff;
+    }}
+    .q-filter.active {{
+      background: #38bdf8;
+      border-color: #38bdf8;
+      color: #0b0f19;
+      font-weight: 800;
+      box-shadow: 0 2px 10px rgba(56, 189, 248, 0.35);
+    }}
+
     /* Clients Grid */
     .client-grid {{
       display: grid;
@@ -506,6 +539,18 @@ html_content = f"""<!DOCTYPE html>
       </div>
     </div>
 
+    <!-- Quick Filter Chips -->
+    <div class="quick-filters">
+      <button type="button" class="q-filter active" onclick="setQuickFilter('all', this)">전체 ({total_clients}명)</button>
+      <button type="button" class="q-filter" onclick="setQuickFilter('한식', this)">🇰🇷 한식</button>
+      <button type="button" class="q-filter" onclick="setQuickFilter('일식', this)">🇯🇵 일식</button>
+      <button type="button" class="q-filter" onclick="setQuickFilter('양식', this)">🇪🇺 양식</button>
+      <button type="button" class="q-filter" onclick="setQuickFilter('중식', this)">🇨🇳 중식</button>
+      <button type="button" class="q-filter" onclick="setQuickFilter('단백질', this)">💪 고단백/벌크업</button>
+      <button type="button" class="q-filter" onclick="setQuickFilter('다이어트', this)">🥗 다이어트</button>
+      <button type="button" class="q-filter" onclick="setQuickFilter('최종본', this)">📌 검증용 고정</button>
+    </div>
+
     <!-- Grid -->
     <div class="client-grid" id="grid">
 """
@@ -538,7 +583,7 @@ for c in clients_data:
     chk_disabled = 'disabled title="검증 전용 포털은 삭제할 수 없습니다"' if is_pinned else 'title="삭제 대상 선택"'
     del_btn = '<span style="font-size: 1rem; opacity: 0.6;" title="검증 전용 마스터 포털 (삭제 불가)">🔒</span>' if is_pinned else f"""<button type="button" onclick="deleteSingleClient('{cid}', '{name}')" class="btn-card-delete" title="[{name}] 고객 폴더 및 파일 영구 삭제">🗑️</button>"""
 
-    html_content += f"""      <div class="client-card" id="card-{cid}" data-name="{name} {cid} {goal} {cuisine}" {card_custom_style}>
+    html_content += f"""      <div class="client-card" id="card-{cid}" data-name="{name} {cid} {goal} {cuisine} {goal_notes}" {card_custom_style}>
         <div>
           <div class="client-head">
             <div style="display: flex; align-items: flex-start; gap: 12px;">
@@ -575,7 +620,7 @@ for c in clients_data:
         </div>
 
         <div class="client-actions">
-          <button type="button" onclick="copyKakaoLink('{name}', '{cid}')" class="action-link btn-kakao-copy">
+          <button type="button" onclick="copyKakaoLink('{name}', '{cid}', this)" class="action-link btn-kakao-copy">
             💬 카톡 전송용 맞춤 링크 복사 (CDN 분산)
           </button>
           <a href="{portal_link}" target="_blank" class="action-link action-portal" style="padding: 12px; font-size: 0.9rem; justify-content: center;">
@@ -606,9 +651,20 @@ html_content += f"""    </div>
       }});
     }}
 
-    function copyKakaoLink(name, cid) {{
+    function copyKakaoLink(name, cid, btn) {{
       const mobileUrl = `${{cdnBase}}/clients/${{encodeURIComponent(cid)}}/index.html`;
       navigator.clipboard.writeText(mobileUrl).then(() => {{
+        if (btn) {{
+          const origHtml = btn.innerHTML;
+          btn.style.background = '#10b981';
+          btn.style.color = '#fff';
+          btn.innerHTML = '<span>✅ 링크 복사 완료!</span>';
+          setTimeout(() => {{
+            btn.style.background = '';
+            btn.style.color = '';
+            btn.innerHTML = origHtml;
+          }}, 2000);
+        }}
         showCopyToast(`💬 [${{name}}]님의 맞춤 링크가 복사되었습니다!\\n전 세계 무료 분산 CDN(GitHub Pages) 초고속 서버로 10만 명 접속도 거뜬합니다.\\n\\n${{mobileUrl}}`);
       }}).catch(() => {{
         prompt('아래 링크를 복사하여 카카오톡에 전송해 주세요:', mobileUrl);
@@ -650,13 +706,25 @@ html_content += f"""    </div>
       }}
     }}
 
+    let currentQuickFilter = 'all';
+
+    function setQuickFilter(keyword, btn) {{
+      currentQuickFilter = keyword;
+      document.querySelectorAll('.q-filter').forEach(b => b.classList.remove('active'));
+      if (btn) btn.classList.add('active');
+      filterClients();
+    }}
+
     function filterClients() {{
-      const q = document.getElementById('search').value.toLowerCase();
+      const q = document.getElementById('search').value.toLowerCase().trim();
       const cards = document.querySelectorAll('.client-card');
       let visible = 0;
       cards.forEach(c => {{
         const text = c.getAttribute('data-name').toLowerCase();
-        if (text.includes(q)) {{
+        const matchSearch = !q || text.includes(q);
+        const matchQuick = (currentQuickFilter === 'all') || text.includes(currentQuickFilter.toLowerCase());
+
+        if (matchSearch && matchQuick) {{
           c.style.display = 'flex';
           visible++;
         }} else {{

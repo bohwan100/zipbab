@@ -216,6 +216,39 @@
       transform: translateY(-1px);
     }
 
+    /* Quick Filter Chips */
+    .quick-filters {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+    .q-filter {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: #cbd5e1;
+      padding: 7px 15px;
+      border-radius: 9999px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .q-filter:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #fff;
+    }
+    .q-filter.active {
+      background: #38bdf8;
+      border-color: #38bdf8;
+      color: #0b0f19;
+      font-weight: 800;
+      box-shadow: 0 2px 10px rgba(56, 189, 248, 0.35);
+    }
+
     /* Clients Grid */
     .client-grid {
       display: grid;
@@ -445,9 +478,21 @@
       </div>
     </div>
 
+    <!-- Quick Filter Chips -->
+    <div class="quick-filters">
+      <button type="button" class="q-filter active" onclick="setQuickFilter('all', this)">전체 (21명)</button>
+      <button type="button" class="q-filter" onclick="setQuickFilter('한식', this)">🇰🇷 한식</button>
+      <button type="button" class="q-filter" onclick="setQuickFilter('일식', this)">🇯🇵 일식</button>
+      <button type="button" class="q-filter" onclick="setQuickFilter('양식', this)">🇪🇺 양식</button>
+      <button type="button" class="q-filter" onclick="setQuickFilter('중식', this)">🇨🇳 중식</button>
+      <button type="button" class="q-filter" onclick="setQuickFilter('단백질', this)">💪 고단백/벌크업</button>
+      <button type="button" class="q-filter" onclick="setQuickFilter('다이어트', this)">🥗 다이어트</button>
+      <button type="button" class="q-filter" onclick="setQuickFilter('최종본', this)">📌 검증용 고정</button>
+    </div>
+
     <!-- Grid -->
     <div class="client-grid" id="grid">
-      <div class="client-card" id="card-최종본_100세_2" data-name="최종본 !!! 최종본_100세_2 일반식 한식, 일식, 양식, 중식" style="border: 2px solid #f59e0b; background: rgba(26, 20, 10, 0.85); box-shadow: 0 6px 24px rgba(245, 158, 11, 0.18);">
+      <div class="client-card" id="card-최종본_100세_2" data-name="최종본 !!! 최종본_100세_2 일반식 한식, 일식, 양식, 중식 " style="border: 2px solid #f59e0b; background: rgba(26, 20, 10, 0.85); box-shadow: 0 6px 24px rgba(245, 158, 11, 0.18);">
         <div>
           <div class="client-head">
             <div style="display: flex; align-items: flex-start; gap: 12px;">
@@ -484,7 +529,7 @@
         </div>
 
         <div class="client-actions">
-          <button type="button" onclick="copyKakaoLink('최종본 !!!', '최종본_100세_2')" class="action-link btn-kakao-copy">
+          <button type="button" onclick="copyKakaoLink('최종본 !!!', '최종본_100세_2', this)" class="action-link btn-kakao-copy">
             💬 카톡 전송용 맞춤 링크 복사 (CDN 분산)
           </button>
           <a href="clients/최종본_100세_2/index.html" target="_blank" class="action-link action-portal" style="padding: 12px; font-size: 0.9rem; justify-content: center;">
@@ -492,7 +537,7 @@
           </a>
         </div>
       </div>
-      <div class="client-card" id="card-김태영_23" data-name="김태영 김태영_23 일반식 한식, 일식, 양식" >
+      <div class="client-card" id="card-김태영_23" data-name="김태영 김태영_23 일반식 한식, 일식, 양식 인간사료급 개레전드성분 단백질 매끼니 60g3끼 먹고싶어요" >
         <div>
           <div class="client-head">
             <div style="display: flex; align-items: flex-start; gap: 12px;">
@@ -532,7 +577,7 @@
         </div>
 
         <div class="client-actions">
-          <button type="button" onclick="copyKakaoLink('김태영', '김태영_23')" class="action-link btn-kakao-copy">
+          <button type="button" onclick="copyKakaoLink('김태영', '김태영_23', this)" class="action-link btn-kakao-copy">
             💬 카톡 전송용 맞춤 링크 복사 (CDN 분산)
           </button>
           <a href="clients/김태영_23/index.html" target="_blank" class="action-link action-portal" style="padding: 12px; font-size: 0.9rem; justify-content: center;">
@@ -540,7 +585,7 @@
           </a>
         </div>
       </div>
-      <div class="client-card" id="card-한재원_21살" data-name="한재원 한재원_21살 일반식 일식, 양식" >
+      <div class="client-card" id="card-한재원_21살" data-name="한재원 한재원_21살 일반식 일식, 양식 배달음식을 끊고 식비를 절약하고 싶습니다. 건강하게 살고싶습니다!" >
         <div>
           <div class="client-head">
             <div style="display: flex; align-items: flex-start; gap: 12px;">
@@ -580,7 +625,7 @@
         </div>
 
         <div class="client-actions">
-          <button type="button" onclick="copyKakaoLink('한재원', '한재원_21살')" class="action-link btn-kakao-copy">
+          <button type="button" onclick="copyKakaoLink('한재원', '한재원_21살', this)" class="action-link btn-kakao-copy">
             💬 카톡 전송용 맞춤 링크 복사 (CDN 분산)
           </button>
           <a href="clients/한재원_21살/index.html" target="_blank" class="action-link action-portal" style="padding: 12px; font-size: 0.9rem; justify-content: center;">
@@ -588,7 +633,7 @@
           </a>
         </div>
       </div>
-      <div class="client-card" id="card-최수정_28" data-name="최수정 최수정_28 일반식 한식, 일식, 양식, 중식" >
+      <div class="client-card" id="card-최수정_28" data-name="최수정 최수정_28 일반식 한식, 일식, 양식, 중식 신혼입니다! 퇴근 후에 간단하게라도 차려주고싶은데 매번 메뉴 고민 하는게 힘들어요. 그리고 요즘 식재료도 비싼데 버려지는 식재료 없이 깔끔한 냉장고 만들고싶어요." >
         <div>
           <div class="client-head">
             <div style="display: flex; align-items: flex-start; gap: 12px;">
@@ -628,7 +673,7 @@
         </div>
 
         <div class="client-actions">
-          <button type="button" onclick="copyKakaoLink('최수정', '최수정_28')" class="action-link btn-kakao-copy">
+          <button type="button" onclick="copyKakaoLink('최수정', '최수정_28', this)" class="action-link btn-kakao-copy">
             💬 카톡 전송용 맞춤 링크 복사 (CDN 분산)
           </button>
           <a href="clients/최수정_28/index.html" target="_blank" class="action-link action-portal" style="padding: 12px; font-size: 0.9rem; justify-content: center;">
@@ -636,7 +681,7 @@
           </a>
         </div>
       </div>
-      <div class="client-card" id="card-주윤겸_25세" data-name="주윤겸 주윤겸_25세 일반식 한식, 일식" >
+      <div class="client-card" id="card-주윤겸_25세" data-name="주윤겸 주윤겸_25세 일반식 한식, 일식 배달음식 끊고, 운동과 소화가 잘되는 식단으로 건강을 되찾고 싶어요" >
         <div>
           <div class="client-head">
             <div style="display: flex; align-items: flex-start; gap: 12px;">
@@ -676,7 +721,7 @@
         </div>
 
         <div class="client-actions">
-          <button type="button" onclick="copyKakaoLink('주윤겸', '주윤겸_25세')" class="action-link btn-kakao-copy">
+          <button type="button" onclick="copyKakaoLink('주윤겸', '주윤겸_25세', this)" class="action-link btn-kakao-copy">
             💬 카톡 전송용 맞춤 링크 복사 (CDN 분산)
           </button>
           <a href="clients/주윤겸_25세/index.html" target="_blank" class="action-link action-portal" style="padding: 12px; font-size: 0.9rem; justify-content: center;">
@@ -684,7 +729,7 @@
           </a>
         </div>
       </div>
-      <div class="client-card" id="card-임동현_29" data-name="임동현 임동현_29 일반식 한식, 일식, 양식, 중식" >
+      <div class="client-card" id="card-임동현_29" data-name="임동현 임동현_29 일반식 한식, 일식, 양식, 중식 거의 배달음식으로 끼니를 떼워왔는데, 돈이 너무 많이 드는 것 같아 식비를 아끼고 싶어요!" >
         <div>
           <div class="client-head">
             <div style="display: flex; align-items: flex-start; gap: 12px;">
@@ -724,7 +769,7 @@
         </div>
 
         <div class="client-actions">
-          <button type="button" onclick="copyKakaoLink('임동현', '임동현_29')" class="action-link btn-kakao-copy">
+          <button type="button" onclick="copyKakaoLink('임동현', '임동현_29', this)" class="action-link btn-kakao-copy">
             💬 카톡 전송용 맞춤 링크 복사 (CDN 분산)
           </button>
           <a href="clients/임동현_29/index.html" target="_blank" class="action-link action-portal" style="padding: 12px; font-size: 0.9rem; justify-content: center;">
@@ -732,7 +777,7 @@
           </a>
         </div>
       </div>
-      <div class="client-card" id="card-송대호_26" data-name="송대호 송대호_26 일반식 한식, 일식, 양식, 중식" >
+      <div class="client-card" id="card-송대호_26" data-name="송대호 송대호_26 일반식 한식, 일식, 양식, 중식 배달 음식 끊고 다이어트및 도시락 싸다니고 싶은데 메뉴도 너무 한정적이고 그때그때 맛도 다 달라서 그리고 만드는 시간도 오래걸려 포기했다 다시 했다를 반복중입니다 그래서 좀 더 간편하고 안 질리는 식단을 짜고 싶습니다" >
         <div>
           <div class="client-head">
             <div style="display: flex; align-items: flex-start; gap: 12px;">
@@ -772,7 +817,7 @@
         </div>
 
         <div class="client-actions">
-          <button type="button" onclick="copyKakaoLink('송대호', '송대호_26')" class="action-link btn-kakao-copy">
+          <button type="button" onclick="copyKakaoLink('송대호', '송대호_26', this)" class="action-link btn-kakao-copy">
             💬 카톡 전송용 맞춤 링크 복사 (CDN 분산)
           </button>
           <a href="clients/송대호_26/index.html" target="_blank" class="action-link action-portal" style="padding: 12px; font-size: 0.9rem; justify-content: center;">
@@ -780,7 +825,7 @@
           </a>
         </div>
       </div>
-      <div class="client-card" id="card-김지은_27" data-name="김지은 김지은_27 일반식 한식, 일식, 양식, 중식" >
+      <div class="client-card" id="card-김지은_27" data-name="김지은 김지은_27 일반식 한식, 일식, 양식, 중식 맛있고 간편한 헬스 식단 밀프랩만들고싶어요" >
         <div>
           <div class="client-head">
             <div style="display: flex; align-items: flex-start; gap: 12px;">
@@ -820,7 +865,7 @@
         </div>
 
         <div class="client-actions">
-          <button type="button" onclick="copyKakaoLink('김지은', '김지은_27')" class="action-link btn-kakao-copy">
+          <button type="button" onclick="copyKakaoLink('김지은', '김지은_27', this)" class="action-link btn-kakao-copy">
             💬 카톡 전송용 맞춤 링크 복사 (CDN 분산)
           </button>
           <a href="clients/김지은_27/index.html" target="_blank" class="action-link action-portal" style="padding: 12px; font-size: 0.9rem; justify-content: center;">
@@ -828,7 +873,7 @@
           </a>
         </div>
       </div>
-      <div class="client-card" id="card-곽경민_28" data-name="곽경민 곽경민_28 일반식 한식, 일식" >
+      <div class="client-card" id="card-곽경민_28" data-name="곽경민 곽경민_28 일반식 한식, 일식 퇴근이 늦어서 배달음식을 위주로 먹는데 간단하게 빠르게 조리할 수 있고 건강하게 집밥먹고싶어요 감사합니다!" >
         <div>
           <div class="client-head">
             <div style="display: flex; align-items: flex-start; gap: 12px;">
@@ -868,7 +913,7 @@
         </div>
 
         <div class="client-actions">
-          <button type="button" onclick="copyKakaoLink('곽경민', '곽경민_28')" class="action-link btn-kakao-copy">
+          <button type="button" onclick="copyKakaoLink('곽경민', '곽경민_28', this)" class="action-link btn-kakao-copy">
             💬 카톡 전송용 맞춤 링크 복사 (CDN 분산)
           </button>
           <a href="clients/곽경민_28/index.html" target="_blank" class="action-link action-portal" style="padding: 12px; font-size: 0.9rem; justify-content: center;">
@@ -876,7 +921,7 @@
           </a>
         </div>
       </div>
-      <div class="client-card" id="card-강윤_20살" data-name="강윤 강윤_20살 일반식 한식, 일식, 양식, 중식" >
+      <div class="client-card" id="card-강윤_20살" data-name="강윤 강윤_20살 일반식 한식, 일식, 양식, 중식 매일 먹기 쉬운 간편식이나 밀프랩같은걸로 빠르게 먹을 수 있는 음식인데 맛있어서 질리지 않으면 좋겠어요" >
         <div>
           <div class="client-head">
             <div style="display: flex; align-items: flex-start; gap: 12px;">
@@ -916,7 +961,7 @@
         </div>
 
         <div class="client-actions">
-          <button type="button" onclick="copyKakaoLink('강윤', '강윤_20살')" class="action-link btn-kakao-copy">
+          <button type="button" onclick="copyKakaoLink('강윤', '강윤_20살', this)" class="action-link btn-kakao-copy">
             💬 카톡 전송용 맞춤 링크 복사 (CDN 분산)
           </button>
           <a href="clients/강윤_20살/index.html" target="_blank" class="action-link action-portal" style="padding: 12px; font-size: 0.9rem; justify-content: center;">
@@ -924,7 +969,7 @@
           </a>
         </div>
       </div>
-      <div class="client-card" id="card-정민_26" data-name="정민 정민_26 야채·채소 위주 (클린 채식식) 일식, 양식, 중식" >
+      <div class="client-card" id="card-정민_26" data-name="정민 정민_26 야채·채소 위주 (클린 채식식) 일식, 양식, 중식 야채요리를 좀 다양하게 해볼수있게 도움받고싶습니다," >
         <div>
           <div class="client-head">
             <div style="display: flex; align-items: flex-start; gap: 12px;">
@@ -964,7 +1009,7 @@
         </div>
 
         <div class="client-actions">
-          <button type="button" onclick="copyKakaoLink('정민', '정민_26')" class="action-link btn-kakao-copy">
+          <button type="button" onclick="copyKakaoLink('정민', '정민_26', this)" class="action-link btn-kakao-copy">
             💬 카톡 전송용 맞춤 링크 복사 (CDN 분산)
           </button>
           <a href="clients/정민_26/index.html" target="_blank" class="action-link action-portal" style="padding: 12px; font-size: 0.9rem; justify-content: center;">
@@ -972,7 +1017,7 @@
           </a>
         </div>
       </div>
-      <div class="client-card" id="card-김현민_23" data-name="김현민 김현민_23 일반식 한식, 일식, 양식" >
+      <div class="client-card" id="card-김현민_23" data-name="김현민 김현민_23 일반식 한식, 일식, 양식 식비를 줄이고 그돈으로 여행을 가고싶습니다." >
         <div>
           <div class="client-head">
             <div style="display: flex; align-items: flex-start; gap: 12px;">
@@ -1012,7 +1057,7 @@
         </div>
 
         <div class="client-actions">
-          <button type="button" onclick="copyKakaoLink('김현민', '김현민_23')" class="action-link btn-kakao-copy">
+          <button type="button" onclick="copyKakaoLink('김현민', '김현민_23', this)" class="action-link btn-kakao-copy">
             💬 카톡 전송용 맞춤 링크 복사 (CDN 분산)
           </button>
           <a href="clients/김현민_23/index.html" target="_blank" class="action-link action-portal" style="padding: 12px; font-size: 0.9rem; justify-content: center;">
@@ -1020,7 +1065,7 @@
           </a>
         </div>
       </div>
-      <div class="client-card" id="card-박병애_31" data-name="박병애 박병애_31 일반식 한식, 일식, 양식" >
+      <div class="client-card" id="card-박병애_31" data-name="박병애 박병애_31 일반식 한식, 일식, 양식 다이어트중인데 맛있게 먹을수 있는 다이어트식과 간단하게 해먹을 수 있는 요리가 필요해요" >
         <div>
           <div class="client-head">
             <div style="display: flex; align-items: flex-start; gap: 12px;">
@@ -1060,7 +1105,7 @@
         </div>
 
         <div class="client-actions">
-          <button type="button" onclick="copyKakaoLink('박병애', '박병애_31')" class="action-link btn-kakao-copy">
+          <button type="button" onclick="copyKakaoLink('박병애', '박병애_31', this)" class="action-link btn-kakao-copy">
             💬 카톡 전송용 맞춤 링크 복사 (CDN 분산)
           </button>
           <a href="clients/박병애_31/index.html" target="_blank" class="action-link action-portal" style="padding: 12px; font-size: 0.9rem; justify-content: center;">
@@ -1068,7 +1113,7 @@
           </a>
         </div>
       </div>
-      <div class="client-card" id="card-김지욱_24" data-name="김지욱 김지욱_24 일반식 한식, 일식, 양식" >
+      <div class="client-card" id="card-김지욱_24" data-name="김지욱 김지욱_24 일반식 한식, 일식, 양식 배달 그만 먹구 집 에서 돈 아끼면서 건강 챙기기" >
         <div>
           <div class="client-head">
             <div style="display: flex; align-items: flex-start; gap: 12px;">
@@ -1108,7 +1153,7 @@
         </div>
 
         <div class="client-actions">
-          <button type="button" onclick="copyKakaoLink('김지욱', '김지욱_24')" class="action-link btn-kakao-copy">
+          <button type="button" onclick="copyKakaoLink('김지욱', '김지욱_24', this)" class="action-link btn-kakao-copy">
             💬 카톡 전송용 맞춤 링크 복사 (CDN 분산)
           </button>
           <a href="clients/김지욱_24/index.html" target="_blank" class="action-link action-portal" style="padding: 12px; font-size: 0.9rem; justify-content: center;">
@@ -1116,7 +1161,7 @@
           </a>
         </div>
       </div>
-      <div class="client-card" id="card-김성민_30" data-name="김성민 김성민_30 일반식 한식" >
+      <div class="client-card" id="card-김성민_30" data-name="김성민 김성민_30 일반식 한식 귀찮아서 한달에 반 정도만 도시락 싸는데 고민할 필요없는 밀프랩을 실천하고싶어요" >
         <div>
           <div class="client-head">
             <div style="display: flex; align-items: flex-start; gap: 12px;">
@@ -1156,7 +1201,7 @@
         </div>
 
         <div class="client-actions">
-          <button type="button" onclick="copyKakaoLink('김성민', '김성민_30')" class="action-link btn-kakao-copy">
+          <button type="button" onclick="copyKakaoLink('김성민', '김성민_30', this)" class="action-link btn-kakao-copy">
             💬 카톡 전송용 맞춤 링크 복사 (CDN 분산)
           </button>
           <a href="clients/김성민_30/index.html" target="_blank" class="action-link action-portal" style="padding: 12px; font-size: 0.9rem; justify-content: center;">
@@ -1164,7 +1209,7 @@
           </a>
         </div>
       </div>
-      <div class="client-card" id="card-정수원_21세" data-name="정수원 정수원_21세 일반식 한식, 일식" >
+      <div class="client-card" id="card-정수원_21세" data-name="정수원 정수원_21세 일반식 한식, 일식 자취생 첫 집밥 도전" >
         <div>
           <div class="client-head">
             <div style="display: flex; align-items: flex-start; gap: 12px;">
@@ -1204,7 +1249,7 @@
         </div>
 
         <div class="client-actions">
-          <button type="button" onclick="copyKakaoLink('정수원', '정수원_21세')" class="action-link btn-kakao-copy">
+          <button type="button" onclick="copyKakaoLink('정수원', '정수원_21세', this)" class="action-link btn-kakao-copy">
             💬 카톡 전송용 맞춤 링크 복사 (CDN 분산)
           </button>
           <a href="clients/정수원_21세/index.html" target="_blank" class="action-link action-portal" style="padding: 12px; font-size: 0.9rem; justify-content: center;">
@@ -1212,7 +1257,7 @@
           </a>
         </div>
       </div>
-      <div class="client-card" id="card-노한석_30" data-name="노한석 노한석_30 일반식 한식, 일식, 중식, 양식" >
+      <div class="client-card" id="card-노한석_30" data-name="노한석 노한석_30 일반식 한식, 일식, 중식, 양식 식비 20만원으로 알뜰하게 즐기는 집밥" >
         <div>
           <div class="client-head">
             <div style="display: flex; align-items: flex-start; gap: 12px;">
@@ -1252,7 +1297,7 @@
         </div>
 
         <div class="client-actions">
-          <button type="button" onclick="copyKakaoLink('노한석', '노한석_30')" class="action-link btn-kakao-copy">
+          <button type="button" onclick="copyKakaoLink('노한석', '노한석_30', this)" class="action-link btn-kakao-copy">
             💬 카톡 전송용 맞춤 링크 복사 (CDN 분산)
           </button>
           <a href="clients/노한석_30/index.html" target="_blank" class="action-link action-portal" style="padding: 12px; font-size: 0.9rem; justify-content: center;">
@@ -1260,7 +1305,7 @@
           </a>
         </div>
       </div>
-      <div class="client-card" id="card-정진향_41" data-name="정진향 정진향_41 일반식 한식, 일식, 중식, 양식" >
+      <div class="client-card" id="card-정진향_41" data-name="정진향 정진향_41 일반식 한식, 일식, 중식, 양식 퇴근 후 간편하고 따뜻한 집밥" >
         <div>
           <div class="client-head">
             <div style="display: flex; align-items: flex-start; gap: 12px;">
@@ -1300,7 +1345,7 @@
         </div>
 
         <div class="client-actions">
-          <button type="button" onclick="copyKakaoLink('정진향', '정진향_41')" class="action-link btn-kakao-copy">
+          <button type="button" onclick="copyKakaoLink('정진향', '정진향_41', this)" class="action-link btn-kakao-copy">
             💬 카톡 전송용 맞춤 링크 복사 (CDN 분산)
           </button>
           <a href="clients/정진향_41/index.html" target="_blank" class="action-link action-portal" style="padding: 12px; font-size: 0.9rem; justify-content: center;">
@@ -1308,7 +1353,7 @@
           </a>
         </div>
       </div>
-      <div class="client-card" id="card-차민홍_34" data-name="차민홍 차민홍_34 일반식 한식, 일식, 양식" >
+      <div class="client-card" id="card-차민홍_34" data-name="차민홍 차민홍_34 일반식 한식, 일식, 양식 건강하고 균형 잡힌 저녁 식단" >
         <div>
           <div class="client-head">
             <div style="display: flex; align-items: flex-start; gap: 12px;">
@@ -1348,7 +1393,7 @@
         </div>
 
         <div class="client-actions">
-          <button type="button" onclick="copyKakaoLink('차민홍', '차민홍_34')" class="action-link btn-kakao-copy">
+          <button type="button" onclick="copyKakaoLink('차민홍', '차민홍_34', this)" class="action-link btn-kakao-copy">
             💬 카톡 전송용 맞춤 링크 복사 (CDN 분산)
           </button>
           <a href="clients/차민홍_34/index.html" target="_blank" class="action-link action-portal" style="padding: 12px; font-size: 0.9rem; justify-content: center;">
@@ -1356,7 +1401,7 @@
           </a>
         </div>
       </div>
-      <div class="client-card" id="card-최민석_26" data-name="최민석 최민석_26 일반식 한식, 일식, 중식, 양식" >
+      <div class="client-card" id="card-최민석_26" data-name="최민석 최민석_26 일반식 한식, 일식, 중식, 양식 배달음식 줄이고 1인 자취 식비 절약" >
         <div>
           <div class="client-head">
             <div style="display: flex; align-items: flex-start; gap: 12px;">
@@ -1396,7 +1441,7 @@
         </div>
 
         <div class="client-actions">
-          <button type="button" onclick="copyKakaoLink('최민석', '최민석_26')" class="action-link btn-kakao-copy">
+          <button type="button" onclick="copyKakaoLink('최민석', '최민석_26', this)" class="action-link btn-kakao-copy">
             💬 카톡 전송용 맞춤 링크 복사 (CDN 분산)
           </button>
           <a href="clients/최민석_26/index.html" target="_blank" class="action-link action-portal" style="padding: 12px; font-size: 0.9rem; justify-content: center;">
@@ -1404,7 +1449,7 @@
           </a>
         </div>
       </div>
-      <div class="client-card" id="card-정유진_37" data-name="정유진 정유진_37 일반식 한식, 일식, 중식, 양식" >
+      <div class="client-card" id="card-정유진_37" data-name="정유진 정유진_37 일반식 한식, 일식, 중식, 양식 퇴근 후 간편하고 맛있는 건강 집밥" >
         <div>
           <div class="client-head">
             <div style="display: flex; align-items: flex-start; gap: 12px;">
@@ -1444,7 +1489,7 @@
         </div>
 
         <div class="client-actions">
-          <button type="button" onclick="copyKakaoLink('정유진', '정유진_37')" class="action-link btn-kakao-copy">
+          <button type="button" onclick="copyKakaoLink('정유진', '정유진_37', this)" class="action-link btn-kakao-copy">
             💬 카톡 전송용 맞춤 링크 복사 (CDN 분산)
           </button>
           <a href="clients/정유진_37/index.html" target="_blank" class="action-link action-portal" style="padding: 12px; font-size: 0.9rem; justify-content: center;">
@@ -1473,9 +1518,20 @@
       });
     }
 
-    function copyKakaoLink(name, cid) {
+    function copyKakaoLink(name, cid, btn) {
       const mobileUrl = `${cdnBase}/clients/${encodeURIComponent(cid)}/index.html`;
       navigator.clipboard.writeText(mobileUrl).then(() => {
+        if (btn) {
+          const origHtml = btn.innerHTML;
+          btn.style.background = '#10b981';
+          btn.style.color = '#fff';
+          btn.innerHTML = '<span>✅ 링크 복사 완료!</span>';
+          setTimeout(() => {
+            btn.style.background = '';
+            btn.style.color = '';
+            btn.innerHTML = origHtml;
+          }, 2000);
+        }
         showCopyToast(`💬 [${name}]님의 맞춤 링크가 복사되었습니다!\n전 세계 무료 분산 CDN(GitHub Pages) 초고속 서버로 10만 명 접속도 거뜬합니다.\n\n${mobileUrl}`);
       }).catch(() => {
         prompt('아래 링크를 복사하여 카카오톡에 전송해 주세요:', mobileUrl);
@@ -1517,13 +1573,25 @@
       }
     }
 
+    let currentQuickFilter = 'all';
+
+    function setQuickFilter(keyword, btn) {
+      currentQuickFilter = keyword;
+      document.querySelectorAll('.q-filter').forEach(b => b.classList.remove('active'));
+      if (btn) btn.classList.add('active');
+      filterClients();
+    }
+
     function filterClients() {
-      const q = document.getElementById('search').value.toLowerCase();
+      const q = document.getElementById('search').value.toLowerCase().trim();
       const cards = document.querySelectorAll('.client-card');
       let visible = 0;
       cards.forEach(c => {
         const text = c.getAttribute('data-name').toLowerCase();
-        if (text.includes(q)) {
+        const matchSearch = !q || text.includes(q);
+        const matchQuick = (currentQuickFilter === 'all') || text.includes(currentQuickFilter.toLowerCase());
+
+        if (matchSearch && matchQuick) {
           c.style.display = 'flex';
           visible++;
         } else {

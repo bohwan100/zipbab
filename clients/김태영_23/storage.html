@@ -3,7 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>김태영님 1명 맞춤 50종 식재료 보관 & 소분 백과 | 집밥봇</title>
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="김태영님 맞춤 식재료 보관 & 소분 백과 | 집밥봇">
+  <meta property="og:description" content="김태영님 구매 식재료 100% 맞춤 신선도 극대화 보관법">
+  <meta property="og:image" content="https://bohwan100.github.io/zipbab/assets/icon.png">
+  <link rel="icon" type="image/png" href="https://bohwan100.github.io/zipbab/assets/icon.png">
+  <link rel="apple-touch-icon" href="https://bohwan100.github.io/zipbab/assets/icon.png">
+  <title>김태영님 맞춤 식재료 보관 & 소분 백과 | 집밥봇</title>
   <script>
     (function() {
       var ua = navigator.userAgent.toLowerCase();
@@ -1038,13 +1044,34 @@
       applyFilters(currentFilter, query);
     }
 
+    function getChoseong(str) {
+      const CHOS = ['ㄱ', 'ㄲ', 'ㄴ', 'ㄷ', 'ㄸ', 'ㄹ', 'ㅁ', 'ㅂ', 'ㅃ', 'ㅅ', 'ㅆ', 'ㅇ', 'ㅈ', 'ㅉ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ'];
+      let result = '';
+      for (let i = 0; i < str.length; i++) {
+        const code = str.charCodeAt(i);
+        if (code >= 0xAC00 && code <= 0xD7A3) {
+          result += CHOS[Math.floor((code - 0xAC00) / 588)];
+        } else {
+          result += str[i];
+        }
+      }
+      return result;
+    }
+
     function applyFilters(category, query) {
+      const isCho = /^[ㄱ-ㅎ]+$/.test(query);
       const filtered = storageData.filter(item => {
         const matchCategory = (category === 'all') || (item.category === category);
-        const matchQuery = !query || 
-          item.name.toLowerCase().includes(query) || 
-          item.tip.toLowerCase().includes(query) ||
-          item.location.toLowerCase().includes(query);
+        let matchQuery = !query;
+        if (query) {
+          if (isCho) {
+            matchQuery = getChoseong(item.name).includes(query);
+          } else {
+            matchQuery = item.name.toLowerCase().includes(query) || 
+                         item.tip.toLowerCase().includes(query) ||
+                         item.location.toLowerCase().includes(query);
+          }
+        }
         return matchCategory && matchQuery;
       });
       renderStorageCards(filtered);

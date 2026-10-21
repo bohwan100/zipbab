@@ -9,20 +9,7 @@ sys.path.insert(0, os.path.join(ROOT, "scratch"))
 
 import build_client as builder
 
-print("--- 1. Rebuilding 김태영_23 with 한식, 일식, 양식 ---")
-builder.build_client(
-    client_id="김태영_23",
-    name="김태영",
-    age="23",
-    household="1명",
-    budget=300000,
-    frequency="저녁만 (30끼)",
-    goal="일반식",
-    cuisine="한식, 일식, 양식",
-    exclude="어류",
-    pantry="진간장, 식용유, 설탕, 고춧가루, 쌀",
-    goal_notes="인간사료급 개레전드성분 단백질 매끼니 60g3끼 먹고싶어요"
-)
+# 1. 김태영_23 등 기존 고객은 사용자가 명시적으로 직접 요청했을 때만 단독 수정합니다. (기배포 고객 100% 동결 원칙)
 
 print("\n--- 2. Rebuilding 최종본_100세_2 with 한식, 일식, 양식, 중식 ---")
 builder.build_client(

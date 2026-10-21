@@ -39,6 +39,14 @@ def build_client(
     client_dir = os.path.join(CLIENTS_DIR, client_id)
     os.makedirs(client_dir, exist_ok=True)
 
+    # 확장 프로그램 zip 복사 (상대경로/캐시 접근 100% 방어)
+    ext_src = os.path.join(ROOT_DIR, "assets", "extension", "zipbabbot-extension.zip")
+    if os.path.exists(ext_src):
+        try:
+            shutil.copy(ext_src, os.path.join(client_dir, "zipbabbot-extension.zip"))
+        except Exception:
+            pass
+
     # 1. 개인화 알고리즘 엔진 실행 (식단 30/60/90끼 편성, 인원수 정량 스케일링, 재료 공제)
     plan = recipe_engine.generate_personalized_plan(
         client_name=name,

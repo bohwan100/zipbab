@@ -665,7 +665,7 @@ html_content += f"""    </div>
             btn.innerHTML = origHtml;
           }}, 2000);
         }}
-        showCopyToast(`💬 [${{name}}]님의 맞춤 링크가 복사되었습니다!\\n전 세계 무료 분산 CDN(GitHub Pages) 초고속 서버로 10만 명 접속도 거뜬합니다.\\n\\n${{mobileUrl}}`);
+        showCopyToast(`💬 [${{name}}]님의 맞춤 링크가 복사되었습니다!\\nPC(크롬 & 네이버 웨일 브라우저) 및 모바일 완벽 지원\\n\\n${{mobileUrl}}`);
       }}).catch(() => {{
         prompt('아래 링크를 복사하여 카카오톡에 전송해 주세요:', mobileUrl);
       }});

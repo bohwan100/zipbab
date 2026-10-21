@@ -2456,7 +2456,7 @@
               <strong style="color: #f87171;">⚠️ 스마트폰(모바일) 접속 감지: 자동 담기 불가</strong><br>
               <span style="color: #cbd5e1; font-size: 0.82rem; line-height: 1.45; display: block; margin-top: 2px;">
                 스마트폰 브라우저는 기술 보안 제약상 <strong>자동 장바구니 담기가 불가능</strong>합니다.<br>
-                원클릭 자동 담기는 <strong>반드시 PC(노트북) 크롬</strong>으로 접속해 실행해 주세요!<br>
+                원클릭 자동 담기는 <strong>PC(노트북) 크롬 또는 네이버 웨일</strong>로 접속해 실행해 주세요!<br>
                 (현재 모바일에서는 상품 목록 우측 [쿠팡 ↗] 링크를 눌러 1개씩 직접 담으실 수 있습니다.)
               </span>
             </div>
@@ -2474,8 +2474,8 @@
           bgBanner.innerHTML = `
             <span style="font-size: 1.4rem; flex-shrink: 0;">💻</span>
             <div>
-              <strong style="color: #38bdf8;">PC 전용 크롬 확장프로그램 필요:</strong><br>
-              쿠팡 원클릭 자동 담기는 <strong>PC(노트북) 크롬 브라우저</strong>에서만 작동합니다!<br>
+              <strong style="color: #38bdf8;">PC 전용 확장 프로그램 필요 (크롬 & 네이버 웨일 지원):</strong><br>
+              쿠팡 원클릭 자동 담기는 <strong>PC(노트북) 크롬 또는 네이버 웨일 브라우저</strong>에서 작동합니다!<br>
               <span style="font-size: 0.78rem; color: #94a3b8;">PC에서 담아두시면 스마트폰 쿠팡 앱에 실시간 자동 동기화됩니다.</span>
             </div>
           `;
@@ -2628,8 +2628,8 @@
         }
         if (btnStop) btnStop.style.display = 'none';
         if (btnHeaderStop) btnHeaderStop.style.display = 'none';
-        showToast('📱 모바일에서는 자동 담기가 불가합니다. 꼭 PC 크롬에서 실행해 주세요!');
-        alert('⚠️ [PC 전용 기능 안내]\n\n스마트폰 브라우저는 확장프로그램 보안 제약으로 인해 쿠팡 자동 장바구니 담기가 지원되지 않습니다.\n\n원클릭 자동 담기를 이용하시려면 꼭 [PC / 노트북 크롬 브라우저]에서 이 페이지를 열어 실행해 주세요!\n(모바일에서는 상품 목록 우측 [쿠팡 ↗] 링크를 눌러 1개씩 직접 담으실 수 있습니다.)');
+        showToast('📱 모바일에서는 자동 담기가 불가합니다. 꼭 PC 크롬 또는 네이버 웨일에서 실행해 주세요!');
+        alert('⚠️ [PC 전용 기능 안내]\n\n스마트폰 브라우저는 확장프로그램 보안 제약으로 인해 쿠팡 자동 장바구니 담기가 지원되지 않습니다.\n\n원클릭 자동 담기를 이용하시려면 꼭 [PC / 노트북 크롬 또는 네이버 웨일 브라우저]에서 이 페이지를 열어 실행해 주세요!\n(모바일에서는 상품 목록 우측 [쿠팡 ↗] 링크를 눌러 1개씩 직접 담으실 수 있습니다.)');
         return;
       }
 
@@ -2644,7 +2644,7 @@
           localStorage.setItem('zipbabbot_extension_installed', 'true');
           sessionStorage.setItem('zipbabbot_extension_installed', 'true');
         } catch(e) {}
-        document.getElementById('batch-progress-status').innerText = `🧩 크롬 확장 프로그램을 통해 자동 담기 시작 중...`;
+        document.getElementById('batch-progress-status').innerText = `🧩 확장 프로그램을 통해 자동 담기 시작 중...`;
         const extensionPayload = targetList.map(t => ({
           index: t.originalIndex,
           query: t.item.query,
@@ -2665,7 +2665,7 @@
             }
             if (btnStop) btnStop.style.display = 'none';
             if (btnHeaderStop) btnHeaderStop.style.display = 'none';
-            alert('⚠️ [크롬 확장 프로그램 연결 안내]\n\n확장 프로그램이 설치되어 있으나 아직 최신 버전으로 새로고침되지 않아 백그라운드 통신이 지연되고 있습니다.\n\n해결 방법 (3초):\n1. 새 탭에서 chrome://extensions 로 이동합니다.\n2. [집밥봇 - 쿠팡 장바구니 1초 자동 담기 도우미] 카드의 새로고침(🔄) 아이콘을 한 번 클릭해 주세요!\n3. 이 페이지로 돌아와 다시 [한 번에 담기 시작]을 누르시면 정상 작동합니다.');
+            alert('⚠️ [확장 프로그램 연결 안내]\n\n확장 프로그램이 설치되어 있으나 아직 브라우저에서 최신 버전으로 새로고침되지 않아 백그라운드 통신이 지연되고 있습니다.\n\n해결 방법 (3초):\n1. 새 탭에서 chrome://extensions (웨일은 whale://extensions) 로 이동합니다.\n2. [집밥봇 - 쿠팡 장바구니 1초 자동 담기 도우미] 카드의 새로고침(🔄) 아이콘을 한 번 클릭해 주세요!\n3. 이 페이지로 돌아와 다시 [한 번에 담기 시작]을 누르시면 정상 작동합니다.');
           }
         }, 6000);
 
@@ -2852,7 +2852,7 @@
         const pStatus = document.getElementById('batch-progress-status');
         if (pBar) pBar.style.width = `${pct}%`;
         if (pPct) pPct.innerText = `${pct}%`;
-        if (pStatus) pStatus.innerText = `[${data.step}/${data.total}] ${data.item.name} 담는 중... (크롬 확장 프로그램)`;
+        if (pStatus) pStatus.innerText = `[${data.step}/${data.total}] ${data.item.name} 담는 중... (자동 담기 확장 프로그램)`;
       } else if (data.type === 'ZIPBABBOT_ITEM_DONE') {
         window.__zipbabbot_received_progress = true;
         clearTimeout(window.__zipbabbot_watchdog_timer);
@@ -2888,7 +2888,7 @@
         document.getElementById('batch-progress-bar').style.width = '100%';
         document.getElementById('batch-progress-percent').innerText = '100%';
         document.getElementById('batch-progress-status').innerHTML = '🎉 <strong>모든 품목 담기 완료!</strong> ➔ <span style="color: #38bdf8;">쿠팡 장바구니 창을 열었습니다.</span>';
-        showToast('🎉 크롬 확장 프로그램을 통해 모든 식재료가 쿠팡 장바구니에 정상 담겼습니다!');
+        showToast('🎉 확장 프로그램을 통해 모든 식재료가 쿠팡 장바구니에 정상 담겼습니다!');
       }
     });
 
@@ -2899,7 +2899,7 @@
         banner.innerHTML = `
           <span style="font-size: 1.4rem; flex-shrink: 0;">⚡</span>
           <div>
-            <strong style="color: #34d399;">🟢 집밥봇 크롬 확장 프로그램 활성화됨:</strong><br>
+            <strong style="color: #34d399;">🟢 집밥봇 자동 담기 확장 프로그램 활성화됨:</strong><br>
             아래 [🚀 한 번에 담기 시작]을 누르시면 백그라운드 탭에서 쿠팡 장바구니에 진짜로 쏙 담깁니다!<br>
             <span style="font-size: 0.78rem; color: #94a3b8;">📱 담긴 후 스마트폰 쿠팡 앱을 열어보시면 실시간 100% 동기화되어 모바일로 편하게 결제 가능합니다.</span>
           </div>

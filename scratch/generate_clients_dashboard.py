@@ -565,10 +565,11 @@ for c in clients_data:
     goal = c.get('goal', '일반식')
     cuisine = c.get('cuisine', '한식, 일식')
     goal_notes = c.get('goal_notes', '')
-    portal_link = f"clients/{cid}/index.html"
-    recipe_link = f"clients/{cid}/recipes.html"
-    cart_link = f"clients/{cid}/cart.html"
-    storage_link = f"clients/{cid}/storage.html"
+    version_ts = int(mtime)
+    portal_link = f"clients/{cid}/index.html?v={version_ts}"
+    recipe_link = f"clients/{cid}/recipes.html?v={version_ts}"
+    cart_link = f"clients/{cid}/cart.html?v={version_ts}"
+    storage_link = f"clients/{cid}/storage.html?v={version_ts}"
 
     goal_notes_html = ""
     if goal_notes and goal_notes.strip():
@@ -652,7 +653,7 @@ html_content += f"""    </div>
     }}
 
     function copyKakaoLink(name, cid, btn) {{
-      const mobileUrl = `${{cdnBase}}/clients/${{encodeURIComponent(cid)}}/index.html`;
+      const mobileUrl = `${{cdnBase}}/clients/${{encodeURIComponent(cid)}}/index.html?v=${{Date.now()}}`;
       navigator.clipboard.writeText(mobileUrl).then(() => {{
         if (btn) {{
           const origHtml = btn.innerHTML;

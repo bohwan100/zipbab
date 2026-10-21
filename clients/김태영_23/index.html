@@ -366,65 +366,6 @@
       font-size: 0.82rem;
       color: var(--text-muted);
       line-height: 1.5;
-    /* Today Quest Banner */
-    .today-quest-banner {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: linear-gradient(135deg, rgba(249, 115, 22, 0.15) 0%, rgba(56, 189, 248, 0.1) 100%);
-      border: 1.5px solid rgba(249, 115, 22, 0.4);
-      border-radius: 16px;
-      padding: 14px 22px;
-      margin-bottom: 35px;
-      text-decoration: none;
-      color: inherit;
-      transition: all 0.25s ease;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
-    }
-    .today-quest-banner:hover {
-      transform: translateY(-2px);
-      border-color: #f97316;
-      box-shadow: 0 8px 26px rgba(249, 115, 22, 0.25);
-    }
-    .today-quest-left {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-    .quest-badge {
-      background: linear-gradient(135deg, #f97316, #ea580c);
-      color: #fff;
-      font-size: 0.8rem;
-      font-weight: 800;
-      padding: 5px 12px;
-      border-radius: 9999px;
-      letter-spacing: -0.3px;
-    }
-    .quest-title {
-      font-size: 1.05rem;
-      font-weight: 800;
-      color: #fff;
-    }
-    .today-quest-right {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 0.88rem;
-      color: #94a3b8;
-    }
-    .quest-arrow {
-      color: #f97316;
-      font-size: 1.2rem;
-      font-weight: 800;
-      transition: transform 0.2s;
-    }
-    .today-quest-banner:hover .quest-arrow {
-      transform: translateX(4px);
-    }
-    @media (max-width: 640px) {
-      .today-quest-banner { flex-direction: column; align-items: flex-start; gap: 8px; padding: 14px 16px; }
-      .today-quest-right { font-size: 0.8rem; }
     }
 
     /* Footer */
@@ -653,18 +594,6 @@
         <span class="btn-guide-arrow">→</span>
       </button>
     </div>
-
-    <!-- Today's 1-Pick Meal Quest Banner (10분 컷 데일리 미션 바로가기) -->
-    <a href="recipes.html?day=1#day-1" class="today-quest-banner">
-      <div class="today-quest-left">
-        <span class="quest-badge">🔥 오늘의 집밥 퀘스트</span>
-        <span class="quest-title">오늘 저녁은 10분 원팬 집밥으로 시작하세요! 👉</span>
-      </div>
-      <div class="today-quest-right">
-        <span class="quest-sub">Day 1 바로보기 · 배달비 22,000원 방어</span>
-        <span class="quest-arrow">→</span>
-      </div>
-    </a>
 
     <!-- The 3 Core Action Cards (메인 3개 버튼) -->
     <div class="action-grid">

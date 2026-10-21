@@ -144,160 +144,6 @@
     }
     .btn-cart-page:hover { background: #005bb5; }
 
-    /* Clean Segmented Mode Selector */
-    .view-mode-bar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 14px;
-      margin-bottom: 18px;
-    }
-    .view-mode-tabs {
-      display: inline-flex;
-      background: rgba(15, 23, 42, 0.85);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      border-radius: 12px;
-      padding: 4px;
-      gap: 4px;
-    }
-    .view-mode-btn {
-      background: transparent;
-      border: none;
-      color: var(--text-muted);
-      padding: 9px 18px;
-      border-radius: 9px;
-      font-size: 0.9rem;
-      font-weight: 700;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      transition: all 0.2s ease;
-    }
-    .view-mode-btn.active {
-      background: var(--primary);
-      color: #fff;
-      box-shadow: 0 4px 12px rgba(249, 115, 22, 0.35);
-    }
-    .view-mode-btn:hover:not(.active) {
-      color: #fff;
-      background: rgba(255, 255, 255, 0.05);
-    }
-
-    /* Week Timeline Bar */
-    .week-timeline-bar {
-      background: rgba(18, 24, 38, 0.7);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: var(--radius);
-      padding: 16px 20px;
-      margin-bottom: 24px;
-      backdrop-filter: blur(12px);
-    }
-    .week-chips {
-      display: flex;
-      gap: 10px;
-      overflow-x: auto;
-      padding-bottom: 10px;
-      margin-bottom: 10px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-    }
-    .week-chip {
-      background: rgba(30, 41, 59, 0.7);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      color: #cbd5e1;
-      padding: 9px 18px;
-      border-radius: 9999px;
-      font-size: 0.88rem;
-      font-weight: 700;
-      cursor: pointer;
-      white-space: nowrap;
-      transition: all 0.2s;
-    }
-    .week-chip:hover {
-      background: rgba(255, 255, 255, 0.1);
-      color: #fff;
-    }
-    .week-chip.active {
-      background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
-      border-color: #f97316;
-      color: #fff;
-      box-shadow: 0 4px 14px rgba(249, 115, 22, 0.4);
-    }
-    .week-summary-pill {
-      font-size: 0.86rem;
-      color: #94a3b8;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      line-height: 1.5;
-    }
-    .week-summary-pill strong {
-      color: #38bdf8;
-    }
-
-    /* Cook Check Button */
-    .btn-cook-check {
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      color: #cbd5e1;
-      padding: 4px 11px;
-      border-radius: 8px;
-      font-size: 0.78rem;
-      font-weight: 700;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      transition: all 0.2s;
-    }
-    .btn-cook-check:hover {
-      background: rgba(16, 185, 129, 0.15);
-      border-color: #10b981;
-      color: #34d399;
-    }
-    .btn-cook-check.cooked {
-      background: rgba(16, 185, 129, 0.2);
-      border-color: #10b981;
-      color: #34d399;
-      box-shadow: 0 0 10px rgba(16, 185, 129, 0.25);
-    }
-
-    .recipe-card.is-cooked {
-      border-color: rgba(16, 185, 129, 0.4) !important;
-      background: rgba(16, 26, 28, 0.85);
-    }
-    .recipe-card.is-cooked .recipe-title {
-      color: #94a3b8;
-      text-decoration: line-through;
-      text-decoration-color: #10b981;
-      text-decoration-thickness: 2px;
-    }
-
-    /* Cooked Toast Banner */
-    .cooked-toast {
-      position: fixed;
-      bottom: 25px;
-      left: 50%;
-      transform: translateX(-50%) translateY(90px);
-      background: linear-gradient(135deg, #059669 0%, #047857 100%);
-      color: #ffffff;
-      padding: 13px 24px;
-      border-radius: 9999px;
-      font-weight: 800;
-      font-size: 0.95rem;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(16, 185, 129, 0.4);
-      border: 1.5px solid rgba(255, 255, 255, 0.35);
-      z-index: 99999;
-      opacity: 0;
-      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-      pointer-events: none;
-    }
-    .cooked-toast.show {
-      transform: translateX(-50%) translateY(0);
-      opacity: 1;
-    }
-
     .recipe-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
@@ -672,42 +518,17 @@
       </div>
     </header>
 
-    <!-- View Mode Segmented Controls -->
-    <div class="view-mode-bar">
-      <div class="view-mode-tabs">
-        <button type="button" class="view-mode-btn active" id="btn-mode-timeline" onclick="setViewMode('timeline')">
-          📅 7일 챌린지 로드맵 (주차별)
-        </button>
-        <button type="button" class="view-mode-btn" id="btn-mode-all" onclick="setViewMode('all')">
-          🍽️ 전체 요리 일람 (30종)
-        </button>
-      </div>
-      <div class="search-box">
-        <span>🔍</span>
-        <input type="text" id="recipe-search" placeholder="요리명 또는 재료 검색 (예: 두루치기, 양파)" onkeyup="searchRecipe()">
-      </div>
-    </div>
-
-    <!-- Week Timeline Bar (Default in Timeline Mode) -->
-    <div class="week-timeline-bar" id="week-timeline-bar">
-      <div class="week-chips">
-        <button type="button" class="week-chip active" id="btn-week-1" onclick="selectWeek(1)">🔥 1주차 (Day 1~7)</button>
-        <button type="button" class="week-chip" id="btn-week-2" onclick="selectWeek(2)">⚡ 2주차 (Day 8~14)</button>
-        <button type="button" class="week-chip" id="btn-week-3" onclick="selectWeek(3)">🌿 3주차 (Day 15~21)</button>
-        <button type="button" class="week-chip" id="btn-week-4" onclick="selectWeek(4)">👑 4주차 (Day 22~30)</button>
-      </div>
-      <div class="week-summary-pill" id="week-summary-pill">
-        💡 <strong>1주차 소진 플랜</strong>: 1주차 장보기 재료로 7일간 냉장고 잔여 식재료 0g 전량 소진! (월~일 순차 조리 추천)
-      </div>
-    </div>
-
-    <!-- Navigation & Category Filters (Shown in All Dishes mode, build_client.py compatible) -->
-    <div class="nav-bar" id="category-filter-nav" style="display: none;">
+    <!-- Navigation & Search -->
+    <div class="nav-bar">
       <div class="cuisine-filters">
         <button class="btn-filter active" onclick="filterCuisine('all', this)">전체 (30끼)</button>
         <button class="btn-filter" onclick="filterCuisine('한식', this)">🇰🇷 한식 (10끼)</button>
         <button class="btn-filter" onclick="filterCuisine('일식', this)">🇯🇵 일식 (10끼)</button>
         <button class="btn-filter" onclick="filterCuisine('양식', this)">🇪🇺 양식 (10끼)</button>
+      </div>
+      <div class="search-box">
+        <span>🔍</span>
+        <input type="text" id="recipe-search" placeholder="요리명 또는 재료 검색 (예: 규동, 스테이크)" onkeyup="searchRecipe()">
       </div>
       <a href="cart.html" class="btn-cart-page">🛒 장바구니 매니저로 이동</a>
     </div>
@@ -1604,124 +1425,18 @@
   }
 ];
 
-    let currentViewMode = 'timeline'; // 'timeline' or 'all'
-    let currentWeek = 1;
-    let currentCuisineFilter = 'all';
-
-    const weekSummaries = {
-      1: "💡 <strong>1주차 스타터 플랜</strong>: 1주차 장보기 재료로 7일간 냉장고 잔여 식재료 0g 전량 소진! (월~일 순서대로 차근차근 따라 해보세요)",
-      2: "💡 <strong>2주차 신선 보충</strong>: 1주차 냉동/팬트리 베이스에 신선 식재료를 보강하여 알뜰하게 소진!",
-      3: "💡 <strong>3주차 영양 밸런스</strong>: 절반 완주 성공! 누적 배달비 약 30만원 절약 돌파 🎉",
-      4: "💡 <strong>4주차 피날레 냉파</strong>: 냉장고 속 잔여 양념과 식재료 100% 털어먹기 완결판!"
-    };
-
-    function setViewMode(mode) {
-      currentViewMode = mode;
-      document.getElementById('btn-mode-timeline').classList.toggle('active', mode === 'timeline');
-      document.getElementById('btn-mode-all').classList.toggle('active', mode === 'all');
-      
-      const timelineBar = document.getElementById('week-timeline-bar');
-      const categoryNav = document.getElementById('category-filter-nav');
-      
-      if (mode === 'timeline') {
-        if (timelineBar) timelineBar.style.display = 'block';
-        if (categoryNav) categoryNav.style.display = 'none';
-      } else {
-        if (timelineBar) timelineBar.style.display = 'none';
-        if (categoryNav) categoryNav.style.display = 'flex';
-      }
-      
-      renderRecipes();
-    }
-
-    function selectWeek(weekNum) {
-      currentWeek = weekNum;
-      for (let i = 1; i <= 4; i++) {
-        const btn = document.getElementById(`btn-week-${i}`);
-        if (btn) btn.classList.toggle('active', i === weekNum);
-      }
-      const summaryEl = document.getElementById('week-summary-pill');
-      if (summaryEl && weekSummaries[weekNum]) {
-        summaryEl.innerHTML = weekSummaries[weekNum];
-      }
-      renderRecipes();
-    }
-
-    function toggleCooked(day, ev) {
-      if (ev) ev.stopPropagation();
-      const key = `zipbab_cooked_day_${day}`;
-      const now = localStorage.getItem(key) === 'true';
-      const next = !now;
-      try {
-        localStorage.setItem(key, next ? 'true' : 'false');
-      } catch (e) {}
-
-      const card = document.getElementById(`day-${day}`);
-      const btn = card ? card.querySelector('.btn-cook-check') : null;
-
-      if (next) {
-        if (btn) {
-          btn.classList.add('cooked');
-          btn.innerHTML = '✅ 조리 완료!';
-        }
-        if (card) card.classList.add('is-cooked');
-        showCookedToast(`🎉 Day ${day} 집밥 성공! 배달비 22,000원 방어 완료 💰`);
-      } else {
-        if (btn) {
-          btn.classList.remove('cooked');
-          btn.innerHTML = '🍳 조리 완료';
-        }
-        if (card) card.classList.remove('is-cooked');
-      }
-    }
-
-    function showCookedToast(msg) {
-      let toast = document.getElementById('cooked-toast');
-      if (!toast) {
-        toast = document.createElement('div');
-        toast.id = 'cooked-toast';
-        toast.className = 'cooked-toast';
-        document.body.appendChild(toast);
-      }
-      toast.innerText = msg;
-      toast.classList.add('show');
-      clearTimeout(window.__cookedToastTimer);
-      window.__cookedToastTimer = setTimeout(() => {
-        toast.classList.remove('show');
-      }, 3000);
-    }
-
-    function renderRecipes(cuisineFilter = null, searchQuery = null) {
+    function renderRecipes(cuisineFilter = 'all', searchQuery = '') {
       const container = document.getElementById('recipe-container');
-      if (!container) return;
       container.innerHTML = '';
 
-      if (cuisineFilter !== null) currentCuisineFilter = cuisineFilter;
-      const searchInput = document.getElementById('recipe-search');
-      const q = (searchQuery !== null ? searchQuery : (searchInput ? searchInput.value : '')).toLowerCase().trim();
-
-      const dayNames = ['월', '화', '수', '목', '금', '토', '일'];
-
+      const q = searchQuery.toLowerCase().trim();
       const filtered = recipes.filter(r => {
-        // 검색어가 있으면 전체 중에서 검색
-        if (q) {
-          return r.title.toLowerCase().includes(q) || 
-                 r.ingredients.some(i => i.toLowerCase().includes(q)) ||
-                 r.steps.some(s => s.toLowerCase().includes(q));
-        }
-
-        // 1. 주차별 타임라인 모드
-        if (currentViewMode === 'timeline') {
-          if (currentWeek === 1) return r.day >= 1 && r.day <= 7;
-          if (currentWeek === 2) return r.day >= 8 && r.day <= 14;
-          if (currentWeek === 3) return r.day >= 15 && r.day <= 21;
-          if (currentWeek === 4) return r.day >= 22 && r.day <= 30;
-          return true;
-        }
-
-        // 2. 전체 요리 일람 모드
-        if (currentCuisineFilter === 'all') return true;
-        return r.cuisine === currentCuisineFilter;
+        const matchCuisine = cuisineFilter === 'all' || r.cuisine === cuisineFilter;
+        const matchSearch = !q || 
+          r.title.toLowerCase().includes(q) || 
+          r.ingredients.some(i => i.toLowerCase().includes(q)) ||
+          r.steps.some(s => s.toLowerCase().includes(q));
+        return matchCuisine && matchSearch;
       });
 
       if (filtered.length === 0) {
@@ -1737,27 +1452,18 @@
         card.className = 'recipe-card';
         card.id = `day-${r.day}`;
 
-        const dayOfWeek = dayNames[(r.day - 1) % 7];
-        const isCooked = localStorage.getItem(`zipbab_cooked_day_${r.day}`) === 'true';
-        if (isCooked) card.classList.add('is-cooked');
-
         card.innerHTML = `
           <div>
             <div class="card-header">
-              <div style="display: flex; align-items: center; gap: 8px;">
-                <span class="day-badge">Day ${r.day} (${dayOfWeek}요일)</span>
-                <span class="cuisine-tag">${r.flag}</span>
-              </div>
-              <button type="button" class="btn-cook-check ${isCooked ? 'cooked' : ''}" onclick="toggleCooked(${r.day}, event)" title="오늘 집밥 완료 체크">
-                ${isCooked ? '✅ 조리 완료!' : '🍳 조리 완료'}
-              </button>
+              <span class="day-badge">Day ${r.day}</span>
+              <span class="cuisine-tag">${r.flag}</span>
             </div>
             <h2 class="recipe-title">${r.title}</h2>
 
             <!-- Nutrition -->
             <div class="nutrition-box">
               <div class="nutrition-header">
-                <span>1명 정량 조리 (1인분) 기준</span>
+                <span>1인분 기준 (공깃밥 포함)</span>
                 <span class="cal-val">${r.cal} kcal</span>
               </div>
               <div class="macro-row">
@@ -1777,7 +1483,7 @@
             </div>
 
             <!-- Steps -->
-            <div class="section-title">🍳 10분 컷 조리 순서</div>
+            <div class="section-title">🍳 15분 조리 순서</div>
             <ol class="recipe-steps">
               ${r.steps.map(s => `<li>${s}</li>`).join('')}
             </ol>
@@ -1799,18 +1505,7 @@
       });
     }
 
-    function searchRecipe() {
-      const query = document.getElementById('recipe-search').value.trim();
-      // 검색 중일 때는 전체 보기 모드로 유연하게 렌더링
-      if (query && currentViewMode === 'timeline') {
-        const timelineBar = document.getElementById('week-timeline-bar');
-        if (timelineBar) timelineBar.style.display = 'none';
-      } else if (!query && currentViewMode === 'timeline') {
-        const timelineBar = document.getElementById('week-timeline-bar');
-        if (timelineBar) timelineBar.style.display = 'block';
-      }
-      renderRecipes(currentCuisineFilter, query);
-    }
+    let currentCuisineFilter = 'all';
 
     function initFilters() {
       const filterContainer = document.querySelector('.cuisine-filters');
@@ -1839,6 +1534,11 @@
       currentCuisineFilter = cuisine;
       const searchVal = document.getElementById('recipe-search').value;
       renderRecipes(cuisine, searchVal);
+    }
+
+    function searchRecipe() {
+      const query = document.getElementById('recipe-search').value.trim();
+      renderRecipes(currentCuisineFilter, query);
     }
 
     function checkUrlTarget() {
@@ -1939,6 +1639,5 @@
     checkUrlTarget();
     window.addEventListener('hashchange', checkUrlTarget);
   </script>
-  <div id="cooked-toast" class="cooked-toast"></div>
 </body>
 </html>

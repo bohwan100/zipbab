@@ -5,8 +5,8 @@
   "household_size": "1명",
   "people_count": 1,
   "budget": 200000,
-  "total_spent": 196600,
-  "saved_from_budget": 3400,
+  "total_spent": 198800,
+  "saved_from_budget": 1200,
   "total_saved_pantry": 0,
   "meal_frequency": "하루 한 끼 (퇴근 후 저녁 30끼)",
   "total_meals": 30,
@@ -18,11 +18,11 @@
   "theme": "정진향님을 위한 1명 일반식 맞춤 식단 (한식, 일식, 중식, 양식)",
   "created_at": "2026-10-17",
   "recipes_summary": [
-    "불맛 제육볶음 + 계란파국 (1인분)",
+    "돼지고기 김치찌개 (1인분)",
     "소고기 규동 (우삼겹 덮밥) (1인분)",
     "알리오 올리오 파스타 (1인분)",
     "사천풍 마파두부덮밥 (1인분)",
-    "갈아만든 배 제육볶음 (1인분)"
+    "불맛 제육볶음 + 계란파국 (1인분)"
   ],
   "pages": {
     "portal": "clients/정진향_41/index.html",

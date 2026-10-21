@@ -3,7 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>최수정님 1명 맞춤 50종 식재료 보관 & 소분 백과 | 집밥봇</title>
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="최수정님 맞춤 식재료 보관 & 소분 백과 | 집밥봇">
+  <meta property="og:description" content="최수정님 구매 식재료 100% 맞춤 신선도 극대화 보관법">
+  <meta property="og:image" content="https://bohwan100.github.io/zipbab/assets/icon.png">
+  <link rel="icon" type="image/png" href="https://bohwan100.github.io/zipbab/assets/icon.png">
+  <link rel="apple-touch-icon" href="https://bohwan100.github.io/zipbab/assets/icon.png">
+  <title>최수정님 맞춤 식재료 보관 & 소분 백과 | 집밥봇</title>
   <script>
     (function() {
       var ua = navigator.userAgent.toLowerCase();
@@ -433,7 +442,7 @@
     <!-- Hero Title -->
     <div class="hero">
       <div class="hero-badge">💡 최수정님 1명 구매 식재료 100% 맞춤 보관법</div>
-      <h1>❄️ 50종 맞춤 식재료 완벽 소분 & 신선 보관 백과</h1>
+      <h1>❄️ 42종 맞춤 식재료 완벽 소분 & 신선 보관 백과</h1>
       <p>채소 썩어서 버리는 비용 0원! 소형 냉동실 용량 300% 극대화 소분법과<br>재료 본연의 신선도와 맛을 30일 내내 최상으로 지키는 자취 전문 꿀팁입니다.</p>
     </div>
 
@@ -459,10 +468,10 @@
     <!-- Filter & Search Controls -->
     <div class="filter-bar">
       <div class="filter-chips">
-        <button class="chip active all" onclick="filterItems('all')">전체 (50종)</button>
-        <button class="chip fresh" onclick="filterItems('fresh')">🥬 신선식품 (냉장 17종)</button>
-        <button class="chip frozen" onclick="filterItems('frozen')">❄️ 냉동식품 (냉동 9종)</button>
-        <button class="chip seasoning" onclick="filterItems('seasoning')">🧂 조미료 & 팬트리 (24종)</button>
+        <button class="chip active all" onclick="filterItems('all')">전체 (42종)</button>
+        <button class="chip fresh" onclick="filterItems('fresh')">🥬 신선식품 (냉장 20종)</button>
+        <button class="chip frozen" onclick="filterItems('frozen')">❄️ 냉동식품 (냉동 4종)</button>
+        <button class="chip seasoning" onclick="filterItems('seasoning')">🧂 조미료 & 팬트리 (18종)</button>
       </div>
       <div class="search-input-wrap">
         <span class="search-icon">🔍</span>
@@ -479,6 +488,16 @@
 
   <script>
     const storageData = [
+  {
+    "name": "가지",
+    "category": "fresh",
+    "categoryLabel": "🥬 신선식품",
+    "location": "서늘한 상온 / 냉장 야채실",
+    "duration": "상온 3~4일 / 냉장 5일",
+    "spec": "3개 1봉",
+    "tip": "가지는 저온 장애를 겪기 쉬우므로 키친타월로 1개씩 감싼 뒤 비닐팩에 넣어 야채실에 보관하세요.",
+    "spoilage": "표면이 쭈글거리고 물러지며 속이 갈색 변색"
+  },
   {
     "name": "계란 (달걀)",
     "category": "fresh",
@@ -500,6 +519,16 @@
     "spoilage": "두꺼운 흰 골마지, 톡 쏘는 부패성 악취"
   },
   {
+    "name": "대추방울토마토",
+    "category": "fresh",
+    "categoryLabel": "🥬 신선식품",
+    "location": "냉장실 보관",
+    "duration": "냉장 7일",
+    "spec": "750g 1팩",
+    "tip": "직사광선과 공기 접촉을 피해 밀폐용기 또는 지퍼백에 소분하여 냉장실 보관하세요.",
+    "spoilage": "이취, 변색, 끈적임 및 곰팡이 발생 시 즉시 폐기"
+  },
+  {
     "name": "대파",
     "category": "fresh",
     "categoryLabel": "🥬 신선식품",
@@ -508,16 +537,6 @@
     "spec": "500g 1봉",
     "tip": "세척 후 키친타월로 물기를 완전히 말린 뒤 송송 썰어 밀폐용기에 담아 냉동실에 얼려두면, 요리할 때 한 줌씩 바로 꺼내 파기름과 찌개에 쓰기 가장 좋습니다.",
     "spoilage": "진액 발생, 시큼한 냄새, 잎이 누렇게 물러짐"
-  },
-  {
-    "name": "돼지 등심",
-    "category": "fresh",
-    "categoryLabel": "🥬 신선식품",
-    "location": "냉장 2일 / 장기 시 냉동",
-    "duration": "냉장 2~3일 / 냉동 2개월",
-    "spec": "1kg 1팩",
-    "tip": "키친타월로 핏물을 닦고 1회분씩 랩으로 밀착 포장하여 보관하세요.",
-    "spoilage": "회갈색 변색, 시큼한 악취, 끈적임"
   },
   {
     "name": "두부",
@@ -540,14 +559,14 @@
     "spoilage": "물렁거림, 곰팡이 및 변색"
   },
   {
-    "name": "바게트 빵",
+    "name": "무",
     "category": "fresh",
     "categoryLabel": "🥬 신선식품",
-    "location": "냉동실 밀폐 (절대 냉장 금지!)",
-    "duration": "냉동 1개월",
-    "spec": "200g 1봉",
-    "tip": "빵은 냉장실에 넣으면 노화(수분 증발)가 급속도로 일어납니다! 먹을 만큼만 남기고 즉시 1회분씩 랩핑하여 냉동실에 얼리세요.",
-    "spoilage": "푸른 곰팡이, 쉰내, 딱딱해짐"
+    "location": "냉장 야채실",
+    "duration": "냉장 2주",
+    "spec": "400g 1봉",
+    "tip": "자른 단면에서 수분이 증발하면 바람이 들므로, 단면에 키친타월을 대고 랩으로 단단히 밀착 포장하여 야채칸에 세워서 보관합니다.",
+    "spoilage": "스펀지처럼 푸석해지거나 무르고 곰팡이 발생"
   },
   {
     "name": "베이컨",
@@ -570,14 +589,14 @@
     "spoilage": "표면 곰팡이, 반죽이 축축하게 뭉개짐"
   },
   {
-    "name": "소고기 부채살",
+    "name": "숙주나물",
     "category": "fresh",
     "categoryLabel": "🥬 신선식품",
-    "location": "냉장 2~3일 / 냉동실 소분",
-    "duration": "냉장 2~3일 / 냉동 2개월",
-    "spec": "400g 1팩",
-    "tip": "핏물을 꼼꼼히 닦고 올리브유를 겉면에 얇게 발라 랩으로 밀착 포장하면 산화와 수분 손실을 완벽 차단합니다.",
-    "spoilage": "시큼하고 쉰 냄새, 표면 끈적임"
+    "location": "냉장실",
+    "duration": "냉장 3~4일",
+    "spec": "500g 1봉",
+    "tip": "수분이 많아 콩나물보다 쉽게 상하므로 구매 후 3일 내 우선 조리하세요. 밀폐용기에 찬물을 붓고 담가두면 신선도가 2일 더 연장됩니다.",
+    "spoilage": "갈색으로 변색, 퀴퀴한 냄새 및 짓무름"
   },
   {
     "name": "순두부",
@@ -590,34 +609,34 @@
     "spoilage": "포장 튜브 팽창, 국물 탁해짐 및 시큼한 냄새"
   },
   {
-    "name": "알배기배추",
+    "name": "알싸한 파채",
     "category": "fresh",
     "categoryLabel": "🥬 신선식품",
-    "location": "냉장 야채실",
-    "duration": "냉장 2~3주",
-    "spec": "1통 1개",
-    "tip": "밑동을 자르지 말고 겉잎부터 한 장씩 뜯어 쓰며, 신문지나 키친타월로 감싸 비닐팩에 넣어 세워서 보관하세요.",
-    "spoilage": "잎 끝이 갈색으로 마르고 물러짐"
+    "location": "냉장실 보관",
+    "duration": "냉장 7일",
+    "spec": "300g 1봉",
+    "tip": "직사광선과 공기 접촉을 피해 밀폐용기 또는 지퍼백에 소분하여 냉장실 보관하세요.",
+    "spoilage": "이취, 변색, 끈적임 및 곰팡이 발생 시 즉시 폐기"
   },
   {
-    "name": "애호박",
+    "name": "완숙 토마토",
     "category": "fresh",
     "categoryLabel": "🥬 신선식품",
-    "location": "냉장 야채실",
-    "duration": "냉장 7~10일",
-    "spec": "1개 1입",
-    "tip": "비닐을 벗기지 않은 상태로 키친타월에 한 번 감싸서 야채실에 보관하세요. 쓰고 남은 단면은 랩으로 공기가 통하지 않게 팽팽하게 감싸서 산화 방지합니다.",
-    "spoilage": "씨 부분이 갈색으로 물러지며 표면 끈적임"
+    "location": "냉장실 보관",
+    "duration": "냉장 7일",
+    "spec": "1kg 1팩",
+    "tip": "직사광선과 공기 접촉을 피해 밀폐용기 또는 지퍼백에 소분하여 냉장실 보관하세요.",
+    "spoilage": "이취, 변색, 끈적임 및 곰팡이 발생 시 즉시 폐기"
   },
   {
-    "name": "양파",
+    "name": "유업 프레시 크림",
     "category": "fresh",
     "categoryLabel": "🥬 신선식품",
-    "location": "서늘한 상온 / 냉장 야채실",
-    "duration": "상온 2~3주 / 냉장 10일",
-    "spec": "1.5kg 1망",
-    "tip": "통풍이 잘되는 그늘진 곳에 서로 닿지 않게 보관하세요. 껍질을 깐 양파는 키친타월로 감싼 뒤 랩으로 밀봉해 냉장 야채실에 넣으면 물러지지 않습니다.",
-    "spoilage": "속이 검게 변색, 물렁거리며 쉰내 발생"
+    "location": "냉장실 보관",
+    "duration": "냉장 7일",
+    "spec": "200ml 1팩",
+    "tip": "직사광선과 공기 접촉을 피해 밀폐용기 또는 지퍼백에 소분하여 냉장실 보관하세요.",
+    "spoilage": "이취, 변색, 끈적임 및 곰팡이 발생 시 즉시 폐기"
   },
   {
     "name": "청경채",
@@ -628,6 +647,16 @@
     "spec": "300g 1봉",
     "tip": "씻지 않은 상태로 키친타월로 감싸 지퍼백에 넣어 야채실에 세워 보관하세요. 조리 직전에 씻어 밑동을 자릅니다.",
     "spoilage": "잎이 누렇게 변색되고 줄기가 물러짐"
+  },
+  {
+    "name": "청양고추",
+    "category": "fresh",
+    "categoryLabel": "🥬 신선식품",
+    "location": "냉장실 보관",
+    "duration": "냉장 7일",
+    "spec": "150g 1봉",
+    "tip": "직사광선과 공기 접촉을 피해 밀폐용기 또는 지퍼백에 소분하여 냉장실 보관하세요.",
+    "spoilage": "이취, 변색, 끈적임 및 곰팡이 발생 시 즉시 폐기"
   },
   {
     "name": "콩나물",
@@ -648,6 +677,16 @@
     "spec": "2입 1봉",
     "tip": "물기를 완전히 닦고 꼭지를 떼지 않은 채 랩으로 1개씩 밀착 포장해 보관합니다.",
     "spoilage": "표면이 쭈글쭈글해지고 꼭지 주변 곰팡이"
+  },
+  {
+    "name": "표고버섯",
+    "category": "fresh",
+    "categoryLabel": "🥬 신선식품",
+    "location": "냉장 야채실 / 냉동",
+    "duration": "냉장 7일 / 냉동 1개월",
+    "spec": "4입 1팩",
+    "tip": "기둥을 떼어내고 갓의 주름이 아래로 향하게 키친타월을 깐 밀폐용기에 담아 보관하세요. 썰어서 냉동 보관해도 좋습니다.",
+    "spoilage": "표면이 검게 변하고 끈적이는 점액질 발생"
   },
   {
     "name": "닭다리살 (순살)",
@@ -680,46 +719,6 @@
     "spoilage": "기름 쩐내, 성에 과다 발생"
   },
   {
-    "name": "명란젓",
-    "category": "frozen",
-    "categoryLabel": "❄️ 냉동식품",
-    "location": "냉동실 소분",
-    "duration": "냉동 3개월 / 냉장 5일",
-    "spec": "250g 1통",
-    "tip": "1개씩 랩으로 개별 포장하여 지퍼백에 담아 냉동 보관하세요. 조리 10분 전 실온에 꺼내두면 칼로 껍질만 쏙 벗기기 쉽습니다.",
-    "spoilage": "시큼한 냄새, 표면 끈적이는 진액"
-  },
-  {
-    "name": "새우살 (칵테일새우)",
-    "category": "frozen",
-    "categoryLabel": "❄️ 냉동식품",
-    "location": "소형 냉동실",
-    "duration": "냉동 3개월",
-    "spec": "300g 1봉",
-    "tip": "얼어있는 상태 그대로 보관하고 필요한 알수만큼만 꺼내 찬물에 1분간 담가 해동 후 키친타월로 물기를 닦고 쓰세요.",
-    "spoilage": "살이 물러지고 심한 암모니아 악취"
-  },
-  {
-    "name": "소고기 다짐육",
-    "category": "frozen",
-    "categoryLabel": "❄️ 냉동식품",
-    "location": "소형 냉동실",
-    "duration": "냉동 2개월",
-    "spec": "500g 1팩",
-    "tip": "지퍼백에 얇게 펴서 젓가락으로 격자를 내어 냉동실에 얼리면 해동 없이 볶음밥과 파스타에 바로 투입 가능합니다.",
-    "spoilage": "시큼한 냄새, 미끌거리는 점액질"
-  },
-  {
-    "name": "우동면 (냉동 사누끼)",
-    "category": "frozen",
-    "categoryLabel": "❄️ 냉동식품",
-    "location": "냉동실",
-    "duration": "냉동 6개월",
-    "spec": "5인분 1봉",
-    "tip": "해동할 필요 없이 끓는 물에 냉동 상태 그대로 넣어 1분만 저어주면 탱글탱글하게 풀립니다.",
-    "spoilage": "성에가 두껍게 끼고 면이 바스러짐"
-  },
-  {
     "name": "우삼겹",
     "category": "frozen",
     "categoryLabel": "❄️ 냉동식품",
@@ -730,54 +729,14 @@
     "spoilage": "누런 기름 산패, 역한 쩐내"
   },
   {
-    "name": "해물 모둠믹스",
-    "category": "frozen",
-    "categoryLabel": "❄️ 냉동식품",
-    "location": "소형 냉동실",
-    "duration": "냉동 3개월",
-    "spec": "800g 1봉",
-    "tip": "해동 후 재냉동하면 비린내가 심해집니다. 냉동 상태 그대로 지퍼백에 보관하고, 조리 직전 찬물에 2분간 헹궈 바로 조리하세요.",
-    "spoilage": "누런 변색, 심한 비린 악취"
-  },
-  {
-    "name": "갈아만든 배 (배 음료)",
+    "name": "고형 카레",
     "category": "seasoning",
     "categoryLabel": "🧂 조미료 & 팬트리",
-    "location": "상온 서랍 / 개봉 후 냉장",
-    "duration": "상온 1년 (개봉 후 즉시 소진)",
-    "spec": "238ml 1캔",
-    "tip": "고기 연육 및 양념용입니다. 남은 음료는 컵에 따라 즉시 마시거나 밀폐용기에 냉장 보관하세요.",
-    "spoilage": "캔 팽창, 신맛"
-  },
-  {
-    "name": "감자전분",
-    "category": "seasoning",
-    "categoryLabel": "🧂 조미료 & 팬트리",
-    "location": "상온 건조한 곳",
-    "duration": "상온 1년",
-    "spec": "500g 1봉",
-    "tip": "지퍼백에 밀봉해 습기가 없는 싱크대 안쪽에 보관하세요.",
-    "spoilage": "습기로 굳음, 벌레 유입"
-  },
-  {
-    "name": "고추장",
-    "category": "seasoning",
-    "categoryLabel": "🧂 조미료 & 팬트리",
-    "location": "개봉 후 냉장실 필수",
-    "duration": "개봉 후 냉장 1년",
-    "spec": "1kg 1통",
-    "tip": "물 묻은 숟가락이 닿으면 곰팡이가 피어납니다. 항상 마른 숟가락으로 퍼내고, 윗면을 평평하게 다진 뒤 랩을 표면에 밀착시켜 덮어두면 오랫동안 깔끔합니다.",
-    "spoilage": "표면 푸른·검은 곰팡이, 퀴퀴한 변질 악취"
-  },
-  {
-    "name": "고춧가루",
-    "category": "seasoning",
-    "categoryLabel": "🧂 조미료 & 팬트리",
-    "location": "냉동실 / 냉장실 밀폐",
-    "duration": "냉동 1년 / 냉장 6개월",
-    "spec": "500g 1봉",
-    "tip": "고춧가루를 상온에 두면 곰팡이(아플라톡신 발암물질)가 번식하기 쉽습니다. 지퍼백에 담아 냉동실에 얼려두면 붉은 색감과 매콤한 풍미가 1년 내내 그대로 유지됩니다.",
-    "spoilage": "검붉은 변색, 덩어리 굳음 및 곰팡이 냄새"
+    "location": "개봉 후 밀폐 냉장실",
+    "duration": "개봉 후 냉장 3개월",
+    "spec": "220g 1곽",
+    "tip": "남은 조각은 랩으로 감싼 뒤 밀폐용기에 담아 냉장 보관하세요.",
+    "spoilage": "표면 기름 산화, 곰팡이"
   },
   {
     "name": "굴소스",
@@ -800,24 +759,24 @@
     "spoilage": "표면 곰팡이, 시큼한 냄새"
   },
   {
-    "name": "된장",
-    "category": "seasoning",
-    "categoryLabel": "🧂 조미료 & 팬트리",
-    "location": "개봉 후 냉장실 필수",
-    "duration": "개봉 후 냉장 1년",
-    "spec": "1kg 1통",
-    "tip": "마른 숟가락으로 사용하고 표면을 비닐이나 랩으로 꼭 밀착하여 덮어주면 마르거나 곰팡이가 피지 않습니다.",
-    "spoilage": "표면 검은 곰팡이, 퀴퀴한 군내"
-  },
-  {
-    "name": "맛술 (미림)",
+    "name": "땅콩버터",
     "category": "seasoning",
     "categoryLabel": "🧂 조미료 & 팬트리",
     "location": "상온 서늘한 곳 / 개봉 후 냉장",
-    "duration": "상온 1년",
-    "spec": "500ml 1병",
-    "tip": "직사광선을 피해 서늘한 곳에 보관하고 뚜껑을 꼭 닫아 알코올 증발을 막으세요.",
-    "spoilage": "부유물 발생, 변색"
+    "duration": "개봉 후 6개월",
+    "spec": "462g 1통",
+    "tip": "기름이 뜰 수 있으니 깨끗한 숟가락으로 저어서 사용하세요.",
+    "spoilage": "기름 쩐내, 곰팡이"
+  },
+  {
+    "name": "마요네즈",
+    "category": "seasoning",
+    "categoryLabel": "🧂 조미료 & 팬트리",
+    "location": "개봉 후 냉장실 문쪽 선반",
+    "duration": "개봉 후 냉장 2~3개월",
+    "spec": "500g 1병",
+    "tip": "너무 차가운 곳에 두면 기름과 식초가 분리되므로 냉장고 문쪽 선반에 보관하세요.",
+    "spoilage": "기름 분리, 시큼한 변질 악취"
   },
   {
     "name": "바질페스토",
@@ -840,24 +799,24 @@
     "spoilage": "표면 진노란색 산화 변색, 퀴퀴한 냄새"
   },
   {
-    "name": "설탕",
+    "name": "사자표 볶음춘장",
     "category": "seasoning",
     "categoryLabel": "🧂 조미료 & 팬트리",
     "location": "상온 건조한 곳",
-    "duration": "상온 무기한 (수분 차단)",
-    "spec": "1kg 1봉",
-    "tip": "습기를 먹으면 단단하게 굳습니다. 밀폐용기에 담아 수분을 차단해 보관하세요.",
-    "spoilage": "수분 침투로 굳음, 이물질 유입"
+    "duration": "상온 6개월~1년",
+    "spec": "300g 1개",
+    "tip": "직사광선과 공기 접촉을 피해 밀폐용기 또는 지퍼백에 소분하여 상온 건조한 곳하세요.",
+    "spoilage": "이취, 변색, 끈적임 및 곰팡이 발생 시 즉시 폐기"
   },
   {
-    "name": "소금 (꽃소금)",
+    "name": "사조 가쓰오부시",
     "category": "seasoning",
     "categoryLabel": "🧂 조미료 & 팬트리",
     "location": "상온 건조한 곳",
-    "duration": "상온 무기한 (수분 차단)",
-    "spec": "500g 1봉",
-    "tip": "습기를 먹으면 굳습니다. 볶은 쌀알 몇 알이나 실리카겔을 함께 넣어두면 보송보송하게 유지됩니다.",
-    "spoilage": "수분 침투로 굳음"
+    "duration": "상온 6개월~1년",
+    "spec": "50g 1봉",
+    "tip": "직사광선과 공기 접촉을 피해 밀폐용기 또는 지퍼백에 소분하여 상온 건조한 곳하세요.",
+    "spoilage": "이취, 변색, 끈적임 및 곰팡이 발생 시 즉시 폐기"
   },
   {
     "name": "스파게티면 (파스타면)",
@@ -900,16 +859,6 @@
     "spoilage": "역한 산패 쩐내, 색상 탁해짐"
   },
   {
-    "name": "진간장",
-    "category": "seasoning",
-    "categoryLabel": "🧂 조미료 & 팬트리",
-    "location": "개봉 후 냉장실 권장",
-    "duration": "개봉 후 6개월~1년",
-    "spec": "860ml 1병",
-    "tip": "간장은 개봉 후 공기와 접촉하면 맛과 향이 산화됩니다. 냉장고 문쪽이나 서늘한 곳에 두고 뚜껑을 꼭 닫아 보관하세요.",
-    "spoilage": "표면 흰색 막 형성, 퀴퀴한 군내 및 침전물"
-  },
-  {
     "name": "쯔유",
     "category": "seasoning",
     "categoryLabel": "🧂 조미료 & 팬트리",
@@ -918,16 +867,6 @@
     "spec": "500ml 1병",
     "tip": "가쓰오부시 육수가 들어가 개봉 후 상온에 두면 상합니다. 반드시 냉장실에 두고 뚜껑을 꼭 닫아주세요.",
     "spoilage": "거품 발생, 신 냄새, 침전물"
-  },
-  {
-    "name": "참기름",
-    "category": "seasoning",
-    "categoryLabel": "🧂 조미료 & 팬트리",
-    "location": "상온 그늘 (절대 냉장 금지!)",
-    "duration": "상온 6~9개월",
-    "spec": "320ml 1병",
-    "tip": "참기름은 냉장 보관하면 고소한 향이 날아가고 굳어버립니다. 신문지나 은박지로 병을 감싸 싱크대 안쪽에 보관하세요.",
-    "spoilage": "기름 쩐내, 고소한 풍미 상실"
   },
   {
     "name": "치킨스톡",
@@ -940,14 +879,14 @@
     "spoilage": "병 입구 곰팡이, 분리"
   },
   {
-    "name": "토마토 케첩",
+    "name": "트러플 오일",
     "category": "seasoning",
     "categoryLabel": "🧂 조미료 & 팬트리",
-    "location": "개봉 후 냉장실 필수",
-    "duration": "개봉 후 냉장 3~6개월",
-    "spec": "500g 1병",
-    "tip": "개봉 후에는 뚜껑을 아래로 향하게 세워 냉장 보관하면 짤 때 붉은 물이 튀지 않고 내용물이 깔끔하게 나옵니다.",
-    "spoilage": "물 분리, 갈색 변색 및 톡 쏘는 신 냄새"
+    "location": "상온 어두운 찬장",
+    "duration": "개봉 후 6개월",
+    "spec": "100ml 1병",
+    "tip": "향이 날아가지 않게 뚜껑을 꼭 닫고 직사광선을 피해 보관하세요.",
+    "spoilage": "트러플 향 소실, 기름 쩐내"
   },
   {
     "name": "파마산 치즈가루",
@@ -968,16 +907,6 @@
     "spec": "30g 1통",
     "tip": "건조 고추이므로 습기만 차단하면 오래 보관됩니다.",
     "spoilage": "곰팡이, 변색"
-  },
-  {
-    "name": "후추",
-    "category": "seasoning",
-    "categoryLabel": "🧂 조미료 & 팬트리",
-    "location": "상온 건조한 곳",
-    "duration": "상온 1~2년",
-    "spec": "50g 1통",
-    "tip": "가스레인지 열기와 수증기가 닿지 않는 건조한 양념장에 보관하세요.",
-    "spoilage": "향 소실, 눅눅함"
   }
 ];
 
@@ -1038,13 +967,34 @@
       applyFilters(currentFilter, query);
     }
 
+    function getChoseong(str) {
+      const CHOS = ['ㄱ', 'ㄲ', 'ㄴ', 'ㄷ', 'ㄸ', 'ㄹ', 'ㅁ', 'ㅂ', 'ㅃ', 'ㅅ', 'ㅆ', 'ㅇ', 'ㅈ', 'ㅉ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ'];
+      let result = '';
+      for (let i = 0; i < str.length; i++) {
+        const code = str.charCodeAt(i);
+        if (code >= 0xAC00 && code <= 0xD7A3) {
+          result += CHOS[Math.floor((code - 0xAC00) / 588)];
+        } else {
+          result += str[i];
+        }
+      }
+      return result;
+    }
+
     function applyFilters(category, query) {
+      const isCho = /^[ㄱ-ㅎ]+$/.test(query);
       const filtered = storageData.filter(item => {
         const matchCategory = (category === 'all') || (item.category === category);
-        const matchQuery = !query || 
-          item.name.toLowerCase().includes(query) || 
-          item.tip.toLowerCase().includes(query) ||
-          item.location.toLowerCase().includes(query);
+        let matchQuery = !query;
+        if (query) {
+          if (isCho) {
+            matchQuery = getChoseong(item.name).includes(query);
+          } else {
+            matchQuery = item.name.toLowerCase().includes(query) || 
+                         item.tip.toLowerCase().includes(query) ||
+                         item.location.toLowerCase().includes(query);
+          }
+        }
         return matchCategory && matchQuery;
       });
       renderStorageCards(filtered);

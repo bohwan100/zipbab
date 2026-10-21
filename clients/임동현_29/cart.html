@@ -3,10 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="임동현님 스마트 장바구니 매니저 | 집밥봇">
+  <meta property="og:description" content="임동현님 4주 분할 장보기 (391,600원) & 쿠팡 1초 원클릭 자동 담기">
+  <meta property="og:image" content="https://bohwan100.github.io/zipbab/assets/icon.png">
+  <link rel="icon" type="image/png" href="https://bohwan100.github.io/zipbab/assets/icon.png">
+  <link rel="apple-touch-icon" href="https://bohwan100.github.io/zipbab/assets/icon.png">
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
-  <title>스마트 장바구니 매니저 | 집밥봇</title>
+  <title>임동현님 스마트 장바구니 매니저 | 집밥봇</title>
   <script>
     // 외부 브라우저 최적화
     (function() {
@@ -1072,10 +1078,10 @@
       <span style="font-size: 1.8rem; flex-shrink: 0;">💻</span>
       <div style="flex: 1; font-size: 0.88rem; line-height: 1.5; color: #cbd5e1;">
         <strong style="color: #f87171; font-size: 0.98rem; display: block; margin-bottom: 3px;">
-          ⚠️ [필독] 쿠팡 원클릭 자동 장바구니 담기는 "꼭 PC(크롬)"에서만 가능합니다!
+          ⚠️ [필독] 쿠팡 원클릭 자동 장바구니 담기는 "PC(크롬 & 네이버 웨일)" 지원 기능입니다!
         </strong>
-        스마트폰(모바일) 브라우저는 보안 제약상 자동 담기 확장프로그램이 작동하지 않습니다. 
-        <strong>원클릭 자동 담기는 반드시 PC 크롬에서 실행해 주시고, 결제는 휴대폰 쿠팡 앱에서 편하게 진행해 주세요!</strong>
+        스마트폰(모바일) 브라우저는 브라우저 보안 제약상 자동 담기 확장프로그램이 작동하지 않습니다. 
+        <strong>원클릭 자동 담기는 PC 크롬 또는 네이버 웨일 브라우저에서 실행해 주시고, 결제는 휴대폰 쿠팡 앱에서 편하게 진행해 주세요!</strong>
       </div>
     </div>
 
@@ -1101,7 +1107,7 @@
           <span class="split-week-tag">3주차 주문</span>
           <span class="split-badge">로켓프레시 무료</span>
         </div>
-        <div class="split-amount">44,400원</div>
+        <div class="split-amount">46,800원</div>
       </div>
 
       <div class="split-card" id="card-week-4" onclick="selectWeek(4)">
@@ -1109,7 +1115,7 @@
           <span class="split-week-tag">4주차 주문</span>
           <span class="split-badge">로켓프레시 무료</span>
         </div>
-        <div class="split-amount">63,300원</div>
+        <div class="split-amount">54,500원</div>
       </div>
     </div>
 
@@ -1143,10 +1149,10 @@
     <!-- Action Banner -->
     <div class="action-banner">
       <div>
-        <p>💡 <strong>4주 총 구매액</strong>: <strong>398,000원</strong> (예산 400,000원 대비 <strong style="color: #34d399;">+2,000원</strong> 절감 성공, 4회 배송비 전액 0원, 잔여 쓰레기 0%)</p>
+        <p>💡 <strong>4주 총 구매액</strong>: <strong>391,600원</strong> (예산 400,000원 대비 <strong style="color: #34d399;">+8,400원</strong> 절감 성공, 4회 배송비 전액 0원, 잔여 쓰레기 0%)</p>
       </div>
       <div class="action-btn-group">
-        <button type="button" class="btn-action" style="background: rgba(56, 189, 248, 0.18); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.45); font-weight: 800;" onclick="event.stopPropagation(); openExtensionModal(true);">🧩 PC 크롬 1초 담기 확장 프로그램</button>
+        <button type="button" class="btn-action" style="background: rgba(56, 189, 248, 0.18); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.45); font-weight: 800;" onclick="event.stopPropagation(); openExtensionModal(true);">🧩 PC 크롬 / 웨일 1초 담기 확장 프로그램</button>
         <button class="btn-action orange" id="btn-week-batch-top" onclick="openThisWeekGroceries(false)">💻 1주차 품목 한 번에 담기 (PC 전용)</button>
         <button class="btn-action success" onclick="openCartDirect()">🛍️ 내 쿠팡 장바구니 확인</button>
         <button class="btn-action" style="background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.4);" onclick="resetAllAddedStatus()" title="모든 상품의 담김 상태를 초기화하여 처음부터 다시 담기">🔄 담기 버튼 초기화</button>
@@ -1380,7 +1386,7 @@
         <span style="font-size: 1.4rem; flex-shrink: 0;">⚡</span>
         <div>
           <strong style="color: #38bdf8;">PC 원클릭 자동 담기 ➔ 스마트폰 쿠팡 앱 100% 실시간 동기화:</strong><br>
-          PC 크롬 백그라운드에서 모든 품목을 쿠팡 장바구니에 <strong>진짜로 쏙 자동 담기</strong>합니다!<br>
+          PC 크롬 또는 네이버 웨일 브라우저 백그라운드에서 모든 품목을 쿠팡 장바구니에 <strong>진짜로 쏙 자동 담기</strong>합니다!<br>
           <span style="font-size: 0.78rem; color: #94a3b8;">📱 같은 쿠팡 아이디면 스마트폰 쿠팡 앱에도 실시간 자동 동기화되어 모바일에서 바로 결제 가능합니다.</span>
         </div>
       </div>
@@ -1426,19 +1432,19 @@
     </div>
   </div>
 
-  <!-- Chrome Extension Guide Modal -->
+  <!-- Chrome & Whale Extension Guide Modal -->
   <div class="modal-overlay" id="extension-modal" style="display: none;">
-    <div class="modal-content" style="max-width: 580px;">
+    <div class="modal-content" style="max-width: 600px;">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 10px;">
         <h3 class="modal-title" style="margin-bottom: 0; display: flex; align-items: center; gap: 8px;">
-          <span>🧩</span> 집밥봇 크롬 확장 프로그램 10초 설치 가이드
+          <span>🧩</span> 집밥봇 확장 프로그램 10초 설치 가이드 (Chrome & Whale 🐳)
         </h3>
         <button type="button" class="btn-action" style="background: #334155; padding: 4px 10px; font-size: 0.85rem;" onclick="closeExtensionModal()">✕</button>
       </div>
 
       <div style="background: rgba(56, 189, 248, 0.1); border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 12px; padding: 12px 16px; margin-bottom: 16px; font-size: 0.88rem; color: #bae6fd; line-height: 1.5;">
-        💡 <strong>윈도우 PC / 맥북 크롬 사용자 전용 (단 1회 등록):</strong><br>
-        크롬에 확장 프로그램을 딱 1번만 등록해두시면, [한 번에 담기] 클릭 시 백그라운드에서 쿠팡 장바구니에 <strong>진짜로 쏙 자동 담기</strong>가 실행됩니다! (결제는 스마트폰 앱에서 완료 가능)
+        💡 <strong>윈도우 PC / 맥북 (크롬 & 네이버 웨일 브라우저 완벽 지원):</strong><br>
+        브라우저에 확장 프로그램을 딱 1번만 등록해두시면, [한 번에 담기] 클릭 시 백그라운드에서 쿠팡 장바구니에 <strong>진짜로 쏙 자동 담기</strong>가 실행됩니다! (결제는 스마트폰 쿠팡 앱에서 완료 가능)
       </div>
 
       <div style="display: flex; flex-direction: column; gap: 14px; margin-bottom: 20px; font-size: 0.88rem;">
@@ -1456,9 +1462,10 @@
         <div style="display: flex; gap: 12px; background: rgba(15, 23, 42, 0.6); padding: 12px 14px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.06);">
           <span style="font-weight: 800; color: #38bdf8; font-size: 1.1rem;">Step 2</span>
           <div style="flex: 1;">
-            <div style="font-weight: 700; color: #fff; margin-bottom: 4px;">크롬 확장 프로그램 관리 페이지 열기</div>
-            <div style="font-size: 0.82rem; color: #cbd5e1; line-height: 1.5;">
-              크롬 새 탭 주소창에 <code style="background: rgba(0,0,0,0.4); padding: 2px 6px; border-radius: 4px; color: #38bdf8;">chrome://extensions</code> 입력 후 이동 ➔ 우측 상단 <strong>[개발자 모드]</strong> 스위치를 켭니다 (ON).
+            <div style="font-weight: 700; color: #fff; margin-bottom: 4px;">브라우저 확장 프로그램 관리창 열기 & [개발자 모드] 켜기</div>
+            <div style="font-size: 0.82rem; color: #cbd5e1; line-height: 1.6;">
+              • <strong>구글 크롬(Chrome)</strong>: 새 탭 주소창에 <code style="background: rgba(0,0,0,0.4); padding: 2px 6px; border-radius: 4px; color: #38bdf8;">chrome://extensions</code> 입력 후 이동 ➔ 우측 상단 <strong>[개발자 모드]</strong> ON<br>
+              • <strong>네이버 웨일(Whale 🐳)</strong>: 새 탭 주소창에 <code style="background: rgba(0,0,0,0.4); padding: 2px 6px; border-radius: 4px; color: #00c73c;">whale://extensions</code> 입력 후 이동 ➔ 우측 상단 <strong>[개발자 모드]</strong> ON
             </div>
           </div>
         </div>
@@ -1466,9 +1473,9 @@
         <div style="display: flex; gap: 12px; background: rgba(15, 23, 42, 0.6); padding: 12px 14px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.06);">
           <span style="font-weight: 800; color: #10b981; font-size: 1.1rem;">Step 3</span>
           <div style="flex: 1;">
-            <div style="font-weight: 700; color: #fff; margin-bottom: 4px;">폴더 등록하기 (드래그 한 번!)</div>
+            <div style="font-weight: 700; color: #fff; margin-bottom: 4px;">폴더 등록하기 (드래그 한 번이면 끝!)</div>
             <div style="font-size: 0.82rem; color: #cbd5e1; line-height: 1.5;">
-              좌측 상단 <strong>[압축해제된 확장 프로그램을 로드합니다]</strong>를 누르고 아까 압축 푼 <code>zipbabbot-extension</code> 폴더를 선택하거나, 브라우저 화면 안으로 폴더를 끌어다 놓으면 끝!
+              좌측 상단 <strong>[압축해제된 확장 프로그램 로드]</strong>(웨일은 <strong>[압축해제된 확장 앱 로드]</strong>)를 누르고 <code>zipbabbot-extension</code> 폴더를 선택하거나, 브라우저 화면 안으로 폴더를 끌어다 놓으면 즉시 완료!
             </div>
           </div>
         </div>
@@ -2238,6 +2245,20 @@
     "orderWeek": 3,
     "storage": "fresh",
     "cat": "🥬 신선식품",
+    "name": "국내산 친환경 청경채 (300g) [3주차 신선보충]",
+    "spec": "300g 1봉",
+    "qty": 1,
+    "unitPrice": 2400,
+    "total": 2400,
+    "weeks": "3주차",
+    "recipes": "3주차 청경채 소진용 (Day 20 굴소스)",
+    "query": "신선 청경채 300g"
+  },
+  {
+    "id": 50,
+    "orderWeek": 3,
+    "storage": "fresh",
+    "cat": "🥬 신선식품",
     "name": "한돈 신선 돼지 등심 (1kg)",
     "spec": "1kg 1팩",
     "qty": 1,
@@ -2248,7 +2269,7 @@
     "query": "돼지 등심 1kg"
   },
   {
-    "id": 50,
+    "id": 51,
     "orderWeek": 3,
     "storage": "fresh",
     "cat": "🥬 신선식품",
@@ -2262,7 +2283,7 @@
     "query": "콩나물 500g"
   },
   {
-    "id": 51,
+    "id": 52,
     "orderWeek": 3,
     "storage": "frozen",
     "cat": "❄️ 냉동식품",
@@ -2276,7 +2297,7 @@
     "query": "사누끼 우동면 5입"
   },
   {
-    "id": 52,
+    "id": 53,
     "orderWeek": 3,
     "storage": "frozen",
     "cat": "❄️ 냉동식품",
@@ -2290,7 +2311,7 @@
     "query": "저염 백명란젓 250g"
   },
   {
-    "id": 53,
+    "id": 54,
     "orderWeek": 3,
     "storage": "fresh",
     "cat": "🥬 신선식품",
@@ -2304,7 +2325,7 @@
     "query": "삼립 바게트 1봉"
   },
   {
-    "id": 54,
+    "id": 55,
     "orderWeek": 3,
     "storage": "fresh",
     "cat": "🥬 신선식품",
@@ -2318,7 +2339,7 @@
     "query": "신선 애호박 1개"
   },
   {
-    "id": 55,
+    "id": 56,
     "orderWeek": 4,
     "storage": "frozen",
     "cat": "❄️ 냉동식품",
@@ -2332,7 +2353,7 @@
     "query": "소고기 다짐육 500g"
   },
   {
-    "id": 56,
+    "id": 57,
     "orderWeek": 4,
     "storage": "frozen",
     "cat": "❄️ 냉동식품",
@@ -2346,7 +2367,35 @@
     "query": "돼지고기 다짐육 500g"
   },
   {
-    "id": 57,
+    "id": 58,
+    "orderWeek": 4,
+    "storage": "fresh",
+    "cat": "🥬 신선식품",
+    "name": "풀무원 부침찌개 두부 (300g) [4주차 신선보충]",
+    "spec": "300g 1모",
+    "qty": 1,
+    "unitPrice": 2100,
+    "total": 2100,
+    "weeks": "4주차",
+    "recipes": "4주차 마파두부 소진용 (Day 30 소고기)",
+    "query": "풀무원 두부 300g"
+  },
+  {
+    "id": 59,
+    "orderWeek": 4,
+    "storage": "fresh",
+    "cat": "🥬 신선식품",
+    "name": "국내산 친환경 청경채 (300g) [4주차 신선보충]",
+    "spec": "300g 1봉",
+    "qty": 1,
+    "unitPrice": 2400,
+    "total": 2400,
+    "weeks": "4주차",
+    "recipes": "4주차 청경채 소진용 (Day 24 동파육풍, Day 30 소고기)",
+    "query": "신선 청경채 300g"
+  },
+  {
+    "id": 60,
     "orderWeek": 4,
     "storage": "fresh",
     "cat": "🥬 신선식품",
@@ -2360,7 +2409,7 @@
     "query": "도드람한돈 통삼겹살 1kg"
   },
   {
-    "id": 58,
+    "id": 61,
     "orderWeek": 4,
     "storage": "fresh",
     "cat": "🥬 신선식품",
@@ -2374,7 +2423,7 @@
     "query": "신선 양배추 1통"
   },
   {
-    "id": 59,
+    "id": 62,
     "orderWeek": 4,
     "storage": "fresh",
     "cat": "🥬 신선식품",
@@ -2386,34 +2435,6 @@
     "weeks": "4주차",
     "recipes": "Day 25 춘천, Day 29 감자",
     "query": "흙감자 1kg"
-  },
-  {
-    "id": 60,
-    "orderWeek": 4,
-    "storage": "frozen",
-    "cat": "❄️ 냉동식품",
-    "name": "사옹원 일식 왕새우튀김 (10미)",
-    "spec": "10미 1봉",
-    "qty": 1,
-    "unitPrice": 9900,
-    "total": 9900,
-    "weeks": "4주차",
-    "recipes": "Day 26 바삭",
-    "query": "일식 왕새우튀김 10미"
-  },
-  {
-    "id": 61,
-    "orderWeek": 4,
-    "storage": "fresh",
-    "cat": "🥬 신선식품",
-    "name": "국내산 생표고버섯 (4입)",
-    "spec": "4입 1팩",
-    "qty": 1,
-    "unitPrice": 3400,
-    "total": 3400,
-    "weeks": "4주차",
-    "recipes": "Day 30 소고기",
-    "query": "생표고버섯 4입"
   }
 ];
 
@@ -2587,7 +2608,7 @@
   },
   "3": {
     "title": "3주차 식단 (Day 15 ~ Day 21)",
-    "freezerMsg": "🧊 <strong>3주차 주문 (44,400원)</strong>: 3주차 맞춤 식재료가 도착하여 냉동실 적체 없이 쾌적하게 조리합니다!",
+    "freezerMsg": "🧊 <strong>3주차 주문 (46,800원)</strong>: 3주차 맞춤 식재료가 도착하여 냉동실 적체 없이 쾌적하게 조리합니다!",
     "meals": [
       {
         "day": "Day 15",
@@ -2670,7 +2691,7 @@
   },
   "4": {
     "title": "4주차 식단 (Day 22 ~ Day 30)",
-    "freezerMsg": "🧊 <strong>4주차 주문 (63,300원)</strong>: 잔여 식재료를 100% 소진하여 피날레 0% 쓰레기 완판을 달성합니다!",
+    "freezerMsg": "🧊 <strong>4주차 주문 (54,500원)</strong>: 잔여 식재료를 100% 소진하여 피날레 0% 쓰레기 완판을 달성합니다!",
     "meals": [
       {
         "day": "Day 22",
@@ -3250,7 +3271,7 @@
               <strong style="color: #f87171;">⚠️ 스마트폰(모바일) 접속 감지: 자동 담기 불가</strong><br>
               <span style="color: #cbd5e1; font-size: 0.82rem; line-height: 1.45; display: block; margin-top: 2px;">
                 스마트폰 브라우저는 기술 보안 제약상 <strong>자동 장바구니 담기가 불가능</strong>합니다.<br>
-                원클릭 자동 담기는 <strong>반드시 PC(노트북) 크롬</strong>으로 접속해 실행해 주세요!<br>
+                원클릭 자동 담기는 <strong>PC(노트북) 크롬 또는 네이버 웨일</strong>로 접속해 실행해 주세요!<br>
                 (현재 모바일에서는 상품 목록 우측 [쿠팡 ↗] 링크를 눌러 1개씩 직접 담으실 수 있습니다.)
               </span>
             </div>
@@ -3268,8 +3289,8 @@
           bgBanner.innerHTML = `
             <span style="font-size: 1.4rem; flex-shrink: 0;">💻</span>
             <div>
-              <strong style="color: #38bdf8;">PC 전용 크롬 확장프로그램 필요:</strong><br>
-              쿠팡 원클릭 자동 담기는 <strong>PC(노트북) 크롬 브라우저</strong>에서만 작동합니다!<br>
+              <strong style="color: #38bdf8;">PC 전용 확장 프로그램 필요 (크롬 & 네이버 웨일 지원):</strong><br>
+              쿠팡 원클릭 자동 담기는 <strong>PC(노트북) 크롬 또는 네이버 웨일 브라우저</strong>에서 작동합니다!<br>
               <span style="font-size: 0.78rem; color: #94a3b8;">PC에서 담아두시면 스마트폰 쿠팡 앱에 실시간 자동 동기화됩니다.</span>
             </div>
           `;
@@ -3422,8 +3443,8 @@
         }
         if (btnStop) btnStop.style.display = 'none';
         if (btnHeaderStop) btnHeaderStop.style.display = 'none';
-        showToast('📱 모바일에서는 자동 담기가 불가합니다. 꼭 PC 크롬에서 실행해 주세요!');
-        alert('⚠️ [PC 전용 기능 안내]\n\n스마트폰 브라우저는 확장프로그램 보안 제약으로 인해 쿠팡 자동 장바구니 담기가 지원되지 않습니다.\n\n원클릭 자동 담기를 이용하시려면 꼭 [PC / 노트북 크롬 브라우저]에서 이 페이지를 열어 실행해 주세요!\n(모바일에서는 상품 목록 우측 [쿠팡 ↗] 링크를 눌러 1개씩 직접 담으실 수 있습니다.)');
+        showToast('📱 모바일에서는 자동 담기가 불가합니다. 꼭 PC 크롬 또는 네이버 웨일에서 실행해 주세요!');
+        alert('⚠️ [PC 전용 기능 안내]\n\n스마트폰 브라우저는 확장프로그램 보안 제약으로 인해 쿠팡 자동 장바구니 담기가 지원되지 않습니다.\n\n원클릭 자동 담기를 이용하시려면 꼭 [PC / 노트북 크롬 또는 네이버 웨일 브라우저]에서 이 페이지를 열어 실행해 주세요!\n(모바일에서는 상품 목록 우측 [쿠팡 ↗] 링크를 눌러 1개씩 직접 담으실 수 있습니다.)');
         return;
       }
 
@@ -3438,7 +3459,7 @@
           localStorage.setItem('zipbabbot_extension_installed', 'true');
           sessionStorage.setItem('zipbabbot_extension_installed', 'true');
         } catch(e) {}
-        document.getElementById('batch-progress-status').innerText = `🧩 크롬 확장 프로그램을 통해 자동 담기 시작 중...`;
+        document.getElementById('batch-progress-status').innerText = `🧩 확장 프로그램을 통해 자동 담기 시작 중...`;
         const extensionPayload = targetList.map(t => ({
           index: t.originalIndex,
           query: t.item.query,
@@ -3459,7 +3480,7 @@
             }
             if (btnStop) btnStop.style.display = 'none';
             if (btnHeaderStop) btnHeaderStop.style.display = 'none';
-            alert('⚠️ [크롬 확장 프로그램 연결 안내]\n\n확장 프로그램이 설치되어 있으나 아직 최신 버전으로 새로고침되지 않아 백그라운드 통신이 지연되고 있습니다.\n\n해결 방법 (3초):\n1. 새 탭에서 chrome://extensions 로 이동합니다.\n2. [집밥봇 - 쿠팡 장바구니 1초 자동 담기 도우미] 카드의 새로고침(🔄) 아이콘을 한 번 클릭해 주세요!\n3. 이 페이지로 돌아와 다시 [한 번에 담기 시작]을 누르시면 정상 작동합니다.');
+            alert('⚠️ [확장 프로그램 연결 안내]\n\n확장 프로그램이 설치되어 있으나 아직 브라우저에서 최신 버전으로 새로고침되지 않아 백그라운드 통신이 지연되고 있습니다.\n\n해결 방법 (3초):\n1. 새 탭에서 chrome://extensions (웨일은 whale://extensions) 로 이동합니다.\n2. [집밥봇 - 쿠팡 장바구니 1초 자동 담기 도우미] 카드의 새로고침(🔄) 아이콘을 한 번 클릭해 주세요!\n3. 이 페이지로 돌아와 다시 [한 번에 담기 시작]을 누르시면 정상 작동합니다.');
           }
         }, 6000);
 
@@ -3646,7 +3667,7 @@
         const pStatus = document.getElementById('batch-progress-status');
         if (pBar) pBar.style.width = `${pct}%`;
         if (pPct) pPct.innerText = `${pct}%`;
-        if (pStatus) pStatus.innerText = `[${data.step}/${data.total}] ${data.item.name} 담는 중... (크롬 확장 프로그램)`;
+        if (pStatus) pStatus.innerText = `[${data.step}/${data.total}] ${data.item.name} 담는 중... (자동 담기 확장 프로그램)`;
       } else if (data.type === 'ZIPBABBOT_ITEM_DONE') {
         window.__zipbabbot_received_progress = true;
         clearTimeout(window.__zipbabbot_watchdog_timer);
@@ -3682,7 +3703,7 @@
         document.getElementById('batch-progress-bar').style.width = '100%';
         document.getElementById('batch-progress-percent').innerText = '100%';
         document.getElementById('batch-progress-status').innerHTML = '🎉 <strong>모든 품목 담기 완료!</strong> ➔ <span style="color: #38bdf8;">쿠팡 장바구니 창을 열었습니다.</span>';
-        showToast('🎉 크롬 확장 프로그램을 통해 모든 식재료가 쿠팡 장바구니에 정상 담겼습니다!');
+        showToast('🎉 확장 프로그램을 통해 모든 식재료가 쿠팡 장바구니에 정상 담겼습니다!');
       }
     });
 
@@ -3693,7 +3714,7 @@
         banner.innerHTML = `
           <span style="font-size: 1.4rem; flex-shrink: 0;">⚡</span>
           <div>
-            <strong style="color: #34d399;">🟢 집밥봇 크롬 확장 프로그램 활성화됨:</strong><br>
+            <strong style="color: #34d399;">🟢 집밥봇 자동 담기 확장 프로그램 활성화됨:</strong><br>
             아래 [🚀 한 번에 담기 시작]을 누르시면 백그라운드 탭에서 쿠팡 장바구니에 진짜로 쏙 담깁니다!<br>
             <span style="font-size: 0.78rem; color: #94a3b8;">📱 담긴 후 스마트폰 쿠팡 앱을 열어보시면 실시간 100% 동기화되어 모바일로 편하게 결제 가능합니다.</span>
           </div>

@@ -5,9 +5,9 @@
   "household_size": "1명",
   "people_count": 1,
   "budget": 350000,
-  "total_spent": 313500,
-  "saved_from_budget": 36500,
-  "total_saved_pantry": 23800,
+  "total_spent": 317600,
+  "saved_from_budget": 32400,
+  "total_saved_pantry": 51400,
   "meal_frequency": "하루 한 끼 (퇴근 후 저녁 30끼)",
   "total_meals": 30,
   "goal": "일반식",
@@ -18,11 +18,11 @@
   "theme": "박병애님을 위한 1명 일반식 맞춤 식단 (한식, 일식, 양식)",
   "created_at": "2026-10-17",
   "recipes_summary": [
-    "불맛 제육볶음 + 계란파국 (1인분)",
+    "돼지고기 김치찌개 (1인분)",
     "소고기 규동 (우삼겹 덮밥) (1인분)",
-    "알리오 올리오 파스타 (1인분)",
-    "갈아만든 배 제육볶음 (1인분)",
-    "촉촉한 반숙 돈카츠 가츠동 (1인분)"
+    "비프 볼로네제 라구 파스타 (1인분)",
+    "불맛 제육볶음 + 계란파국 (1인분)",
+    "촉촉한 치킨 오야코동 (달걀덮밥) (1인분)"
   ],
   "pages": {
     "portal": "clients/박병애_31/index.html",

@@ -3,10 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="김성민님 스마트 장바구니 매니저 | 집밥봇">
+  <meta property="og:description" content="김성민님 4주 분할 장보기 (140,900원) & 쿠팡 1초 원클릭 자동 담기">
+  <meta property="og:image" content="https://bohwan100.github.io/zipbab/assets/icon.png">
+  <link rel="icon" type="image/png" href="https://bohwan100.github.io/zipbab/assets/icon.png">
+  <link rel="apple-touch-icon" href="https://bohwan100.github.io/zipbab/assets/icon.png">
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
-  <title>스마트 장바구니 매니저 | 집밥봇</title>
+  <title>김성민님 스마트 장바구니 매니저 | 집밥봇</title>
   <script>
     // 외부 브라우저 최적화
     (function() {
@@ -1072,10 +1078,10 @@
       <span style="font-size: 1.8rem; flex-shrink: 0;">💻</span>
       <div style="flex: 1; font-size: 0.88rem; line-height: 1.5; color: #cbd5e1;">
         <strong style="color: #f87171; font-size: 0.98rem; display: block; margin-bottom: 3px;">
-          ⚠️ [필독] 쿠팡 원클릭 자동 장바구니 담기는 "꼭 PC(크롬)"에서만 가능합니다!
+          ⚠️ [필독] 쿠팡 원클릭 자동 장바구니 담기는 "PC(크롬 & 네이버 웨일)" 지원 기능입니다!
         </strong>
-        스마트폰(모바일) 브라우저는 보안 제약상 자동 담기 확장프로그램이 작동하지 않습니다. 
-        <strong>원클릭 자동 담기는 반드시 PC 크롬에서 실행해 주시고, 결제는 휴대폰 쿠팡 앱에서 편하게 진행해 주세요!</strong>
+        스마트폰(모바일) 브라우저는 브라우저 보안 제약상 자동 담기 확장프로그램이 작동하지 않습니다. 
+        <strong>원클릭 자동 담기는 PC 크롬 또는 네이버 웨일 브라우저에서 실행해 주시고, 결제는 휴대폰 쿠팡 앱에서 편하게 진행해 주세요!</strong>
       </div>
     </div>
 
@@ -1085,7 +1091,7 @@
           <span class="split-week-tag">1주차 주문</span>
           <span class="split-badge">로켓프레시 무료</span>
         </div>
-        <div class="split-amount">139,600원</div>
+        <div class="split-amount">140,900원</div>
       </div>
 
       <div class="split-card" id="card-week-2" onclick="selectWeek(2)">
@@ -1093,7 +1099,7 @@
           <span class="split-week-tag">2주차 주문</span>
           <span class="split-badge">로켓프레시 무료</span>
         </div>
-        <div class="split-amount">7,000원</div>
+        <div class="split-amount">0원</div>
       </div>
 
       <div class="split-card" id="card-week-3" onclick="selectWeek(3)">
@@ -1143,10 +1149,10 @@
     <!-- Action Banner -->
     <div class="action-banner">
       <div>
-        <p>💡 <strong>4주 총 구매액</strong>: <strong>146,600원</strong> (예산 150,000원 대비 <strong style="color: #34d399;">+3,400원</strong> 절감 성공, 4회 배송비 전액 0원, 잔여 쓰레기 0%)</p>
+        <p>💡 <strong>4주 총 구매액</strong>: <strong>140,900원</strong> (예산 150,000원 대비 <strong style="color: #34d399;">+9,100원</strong> 절감 성공, 4회 배송비 전액 0원, 잔여 쓰레기 0%)</p>
       </div>
       <div class="action-btn-group">
-        <button type="button" class="btn-action" style="background: rgba(56, 189, 248, 0.18); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.45); font-weight: 800;" onclick="event.stopPropagation(); openExtensionModal(true);">🧩 PC 크롬 1초 담기 확장 프로그램</button>
+        <button type="button" class="btn-action" style="background: rgba(56, 189, 248, 0.18); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.45); font-weight: 800;" onclick="event.stopPropagation(); openExtensionModal(true);">🧩 PC 크롬 / 웨일 1초 담기 확장 프로그램</button>
         <button class="btn-action orange" id="btn-week-batch-top" onclick="openThisWeekGroceries(false)">💻 1주차 품목 한 번에 담기 (PC 전용)</button>
         <button class="btn-action success" onclick="openCartDirect()">🛍️ 내 쿠팡 장바구니 확인</button>
         <button class="btn-action" style="background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.4);" onclick="resetAllAddedStatus()" title="모든 상품의 담김 상태를 초기화하여 처음부터 다시 담기">🔄 담기 버튼 초기화</button>
@@ -1380,7 +1386,7 @@
         <span style="font-size: 1.4rem; flex-shrink: 0;">⚡</span>
         <div>
           <strong style="color: #38bdf8;">PC 원클릭 자동 담기 ➔ 스마트폰 쿠팡 앱 100% 실시간 동기화:</strong><br>
-          PC 크롬 백그라운드에서 모든 품목을 쿠팡 장바구니에 <strong>진짜로 쏙 자동 담기</strong>합니다!<br>
+          PC 크롬 또는 네이버 웨일 브라우저 백그라운드에서 모든 품목을 쿠팡 장바구니에 <strong>진짜로 쏙 자동 담기</strong>합니다!<br>
           <span style="font-size: 0.78rem; color: #94a3b8;">📱 같은 쿠팡 아이디면 스마트폰 쿠팡 앱에도 실시간 자동 동기화되어 모바일에서 바로 결제 가능합니다.</span>
         </div>
       </div>
@@ -1426,19 +1432,19 @@
     </div>
   </div>
 
-  <!-- Chrome Extension Guide Modal -->
+  <!-- Chrome & Whale Extension Guide Modal -->
   <div class="modal-overlay" id="extension-modal" style="display: none;">
-    <div class="modal-content" style="max-width: 580px;">
+    <div class="modal-content" style="max-width: 600px;">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 10px;">
         <h3 class="modal-title" style="margin-bottom: 0; display: flex; align-items: center; gap: 8px;">
-          <span>🧩</span> 집밥봇 크롬 확장 프로그램 10초 설치 가이드
+          <span>🧩</span> 집밥봇 확장 프로그램 10초 설치 가이드 (Chrome & Whale 🐳)
         </h3>
         <button type="button" class="btn-action" style="background: #334155; padding: 4px 10px; font-size: 0.85rem;" onclick="closeExtensionModal()">✕</button>
       </div>
 
       <div style="background: rgba(56, 189, 248, 0.1); border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 12px; padding: 12px 16px; margin-bottom: 16px; font-size: 0.88rem; color: #bae6fd; line-height: 1.5;">
-        💡 <strong>윈도우 PC / 맥북 크롬 사용자 전용 (단 1회 등록):</strong><br>
-        크롬에 확장 프로그램을 딱 1번만 등록해두시면, [한 번에 담기] 클릭 시 백그라운드에서 쿠팡 장바구니에 <strong>진짜로 쏙 자동 담기</strong>가 실행됩니다! (결제는 스마트폰 앱에서 완료 가능)
+        💡 <strong>윈도우 PC / 맥북 (크롬 & 네이버 웨일 브라우저 완벽 지원):</strong><br>
+        브라우저에 확장 프로그램을 딱 1번만 등록해두시면, [한 번에 담기] 클릭 시 백그라운드에서 쿠팡 장바구니에 <strong>진짜로 쏙 자동 담기</strong>가 실행됩니다! (결제는 스마트폰 쿠팡 앱에서 완료 가능)
       </div>
 
       <div style="display: flex; flex-direction: column; gap: 14px; margin-bottom: 20px; font-size: 0.88rem;">
@@ -1456,9 +1462,10 @@
         <div style="display: flex; gap: 12px; background: rgba(15, 23, 42, 0.6); padding: 12px 14px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.06);">
           <span style="font-weight: 800; color: #38bdf8; font-size: 1.1rem;">Step 2</span>
           <div style="flex: 1;">
-            <div style="font-weight: 700; color: #fff; margin-bottom: 4px;">크롬 확장 프로그램 관리 페이지 열기</div>
-            <div style="font-size: 0.82rem; color: #cbd5e1; line-height: 1.5;">
-              크롬 새 탭 주소창에 <code style="background: rgba(0,0,0,0.4); padding: 2px 6px; border-radius: 4px; color: #38bdf8;">chrome://extensions</code> 입력 후 이동 ➔ 우측 상단 <strong>[개발자 모드]</strong> 스위치를 켭니다 (ON).
+            <div style="font-weight: 700; color: #fff; margin-bottom: 4px;">브라우저 확장 프로그램 관리창 열기 & [개발자 모드] 켜기</div>
+            <div style="font-size: 0.82rem; color: #cbd5e1; line-height: 1.6;">
+              • <strong>구글 크롬(Chrome)</strong>: 새 탭 주소창에 <code style="background: rgba(0,0,0,0.4); padding: 2px 6px; border-radius: 4px; color: #38bdf8;">chrome://extensions</code> 입력 후 이동 ➔ 우측 상단 <strong>[개발자 모드]</strong> ON<br>
+              • <strong>네이버 웨일(Whale 🐳)</strong>: 새 탭 주소창에 <code style="background: rgba(0,0,0,0.4); padding: 2px 6px; border-radius: 4px; color: #00c73c;">whale://extensions</code> 입력 후 이동 ➔ 우측 상단 <strong>[개발자 모드]</strong> ON
             </div>
           </div>
         </div>
@@ -1466,9 +1473,9 @@
         <div style="display: flex; gap: 12px; background: rgba(15, 23, 42, 0.6); padding: 12px 14px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.06);">
           <span style="font-weight: 800; color: #10b981; font-size: 1.1rem;">Step 3</span>
           <div style="flex: 1;">
-            <div style="font-weight: 700; color: #fff; margin-bottom: 4px;">폴더 등록하기 (드래그 한 번!)</div>
+            <div style="font-weight: 700; color: #fff; margin-bottom: 4px;">폴더 등록하기 (드래그 한 번이면 끝!)</div>
             <div style="font-size: 0.82rem; color: #cbd5e1; line-height: 1.5;">
-              좌측 상단 <strong>[압축해제된 확장 프로그램을 로드합니다]</strong>를 누르고 아까 압축 푼 <code>zipbabbot-extension</code> 폴더를 선택하거나, 브라우저 화면 안으로 폴더를 끌어다 놓으면 끝!
+              좌측 상단 <strong>[압축해제된 확장 프로그램 로드]</strong>(웨일은 <strong>[압축해제된 확장 앱 로드]</strong>)를 누르고 <code>zipbabbot-extension</code> 폴더를 선택하거나, 브라우저 화면 안으로 폴더를 끌어다 놓으면 즉시 완료!
             </div>
           </div>
         </div>
@@ -1566,31 +1573,17 @@
     "orderWeek": 1,
     "storage": "seasoning",
     "cat": "🧂 조미료",
-    "name": "순창 찰고추장 (1kg)",
+    "name": "해찬들 재래식된장 (1kg)",
     "spec": "1kg 1통",
     "qty": 1,
-    "unitPrice": 6900,
-    "total": 6900,
+    "unitPrice": 5400,
+    "total": 5400,
     "weeks": "1~4주차",
-    "recipes": "Day 1 불맛, Day 2 갈아만든, Day 5 대패, Day 6 우삼겹",
-    "query": "순창 고추장 1kg"
+    "recipes": "Day 1 돼지고기, Day 5 감자, Day 27 우삼겹",
+    "query": "해찬들 재래식된장 1kg"
   },
   {
     "id": 2,
-    "orderWeek": 1,
-    "storage": "seasoning",
-    "cat": "🧂 조미료",
-    "name": "샘표 진간장 금F3 (860ml)",
-    "spec": "860ml 1병",
-    "qty": 1,
-    "unitPrice": 4500,
-    "total": 4500,
-    "weeks": "1~4주차",
-    "recipes": "Day 1 불맛, Day 2 갈아만든, Day 3 으깬스팸, Day 4 돼지고기",
-    "query": "샘표 진간장 금F"
-  },
-  {
-    "id": 3,
     "orderWeek": 1,
     "storage": "seasoning",
     "cat": "🧂 조미료",
@@ -1600,123 +1593,25 @@
     "unitPrice": 9800,
     "total": 9800,
     "weeks": "1~4주차",
-    "recipes": "Day 1 불맛, Day 3 으깬스팸, Day 4 돼지고기, Day 5 대패",
+    "recipes": "Day 1 돼지고기, Day 2 불맛, Day 3 으깬스팸, Day 4 대패",
     "query": "고춧가루 500g"
   },
   {
+    "id": 3,
+    "orderWeek": 1,
+    "storage": "seasoning",
+    "cat": "🧂 조미료",
+    "name": "샘표 진간장 금F3 (860ml)",
+    "spec": "860ml 1병",
+    "qty": 1,
+    "unitPrice": 4500,
+    "total": 4500,
+    "weeks": "1~4주차",
+    "recipes": "Day 1 돼지고기, Day 2 불맛, Day 3 으깬스팸, Day 4 대패",
+    "query": "샘표 진간장 금F"
+  },
+  {
     "id": 4,
-    "orderWeek": 1,
-    "storage": "seasoning",
-    "cat": "🧂 조미료",
-    "name": "백설 하얀설탕 (1kg)",
-    "spec": "1kg 1봉",
-    "qty": 1,
-    "unitPrice": 2400,
-    "total": 2400,
-    "weeks": "1~4주차",
-    "recipes": "Day 1 불맛, Day 2 갈아만든, Day 5 대패, Day 7 춘천",
-    "query": "백설 설탕 1kg"
-  },
-  {
-    "id": 5,
-    "orderWeek": 1,
-    "storage": "seasoning",
-    "cat": "🧂 조미료",
-    "name": "오뚜기 고소한 참기름 (320ml)",
-    "spec": "320ml 1병",
-    "qty": 1,
-    "unitPrice": 6800,
-    "total": 6800,
-    "weeks": "1~4주차",
-    "recipes": "Day 1 불맛, Day 2 갈아만든, Day 3 으깬스팸, Day 5 대패",
-    "query": "오뚜기 참기름 320ml"
-  },
-  {
-    "id": 6,
-    "orderWeek": 1,
-    "storage": "seasoning",
-    "cat": "🧂 조미료",
-    "name": "오뚜기 순후추 (50g)",
-    "spec": "50g 1통",
-    "qty": 1,
-    "unitPrice": 2100,
-    "total": 2100,
-    "weeks": "1~4주차",
-    "recipes": "Day 1 불맛, Day 2 갈아만든, Day 3 으깬스팸, Day 5 대패",
-    "query": "오뚜기 순후추 50g"
-  },
-  {
-    "id": 7,
-    "orderWeek": 1,
-    "storage": "seasoning",
-    "cat": "🧂 조미료",
-    "name": "해태 갈아만든배 (238ml)",
-    "spec": "238ml 1캔",
-    "qty": 1,
-    "unitPrice": 1200,
-    "total": 1200,
-    "weeks": "1~4주차",
-    "recipes": "Day 2 갈아만든, Day 14 갈아만든, Day 26 갈아만든",
-    "query": "갈아만든배 238ml"
-  },
-  {
-    "id": 8,
-    "orderWeek": 1,
-    "storage": "seasoning",
-    "cat": "🧂 조미료",
-    "name": "오뚜기 사과식초 (500ml)",
-    "spec": "500ml 1병",
-    "qty": 1,
-    "unitPrice": 1900,
-    "total": 1900,
-    "weeks": "1~4주차",
-    "recipes": "Day 2 갈아만든, Day 14 갈아만든, Day 26 갈아만든",
-    "query": "오뚜기 사과식초 500ml"
-  },
-  {
-    "id": 9,
-    "orderWeek": 1,
-    "storage": "seasoning",
-    "cat": "🧂 조미료",
-    "name": "스팸 클래식 (200g)",
-    "spec": "200g 1캔",
-    "qty": 1,
-    "unitPrice": 3800,
-    "total": 3800,
-    "weeks": "1~4주차",
-    "recipes": "Day 3 으깬스팸, Day 8 감자, Day 15 으깬스팸, Day 20 감자",
-    "query": "스팸 클래식 200g"
-  },
-  {
-    "id": 10,
-    "orderWeek": 1,
-    "storage": "seasoning",
-    "cat": "🧂 조미료",
-    "name": "이금기 팬더 굴소스 (510g)",
-    "spec": "510g 1병",
-    "qty": 1,
-    "unitPrice": 5600,
-    "total": 5600,
-    "weeks": "1~4주차",
-    "recipes": "Day 3 으깬스팸, Day 9 우삼겹, Day 11 안동식, Day 15 으깬스팸",
-    "query": "이금기 굴소스 510g"
-  },
-  {
-    "id": 11,
-    "orderWeek": 1,
-    "storage": "seasoning",
-    "cat": "🧂 조미료",
-    "name": "해찬들 재래식된장 (1kg)",
-    "spec": "1kg 1통",
-    "qty": 1,
-    "unitPrice": 5400,
-    "total": 5400,
-    "weeks": "1~4주차",
-    "recipes": "Day 4 돼지고기, Day 6 우삼겹, Day 8 감자, Day 16 돼지고기",
-    "query": "해찬들 재래식된장 1kg"
-  },
-  {
-    "id": 12,
     "orderWeek": 1,
     "storage": "seasoning",
     "cat": "🧂 조미료",
@@ -1726,25 +1621,109 @@
     "unitPrice": 1600,
     "total": 1600,
     "weeks": "1~4주차",
-    "recipes": "Day 4 돼지고기, Day 6 우삼겹, Day 16 돼지고기, Day 18 우삼겹",
+    "recipes": "Day 1 돼지고기, Day 8 맑은, Day 15 바삭, Day 27 우삼겹",
     "query": "청정원 꽃소금 500g"
   },
   {
-    "id": 13,
+    "id": 5,
     "orderWeek": 1,
     "storage": "seasoning",
     "cat": "🧂 조미료",
-    "name": "오뚜기 카레 약간매운맛 (100g)",
-    "spec": "100g 1봉",
+    "name": "임금님표이천 쌀 상등급 (2kg)",
+    "spec": "2kg 1포",
     "qty": 1,
-    "unitPrice": 1900,
-    "total": 1900,
-    "weeks": "1~3주차",
-    "recipes": "Day 7 춘천, Day 19 춘천",
-    "query": "오뚜기 카레 약간매운맛 100g"
+    "unitPrice": 10800,
+    "total": 10800,
+    "weeks": "1주차",
+    "recipes": "30일 전 식단 밥",
+    "query": "임금님표이천 쌀 상등급 (2kg)"
   },
   {
-    "id": 14,
+    "id": 6,
+    "orderWeek": 1,
+    "storage": "seasoning",
+    "cat": "🧂 조미료",
+    "name": "순창 찰고추장 (1kg)",
+    "spec": "1kg 1통",
+    "qty": 1,
+    "unitPrice": 6900,
+    "total": 6900,
+    "weeks": "1~4주차",
+    "recipes": "Day 2 불맛, Day 4 대패, Day 5 감자, Day 7 대패삼겹",
+    "query": "순창 고추장 1kg"
+  },
+  {
+    "id": 7,
+    "orderWeek": 1,
+    "storage": "seasoning",
+    "cat": "🧂 조미료",
+    "name": "백설 하얀설탕 (1kg)",
+    "spec": "1kg 1봉",
+    "qty": 1,
+    "unitPrice": 2400,
+    "total": 2400,
+    "weeks": "1~4주차",
+    "recipes": "Day 2 불맛, Day 4 대패, Day 5 감자, Day 6 우삼겹",
+    "query": "백설 설탕 1kg"
+  },
+  {
+    "id": 8,
+    "orderWeek": 1,
+    "storage": "seasoning",
+    "cat": "🧂 조미료",
+    "name": "오뚜기 고소한 참기름 (320ml)",
+    "spec": "320ml 1병",
+    "qty": 1,
+    "unitPrice": 6800,
+    "total": 6800,
+    "weeks": "1~4주차",
+    "recipes": "Day 2 불맛, Day 3 으깬스팸, Day 4 대패, Day 6 우삼겹",
+    "query": "오뚜기 참기름 320ml"
+  },
+  {
+    "id": 9,
+    "orderWeek": 1,
+    "storage": "seasoning",
+    "cat": "🧂 조미료",
+    "name": "오뚜기 순후추 (50g)",
+    "spec": "50g 1통",
+    "qty": 1,
+    "unitPrice": 2100,
+    "total": 2100,
+    "weeks": "1~4주차",
+    "recipes": "Day 2 불맛, Day 3 으깬스팸, Day 4 대패, Day 6 우삼겹",
+    "query": "오뚜기 순후추 50g"
+  },
+  {
+    "id": 10,
+    "orderWeek": 1,
+    "storage": "seasoning",
+    "cat": "🧂 조미료",
+    "name": "스팸 클래식 (200g)",
+    "spec": "200g 1캔",
+    "qty": 1,
+    "unitPrice": 3800,
+    "total": 3800,
+    "weeks": "1주차",
+    "recipes": "Day 3 으깬스팸, Day 5 감자",
+    "query": "스팸 클래식 200g"
+  },
+  {
+    "id": 11,
+    "orderWeek": 1,
+    "storage": "seasoning",
+    "cat": "🧂 조미료",
+    "name": "이금기 팬더 굴소스 (510g)",
+    "spec": "510g 1병",
+    "qty": 1,
+    "unitPrice": 5600,
+    "total": 5600,
+    "weeks": "1주차",
+    "recipes": "Day 3 으깬스팸, Day 6 우삼겹",
+    "query": "이금기 굴소스 510g"
+  },
+  {
+    "id": 12,
     "orderWeek": 1,
     "storage": "seasoning",
     "cat": "🧂 조미료",
@@ -1753,12 +1732,138 @@
     "qty": 1,
     "unitPrice": 2800,
     "total": 2800,
-    "weeks": "2~4주차",
-    "recipes": "Day 9 우삼겹, Day 10 소불고기, Day 11 안동식, Day 21 우삼겹",
+    "weeks": "1~4주차",
+    "recipes": "Day 6 우삼겹, Day 21 노릇, Day 30 소불고기",
     "query": "미림 맛술 500ml"
   },
   {
+    "id": 13,
+    "orderWeek": 1,
+    "storage": "seasoning",
+    "cat": "🧂 조미료",
+    "name": "샘표 맑은 조선간장 국간장 (500ml)",
+    "spec": "500ml 1병",
+    "qty": 1,
+    "unitPrice": 3900,
+    "total": 3900,
+    "weeks": "2~3주차",
+    "recipes": "Day 8 맑은, Day 10 구수한, Day 19 버섯",
+    "query": "샘표 국간장 500ml"
+  },
+  {
+    "id": 14,
+    "orderWeek": 1,
+    "storage": "seasoning",
+    "cat": "🧂 조미료",
+    "name": "청정원 고소한 들깨가루 (200g)",
+    "spec": "200g 1봉",
+    "qty": 1,
+    "unitPrice": 4900,
+    "total": 4900,
+    "weeks": "2~3주차",
+    "recipes": "Day 10 구수한, Day 19 버섯",
+    "query": "청정원 들깨가루 200g"
+  },
+  {
     "id": 15,
+    "orderWeek": 1,
+    "storage": "seasoning",
+    "cat": "🧂 조미료",
+    "name": "오뚜기 사과식초 (500ml)",
+    "spec": "500ml 1병",
+    "qty": 1,
+    "unitPrice": 1900,
+    "total": 1900,
+    "weeks": "2~4주차",
+    "recipes": "Day 12 불맛, Day 26 갈아만든",
+    "query": "오뚜기 사과식초 500ml"
+  },
+  {
+    "id": 16,
+    "orderWeek": 1,
+    "storage": "seasoning",
+    "cat": "🧂 조미료",
+    "name": "오뚜기 고소한 골드 마요네즈 (500g)",
+    "spec": "500g 1개",
+    "qty": 1,
+    "unitPrice": 3600,
+    "total": 3600,
+    "weeks": "3주차",
+    "recipes": "Day 16 단짠",
+    "query": "오뚜기 마요네즈 500g"
+  },
+  {
+    "id": 17,
+    "orderWeek": 1,
+    "storage": "seasoning",
+    "cat": "🧂 조미료",
+    "name": "오뚜기 감자전분 (500g)",
+    "spec": "500g 1봉",
+    "qty": 1,
+    "unitPrice": 2800,
+    "total": 2800,
+    "weeks": "3주차",
+    "recipes": "Day 18 달큰",
+    "query": "오뚜기 감자전분 500g"
+  },
+  {
+    "id": 18,
+    "orderWeek": 1,
+    "storage": "seasoning",
+    "cat": "🧂 조미료",
+    "name": "서울우유 프레시버터 (450g)",
+    "spec": "450g 1개",
+    "qty": 1,
+    "unitPrice": 8900,
+    "total": 8900,
+    "weeks": "4주차",
+    "recipes": "Day 23 소고기",
+    "query": "서울우유 버터 450g"
+  },
+  {
+    "id": 19,
+    "orderWeek": 1,
+    "storage": "seasoning",
+    "cat": "🧂 조미료",
+    "name": "해태 갈아만든배 (238ml)",
+    "spec": "238ml 1캔",
+    "qty": 1,
+    "unitPrice": 1200,
+    "total": 1200,
+    "weeks": "4주차",
+    "recipes": "Day 26 갈아만든",
+    "query": "갈아만든배 238ml"
+  },
+  {
+    "id": 20,
+    "orderWeek": 1,
+    "storage": "seasoning",
+    "cat": "🧂 조미료",
+    "name": "오뚜기 카레 약간매운맛 (100g)",
+    "spec": "100g 1봉",
+    "qty": 1,
+    "unitPrice": 1900,
+    "total": 1900,
+    "weeks": "4주차",
+    "recipes": "Day 28 춘천",
+    "query": "오뚜기 카레 약간매운맛 100g"
+  },
+  {
+    "id": 21,
+    "orderWeek": 1,
+    "storage": "seasoning",
+    "cat": "🧂 조미료",
+    "name": "해찬들 재래식 된장 (1kg)",
+    "spec": "1kg 1통",
+    "qty": 1,
+    "unitPrice": 5900,
+    "total": 5900,
+    "weeks": "4주차",
+    "recipes": "Day 29 닭가슴살",
+    "query": "해찬들 된장 1kg"
+  },
+  {
+    "id": 22,
     "orderWeek": 1,
     "storage": "frozen",
     "cat": "❄️ 냉동식품",
@@ -1768,81 +1873,11 @@
     "unitPrice": 11900,
     "total": 11900,
     "weeks": "1~4주차",
-    "recipes": "Day 1 불맛, Day 2 갈아만든, Day 4 돼지고기, Day 13 불맛",
+    "recipes": "Day 1 돼지고기, Day 2 불맛, Day 9 칼칼한, Day 13 만능간장",
     "query": "돼지 앞다리살 불고기용 1kg"
   },
   {
-    "id": 16,
-    "orderWeek": 1,
-    "storage": "fresh",
-    "cat": "🥬 신선식품",
-    "name": "국내산 절단 대파 (500g)",
-    "spec": "500g 1봉",
-    "qty": 1,
-    "unitPrice": 2900,
-    "total": 2900,
-    "weeks": "1~4주차",
-    "recipes": "Day 1 불맛, Day 2 갈아만든, Day 3 으깬스팸, Day 4 돼지고기",
-    "query": "손질 대파 500g"
-  },
-  {
-    "id": 17,
-    "orderWeek": 1,
-    "storage": "fresh",
-    "cat": "🥬 신선식품",
-    "name": "국내산 햇양파 (1.5kg)",
-    "spec": "1.5kg 1망",
-    "qty": 1,
-    "unitPrice": 3900,
-    "total": 3900,
-    "weeks": "1~4주차",
-    "recipes": "Day 1 불맛, Day 2 갈아만든, Day 3 으깬스팸, Day 5 대패",
-    "query": "햇양파 1.5kg"
-  },
-  {
-    "id": 18,
-    "orderWeek": 1,
-    "storage": "fresh",
-    "cat": "🥬 신선식품",
-    "name": "곰곰 무항생제 신선 대란 (30구)",
-    "spec": "30구 1판",
-    "qty": 1,
-    "unitPrice": 8900,
-    "total": 8900,
-    "weeks": "1~4주차",
-    "recipes": "Day 1 불맛, Day 3 으깬스팸, Day 13 불맛, Day 15 으깬스팸",
-    "query": "무항생제 대란 30구"
-  },
-  {
-    "id": 19,
-    "orderWeek": 1,
-    "storage": "fresh",
-    "cat": "🥬 신선식품",
-    "name": "국내산 깐마늘 (200g)",
-    "spec": "200g 1봉",
-    "qty": 1,
-    "unitPrice": 2400,
-    "total": 2400,
-    "weeks": "1~4주차",
-    "recipes": "Day 1 불맛, Day 2 갈아만든, Day 3 으깬스팸, Day 4 돼지고기",
-    "query": "깐마늘 200g"
-  },
-  {
-    "id": 20,
-    "orderWeek": 1,
-    "storage": "fresh",
-    "cat": "🥬 신선식품",
-    "name": "풀무원 국산 순두부 (350g)",
-    "spec": "350g 1봉",
-    "qty": 1,
-    "unitPrice": 1400,
-    "total": 1400,
-    "weeks": "1~4주차",
-    "recipes": "Day 3 으깬스팸, Day 15 으깬스팸, Day 27 으깬스팸",
-    "query": "풀무원 순두부 350g"
-  },
-  {
-    "id": 21,
+    "id": 23,
     "orderWeek": 1,
     "storage": "fresh",
     "cat": "🥬 신선식품",
@@ -1851,12 +1886,12 @@
     "qty": 1,
     "unitPrice": 9900,
     "total": 9900,
-    "weeks": "1~4주차",
-    "recipes": "Day 4 돼지고기, Day 16 돼지고기, Day 28 돼지고기",
+    "weeks": "1주차",
+    "recipes": "Day 1 돼지고기",
     "query": "종가집 포기김치 1kg"
   },
   {
-    "id": 22,
+    "id": 24,
     "orderWeek": 1,
     "storage": "fresh",
     "cat": "🥬 신선식품",
@@ -1866,134 +1901,78 @@
     "unitPrice": 2100,
     "total": 2100,
     "weeks": "1~4주차",
-    "recipes": "Day 4 돼지고기, Day 6 우삼겹, Day 16 돼지고기, Day 18 우삼겹",
+    "recipes": "Day 1 돼지고기, Day 27 우삼겹",
     "query": "풀무원 두부 300g"
-  },
-  {
-    "id": 23,
-    "orderWeek": 1,
-    "storage": "frozen",
-    "cat": "❄️ 냉동식품",
-    "name": "미국산 소 우삼겹 바로구이 (1kg)",
-    "spec": "1kg 1팩",
-    "qty": 1,
-    "unitPrice": 14900,
-    "total": 14900,
-    "weeks": "1~4주차",
-    "recipes": "Day 5 대패, Day 6 우삼겹, Day 9 우삼겹, Day 10 소불고기",
-    "query": "우삼겹 바로구이 1kg"
-  },
-  {
-    "id": 24,
-    "orderWeek": 1,
-    "storage": "fresh",
-    "cat": "🥬 신선식품",
-    "name": "국내산 신선 콩나물 (500g)",
-    "spec": "500g 1봉",
-    "qty": 1,
-    "unitPrice": 1600,
-    "total": 1600,
-    "weeks": "1~4주차",
-    "recipes": "Day 5 대패, Day 6 우삼겹, Day 17 대패, Day 18 우삼겹",
-    "query": "콩나물 500g"
   },
   {
     "id": 25,
     "orderWeek": 1,
     "storage": "fresh",
     "cat": "🥬 신선식품",
-    "name": "국내산 인큐 애호박 (1개)",
-    "spec": "1개 1입",
+    "name": "국내산 절단 대파 (500g)",
+    "spec": "500g 1봉",
     "qty": 1,
-    "unitPrice": 1800,
-    "total": 1800,
+    "unitPrice": 2900,
+    "total": 2900,
     "weeks": "1~4주차",
-    "recipes": "Day 6 우삼겹, Day 18 우삼겹, Day 30 우삼겹",
-    "query": "신선 애호박 1개"
+    "recipes": "Day 1 돼지고기, Day 2 불맛, Day 3 으깬스팸, Day 4 대패",
+    "query": "손질 대파 500g"
   },
   {
     "id": 26,
     "orderWeek": 1,
     "storage": "fresh",
     "cat": "🥬 신선식품",
-    "name": "하림 무항생제 닭다리살 정육 (1kg)",
-    "spec": "1kg 1봉",
+    "name": "국내산 깐마늘 (200g)",
+    "spec": "200g 1봉",
     "qty": 1,
-    "unitPrice": 13900,
-    "total": 13900,
+    "unitPrice": 2400,
+    "total": 2400,
     "weeks": "1~4주차",
-    "recipes": "Day 7 춘천, Day 11 안동식, Day 19 춘천, Day 23 안동식",
-    "query": "하림 닭다리살 1kg"
+    "recipes": "Day 1 돼지고기, Day 2 불맛, Day 3 으깬스팸, Day 4 대패",
+    "query": "깐마늘 200g"
   },
   {
     "id": 27,
     "orderWeek": 1,
     "storage": "fresh",
     "cat": "🥬 신선식품",
-    "name": "국내산 양배추 (1통)",
-    "spec": "1통 1개",
+    "name": "국내산 햇양파 (1.5kg)",
+    "spec": "1.5kg 1망",
     "qty": 1,
-    "unitPrice": 3400,
-    "total": 3400,
-    "weeks": "1~3주차",
-    "recipes": "Day 7 춘천, Day 19 춘천",
-    "query": "신선 양배추 1통"
+    "unitPrice": 3900,
+    "total": 3900,
+    "weeks": "1~4주차",
+    "recipes": "Day 2 불맛, Day 3 으깬스팸, Day 4 대패, Day 5 감자",
+    "query": "햇양파 1.5kg"
   },
   {
     "id": 28,
     "orderWeek": 1,
     "storage": "fresh",
     "cat": "🥬 신선식품",
-    "name": "국내산 흙감자 (1kg)",
-    "spec": "1kg 1봉",
+    "name": "곰곰 무항생제 신선 대란 (30구)",
+    "spec": "30구 1판",
     "qty": 1,
-    "unitPrice": 3900,
-    "total": 3900,
+    "unitPrice": 8900,
+    "total": 8900,
     "weeks": "1~4주차",
-    "recipes": "Day 7 춘천, Day 8 감자, Day 11 안동식, Day 19 춘천",
-    "query": "흙감자 1kg"
+    "recipes": "Day 2 불맛, Day 3 으깬스팸, Day 8 맑은, Day 11 철판",
+    "query": "무항생제 대란 30구"
   },
   {
     "id": 29,
-    "orderWeek": 2,
+    "orderWeek": 1,
     "storage": "fresh",
     "cat": "🥬 신선식품",
-    "name": "국내산 신선 숙주나물 (500g)",
-    "spec": "500g 1봉",
+    "name": "풀무원 국산 순두부 (350g)",
+    "spec": "350g 1봉",
     "qty": 1,
-    "unitPrice": 1800,
-    "total": 1800,
-    "weeks": "2~3주차",
-    "recipes": "Day 9 우삼겹, Day 21 우삼겹",
-    "query": "숙주나물 500g"
-  },
-  {
-    "id": 30,
-    "orderWeek": 2,
-    "storage": "fresh",
-    "cat": "🥬 신선식품",
-    "name": "국내산 생표고버섯 (4입)",
-    "spec": "4입 1팩",
-    "qty": 1,
-    "unitPrice": 3400,
-    "total": 3400,
-    "weeks": "2~4주차",
-    "recipes": "Day 10 소불고기, Day 22 소불고기",
-    "query": "생표고버섯 4입"
-  },
-  {
-    "id": 31,
-    "orderWeek": 2,
-    "storage": "fresh",
-    "cat": "🥬 신선식품",
-    "name": "국내산 팽이버섯 (3입)",
-    "spec": "3봉 1묶음",
-    "qty": 1,
-    "unitPrice": 1800,
-    "total": 1800,
-    "weeks": "2~4주차",
-    "recipes": "Day 10 소불고기, Day 22 소불고기",
-    "query": "팽이버섯 3봉"
+    "unitPrice": 1400,
+    "total": 1400,
+    "weeks": "1~3주차",
+    "recipes": "Day 3 으깬스팸, Day 17 얼큰, Day 19 버섯, Day 20 얼큰",
+    "query": "풀무원 순두부 350g"
   }
 ];
 
@@ -2001,10 +1980,21 @@
     const weekData = {
   "1": {
     "title": "1주차 식단 (Day 1 ~ Day 7)",
-    "freezerMsg": "🧊 <strong>1주차 주문 (139,600원)</strong>: 1주차 신선 식재료와 양념류를 수납합니다. 소형 냉동실 한 칸에 여유 있게 쏙 들어갑니다!",
+    "freezerMsg": "🧊 <strong>1주차 주문 (140,900원)</strong>: 1주차 신선 식재료와 양념류를 수납합니다. 소형 냉동실 한 칸에 여유 있게 쏙 들어갑니다!",
     "meals": [
       {
         "day": "Day 1",
+        "tag": "🇰🇷 한식",
+        "name": "돼지고기 김치찌개 (1인분)",
+        "chef": "",
+        "cal": "580.0",
+        "carb": "42",
+        "prot": "38",
+        "fat": "20",
+        "desc": "식재료 누적 3% 소진 (오늘: 돼지 앞다리살, 종가집 김치)"
+      },
+      {
+        "day": "Day 2",
         "tag": "🇰🇷 한식",
         "name": "불맛 제육볶음 + 계란파국 (1인분)",
         "chef": "",
@@ -2012,18 +2002,7 @@
         "carb": "62",
         "prot": "42",
         "fat": "24",
-        "desc": "식재료 누적 3% 소진 (오늘: 돼지 앞다리살, 대파 1대)"
-      },
-      {
-        "day": "Day 2",
-        "tag": "🇰🇷 한식",
-        "name": "갈아만든 배 제육볶음 (1인분)",
-        "chef": "",
-        "cal": "650.0",
-        "carb": "66",
-        "prot": "42",
-        "fat": "24",
-        "desc": "식재료 누적 7% 소진 (오늘: 돼지 앞다리살, 갈아만든 배)"
+        "desc": "식재료 누적 7% 소진 (오늘: 돼지 앞다리살, 대파 1대)"
       },
       {
         "day": "Day 3",
@@ -2039,55 +2018,16 @@
       {
         "day": "Day 4",
         "tag": "🇰🇷 한식",
-        "name": "돼지고기 김치찌개 (1인분)",
-        "chef": "",
-        "cal": "580.0",
-        "carb": "42",
-        "prot": "38",
-        "fat": "20",
-        "desc": "식재료 누적 13% 소진 (오늘: 돼지 앞다리살, 종가집 김치)"
-      },
-      {
-        "day": "Day 5",
-        "tag": "🇰🇷 한식",
         "name": "대패 콩나물 불고기 (콩불) (1인분)",
         "chef": "",
         "cal": "610.0",
         "carb": "48",
         "prot": "38",
         "fat": "24",
-        "desc": "식재료 누적 17% 소진 (오늘: 소 우삼겹, 신선 콩나물)"
+        "desc": "식재료 누적 13% 소진 (오늘: 소 우삼겹, 신선 콩나물)"
       },
       {
-        "day": "Day 6",
-        "tag": "🇰🇷 한식",
-        "name": "우삼겹 된장찌개 + 콩나물무침 (1인분)",
-        "chef": "",
-        "cal": "570.0",
-        "carb": "40",
-        "prot": "36",
-        "fat": "22",
-        "desc": "식재료 누적 20% 소진 (오늘: 소 우삼겹, 찌개용 두부)"
-      },
-      {
-        "day": "Day 7",
-        "tag": "🇰🇷 한식",
-        "name": "춘천 닭갈비 덮밥 (1인분)",
-        "chef": "",
-        "cal": "640.0",
-        "carb": "72",
-        "prot": "42",
-        "fat": "19",
-        "desc": "식재료 누적 23% 소진 (오늘: 닭다리 순살, 양배추 100g)"
-      }
-    ]
-  },
-  "2": {
-    "title": "2주차 식단 (Day 8 ~ Day 14)",
-    "freezerMsg": "🧊 <strong>2주차 주문 (7,000원)</strong>: 1주차 재료가 소진된 빈자리에 2주차 신선 단백질과 채소가 신선하게 보충됩니다!",
-    "meals": [
-      {
-        "day": "Day 8",
+        "day": "Day 5",
         "tag": "🇰🇷 한식",
         "name": "감자 스팸 짜글이 덮밥 (1인분)",
         "chef": "",
@@ -2095,10 +2035,10 @@
         "carb": "75",
         "prot": "28",
         "fat": "22",
-        "desc": "식재료 누적 27% 소진 (오늘: 스팸 클래식, 감자 1개)"
+        "desc": "식재료 누적 17% 소진 (오늘: 스팸 클래식, 감자 1개)"
       },
       {
-        "day": "Day 9",
+        "day": "Day 6",
         "tag": "🇰🇷 한식",
         "name": "우삼겹 숙주볶음 (1인분)",
         "chef": "",
@@ -2106,62 +2046,101 @@
         "carb": "25",
         "prot": "36",
         "fat": "28",
-        "desc": "식재료 누적 30% 소진 (오늘: 소 우삼겹, 신선 숙주나물)"
+        "desc": "식재료 누적 20% 소진 (오늘: 소 우삼겹, 신선 숙주나물)"
+      },
+      {
+        "day": "Day 7",
+        "tag": "🇰🇷 한식",
+        "name": "대패삼겹 파채 두루치기 (1인분)",
+        "chef": "",
+        "cal": "650.0",
+        "carb": "35",
+        "prot": "40",
+        "fat": "38",
+        "desc": "식재료 누적 23% 소진 (오늘: 대패 삼겹살, 신선 파채)"
+      }
+    ]
+  },
+  "2": {
+    "title": "2주차 식단 (Day 8 ~ Day 14)",
+    "freezerMsg": "🧊 <strong>2주차 주문 (0원)</strong>: 1주차 재료가 소진된 빈자리에 2주차 신선 단백질과 채소가 신선하게 보충됩니다!",
+    "meals": [
+      {
+        "day": "Day 8",
+        "tag": "🇰🇷 한식",
+        "name": "맑은 소고기 뭇국 + 계란말이 (1인분)",
+        "chef": "",
+        "cal": "560.0",
+        "carb": "30",
+        "prot": "44",
+        "fat": "26",
+        "desc": "식재료 누적 27% 소진 (오늘: 소 우삼겹, 신선 무)"
+      },
+      {
+        "day": "Day 9",
+        "tag": "🇰🇷 한식",
+        "name": "칼칼한 돼지고기 고추장찌개 (1인분)",
+        "chef": "",
+        "cal": "620.0",
+        "carb": "45",
+        "prot": "38",
+        "fat": "28",
+        "desc": "식재료 누적 30% 소진 (오늘: 돼지 앞다리살, 감자 1개)"
       },
       {
         "day": "Day 10",
         "tag": "🇰🇷 한식",
-        "name": "소불고기 버섯 전골 (1인분)",
+        "name": "구수한 들깨 애호박 감자 수제비 (1인분)",
         "chef": "",
-        "cal": "620.0",
-        "carb": "45",
-        "prot": "44",
-        "fat": "24",
-        "desc": "식재료 누적 33% 소진 (오늘: 소 우삼겹, 생표고버섯 2개)"
+        "cal": "520.0",
+        "carb": "85",
+        "prot": "18",
+        "fat": "12",
+        "desc": "식재료 누적 33% 소진 (오늘: 감자수제비 180g, 감자 1개)"
       },
       {
         "day": "Day 11",
         "tag": "🇰🇷 한식",
-        "name": "안동식 순살 찜닭 (1인분)",
+        "name": "철판 스팸 김치볶음밥 + 반숙 후라이 (1인분)",
         "chef": "",
-        "cal": "680.0",
-        "carb": "82",
-        "prot": "45",
-        "fat": "20",
-        "desc": "식재료 누적 37% 소진 (오늘: 닭다리 순살, 감자 1개)"
+        "cal": "620.0",
+        "carb": "75",
+        "prot": "28",
+        "fat": "22",
+        "desc": "식재료 누적 37% 소진 (오늘: 종가집 묵은지, 스팸 클래식)"
       },
       {
         "day": "Day 12",
         "tag": "🇰🇷 한식",
-        "name": "매콤 돼지갈비 두루치기 (1인분)",
+        "name": "불맛 우삼겹 비빔국수 (1인분)",
         "chef": "",
-        "cal": "710.0",
-        "carb": "45",
-        "prot": "45",
-        "fat": "36",
-        "desc": "식재료 누적 40% 소진 (오늘: 한돈 통삼겹, 양파 0.5개)"
+        "cal": "640.0",
+        "carb": "82",
+        "prot": "32",
+        "fat": "20",
+        "desc": "식재료 누적 40% 소진 (오늘: 소 우삼겹, 소면 100g)"
       },
       {
         "day": "Day 13",
         "tag": "🇰🇷 한식",
-        "name": "불맛 제육볶음 + 계란파국 (1인분)",
+        "name": "만능간장 가지밥 + 부추양념장 (1인분)",
         "chef": "",
-        "cal": "640.0",
-        "carb": "62",
-        "prot": "42",
-        "fat": "24",
-        "desc": "식재료 누적 43% 소진 (오늘: 돼지 앞다리살, 대파 1대)"
+        "cal": "520.0",
+        "carb": "72",
+        "prot": "24",
+        "fat": "14",
+        "desc": "식재료 누적 43% 소진 (오늘: 신선 가지, 돼지 앞다리살)"
       },
       {
         "day": "Day 14",
         "tag": "🇰🇷 한식",
-        "name": "갈아만든 배 제육볶음 (1인분)",
+        "name": "매콤 단짠 두부조림 + 계란국 (1인분)",
         "chef": "",
-        "cal": "650.0",
-        "carb": "66",
-        "prot": "42",
-        "fat": "24",
-        "desc": "식재료 누적 47% 소진 (오늘: 돼지 앞다리살, 갈아만든 배)"
+        "cal": "480.0",
+        "carb": "35",
+        "prot": "32",
+        "fat": "20",
+        "desc": "식재료 누적 47% 소진 (오늘: 풀무원 두부, 계란 2알)"
       }
     ]
   },
@@ -2172,79 +2151,79 @@
       {
         "day": "Day 15",
         "tag": "🇰🇷 한식",
-        "name": "으깬스팸 불맛 순두부찌개 (1인분)",
+        "name": "바삭 감자채전 + 5색 나물비빔밥 (1인분)",
         "chef": "",
-        "cal": "590.0",
-        "carb": "32",
-        "prot": "35",
-        "fat": "28",
-        "desc": "식재료 누적 50% 소진 (오늘: 순두부 1봉, 스팸 클래식)"
+        "cal": "580.0",
+        "carb": "85",
+        "prot": "20",
+        "fat": "18",
+        "desc": "식재료 누적 50% 소진 (오늘: 감자 2개, 콩나물 100g)"
       },
       {
         "day": "Day 16",
         "tag": "🇰🇷 한식",
-        "name": "돼지고기 김치찌개 (1인분)",
+        "name": "단짠 스팸마요 덮밥 + 뚝배기 계란찜 (1인분)",
         "chef": "",
-        "cal": "580.0",
-        "carb": "42",
-        "prot": "38",
-        "fat": "20",
-        "desc": "식재료 누적 53% 소진 (오늘: 돼지 앞다리살, 종가집 김치)"
+        "cal": "680.0",
+        "carb": "72",
+        "prot": "32",
+        "fat": "28",
+        "desc": "식재료 누적 53% 소진 (오늘: 스팸 클래식, 계란 3알)"
       },
       {
         "day": "Day 17",
         "tag": "🇰🇷 한식",
-        "name": "대패 콩나물 불고기 (콩불) (1인분)",
+        "name": "얼큰 순두부 열라면 국밥 (1인분)",
         "chef": "",
-        "cal": "610.0",
-        "carb": "48",
-        "prot": "38",
-        "fat": "24",
-        "desc": "식재료 누적 57% 소진 (오늘: 소 우삼겹, 신선 콩나물)"
+        "cal": "530.0",
+        "carb": "65",
+        "prot": "26",
+        "fat": "16",
+        "desc": "식재료 누적 57% 소진 (오늘: 순두부 1봉, 열라면 1봉)"
       },
       {
         "day": "Day 18",
         "tag": "🇰🇷 한식",
-        "name": "우삼겹 된장찌개 + 콩나물무침 (1인분)",
+        "name": "달큰 애호박 채전 + 간장 비빔국수 (1인분)",
         "chef": "",
-        "cal": "570.0",
-        "carb": "40",
-        "prot": "36",
-        "fat": "22",
-        "desc": "식재료 누적 60% 소진 (오늘: 소 우삼겹, 찌개용 두부)"
+        "cal": "510.0",
+        "carb": "82",
+        "prot": "15",
+        "fat": "14",
+        "desc": "식재료 누적 60% 소진 (오늘: 애호박 1개, 소면 100g)"
       },
       {
         "day": "Day 19",
         "tag": "🇰🇷 한식",
-        "name": "춘천 닭갈비 덮밥 (1인분)",
+        "name": "버섯 들깨 순두부 백탕 (1인분)",
         "chef": "",
-        "cal": "640.0",
-        "carb": "72",
-        "prot": "42",
-        "fat": "19",
-        "desc": "식재료 누적 63% 소진 (오늘: 닭다리 순살, 양배추 100g)"
+        "cal": "460.0",
+        "carb": "28",
+        "prot": "24",
+        "fat": "18",
+        "desc": "식재료 누적 63% 소진 (오늘: 순두부 1봉, 새송이버섯 1개)"
       },
       {
         "day": "Day 20",
         "tag": "🇰🇷 한식",
-        "name": "감자 스팸 짜글이 덮밥 (1인분)",
+        "name": "얼큰 차돌 순두부찌개 (1인분)",
         "chef": "",
-        "cal": "620.0",
-        "carb": "75",
-        "prot": "28",
-        "fat": "22",
-        "desc": "식재료 누적 67% 소진 (오늘: 스팸 클래식, 감자 1개)"
+        "cal": "560.0",
+        "carb": "28",
+        "prot": "36",
+        "fat": "24",
+        "desc": "식재료 누적 67% 소진 (오늘: 소 우삼겹, 순두부 1봉)"
       },
       {
         "day": "Day 21",
         "tag": "🇰🇷 한식",
-        "name": "우삼겹 숙주볶음 (1인분)",
+        "name": "노릇 대파 삼겹살 덮밥 (1인분)",
         "chef": "",
-        "cal": "570.0",
-        "carb": "25",
-        "prot": "36",
-        "fat": "28",
-        "desc": "식재료 누적 70% 소진 (오늘: 소 우삼겹, 신선 숙주나물)"
+        "cal": "690.0",
+        "carb": "68",
+        "prot": "38",
+        "fat": "30",
+        "desc": "식재료 누적 70% 소진 (오늘: 한돈 통삼겹, 대파 1대)"
       }
     ]
   },
@@ -2255,46 +2234,46 @@
       {
         "day": "Day 22",
         "tag": "🇰🇷 한식",
-        "name": "소불고기 버섯 전골 (1인분)",
+        "name": "단짠 궁중 소불고기 떡볶이 (1인분)",
         "chef": "",
-        "cal": "620.0",
-        "carb": "45",
-        "prot": "44",
-        "fat": "24",
-        "desc": "식재료 누적 73% 소진 (오늘: 소 우삼겹, 생표고버섯 2개)"
+        "cal": "610.0",
+        "carb": "78",
+        "prot": "32",
+        "fat": "16",
+        "desc": "식재료 누적 73% 소진 (오늘: 소 우삼겹, 쌀 떡볶이떡)"
       },
       {
         "day": "Day 23",
         "tag": "🇰🇷 한식",
-        "name": "안동식 순살 찜닭 (1인분)",
+        "name": "소고기 모둠버섯 솥밥 (1인분)",
         "chef": "",
-        "cal": "680.0",
-        "carb": "82",
-        "prot": "45",
-        "fat": "20",
-        "desc": "식재료 누적 77% 소진 (오늘: 닭다리 순살, 감자 1개)"
+        "cal": "580.0",
+        "carb": "70",
+        "prot": "35",
+        "fat": "18",
+        "desc": "식재료 누적 77% 소진 (오늘: 소 우삼겹, 새송이버섯 1개)"
       },
       {
         "day": "Day 24",
         "tag": "🇰🇷 한식",
-        "name": "매콤 돼지갈비 두루치기 (1인분)",
+        "name": "한돈 묵은지 삼겹살 두루치기 (1인분)",
         "chef": "",
-        "cal": "710.0",
-        "carb": "45",
-        "prot": "45",
-        "fat": "36",
-        "desc": "식재료 누적 80% 소진 (오늘: 한돈 통삼겹, 양파 0.5개)"
+        "cal": "680.0",
+        "carb": "42",
+        "prot": "44",
+        "fat": "34",
+        "desc": "식재료 누적 80% 소진 (오늘: 한돈 통삼겹, 종가집 묵은지)"
       },
       {
         "day": "Day 25",
         "tag": "🇰🇷 한식",
-        "name": "불맛 제육볶음 + 계란파국 (1인분)",
+        "name": "뚝배기 소불고기 뚝불 (1인분)",
         "chef": "",
-        "cal": "640.0",
+        "cal": "620.0",
         "carb": "62",
-        "prot": "42",
-        "fat": "24",
-        "desc": "식재료 누적 83% 소진 (오늘: 돼지 앞다리살, 대파 1대)"
+        "prot": "38",
+        "fat": "20",
+        "desc": "식재료 누적 83% 소진 (오늘: 소 우삼겹, 오뚜기 당면)"
       },
       {
         "day": "Day 26",
@@ -2310,45 +2289,45 @@
       {
         "day": "Day 27",
         "tag": "🇰🇷 한식",
-        "name": "으깬스팸 불맛 순두부찌개 (1인분)",
-        "chef": "",
-        "cal": "590.0",
-        "carb": "32",
-        "prot": "35",
-        "fat": "28",
-        "desc": "식재료 누적 90% 소진 (오늘: 순두부 1봉, 스팸 클래식)"
-      },
-      {
-        "day": "Day 28",
-        "tag": "🇰🇷 한식",
-        "name": "돼지고기 김치찌개 (1인분)",
-        "chef": "",
-        "cal": "580.0",
-        "carb": "42",
-        "prot": "38",
-        "fat": "20",
-        "desc": "식재료 누적 93% 소진 (오늘: 돼지 앞다리살, 종가집 김치)"
-      },
-      {
-        "day": "Day 29",
-        "tag": "🇰🇷 한식",
-        "name": "대패 콩나물 불고기 (콩불) (1인분)",
-        "chef": "",
-        "cal": "610.0",
-        "carb": "48",
-        "prot": "38",
-        "fat": "24",
-        "desc": "식재료 누적 97% 소진 (오늘: 소 우삼겹, 신선 콩나물)"
-      },
-      {
-        "day": "Day 30",
-        "tag": "🇰🇷 한식",
         "name": "우삼겹 된장찌개 + 콩나물무침 (1인분)",
         "chef": "",
         "cal": "570.0",
         "carb": "40",
         "prot": "36",
         "fat": "22",
+        "desc": "식재료 누적 90% 소진 (오늘: 소 우삼겹, 찌개용 두부)"
+      },
+      {
+        "day": "Day 28",
+        "tag": "🇰🇷 한식",
+        "name": "춘천 닭갈비 덮밥 (1인분)",
+        "chef": "",
+        "cal": "640.0",
+        "carb": "72",
+        "prot": "42",
+        "fat": "19",
+        "desc": "식재료 누적 93% 소진 (오늘: 닭다리 순살, 양배추 100g)"
+      },
+      {
+        "day": "Day 29",
+        "tag": "🇰🇷 한식",
+        "name": "닭가슴살 깍둑 비빔밥 + 된장국 (1인분)",
+        "chef": "",
+        "cal": "540.0",
+        "carb": "68",
+        "prot": "45",
+        "fat": "12",
+        "desc": "식재료 누적 97% 소진 (오늘: 닭가슴살 150g, 계란 1알)"
+      },
+      {
+        "day": "Day 30",
+        "tag": "🇰🇷 한식",
+        "name": "소불고기 버섯 전골 (1인분)",
+        "chef": "",
+        "cal": "620.0",
+        "carb": "45",
+        "prot": "44",
+        "fat": "24",
         "desc": "식재료 100% 전량 완판 소진 (음식물 쓰레기 0% 달성!)"
       }
     ]
@@ -2830,7 +2809,7 @@
               <strong style="color: #f87171;">⚠️ 스마트폰(모바일) 접속 감지: 자동 담기 불가</strong><br>
               <span style="color: #cbd5e1; font-size: 0.82rem; line-height: 1.45; display: block; margin-top: 2px;">
                 스마트폰 브라우저는 기술 보안 제약상 <strong>자동 장바구니 담기가 불가능</strong>합니다.<br>
-                원클릭 자동 담기는 <strong>반드시 PC(노트북) 크롬</strong>으로 접속해 실행해 주세요!<br>
+                원클릭 자동 담기는 <strong>PC(노트북) 크롬 또는 네이버 웨일</strong>로 접속해 실행해 주세요!<br>
                 (현재 모바일에서는 상품 목록 우측 [쿠팡 ↗] 링크를 눌러 1개씩 직접 담으실 수 있습니다.)
               </span>
             </div>
@@ -2848,8 +2827,8 @@
           bgBanner.innerHTML = `
             <span style="font-size: 1.4rem; flex-shrink: 0;">💻</span>
             <div>
-              <strong style="color: #38bdf8;">PC 전용 크롬 확장프로그램 필요:</strong><br>
-              쿠팡 원클릭 자동 담기는 <strong>PC(노트북) 크롬 브라우저</strong>에서만 작동합니다!<br>
+              <strong style="color: #38bdf8;">PC 전용 확장 프로그램 필요 (크롬 & 네이버 웨일 지원):</strong><br>
+              쿠팡 원클릭 자동 담기는 <strong>PC(노트북) 크롬 또는 네이버 웨일 브라우저</strong>에서 작동합니다!<br>
               <span style="font-size: 0.78rem; color: #94a3b8;">PC에서 담아두시면 스마트폰 쿠팡 앱에 실시간 자동 동기화됩니다.</span>
             </div>
           `;
@@ -3002,8 +2981,8 @@
         }
         if (btnStop) btnStop.style.display = 'none';
         if (btnHeaderStop) btnHeaderStop.style.display = 'none';
-        showToast('📱 모바일에서는 자동 담기가 불가합니다. 꼭 PC 크롬에서 실행해 주세요!');
-        alert('⚠️ [PC 전용 기능 안내]\n\n스마트폰 브라우저는 확장프로그램 보안 제약으로 인해 쿠팡 자동 장바구니 담기가 지원되지 않습니다.\n\n원클릭 자동 담기를 이용하시려면 꼭 [PC / 노트북 크롬 브라우저]에서 이 페이지를 열어 실행해 주세요!\n(모바일에서는 상품 목록 우측 [쿠팡 ↗] 링크를 눌러 1개씩 직접 담으실 수 있습니다.)');
+        showToast('📱 모바일에서는 자동 담기가 불가합니다. 꼭 PC 크롬 또는 네이버 웨일에서 실행해 주세요!');
+        alert('⚠️ [PC 전용 기능 안내]\n\n스마트폰 브라우저는 확장프로그램 보안 제약으로 인해 쿠팡 자동 장바구니 담기가 지원되지 않습니다.\n\n원클릭 자동 담기를 이용하시려면 꼭 [PC / 노트북 크롬 또는 네이버 웨일 브라우저]에서 이 페이지를 열어 실행해 주세요!\n(모바일에서는 상품 목록 우측 [쿠팡 ↗] 링크를 눌러 1개씩 직접 담으실 수 있습니다.)');
         return;
       }
 
@@ -3018,7 +2997,7 @@
           localStorage.setItem('zipbabbot_extension_installed', 'true');
           sessionStorage.setItem('zipbabbot_extension_installed', 'true');
         } catch(e) {}
-        document.getElementById('batch-progress-status').innerText = `🧩 크롬 확장 프로그램을 통해 자동 담기 시작 중...`;
+        document.getElementById('batch-progress-status').innerText = `🧩 확장 프로그램을 통해 자동 담기 시작 중...`;
         const extensionPayload = targetList.map(t => ({
           index: t.originalIndex,
           query: t.item.query,
@@ -3039,7 +3018,7 @@
             }
             if (btnStop) btnStop.style.display = 'none';
             if (btnHeaderStop) btnHeaderStop.style.display = 'none';
-            alert('⚠️ [크롬 확장 프로그램 연결 안내]\n\n확장 프로그램이 설치되어 있으나 아직 최신 버전으로 새로고침되지 않아 백그라운드 통신이 지연되고 있습니다.\n\n해결 방법 (3초):\n1. 새 탭에서 chrome://extensions 로 이동합니다.\n2. [집밥봇 - 쿠팡 장바구니 1초 자동 담기 도우미] 카드의 새로고침(🔄) 아이콘을 한 번 클릭해 주세요!\n3. 이 페이지로 돌아와 다시 [한 번에 담기 시작]을 누르시면 정상 작동합니다.');
+            alert('⚠️ [확장 프로그램 연결 안내]\n\n확장 프로그램이 설치되어 있으나 아직 브라우저에서 최신 버전으로 새로고침되지 않아 백그라운드 통신이 지연되고 있습니다.\n\n해결 방법 (3초):\n1. 새 탭에서 chrome://extensions (웨일은 whale://extensions) 로 이동합니다.\n2. [집밥봇 - 쿠팡 장바구니 1초 자동 담기 도우미] 카드의 새로고침(🔄) 아이콘을 한 번 클릭해 주세요!\n3. 이 페이지로 돌아와 다시 [한 번에 담기 시작]을 누르시면 정상 작동합니다.');
           }
         }, 6000);
 
@@ -3226,7 +3205,7 @@
         const pStatus = document.getElementById('batch-progress-status');
         if (pBar) pBar.style.width = `${pct}%`;
         if (pPct) pPct.innerText = `${pct}%`;
-        if (pStatus) pStatus.innerText = `[${data.step}/${data.total}] ${data.item.name} 담는 중... (크롬 확장 프로그램)`;
+        if (pStatus) pStatus.innerText = `[${data.step}/${data.total}] ${data.item.name} 담는 중... (자동 담기 확장 프로그램)`;
       } else if (data.type === 'ZIPBABBOT_ITEM_DONE') {
         window.__zipbabbot_received_progress = true;
         clearTimeout(window.__zipbabbot_watchdog_timer);
@@ -3262,7 +3241,7 @@
         document.getElementById('batch-progress-bar').style.width = '100%';
         document.getElementById('batch-progress-percent').innerText = '100%';
         document.getElementById('batch-progress-status').innerHTML = '🎉 <strong>모든 품목 담기 완료!</strong> ➔ <span style="color: #38bdf8;">쿠팡 장바구니 창을 열었습니다.</span>';
-        showToast('🎉 크롬 확장 프로그램을 통해 모든 식재료가 쿠팡 장바구니에 정상 담겼습니다!');
+        showToast('🎉 확장 프로그램을 통해 모든 식재료가 쿠팡 장바구니에 정상 담겼습니다!');
       }
     });
 
@@ -3273,7 +3252,7 @@
         banner.innerHTML = `
           <span style="font-size: 1.4rem; flex-shrink: 0;">⚡</span>
           <div>
-            <strong style="color: #34d399;">🟢 집밥봇 크롬 확장 프로그램 활성화됨:</strong><br>
+            <strong style="color: #34d399;">🟢 집밥봇 자동 담기 확장 프로그램 활성화됨:</strong><br>
             아래 [🚀 한 번에 담기 시작]을 누르시면 백그라운드 탭에서 쿠팡 장바구니에 진짜로 쏙 담깁니다!<br>
             <span style="font-size: 0.78rem; color: #94a3b8;">📱 담긴 후 스마트폰 쿠팡 앱을 열어보시면 실시간 100% 동기화되어 모바일로 편하게 결제 가능합니다.</span>
           </div>

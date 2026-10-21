@@ -3,7 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>🍳 [1인 가구] 한·일·중·양 4대 요리 30일 황금 레시피 & 영양 매니저</title>
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="🍳 노한석님 전용 30끼 황금 레시피 | 집밥봇">
+  <meta property="og:description" content="노한석님 맞춤 한식, 일식, 중식, 양식 10분 컷 초간단 집밥 레시피">
+  <meta property="og:image" content="https://bohwan100.github.io/zipbab/assets/icon.png">
+  <link rel="icon" type="image/png" href="https://bohwan100.github.io/zipbab/assets/icon.png">
+  <link rel="apple-touch-icon" href="https://bohwan100.github.io/zipbab/assets/icon.png">
+  <title>🍳 노한석님 전용 30끼 황금 레시피 | 집밥봇</title>
   <script>
     (function() {
       var ua = navigator.userAgent.toLowerCase();
@@ -137,6 +146,160 @@
       transition: background 0.2s;
     }
     .btn-cart-page:hover { background: #005bb5; }
+
+    /* Clean Segmented Mode Selector */
+    .view-mode-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+    .view-mode-tabs {
+      display: inline-flex;
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 12px;
+      padding: 4px;
+      gap: 4px;
+    }
+    .view-mode-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      padding: 9px 18px;
+      border-radius: 9px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+    .view-mode-btn.active {
+      background: var(--primary);
+      color: #fff;
+      box-shadow: 0 4px 12px rgba(249, 115, 22, 0.35);
+    }
+    .view-mode-btn:hover:not(.active) {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    /* Week Timeline Bar */
+    .week-timeline-bar {
+      background: rgba(18, 24, 38, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: var(--radius);
+      padding: 16px 20px;
+      margin-bottom: 24px;
+      backdrop-filter: blur(12px);
+    }
+    .week-chips {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      padding-bottom: 10px;
+      margin-bottom: 10px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+    .week-chip {
+      background: rgba(30, 41, 59, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #cbd5e1;
+      padding: 9px 18px;
+      border-radius: 9999px;
+      font-size: 0.88rem;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s;
+    }
+    .week-chip:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+    }
+    .week-chip.active {
+      background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+      border-color: #f97316;
+      color: #fff;
+      box-shadow: 0 4px 14px rgba(249, 115, 22, 0.4);
+    }
+    .week-summary-pill {
+      font-size: 0.86rem;
+      color: #94a3b8;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      line-height: 1.5;
+    }
+    .week-summary-pill strong {
+      color: #38bdf8;
+    }
+
+    /* Cook Check Button */
+    .btn-cook-check {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #cbd5e1;
+      padding: 4px 11px;
+      border-radius: 8px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.2s;
+    }
+    .btn-cook-check:hover {
+      background: rgba(16, 185, 129, 0.15);
+      border-color: #10b981;
+      color: #34d399;
+    }
+    .btn-cook-check.cooked {
+      background: rgba(16, 185, 129, 0.2);
+      border-color: #10b981;
+      color: #34d399;
+      box-shadow: 0 0 10px rgba(16, 185, 129, 0.25);
+    }
+
+    .recipe-card.is-cooked {
+      border-color: rgba(16, 185, 129, 0.4) !important;
+      background: rgba(16, 26, 28, 0.85);
+    }
+    .recipe-card.is-cooked .recipe-title {
+      color: #94a3b8;
+      text-decoration: line-through;
+      text-decoration-color: #10b981;
+      text-decoration-thickness: 2px;
+    }
+
+    /* Cooked Toast Banner */
+    .cooked-toast {
+      position: fixed;
+      bottom: 25px;
+      left: 50%;
+      transform: translateX(-50%) translateY(90px);
+      background: linear-gradient(135deg, #059669 0%, #047857 100%);
+      color: #ffffff;
+      padding: 13px 24px;
+      border-radius: 9999px;
+      font-weight: 800;
+      font-size: 0.95rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(16, 185, 129, 0.4);
+      border: 1.5px solid rgba(255, 255, 255, 0.35);
+      z-index: 99999;
+      opacity: 0;
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      pointer-events: none;
+    }
+    .cooked-toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
 
     .recipe-grid {
       display: grid;
@@ -512,18 +675,43 @@
       </div>
     </header>
 
-    <!-- Navigation & Search -->
-    <div class="nav-bar">
+    <!-- View Mode Segmented Controls -->
+    <div class="view-mode-bar">
+      <div class="view-mode-tabs">
+        <button type="button" class="view-mode-btn active" id="btn-mode-timeline" onclick="setViewMode('timeline')">
+          📅 7일 챌린지 로드맵 (주차별)
+        </button>
+        <button type="button" class="view-mode-btn" id="btn-mode-all" onclick="setViewMode('all')">
+          🍽️ 전체 요리 일람 (30종)
+        </button>
+      </div>
+      <div class="search-box">
+        <span>🔍</span>
+        <input type="text" id="recipe-search" placeholder="요리명 또는 재료 검색 (예: 두루치기, 양파)" onkeyup="searchRecipe()">
+      </div>
+    </div>
+
+    <!-- Week Timeline Bar (Default in Timeline Mode) -->
+    <div class="week-timeline-bar" id="week-timeline-bar">
+      <div class="week-chips">
+        <button type="button" class="week-chip active" id="btn-week-1" onclick="selectWeek(1)">🔥 1주차 (Day 1~7)</button>
+        <button type="button" class="week-chip" id="btn-week-2" onclick="selectWeek(2)">⚡ 2주차 (Day 8~14)</button>
+        <button type="button" class="week-chip" id="btn-week-3" onclick="selectWeek(3)">🌿 3주차 (Day 15~21)</button>
+        <button type="button" class="week-chip" id="btn-week-4" onclick="selectWeek(4)">👑 4주차 (Day 22~30)</button>
+      </div>
+      <div class="week-summary-pill" id="week-summary-pill">
+        💡 <strong>1주차 소진 플랜</strong>: 1주차 장보기 재료로 7일간 냉장고 잔여 식재료 0g 전량 소진! (월~일 순차 조리 추천)
+      </div>
+    </div>
+
+    <!-- Navigation & Category Filters (Shown in All Dishes mode, build_client.py compatible) -->
+    <div class="nav-bar" id="category-filter-nav" style="display: none;">
       <div class="cuisine-filters">
         <button class="btn-filter active" onclick="filterCuisine('all', this)">전체 (30끼)</button>
         <button class="btn-filter" onclick="filterCuisine('한식', this)">🇰🇷 한식 (8끼)</button>
         <button class="btn-filter" onclick="filterCuisine('일식', this)">🇯🇵 일식 (8끼)</button>
         <button class="btn-filter" onclick="filterCuisine('양식', this)">🇪🇺 양식 (7끼)</button>
         <button class="btn-filter" onclick="filterCuisine('중식', this)">🇨🇳 중식 (7끼)</button>
-      </div>
-      <div class="search-box">
-        <span>🔍</span>
-        <input type="text" id="recipe-search" placeholder="요리명 또는 재료 검색 (예: 규동, 스테이크)" onkeyup="searchRecipe()">
       </div>
       <a href="cart.html" class="btn-cart-page">🛒 장바구니 매니저로 이동</a>
     </div>
@@ -567,7 +755,7 @@
       "채 썬 양파와 어슷 썬 대파를 넣고 센 불에서 딱 1분 30초간 빠르게 볶아 아삭함을 살리고 참기름 1t를 둘러 완성합니다.",
       "[계란파국] 냄비에 물 250ml와 간장 0.5t, 대파를 넣고 끓이다가 푼 계란 1알을 둘러 20초 후 불을 끄고 제육볶음과 함께 냅니다."
     ],
-    "tip": "★황금 조리 팁: 백종원 비법대로 고기 구울 때 설탕 1T를 먼저 넣어 카라멜 코팅을 입히고, 간장을 팬 가장자리에 태우듯 둘러야 기사식당 특유의 깊은 불맛 제육이 완성됩니다."
+    "tip": "★자취생 초간단 꿀팁: 셰프의 비법대로 고기 구울 때 설탕 1T를 먼저 넣어 카라멜 코팅을 입히고, 간장을 팬 가장자리에 태우듯 둘러야 기사식당 특유의 깊은 불맛 제육이 완성됩니다."
   },
   {
     "day": 2,
@@ -596,7 +784,7 @@
       "육수가 끓어오르면 핏기를 닦은 우삼겹 140g을 뭉치지 않게 한 장씩 떼어 넣고, 중불에서 딱 2분간만 부드럽게 익힙니다.",
       "따뜻한 밥 위에 국물이 자작하게 밴 양파와 우삼겹을 소복하게 올리고, 남은 달콤짭조름한 소스를 3~4숟가락 밥 위에 끼얹은 뒤 계란 노른자를 정가운데에 얹어 완성합니다."
     ],
-    "tip": "★황금 조리 팁: 양파를 먼저 볶아 천연 단맛을 내고 쯔유에 미림과 설탕을 배합한 특제 소스에 고기를 살짝 익혀야 일본 현지 규동 전문점의 야들야들한 식감이 살아납니다."
+    "tip": "★자취생 초간단 꿀팁: 양파를 먼저 볶아 천연 단맛을 내고 쯔유에 미림과 설탕을 배합한 특제 소스에 고기를 살짝 익혀야 일본 현지 규동 전문점의 야들야들한 식감이 살아납니다."
   },
   {
     "day": 3,
@@ -625,7 +813,7 @@
       "손으로 으깬 페페론치노 4개를 넣고 30초간 볶아 매콤한 오일 향을 올립니다.",
       "삶은 면, 면수 80ml, 치킨스톡 0.3t를 넣고 센 불에서 팬을 힘차게 돌려 오일과 면수가 뽀얗게 유화(만테까레)되도록 1분간 저어주고, 불 끄고 파마산 치즈 1.5T와 순후추를 뿌려 완성합니다."
     ],
-    "tip": "★황금 조리 팁: 면수 소금간(물 1L에 소금 1T)과 페페론치노의 매콤함, 면수의 전분질과 올리브유가 만나 뽀얗게 에멀전 유화되어야 오일 소스가 면에 착 감기며 치즈와 치킨스톡이 레스토랑의 깊은 감칠맛을 완성합니다."
+    "tip": "★자취생 초간단 꿀팁: 면수 소금간(물 1L에 소금 1T)과 페페론치노의 매콤함, 면수의 전분질과 올리브유가 만나 뽀얗게 에멀전 유화되어야 오일 소스가 면에 착 감기며 치즈와 치킨스톡이 레스토랑의 깊은 감칠맛을 완성합니다."
   },
   {
     "day": 4,
@@ -653,12 +841,12 @@
     ],
     "waste": "누적 13% 식단 소진 | 찌개용 두부 1모 소진 (누적 1/2.5모, 40%), 돼지 앞다리살 120g 소진 (누적 270/710g, 38%), 대파 1대 소진 (누적 2/13.1대, 15%)",
     "steps": [
-      "두부를 1.5cm 주사위 모양으로 썰어 끓는 물에 꽃소금 0.5T를 넣고 1분간 데쳐 건져둡니다 (부서짐 방지 및 탄력 유지).",
+      "두부는 깍둑썰고, 대파는 쫑쫑 썰어 준비합니다 (두부를 따로 데칠 필요 없이 팬 하나로 바로 조리합니다).",
       "팬에 식용유를 두르고 다진 대파와 다진 마늘을 볶아 향을 낸 뒤 다진 고기를 넣고 수분이 날아갈 때까지 바싹 볶습니다.",
       "고추장 1T, 진간장 1T, 굴소스 1t, 고춧가루 1t, 설탕 0.5t를 넣고 볶아 고추기름을 낸 뒤 물 180ml를 붓고 끓입니다.",
-      "데친 두부를 넣고 2분간 양념이 배게 끓인 뒤, 물전분(전분 1t + 물 2T)을 둘러 농도를 맞추고 참기름 1t를 둘러 밥 위에 올립니다."
+      "깍둑 썬 두부를 넣고 중불에서 2~3분간 자작하게 졸인 뒤, 참기름 1t를 둘러 밥 위에 올립니다."
     ],
-    "tip": "★황금 조리 팁: 두부를 소금물에 먼저 데쳐야 조리 시 으스러지지 않으며, 고추장과 진간장, 굴소스, 고춧가루, 설탕 황금비율에 물전분과 참기름으로 마무리해야 사천 정통 마파두부의 감칠맛이 폭발합니다."
+    "tip": "★자취생 초간단 꿀팁: 두부를 따로 데치는 번거로움 없이 원팬에서 양념과 함께 3분만 졸여주면 속까지 간이 쏙 배어들며, 고추장과 진간장, 굴소스, 고춧가루, 설탕 황금비율에 물전분과 참기름으로 마무리해야 사천 정통 마파두부의 감칠맛이 폭발합니다."
   },
   {
     "day": 5,
@@ -690,7 +878,7 @@
       "양파와 대파를 굵직하게 채 썰어 둡니다.",
       "달군 팬에 기름을 살짝 두르고 재워둔 고기를 센 불에서 바싹 볶다가 채소를 넣고 센 불에서 2분간 수분을 날리며 조려 참기름으로 마무리합니다."
     ],
-    "tip": "★황금 조리 팁: 편스토랑 류수영 비법! 갈아만든 배의 천연 연육 작용과 식초 1T가 고기 육질을 마법처럼 부드럽게 만들고 양념의 감칠맛을 배가시킵니다."
+    "tip": "★자취생 초간단 꿀팁: 편스토랑 류수영 비법! 갈아만든 배의 천연 연육 작용과 식초 1T가 고기 육질을 마법처럼 부드럽게 만들고 양념의 감칠맛을 배가시킵니다."
   },
   {
     "day": 6,
@@ -718,7 +906,7 @@
       "양파가 투명해지면 썰어둔 돈까스를 가지런히 얹습니다.",
       "계란 2알을 가볍게 풀어 둘러 붓고 어슷 썬 대파를 올린 뒤, 뚜껑을 덮고 불을 끄고 잔열로 40초간 뜸을 들여 밥 위에 부드럽게 얹습니다."
     ],
-    "tip": "★황금 조리 팁: 계란을 완전히 풀지 않고 노른자와 흰자가 섞일 정도로만 살짝 풀어 둘러 넣고 잔열로 반숙 상태를 유지해야 촉촉한 가츠동이 완성됩니다."
+    "tip": "★자취생 초간단 꿀팁: 계란을 완전히 풀지 않고 노른자와 흰자가 섞일 정도로만 살짝 풀어 둘러 넣고 잔열로 반숙 상태를 유지해야 촉촉한 가츠동이 완성됩니다."
   },
   {
     "day": 7,
@@ -741,12 +929,12 @@
     ],
     "waste": "누적 23% 식단 소진 | 도톰 베이컨 60g 소진 (누적 60/60g, 100% 완판 소진!), 계란 (노른자) 2알 소진 (누적 2/4알, 50%), 통마늘 2알 소진 (누적 8/81알, 10%)",
     "steps": [
-      "끓는 물 1L에 꽃소금 0.5T를 넣고 스파게티면을 8분간 알덴테로 삶아 건집니다.",
+      "끓는 물 1L에 꽃소금 0.5T를 넣고 스파게티면을 8분간 삶아 (종이컵 반 컵 분량 면수 남겨두기) 건집니다.",
       "볼에 계란 노른자 2알과 파마산 치즈 2.5T, 순후추 0.5t를 넣고 섞어 크리미한 계란 치즈 소스를 만듭니다.",
       "팬에 기름 없이 도톰하게 썬 베이컨과 편 썬 마늘을 중불에서 바삭하게 볶아 고소한 기름을 뺍니다.",
       "삶은 면과 면수 2T를 팬에 넣고 불을 완전히 끈 뒤 30초간 한 김 식히고, 계란 소스를 붓고 빠르게 저어 크림처럼 부드럽게 유화시킵니다."
     ],
-    "tip": "★황금 조리 팁: 반드시 불을 끄고 한 김 식힌 뒤 계란물을 부어야 스크램블이 되지 않고 실크처럼 매끄러운 이탈리아 정통 까르보나라가 완성됩니다."
+    "tip": "★자취생 초간단 꿀팁: 반드시 불을 끄고 한 김 식힌 뒤 계란물을 부어야 스크램블이 되지 않고 실크처럼 매끄러운 이탈리아 정통 까르보나라가 완성됩니다."
   },
   {
     "day": 8,
@@ -775,7 +963,7 @@
       "밥을 모으고 팬 가장자리에 간장 1T를 둘러 태우듯 불향을 입혀 빠르게 섞어 참기름을 두르고 볶음밥을 완성합니다.",
       "[순두부탕] 냄비에 물 300ml, 굴소스 0.5t, 꽃소금 한 꼬집을 넣고 끓으면 순두부를 숟가락으로 툭툭 떼어 넣고, 남은 계란 1알을 풀어 둘러 30초 후 불을 끄고 볶음밥과 함께 곁들입니다."
     ],
-    "tip": "★황금 조리 팁: 밥알을 주걱 날로 가르며 센 불에 볶고 간장을 팬 가장자리에 태우듯 불향을 낸 뒤, 순두부 계란탕을 곁들이면 중식당 코스 부럽지 않은 완벽한 한 끼가 완성됩니다."
+    "tip": "★자취생 초간단 꿀팁: 밥알을 주걱 날로 가르며 센 불에 볶고 간장을 팬 가장자리에 태우듯 불향을 낸 뒤, 순두부 계란탕을 곁들이면 중식당 코스 부럽지 않은 완벽한 한 끼가 완성됩니다."
   },
   {
     "day": 9,
@@ -807,7 +995,7 @@
       "약불로 줄이고 고춧가루 2T, 진간장 1T, 굴소스 1t, 다진 마늘, 순후추를 넣고 볶아 진한 스팸 고추기름을 냅니다.",
       "물 250ml를 붓고 끓어오르면 순두부를 큼직하게 떠 넣고 3분간 끓인 뒤, 계란 1알과 참기름을 얹어 완성합니다."
     ],
-    "tip": "★황금 조리 팁: 스팸을 곱게 으깨 바싹 볶아 기름을 낸 뒤 고춧가루와 굴소스 1t로 고추기름을 내면 전문점 해물 순두부찌개보다 국물이 진하고 깊어집니다."
+    "tip": "★자취생 초간단 꿀팁: 스팸을 곱게 으깨 바싹 볶아 기름을 낸 뒤 고춧가루와 굴소스 1t로 고추기름을 내면 전문점 해물 순두부찌개보다 국물이 진하고 깊어집니다."
   },
   {
     "day": 10,
@@ -836,7 +1024,7 @@
       "불을 중불로 줄이고 소스를 팬에 부어 바글바글 끓이며 고기를 뒤집어 소스가 끈적하게 고기 표면에 착 달라붙을 때까지 1분간 조려냅니다.",
       "밥 위에 타레 소스를 살짝 뿌리고 윤기 나게 조려진 고기를 올린 뒤 참기름을 두르고 얇게 채 썬 대파채를 곁들입니다."
     ],
-    "tip": "★황금 조리 팁: 진간장과 미림 맛술, 설탕을 동량에 가깝게 맞춰 다진 마늘과 조려내면 고기에 끈적하게 윤기가 입혀지며 숯불 향 부타동 맛이 납니다."
+    "tip": "★자취생 초간단 꿀팁: 진간장과 미림 맛술, 설탕을 동량에 가깝게 맞춰 다진 마늘과 조려내면 고기에 끈적하게 윤기가 입혀지며 숯불 향 부타동 맛이 납니다."
   },
   {
     "day": 11,
@@ -867,7 +1055,7 @@
       "큼직하게 썬 파프리카, 양파, 편마늘을 넣고 센 불에서 1분간 빠르게 볶습니다.",
       "스테이크소스 2T와 케첩 1T를 넣고 센 불에서 30초간 윤기 나게 코팅해 접시에 담아냅니다."
     ],
-    "tip": "★황금 조리 팁: 스테이크 소스에 케첩 1T와 버터 15g, 편마늘을 넣고 볶아야 산미와 고소함이 어우러진 특제 찹스테이크 소스가 완성됩니다."
+    "tip": "★자취생 초간단 꿀팁: 스테이크 소스에 케첩 1T와 버터 15g, 편마늘을 넣고 볶아야 산미와 고소함이 어우러진 특제 찹스테이크 소스가 완성됩니다."
   },
   {
     "day": 12,
@@ -899,7 +1087,7 @@
       "물 500ml와 진간장 1T, 굴소스 1t, 치킨스톡 0.5t를 붓고 팔팔 끓인 뒤 청경채를 넣고 1분간 더 끓여 깊고 진한 국물을 냅니다.",
       "삶아둔 쫄깃한 중화 생면 위에 얼큰한 해물 짬뽕 국물을 듬뿍 부어 완성합니다."
     ],
-    "tip": "★황금 조리 팁: 고춧가루와 파마늘을 약불에 볶아 고추기름을 내고, 진간장·굴소스와 치킨스톡 0.5t로 육수를 잡아야 전문 중식당의 깊고 진한 불맛 짬뽕이 완성됩니다."
+    "tip": "★자취생 초간단 꿀팁: 고춧가루와 파마늘을 약불에 볶아 고추기름을 내고, 진간장·굴소스와 치킨스톡 0.5t로 육수를 잡아야 전문 중식당의 깊고 진한 불맛 짬뽕이 완성됩니다."
   },
   {
     "day": 13,
@@ -928,7 +1116,7 @@
       "육수가 뽀얗게 우러나면 썰어둔 묵은지 150g과 고춧가루 1T, 진간장 1T, 다진 마늘을 넣고 중불에서 10분간 푹 끓입니다.",
       "국물 간을 보고 부족하면 꽃소금 한 꼬집을 넣고, 두부 1/2모와 어슷 썬 대파를 넣고 중약불에서 5분간 뭉근하게 졸여냅니다."
     ],
-    "tip": "★황금 조리 팁: 백종원 비법대로 맹물에 돼지고기와 된장 0.3t를 먼저 넣고 끓여 고기 육수를 낸 뒤 김치를 넣어야 고기 속까지 간이 쏙 배고 국물이 진해집니다."
+    "tip": "★자취생 초간단 꿀팁: 정통 비법대로 맹물에 돼지고기와 된장 0.3t를 먼저 넣고 끓여 고기 육수를 낸 뒤 김치를 넣어야 고기 속까지 간이 쏙 배고 국물이 진해집니다."
   },
   {
     "day": 14,
@@ -956,7 +1144,7 @@
       "계란 2알을 가볍게 저어 2/3 분량만 둥글게 붓고 대파를 올린 뒤 40초간 익힙니다.",
       "나머지 계란물을 붓고 즉시 불을 끈 뒤, 뚜껑을 덮어 잔열로 30초간 뜸을 들여 밥 위에 부드럽게 미끄러지듯 얹습니다."
     ],
-    "tip": "★황금 조리 팁: 쯔유에 미림과 설탕을 더해 단짠 밸런스를 맞추고, 계란을 2번 나누어 넣어 잔열로 뜸들여야 푸딩처럼 부드러운 오야코동이 됩니다."
+    "tip": "★자취생 초간단 꿀팁: 쯔유에 미림과 설탕을 더해 단짠 밸런스를 맞추고, 계란을 2번 나누어 넣어 잔열로 뜸들여야 푸딩처럼 부드러운 오야코동이 됩니다."
   },
   {
     "day": 15,
@@ -985,7 +1173,7 @@
       "삶은 면과 면수 2T를 팬에 넣고 불을 완전히 끈 상태에서 바질페스토 2.5T를 넣습니다.",
       "잔열로 고루 버무려 바질의 향긋한 초록빛을 살려 접시에 담고 파마산 치즈 1.5T를 듬뿍 뿌립니다."
     ],
-    "tip": "★황금 조리 팁: 바질페스토는 높은 열에 볶으면 향이 날아가고 갈색으로 변하므로 반드시 불을 끄고 잔열로 버무려야 신선한 풍미와 선명한 초록빛이 유지됩니다."
+    "tip": "★자취생 초간단 꿀팁: 바질페스토는 높은 열에 볶으면 향이 날아가고 갈색으로 변하므로 반드시 불을 끄고 잔열로 버무려야 신선한 풍미와 선명한 초록빛이 유지됩니다."
   },
   {
     "day": 16,
@@ -1011,11 +1199,11 @@
     "waste": "누적 53% 식단 소진 | 돼지 등심 165g 소진 (누적 165/165g, 100% 완판 소진!), 대파 0.3대 소진 (누적 6.3/13.1대, 48%)",
     "steps": [
       "등심 165g을 얇고 넓적하게 저며 꽃소금, 순후추, 미림 맛술 1T로 밑간합니다.",
-      "물에 갠 감자전분의 윗물을 따라내고 가라앉은 쫀득한 전분 앙금을 고기에 고루 입혀 팬에 식용유를 넉넉히 두르고 노릇하게 튀기듯 굽습니다.",
+      "고기에 소금, 후추를 치고 감자전분 3T를 묻혀, 팬에 식용유 3T를 두르고 센 불에서 노릇노릇하게 3분간 바삭하게 구워냅니다.",
       "팬에 설탕 2T, 식초 2T, 진간장 1T, 물 4T를 넣고 바글바글 끓여 새콤달콤한 탕수 소스를 만듭니다.",
       "바삭하게 튀겨진 꿔바로우와 얇게 채 썬 대파를 뜨거운 소스에 재빨리 버무려 바삭함과 쫀득함을 극대화합니다."
     ],
-    "tip": "★황금 조리 팁: 전분을 물에 불려 가라앉은 앙금만 묻혀 튀겨내면 겉은 파삭하고 속은 찰떡처럼 쫀득하며, 식초와 설탕 1:1 소스로 코팅해야 눅눅해지지 않는 정통 꿔바로우가 완성됩니다."
+    "tip": "★자취생 초간단 꿀팁: 기름을 한 냄비 쓸 필요 없이 프라이팬에 식용유 3스푼만 두르고 전분 묻힌 고기를 부치듯 구워내면 기름 낭비 없이 겉은 파삭하고 속은 찰떡처럼 쫀득하며, 식초와 설탕 1:1 소스로 코팅해야 눅눅해지지 않는 정통 꿔바로우가 완성됩니다."
   },
   {
     "day": 17,
@@ -1047,7 +1235,7 @@
       "고기 위에 양념장을 듬뿍 얹고 뚜껑을 덮어 중강불을 켭니다 (물 없이 콩나물 자체 채수로 조리).",
       "채수가 나와 콩나물 숨이 죽으면 주걱 2개로 고기와 콩나물을 빠르게 뒤섞으며 강불에서 2분간 양념을 졸이고 참기름 1t를 둘러 완성합니다."
     ],
-    "tip": "★황금 조리 팁: 고추장, 간장, 고춧가루, 설탕을 1:1:1:1로 맞추고 물을 한 방울도 넣지 않아야 콩나물 자체 채수로 짜지 않고 아삭아삭한 원조 콩불이 완성됩니다."
+    "tip": "★자취생 초간단 꿀팁: 고추장, 간장, 고춧가루, 설탕을 1:1:1:1로 맞추고 물을 한 방울도 넣지 않아야 콩나물 자체 채수로 짜지 않고 아삭아삭한 원조 콩불이 완성됩니다."
   },
   {
     "day": 18,
@@ -1075,7 +1263,7 @@
       "뜨거운 면을 그릇에 담고, 그 위에 버터 15g을 얹어 면 열기로 자연스럽게 녹입니다.",
       "순수 명란알 30g, 계란 노른자 1알, 송송 썬 대파와 순후추를 얹고 골고루 비벼 고소하게 즐깁니다."
     ],
-    "tip": "★황금 조리 팁: 뜨거운 우동 면의 잔열로 버터와 명란을 에멀젼 유화시키고 쯔유로 간을 잡는 것이 일품 감칠맛의 비법입니다."
+    "tip": "★자취생 초간단 꿀팁: 뜨거운 우동 면의 잔열로 버터와 명란을 에멀젼 유화시키고 쯔유로 간을 잡는 것이 일품 감칠맛의 비법입니다."
   },
   {
     "day": 19,
@@ -1103,7 +1291,7 @@
       "마늘이 노릇해지면 새우를 넣고 중불에서 2분간 익혀 새우의 붉은 감칠맛을 오일에 우려냅니다.",
       "바삭하게 구운 바게트 빵에 마늘 오일과 탱글탱글한 새우를 얹어 함께 즐깁니다."
     ],
-    "tip": "★황금 조리 팁: 새우 물기를 완전히 제거해야 기름이 튀지 않고, 페페론치노와 마늘을 약불에 은은하게 우려내야 바게트에 찍어 먹었을 때 느끼하지 않고 매콤고소합니다."
+    "tip": "★자취생 초간단 꿀팁: 새우 물기를 완전히 제거해야 기름이 튀지 않고, 페페론치노와 마늘을 약불에 은은하게 우려내야 바게트에 찍어 먹었을 때 느끼하지 않고 매콤고소합니다."
   },
   {
     "day": 20,
@@ -1132,7 +1320,7 @@
       "밑간한 소고기를 넣고 센 불에서 빠르게 80% 정도 볶아 겉면의 육즙을 꽉 가둡니다.",
       "물기를 턴 청경채와 굴소스 1T, 진간장 0.5T를 넣고 센 불에서 딱 1분간 빠르게 볶고 참기름 1t를 둘러 완성합니다."
     ],
-    "tip": "★황금 조리 팁: 굴소스만 넣으면 텁텁할 수 있으므로 진간장과 설탕을 함께 섞어야 중식당 특유의 감칠맛과 단짠 밸런스가 살아납니다. 청경채는 강불에 1분만 볶아야 아삭함이 유지됩니다."
+    "tip": "★자취생 초간단 꿀팁: 굴소스만 넣으면 텁텁할 수 있으므로 진간장과 설탕을 함께 섞어야 중식당 특유의 감칠맛과 단짠 밸런스가 살아납니다. 청경채는 강불에 1분만 볶아야 아삭함이 유지됩니다."
   },
   {
     "day": 21,
@@ -1164,7 +1352,7 @@
       "물 400ml를 붓고 깍둑 썬 애호박과 양파를 넣고 센 불에서 끓이다가 두부 1/2모와 다진 마늘, 대파를 넣고 3분간 더 끓여냅니다.",
       "[콩나물무침] 콩나물 150g을 끓는 물에 꽃소금 한 꼬집을 넣고 3분 데쳐 찬물에 헹군 뒤 참기름, 다진 파, 꽃소금으로 조물조물 무쳐 곁들입니다."
     ],
-    "tip": "★황금 조리 팁: 우삼겹을 먼저 볶아 기름을 낸 뒤 된장과 고추장을 기름에 30초 볶아 물을 부어야 고깃집 특유의 구수하고 진한 차돌 된장찌개가 완성됩니다."
+    "tip": "★자취생 초간단 꿀팁: 우삼겹을 먼저 볶아 기름을 낸 뒤 된장과 고추장을 기름에 30초 볶아 물을 부어야 고깃집 특유의 구수하고 진한 차돌 된장찌개가 완성됩니다."
   },
   {
     "day": 22,
@@ -1193,7 +1381,7 @@
       "고기를 건져내고 팬에 데미글라스 소스 3T, 버터 15g, 물 3T를 넣고 바글바글 끓여 진한 소스를 만듭니다.",
       "함박스테이크 위에 윤기 나는 데미글라스 소스를 듬뿍 붓고 반숙 계란후라이를 얹어냅니다."
     ],
-    "tip": "★황금 조리 팁: 데미글라스 소스에 버터 15g을 녹여 넣어야 경양식 전문점 특유의 고소하고 윤기 흐르는 풍미가 완성됩니다."
+    "tip": "★자취생 초간단 꿀팁: 데미글라스 소스에 버터 15g을 녹여 넣어야 경양식 전문점 특유의 고소하고 윤기 흐르는 풍미가 완성됩니다."
   },
   {
     "day": 23,
@@ -1223,7 +1411,7 @@
       "볼로네제 파스타소스 150g, 면수 50ml, 설탕 0.5t를 넣고 중약불에서 3분간 뭉근하게 끓여 진한 고기 라구 소스를 만듭니다.",
       "삶은 면을 넣고 센 불에서 1분간 저어가며 소스를 면발에 완전히 흡착시킨 뒤 접시에 담고 파마산 치즈 1.5T를 눈꽃처럼 뿌려냅니다."
     ],
-    "tip": "★황금 조리 팁: 다진 소고기를 바싹 볶아 수분을 날리고, 토마토소스에 설탕 0.5t와 파마산 치즈를 더해주면 토마토의 신맛이 잡히며 묵직한 이탈리안 볼로네제가 완성됩니다."
+    "tip": "★자취생 초간단 꿀팁: 다진 소고기를 바싹 볶아 수분을 날리고, 토마토소스에 설탕 0.5t와 파마산 치즈를 더해주면 토마토의 신맛이 잡히며 묵직한 이탈리안 볼로네제가 완성됩니다."
   },
   {
     "day": 24,
@@ -1249,10 +1437,10 @@
     "steps": [
       "통삼겹살을 큼직한 토막으로 썰어 팬에서 겉면을 사방으로 노릇하게 지져 고소하게 기름을 뺍니다.",
       "냄비에 고기와 물 350ml, 진간장 2.5T, 미림 맛술 2T, 설탕 1.5T, 굴소스 1t, 대파, 통마늘을 넣고 센 불에서 끓입니다.",
-      "끓어오르면 약불로 줄여 뚜껑을 덮고 25분간 뭉근하게 졸여 고기가 숟가락으로 부드럽게 잘릴 때까지 익힙니다.",
+      "뚜껑을 덮고 중약불에서 국물이 자작하게 졸아들 때까지 8~10분간만 졸여 고기에 진한 간장 코팅을 입힙니다.",
       "끓는 물에 살짝 데친 청경채를 접시 가장자리에 두르고 윤기 나는 조림 고기와 진한 간장 소스를 얹습니다."
     ],
-    "tip": "★황금 조리 팁: 삼겹살 겉면을 먼저 노릇하게 구워 기름을 빼고, 미림과 진간장, 설탕, 굴소스를 넣고 약불에 뭉근히 졸여야 잡내 없이 속살은 젤리처럼 부드럽고 겉면은 먹음직스럽게 윤기가 돕니다."
+    "tip": "★자취생 초간단 꿀팁: 삼겹살 겉면을 먼저 노릇하게 구워 기름을 빼고, 미림과 진간장, 설탕, 굴소스를 넣고 약불에 뭉근히 졸여야 잡내 없이 속살은 젤리처럼 부드럽고 겉면은 먹음직스럽게 윤기가 돕니다."
   },
   {
     "day": 25,
@@ -1284,7 +1472,7 @@
       "달군 팬에 식용유를 두르고 양념한 닭고기와 얇게 썬 감자를 넣어 중불에서 볶다가 물 50ml를 부어가며 타지 않게 속까지 익힙니다.",
       "닭이 85% 익으면 큼직하게 썬 양배추, 대파와 남은 양념을 넣고 강불에서 2분간 빠르게 볶고 참기름을 둘러 밥 위에 얹습니다."
     ],
-    "tip": "★황금 조리 팁: 닭갈비 양념에 카레가루 0.5T가 들어가야 춘천 원조집 특유의 닭 비린내 없는 중독적인 매콤달콤한 맛이 완성됩니다."
+    "tip": "★자취생 초간단 꿀팁: 닭갈비 양념에 카레가루 0.5T가 들어가야 춘천 원조집 특유의 닭 비린내 없는 중독적인 매콤달콤한 맛이 완성됩니다."
   },
   {
     "day": 26,
@@ -1312,7 +1500,7 @@
       "양파가 투명해지면 구워둔 바삭한 새우튀김을 가지런히 올립니다.",
       "계란 2알을 가볍게 풀어 둘러 붓고 대파를 올린 뒤 뚜껑을 덮어 40초간 잔열 뜸을 들여 밥 위에 얹습니다."
     ],
-    "tip": "★황금 조리 팁: 쯔유에 미림과 설탕을 넣어 끓인 뒤 바삭한 새우튀김과 반숙 계란을 얹어야 튀김의 바삭함과 촉촉한 계란 소스를 동시에 즐길 수 있습니다."
+    "tip": "★자취생 초간단 꿀팁: 쯔유에 미림과 설탕을 넣어 끓인 뒤 바삭한 새우튀김과 반숙 계란을 얹어야 튀김의 바삭함과 촉촉한 계란 소스를 동시에 즐길 수 있습니다."
   },
   {
     "day": 27,
@@ -1341,7 +1529,7 @@
       "닭기름이 남은 팬에 편 썬 마늘과 채 썬 양파를 볶아 단맛을 낸 뒤, 로제 파스타소스 150g과 면수 40ml를 붓고 끓입니다.",
       "구운 치킨과 삶은 면을 넣고 강불에서 1분간 빠르게 볶아 소스를 코팅하고 파마산 치즈 1T를 뿌려 완성합니다."
     ],
-    "tip": "★황금 조리 팁: 닭다리살 껍질을 바삭하게 굽고 치킨 기름에 양파와 마늘을 볶아 로제소스를 끓여야 닭고기 잡내가 없고 풍미가 진해집니다."
+    "tip": "★자취생 초간단 꿀팁: 닭다리살 껍질을 바삭하게 굽고 치킨 기름에 양파와 마늘을 볶아 로제소스를 끓여야 닭고기 잡내가 없고 풍미가 진해집니다."
   },
   {
     "day": 28,
@@ -1373,7 +1561,7 @@
       "팬에 식용유를 두르고 다진 대파와 다진 마늘, 으깬 페페론치노를 볶아 매콤한 향을 냅니다.",
       "구워둔 닭고기와 소스를 붓고 센 불에서 국물이 졸아들 때까지 40초간 빠르게 버무려 밥 위에 올립니다."
     ],
-    "tip": "★황금 조리 팁: 닭고기에 전분을 얇게 입혀 굽고, 간장·식초·설탕 1:1:1 황금비에 페페론치노와 다진마늘을 더해 센 불에 40초 컷으로 코팅하듯 볶아야 눅눅하지 않고 바삭한 매콤함을 유지합니다."
+    "tip": "★자취생 초간단 꿀팁: 닭고기에 전분을 얇게 입혀 굽고, 간장·식초·설탕 1:1:1 황금비에 페페론치노와 다진마늘을 더해 센 불에 40초 컷으로 코팅하듯 볶아야 눅눅하지 않고 바삭한 매콤함을 유지합니다."
   },
   {
     "day": 29,
@@ -1404,7 +1592,7 @@
       "으깬 스팸을 채소 위에 수북이 얹고 고추장 1T, 된장 0.3T, 고춧가루 1.5T, 진간장 1.5T, 설탕 0.5T, 다진 마늘 1T를 넣습니다.",
       "물 300ml를 붓고 센 불에서 끓이다가 끓어오르면 중약불로 줄여 감자가 완전히 으스러질 정도로 부드러워질 때까지 10분간 자작하게 조려 밥 위에 얹어 비벼 먹습니다."
     ],
-    "tip": "★황금 조리 팁: 백종원 비법! 스팸을 으깨 넣어야 고기 기름과 짠맛이 국물에 녹아들어 감자가 포슬포슬하게 익으면서 밥에 쓱쓱 비벼 먹기 환상적인 농도가 됩니다."
+    "tip": "★자취생 초간단 꿀팁: 셰프의 특급 비법! 스팸을 으깨 넣어야 고기 기름과 짠맛이 국물에 녹아들어 감자가 포슬포슬하게 익으면서 밥에 쓱쓱 비벼 먹기 환상적인 농도가 됩니다."
   },
   {
     "day": 30,
@@ -1434,22 +1622,128 @@
       "물 120ml와 쯔유 3T, 미림 맛술 1T를 붓고 구운 두부, 표고버섯, 청경채를 가지런히 넣고 3분간 조립니다.",
       "밥 위에 고기와 두부, 채소를 소담하게 올리고 신선한 계란 노른자를 얹어 부드럽게 비벼 먹습니다."
     ],
-    "tip": "★황금 조리 팁: 고기에 설탕을 먼저 입혀 구운 뒤 쯔유와 미림을 부어야 고기가 질겨지지 않고 스키야키 특유의 진한 카라멜 감칠맛이 폭발합니다."
+    "tip": "★자취생 초간단 꿀팁: 고기에 설탕을 먼저 입혀 구운 뒤 쯔유와 미림을 부어야 고기가 질겨지지 않고 스키야키 특유의 진한 카라멜 감칠맛이 폭발합니다."
   }
 ];
 
-    function renderRecipes(cuisineFilter = 'all', searchQuery = '') {
+    let currentViewMode = 'timeline'; // 'timeline' or 'all'
+    let currentWeek = 1;
+    let currentCuisineFilter = 'all';
+
+    const weekSummaries = {
+      1: "💡 <strong>1주차 스타터 플랜</strong>: 1주차 장보기 재료로 7일간 냉장고 잔여 식재료 0g 전량 소진! (월~일 순서대로 차근차근 따라 해보세요)",
+      2: "💡 <strong>2주차 신선 보충</strong>: 1주차 냉동/팬트리 베이스에 신선 식재료를 보강하여 알뜰하게 소진!",
+      3: "💡 <strong>3주차 영양 밸런스</strong>: 절반 완주 성공! 누적 배달비 약 30만원 절약 돌파 🎉",
+      4: "💡 <strong>4주차 피날레 냉파</strong>: 냉장고 속 잔여 양념과 식재료 100% 털어먹기 완결판!"
+    };
+
+    function setViewMode(mode) {
+      currentViewMode = mode;
+      document.getElementById('btn-mode-timeline').classList.toggle('active', mode === 'timeline');
+      document.getElementById('btn-mode-all').classList.toggle('active', mode === 'all');
+      
+      const timelineBar = document.getElementById('week-timeline-bar');
+      const categoryNav = document.getElementById('category-filter-nav');
+      
+      if (mode === 'timeline') {
+        if (timelineBar) timelineBar.style.display = 'block';
+        if (categoryNav) categoryNav.style.display = 'none';
+      } else {
+        if (timelineBar) timelineBar.style.display = 'none';
+        if (categoryNav) categoryNav.style.display = 'flex';
+      }
+      
+      renderRecipes();
+    }
+
+    function selectWeek(weekNum) {
+      currentWeek = weekNum;
+      for (let i = 1; i <= 4; i++) {
+        const btn = document.getElementById(`btn-week-${i}`);
+        if (btn) btn.classList.toggle('active', i === weekNum);
+      }
+      const summaryEl = document.getElementById('week-summary-pill');
+      if (summaryEl && weekSummaries[weekNum]) {
+        summaryEl.innerHTML = weekSummaries[weekNum];
+      }
+      renderRecipes();
+    }
+
+    function toggleCooked(day, ev) {
+      if (ev) ev.stopPropagation();
+      const key = `zipbab_cooked_day_${day}`;
+      const now = localStorage.getItem(key) === 'true';
+      const next = !now;
+      try {
+        localStorage.setItem(key, next ? 'true' : 'false');
+      } catch (e) {}
+
+      const card = document.getElementById(`day-${day}`);
+      const btn = card ? card.querySelector('.btn-cook-check') : null;
+
+      if (next) {
+        if (btn) {
+          btn.classList.add('cooked');
+          btn.innerHTML = '✅ 조리 완료!';
+        }
+        if (card) card.classList.add('is-cooked');
+        showCookedToast(`🎉 Day ${day} 집밥 성공! 배달비 22,000원 방어 완료 💰`);
+      } else {
+        if (btn) {
+          btn.classList.remove('cooked');
+          btn.innerHTML = '🍳 조리 완료';
+        }
+        if (card) card.classList.remove('is-cooked');
+      }
+    }
+
+    function showCookedToast(msg) {
+      let toast = document.getElementById('cooked-toast');
+      if (!toast) {
+        toast = document.createElement('div');
+        toast.id = 'cooked-toast';
+        toast.className = 'cooked-toast';
+        document.body.appendChild(toast);
+      }
+      toast.innerText = msg;
+      toast.classList.add('show');
+      clearTimeout(window.__cookedToastTimer);
+      window.__cookedToastTimer = setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3000);
+    }
+
+    function renderRecipes(cuisineFilter = null, searchQuery = null) {
       const container = document.getElementById('recipe-container');
+      if (!container) return;
       container.innerHTML = '';
 
-      const q = searchQuery.toLowerCase().trim();
+      if (cuisineFilter !== null) currentCuisineFilter = cuisineFilter;
+      const searchInput = document.getElementById('recipe-search');
+      const q = (searchQuery !== null ? searchQuery : (searchInput ? searchInput.value : '')).toLowerCase().trim();
+
+      const dayNames = ['월', '화', '수', '목', '금', '토', '일'];
+
       const filtered = recipes.filter(r => {
-        const matchCuisine = cuisineFilter === 'all' || r.cuisine === cuisineFilter;
-        const matchSearch = !q || 
-          r.title.toLowerCase().includes(q) || 
-          r.ingredients.some(i => i.toLowerCase().includes(q)) ||
-          r.steps.some(s => s.toLowerCase().includes(q));
-        return matchCuisine && matchSearch;
+        // 검색어가 있으면 전체 중에서 검색
+        if (q) {
+          return r.title.toLowerCase().includes(q) || 
+                 r.ingredients.some(i => i.toLowerCase().includes(q)) ||
+                 r.steps.some(s => s.toLowerCase().includes(q));
+        }
+
+        // 1. 주차별 타임라인 모드
+        if (currentViewMode === 'timeline') {
+          if (currentWeek === 1) return r.day >= 1 && r.day <= 7;
+          if (currentWeek === 2) return r.day >= 8 && r.day <= 14;
+          if (currentWeek === 3) return r.day >= 15 && r.day <= 21;
+          if (currentWeek === 4) return r.day >= 22 && r.day <= 30;
+          return true;
+        }
+
+        // 2. 전체 요리 일람 모드
+        if (currentCuisineFilter === 'all') return true;
+        return r.cuisine === currentCuisineFilter;
       });
 
       if (filtered.length === 0) {
@@ -1465,18 +1759,27 @@
         card.className = 'recipe-card';
         card.id = `day-${r.day}`;
 
+        const dayOfWeek = dayNames[(r.day - 1) % 7];
+        const isCooked = localStorage.getItem(`zipbab_cooked_day_${r.day}`) === 'true';
+        if (isCooked) card.classList.add('is-cooked');
+
         card.innerHTML = `
           <div>
             <div class="card-header">
-              <span class="day-badge">Day ${r.day}</span>
-              <span class="cuisine-tag">${r.flag}</span>
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <span class="day-badge">Day ${r.day} (${dayOfWeek}요일)</span>
+                <span class="cuisine-tag">${r.flag}</span>
+              </div>
+              <button type="button" class="btn-cook-check ${isCooked ? 'cooked' : ''}" onclick="toggleCooked(${r.day}, event)" title="오늘 집밥 완료 체크">
+                ${isCooked ? '✅ 조리 완료!' : '🍳 조리 완료'}
+              </button>
             </div>
             <h2 class="recipe-title">${r.title}</h2>
 
             <!-- Nutrition -->
             <div class="nutrition-box">
               <div class="nutrition-header">
-                <span>1인분 기준 (공깃밥 포함)</span>
+                <span>1명 정량 조리 (1인분) 기준</span>
                 <span class="cal-val">${r.cal} kcal</span>
               </div>
               <div class="macro-row">
@@ -1496,7 +1799,7 @@
             </div>
 
             <!-- Steps -->
-            <div class="section-title">🍳 15분 조리 순서</div>
+            <div class="section-title">🍳 10분 컷 조리 순서</div>
             <ol class="recipe-steps">
               ${r.steps.map(s => `<li>${s}</li>`).join('')}
             </ol>
@@ -1518,7 +1821,18 @@
       });
     }
 
-    let currentCuisineFilter = 'all';
+    function searchRecipe() {
+      const query = document.getElementById('recipe-search').value.trim();
+      // 검색 중일 때는 전체 보기 모드로 유연하게 렌더링
+      if (query && currentViewMode === 'timeline') {
+        const timelineBar = document.getElementById('week-timeline-bar');
+        if (timelineBar) timelineBar.style.display = 'none';
+      } else if (!query && currentViewMode === 'timeline') {
+        const timelineBar = document.getElementById('week-timeline-bar');
+        if (timelineBar) timelineBar.style.display = 'block';
+      }
+      renderRecipes(currentCuisineFilter, query);
+    }
 
     function initFilters() {
       const filterContainer = document.querySelector('.cuisine-filters');
@@ -1547,11 +1861,6 @@
       currentCuisineFilter = cuisine;
       const searchVal = document.getElementById('recipe-search').value;
       renderRecipes(cuisine, searchVal);
-    }
-
-    function searchRecipe() {
-      const query = document.getElementById('recipe-search').value.trim();
-      renderRecipes(currentCuisineFilter, query);
     }
 
     function checkUrlTarget() {
@@ -1652,5 +1961,6 @@
     checkUrlTarget();
     window.addEventListener('hashchange', checkUrlTarget);
   </script>
+  <div id="cooked-toast" class="cooked-toast"></div>
 </body>
 </html>

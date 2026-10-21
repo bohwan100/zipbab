@@ -3,10 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="노한석님 스마트 장바구니 매니저 | 집밥봇">
+  <meta property="og:description" content="노한석님 4주 분할 장보기 (199,600원) & 쿠팡 1초 원클릭 자동 담기">
+  <meta property="og:image" content="https://bohwan100.github.io/zipbab/assets/icon.png">
+  <link rel="icon" type="image/png" href="https://bohwan100.github.io/zipbab/assets/icon.png">
+  <link rel="apple-touch-icon" href="https://bohwan100.github.io/zipbab/assets/icon.png">
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
-  <title>스마트 장바구니 매니저 | 집밥봇</title>
+  <title>노한석님 스마트 장바구니 매니저 | 집밥봇</title>
   <script>
     // 외부 브라우저 최적화
     (function() {
@@ -1072,10 +1078,10 @@
       <span style="font-size: 1.8rem; flex-shrink: 0;">💻</span>
       <div style="flex: 1; font-size: 0.88rem; line-height: 1.5; color: #cbd5e1;">
         <strong style="color: #f87171; font-size: 0.98rem; display: block; margin-bottom: 3px;">
-          ⚠️ [필독] 쿠팡 원클릭 자동 장바구니 담기는 "꼭 PC(크롬)"에서만 가능합니다!
+          ⚠️ [필독] 쿠팡 원클릭 자동 장바구니 담기는 "PC(크롬 & 네이버 웨일)" 지원 기능입니다!
         </strong>
-        스마트폰(모바일) 브라우저는 보안 제약상 자동 담기 확장프로그램이 작동하지 않습니다. 
-        <strong>원클릭 자동 담기는 반드시 PC 크롬에서 실행해 주시고, 결제는 휴대폰 쿠팡 앱에서 편하게 진행해 주세요!</strong>
+        스마트폰(모바일) 브라우저는 브라우저 보안 제약상 자동 담기 확장프로그램이 작동하지 않습니다. 
+        <strong>원클릭 자동 담기는 PC 크롬 또는 네이버 웨일 브라우저에서 실행해 주시고, 결제는 휴대폰 쿠팡 앱에서 편하게 진행해 주세요!</strong>
       </div>
     </div>
 
@@ -1085,7 +1091,7 @@
           <span class="split-week-tag">1주차 주문</span>
           <span class="split-badge">로켓프레시 무료</span>
         </div>
-        <div class="split-amount">162,500원</div>
+        <div class="split-amount">196,100원</div>
       </div>
 
       <div class="split-card" id="card-week-2" onclick="selectWeek(2)">
@@ -1093,7 +1099,7 @@
           <span class="split-week-tag">2주차 주문</span>
           <span class="split-badge">로켓프레시 무료</span>
         </div>
-        <div class="split-amount">34,100원</div>
+        <div class="split-amount">3,500원</div>
       </div>
 
       <div class="split-card" id="card-week-3" onclick="selectWeek(3)">
@@ -1143,10 +1149,10 @@
     <!-- Action Banner -->
     <div class="action-banner">
       <div>
-        <p>💡 <strong>4주 총 구매액</strong>: <strong>196,600원</strong> (예산 200,000원 대비 <strong style="color: #34d399;">+3,400원</strong> 절감 성공, 4회 배송비 전액 0원, 잔여 쓰레기 0%)</p>
+        <p>💡 <strong>4주 총 구매액</strong>: <strong>199,600원</strong> (예산 200,000원 대비 <strong style="color: #34d399;">+400원</strong> 절감 성공, 4회 배송비 전액 0원, 잔여 쓰레기 0%)</p>
       </div>
       <div class="action-btn-group">
-        <button type="button" class="btn-action" style="background: rgba(56, 189, 248, 0.18); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.45); font-weight: 800;" onclick="event.stopPropagation(); openExtensionModal(true);">🧩 PC 크롬 1초 담기 확장 프로그램</button>
+        <button type="button" class="btn-action" style="background: rgba(56, 189, 248, 0.18); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.45); font-weight: 800;" onclick="event.stopPropagation(); openExtensionModal(true);">🧩 PC 크롬 / 웨일 1초 담기 확장 프로그램</button>
         <button class="btn-action orange" id="btn-week-batch-top" onclick="openThisWeekGroceries(false)">💻 1주차 품목 한 번에 담기 (PC 전용)</button>
         <button class="btn-action success" onclick="openCartDirect()">🛍️ 내 쿠팡 장바구니 확인</button>
         <button class="btn-action" style="background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.4);" onclick="resetAllAddedStatus()" title="모든 상품의 담김 상태를 초기화하여 처음부터 다시 담기">🔄 담기 버튼 초기화</button>
@@ -1380,7 +1386,7 @@
         <span style="font-size: 1.4rem; flex-shrink: 0;">⚡</span>
         <div>
           <strong style="color: #38bdf8;">PC 원클릭 자동 담기 ➔ 스마트폰 쿠팡 앱 100% 실시간 동기화:</strong><br>
-          PC 크롬 백그라운드에서 모든 품목을 쿠팡 장바구니에 <strong>진짜로 쏙 자동 담기</strong>합니다!<br>
+          PC 크롬 또는 네이버 웨일 브라우저 백그라운드에서 모든 품목을 쿠팡 장바구니에 <strong>진짜로 쏙 자동 담기</strong>합니다!<br>
           <span style="font-size: 0.78rem; color: #94a3b8;">📱 같은 쿠팡 아이디면 스마트폰 쿠팡 앱에도 실시간 자동 동기화되어 모바일에서 바로 결제 가능합니다.</span>
         </div>
       </div>
@@ -1426,19 +1432,19 @@
     </div>
   </div>
 
-  <!-- Chrome Extension Guide Modal -->
+  <!-- Chrome & Whale Extension Guide Modal -->
   <div class="modal-overlay" id="extension-modal" style="display: none;">
-    <div class="modal-content" style="max-width: 580px;">
+    <div class="modal-content" style="max-width: 600px;">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 10px;">
         <h3 class="modal-title" style="margin-bottom: 0; display: flex; align-items: center; gap: 8px;">
-          <span>🧩</span> 집밥봇 크롬 확장 프로그램 10초 설치 가이드
+          <span>🧩</span> 집밥봇 확장 프로그램 10초 설치 가이드 (Chrome & Whale 🐳)
         </h3>
         <button type="button" class="btn-action" style="background: #334155; padding: 4px 10px; font-size: 0.85rem;" onclick="closeExtensionModal()">✕</button>
       </div>
 
       <div style="background: rgba(56, 189, 248, 0.1); border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 12px; padding: 12px 16px; margin-bottom: 16px; font-size: 0.88rem; color: #bae6fd; line-height: 1.5;">
-        💡 <strong>윈도우 PC / 맥북 크롬 사용자 전용 (단 1회 등록):</strong><br>
-        크롬에 확장 프로그램을 딱 1번만 등록해두시면, [한 번에 담기] 클릭 시 백그라운드에서 쿠팡 장바구니에 <strong>진짜로 쏙 자동 담기</strong>가 실행됩니다! (결제는 스마트폰 앱에서 완료 가능)
+        💡 <strong>윈도우 PC / 맥북 (크롬 & 네이버 웨일 브라우저 완벽 지원):</strong><br>
+        브라우저에 확장 프로그램을 딱 1번만 등록해두시면, [한 번에 담기] 클릭 시 백그라운드에서 쿠팡 장바구니에 <strong>진짜로 쏙 자동 담기</strong>가 실행됩니다! (결제는 스마트폰 쿠팡 앱에서 완료 가능)
       </div>
 
       <div style="display: flex; flex-direction: column; gap: 14px; margin-bottom: 20px; font-size: 0.88rem;">
@@ -1456,9 +1462,10 @@
         <div style="display: flex; gap: 12px; background: rgba(15, 23, 42, 0.6); padding: 12px 14px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.06);">
           <span style="font-weight: 800; color: #38bdf8; font-size: 1.1rem;">Step 2</span>
           <div style="flex: 1;">
-            <div style="font-weight: 700; color: #fff; margin-bottom: 4px;">크롬 확장 프로그램 관리 페이지 열기</div>
-            <div style="font-size: 0.82rem; color: #cbd5e1; line-height: 1.5;">
-              크롬 새 탭 주소창에 <code style="background: rgba(0,0,0,0.4); padding: 2px 6px; border-radius: 4px; color: #38bdf8;">chrome://extensions</code> 입력 후 이동 ➔ 우측 상단 <strong>[개발자 모드]</strong> 스위치를 켭니다 (ON).
+            <div style="font-weight: 700; color: #fff; margin-bottom: 4px;">브라우저 확장 프로그램 관리창 열기 & [개발자 모드] 켜기</div>
+            <div style="font-size: 0.82rem; color: #cbd5e1; line-height: 1.6;">
+              • <strong>구글 크롬(Chrome)</strong>: 새 탭 주소창에 <code style="background: rgba(0,0,0,0.4); padding: 2px 6px; border-radius: 4px; color: #38bdf8;">chrome://extensions</code> 입력 후 이동 ➔ 우측 상단 <strong>[개발자 모드]</strong> ON<br>
+              • <strong>네이버 웨일(Whale 🐳)</strong>: 새 탭 주소창에 <code style="background: rgba(0,0,0,0.4); padding: 2px 6px; border-radius: 4px; color: #00c73c;">whale://extensions</code> 입력 후 이동 ➔ 우측 상단 <strong>[개발자 모드]</strong> ON
             </div>
           </div>
         </div>
@@ -1466,9 +1473,9 @@
         <div style="display: flex; gap: 12px; background: rgba(15, 23, 42, 0.6); padding: 12px 14px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.06);">
           <span style="font-weight: 800; color: #10b981; font-size: 1.1rem;">Step 3</span>
           <div style="flex: 1;">
-            <div style="font-weight: 700; color: #fff; margin-bottom: 4px;">폴더 등록하기 (드래그 한 번!)</div>
+            <div style="font-weight: 700; color: #fff; margin-bottom: 4px;">폴더 등록하기 (드래그 한 번이면 끝!)</div>
             <div style="font-size: 0.82rem; color: #cbd5e1; line-height: 1.5;">
-              좌측 상단 <strong>[압축해제된 확장 프로그램을 로드합니다]</strong>를 누르고 아까 압축 푼 <code>zipbabbot-extension</code> 폴더를 선택하거나, 브라우저 화면 안으로 폴더를 끌어다 놓으면 끝!
+              좌측 상단 <strong>[압축해제된 확장 프로그램 로드]</strong>(웨일은 <strong>[압축해제된 확장 앱 로드]</strong>)를 누르고 <code>zipbabbot-extension</code> 폴더를 선택하거나, 브라우저 화면 안으로 폴더를 끌어다 놓으면 즉시 완료!
             </div>
           </div>
         </div>
@@ -1650,6 +1657,20 @@
     "orderWeek": 1,
     "storage": "seasoning",
     "cat": "🧂 조미료",
+    "name": "임금님표이천 쌀 상등급 (2kg)",
+    "spec": "2kg 1포",
+    "qty": 1,
+    "unitPrice": 10800,
+    "total": 10800,
+    "weeks": "1주차",
+    "recipes": "30일 전 식단 밥",
+    "query": "임금님표이천 쌀 상등급 (2kg)"
+  },
+  {
+    "id": 8,
+    "orderWeek": 1,
+    "storage": "seasoning",
+    "cat": "🧂 조미료",
     "name": "기꼬만 혼쯔유 (500ml)",
     "spec": "500ml 1병",
     "qty": 1,
@@ -1660,7 +1681,7 @@
     "query": "기꼬만 혼쯔유 500ml"
   },
   {
-    "id": 8,
+    "id": 9,
     "orderWeek": 1,
     "storage": "seasoning",
     "cat": "🧂 조미료",
@@ -1674,7 +1695,7 @@
     "query": "미림 맛술 500ml"
   },
   {
-    "id": 9,
+    "id": 10,
     "orderWeek": 1,
     "storage": "seasoning",
     "cat": "🧂 조미료",
@@ -1688,7 +1709,7 @@
     "query": "바릴라 스파게티면 500g"
   },
   {
-    "id": 10,
+    "id": 11,
     "orderWeek": 1,
     "storage": "seasoning",
     "cat": "🧂 조미료",
@@ -1702,7 +1723,7 @@
     "query": "폰타나 올리브유 500ml"
   },
   {
-    "id": 11,
+    "id": 12,
     "orderWeek": 1,
     "storage": "seasoning",
     "cat": "🧂 조미료",
@@ -1716,7 +1737,7 @@
     "query": "페페론치노 30g"
   },
   {
-    "id": 12,
+    "id": 13,
     "orderWeek": 1,
     "storage": "seasoning",
     "cat": "🧂 조미료",
@@ -1730,7 +1751,7 @@
     "query": "파마산 치즈가루"
   },
   {
-    "id": 13,
+    "id": 14,
     "orderWeek": 1,
     "storage": "seasoning",
     "cat": "🧂 조미료",
@@ -1744,7 +1765,7 @@
     "query": "청정원 꽃소금 500g"
   },
   {
-    "id": 14,
+    "id": 15,
     "orderWeek": 1,
     "storage": "seasoning",
     "cat": "🧂 조미료",
@@ -1758,7 +1779,7 @@
     "query": "이금기 치킨스톡 500g"
   },
   {
-    "id": 15,
+    "id": 16,
     "orderWeek": 1,
     "storage": "seasoning",
     "cat": "🧂 조미료",
@@ -1772,7 +1793,7 @@
     "query": "이금기 굴소스 510g"
   },
   {
-    "id": 16,
+    "id": 17,
     "orderWeek": 1,
     "storage": "seasoning",
     "cat": "🧂 조미료",
@@ -1786,7 +1807,7 @@
     "query": "오뚜기 감자전분 500g"
   },
   {
-    "id": 17,
+    "id": 18,
     "orderWeek": 1,
     "storage": "seasoning",
     "cat": "🧂 조미료",
@@ -1800,7 +1821,7 @@
     "query": "갈아만든배 238ml"
   },
   {
-    "id": 18,
+    "id": 19,
     "orderWeek": 1,
     "storage": "seasoning",
     "cat": "🧂 조미료",
@@ -1814,7 +1835,7 @@
     "query": "오뚜기 사과식초 500ml"
   },
   {
-    "id": 19,
+    "id": 20,
     "orderWeek": 1,
     "storage": "seasoning",
     "cat": "🧂 조미료",
@@ -1828,7 +1849,7 @@
     "query": "스팸 클래식 200g"
   },
   {
-    "id": 20,
+    "id": 21,
     "orderWeek": 1,
     "storage": "seasoning",
     "cat": "🧂 조미료",
@@ -1842,7 +1863,7 @@
     "query": "돈까스 소스"
   },
   {
-    "id": 21,
+    "id": 22,
     "orderWeek": 1,
     "storage": "seasoning",
     "cat": "🧂 조미료",
@@ -1856,7 +1877,7 @@
     "query": "오뚜기 케첩 500g"
   },
   {
-    "id": 22,
+    "id": 23,
     "orderWeek": 1,
     "storage": "seasoning",
     "cat": "🧂 조미료",
@@ -1870,7 +1891,77 @@
     "query": "루어팍 버터 250g"
   },
   {
-    "id": 23,
+    "id": 24,
+    "orderWeek": 1,
+    "storage": "seasoning",
+    "cat": "🧂 조미료",
+    "name": "해찬들 재래식된장 (1kg)",
+    "spec": "1kg 1통",
+    "qty": 1,
+    "unitPrice": 5400,
+    "total": 5400,
+    "weeks": "2~4주차",
+    "recipes": "Day 13 돼지고기, Day 21 우삼겹, Day 29 감자",
+    "query": "해찬들 재래식된장 1kg"
+  },
+  {
+    "id": 25,
+    "orderWeek": 1,
+    "storage": "seasoning",
+    "cat": "🧂 조미료",
+    "name": "데체코 바질페스토 (190g)",
+    "spec": "190g 1병",
+    "qty": 1,
+    "unitPrice": 6500,
+    "total": 6500,
+    "weeks": "3주차",
+    "recipes": "Day 15 바질페스토",
+    "query": "데체코 바질페스토"
+  },
+  {
+    "id": 26,
+    "orderWeek": 1,
+    "storage": "seasoning",
+    "cat": "🧂 조미료",
+    "name": "오뚜기 데미글라스 소스 (1kg)",
+    "spec": "1kg 1팩",
+    "qty": 1,
+    "unitPrice": 4500,
+    "total": 4500,
+    "weeks": "4주차",
+    "recipes": "Day 22 수제",
+    "query": "데미글라스 소스 1kg"
+  },
+  {
+    "id": 27,
+    "orderWeek": 1,
+    "storage": "seasoning",
+    "cat": "🧂 조미료",
+    "name": "폰타나 볼로네제 파스타소스 (430g)",
+    "spec": "430g 1병",
+    "qty": 1,
+    "unitPrice": 4500,
+    "total": 4500,
+    "weeks": "4주차",
+    "recipes": "Day 23 비프, Day 27 로제",
+    "query": "폰타나 파스타소스"
+  },
+  {
+    "id": 28,
+    "orderWeek": 1,
+    "storage": "seasoning",
+    "cat": "🧂 조미료",
+    "name": "오뚜기 카레 약간매운맛 (100g)",
+    "spec": "100g 1봉",
+    "qty": 1,
+    "unitPrice": 1900,
+    "total": 1900,
+    "weeks": "4주차",
+    "recipes": "Day 25 춘천",
+    "query": "오뚜기 카레 약간매운맛 100g"
+  },
+  {
+    "id": 29,
     "orderWeek": 1,
     "storage": "frozen",
     "cat": "❄️ 냉동식품",
@@ -1884,7 +1975,7 @@
     "query": "돼지 앞다리살 불고기용 1kg"
   },
   {
-    "id": 24,
+    "id": 30,
     "orderWeek": 1,
     "storage": "fresh",
     "cat": "🥬 신선식품",
@@ -1898,7 +1989,7 @@
     "query": "손질 대파 500g"
   },
   {
-    "id": 25,
+    "id": 31,
     "orderWeek": 1,
     "storage": "fresh",
     "cat": "🥬 신선식품",
@@ -1912,7 +2003,7 @@
     "query": "햇양파 1.5kg"
   },
   {
-    "id": 26,
+    "id": 32,
     "orderWeek": 1,
     "storage": "fresh",
     "cat": "🥬 신선식품",
@@ -1926,7 +2017,7 @@
     "query": "무항생제 대란 30구"
   },
   {
-    "id": 27,
+    "id": 33,
     "orderWeek": 1,
     "storage": "fresh",
     "cat": "🥬 신선식품",
@@ -1940,7 +2031,7 @@
     "query": "깐마늘 200g"
   },
   {
-    "id": 28,
+    "id": 34,
     "orderWeek": 1,
     "storage": "frozen",
     "cat": "❄️ 냉동식품",
@@ -1954,7 +2045,7 @@
     "query": "우삼겹 바로구이 1kg"
   },
   {
-    "id": 29,
+    "id": 35,
     "orderWeek": 1,
     "storage": "fresh",
     "cat": "🥬 신선식품",
@@ -1968,7 +2059,7 @@
     "query": "풀무원 두부 300g"
   },
   {
-    "id": 30,
+    "id": 36,
     "orderWeek": 1,
     "storage": "frozen",
     "cat": "❄️ 냉동식품",
@@ -1982,7 +2073,7 @@
     "query": "등심돈까스 5입"
   },
   {
-    "id": 31,
+    "id": 37,
     "orderWeek": 1,
     "storage": "fresh",
     "cat": "🥬 신선식품",
@@ -1996,7 +2087,7 @@
     "query": "청정원 베이컨 200g"
   },
   {
-    "id": 32,
+    "id": 38,
     "orderWeek": 2,
     "storage": "fresh",
     "cat": "🥬 신선식품",
@@ -2010,46 +2101,18 @@
     "query": "풀무원 순두부 350g"
   },
   {
-    "id": 33,
+    "id": 39,
     "orderWeek": 2,
     "storage": "fresh",
     "cat": "🥬 신선식품",
-    "name": "호주산 소고기 부채살 구이용 (400g)",
-    "spec": "400g 1팩",
+    "name": "풀무원 부침찌개 두부 (300g) [2주차 신선보충]",
+    "spec": "300g 1모",
     "qty": 1,
-    "unitPrice": 15900,
-    "total": 15900,
-    "weeks": "2~3주차",
-    "recipes": "Day 11 소고기, Day 20 굴소스",
-    "query": "호주산 부채살 400g"
-  },
-  {
-    "id": 34,
-    "orderWeek": 2,
-    "storage": "fresh",
-    "cat": "🥬 신선식품",
-    "name": "국내산 파프리카 (2입)",
-    "spec": "2입 1봉",
-    "qty": 1,
-    "unitPrice": 3900,
-    "total": 3900,
+    "unitPrice": 2100,
+    "total": 2100,
     "weeks": "2주차",
-    "recipes": "Day 11 소고기",
-    "query": "파프리카 2개"
-  },
-  {
-    "id": 35,
-    "orderWeek": 2,
-    "storage": "frozen",
-    "cat": "❄️ 냉동식품",
-    "name": "곰곰 해물모둠믹스 (800g)",
-    "spec": "800g 1봉",
-    "qty": 1,
-    "unitPrice": 12900,
-    "total": 12900,
-    "weeks": "2주차",
-    "recipes": "Day 12 불맛",
-    "query": "해물모둠믹스 800g"
+    "recipes": "2주차 마파두부 소진용 (Day 13 돼지고기)",
+    "query": "풀무원 두부 300g"
   }
 ];
 
@@ -2057,7 +2120,7 @@
     const weekData = {
   "1": {
     "title": "1주차 식단 (Day 1 ~ Day 7)",
-    "freezerMsg": "🧊 <strong>1주차 주문 (162,500원)</strong>: 1주차 신선 식재료와 양념류를 수납합니다. 소형 냉동실 한 칸에 여유 있게 쏙 들어갑니다!",
+    "freezerMsg": "🧊 <strong>1주차 주문 (196,100원)</strong>: 1주차 신선 식재료와 양념류를 수납합니다. 소형 냉동실 한 칸에 여유 있게 쏙 들어갑니다!",
     "meals": [
       {
         "day": "Day 1",
@@ -2140,7 +2203,7 @@
   },
   "2": {
     "title": "2주차 식단 (Day 8 ~ Day 14)",
-    "freezerMsg": "🧊 <strong>2주차 주문 (34,100원)</strong>: 1주차 재료가 소진된 빈자리에 2주차 신선 단백질과 채소가 신선하게 보충됩니다!",
+    "freezerMsg": "🧊 <strong>2주차 주문 (3,500원)</strong>: 1주차 재료가 소진된 빈자리에 2주차 신선 단백질과 채소가 신선하게 보충됩니다!",
     "meals": [
       {
         "day": "Day 8",
@@ -2886,7 +2949,7 @@
               <strong style="color: #f87171;">⚠️ 스마트폰(모바일) 접속 감지: 자동 담기 불가</strong><br>
               <span style="color: #cbd5e1; font-size: 0.82rem; line-height: 1.45; display: block; margin-top: 2px;">
                 스마트폰 브라우저는 기술 보안 제약상 <strong>자동 장바구니 담기가 불가능</strong>합니다.<br>
-                원클릭 자동 담기는 <strong>반드시 PC(노트북) 크롬</strong>으로 접속해 실행해 주세요!<br>
+                원클릭 자동 담기는 <strong>PC(노트북) 크롬 또는 네이버 웨일</strong>로 접속해 실행해 주세요!<br>
                 (현재 모바일에서는 상품 목록 우측 [쿠팡 ↗] 링크를 눌러 1개씩 직접 담으실 수 있습니다.)
               </span>
             </div>
@@ -2904,8 +2967,8 @@
           bgBanner.innerHTML = `
             <span style="font-size: 1.4rem; flex-shrink: 0;">💻</span>
             <div>
-              <strong style="color: #38bdf8;">PC 전용 크롬 확장프로그램 필요:</strong><br>
-              쿠팡 원클릭 자동 담기는 <strong>PC(노트북) 크롬 브라우저</strong>에서만 작동합니다!<br>
+              <strong style="color: #38bdf8;">PC 전용 확장 프로그램 필요 (크롬 & 네이버 웨일 지원):</strong><br>
+              쿠팡 원클릭 자동 담기는 <strong>PC(노트북) 크롬 또는 네이버 웨일 브라우저</strong>에서 작동합니다!<br>
               <span style="font-size: 0.78rem; color: #94a3b8;">PC에서 담아두시면 스마트폰 쿠팡 앱에 실시간 자동 동기화됩니다.</span>
             </div>
           `;
@@ -3058,8 +3121,8 @@
         }
         if (btnStop) btnStop.style.display = 'none';
         if (btnHeaderStop) btnHeaderStop.style.display = 'none';
-        showToast('📱 모바일에서는 자동 담기가 불가합니다. 꼭 PC 크롬에서 실행해 주세요!');
-        alert('⚠️ [PC 전용 기능 안내]\n\n스마트폰 브라우저는 확장프로그램 보안 제약으로 인해 쿠팡 자동 장바구니 담기가 지원되지 않습니다.\n\n원클릭 자동 담기를 이용하시려면 꼭 [PC / 노트북 크롬 브라우저]에서 이 페이지를 열어 실행해 주세요!\n(모바일에서는 상품 목록 우측 [쿠팡 ↗] 링크를 눌러 1개씩 직접 담으실 수 있습니다.)');
+        showToast('📱 모바일에서는 자동 담기가 불가합니다. 꼭 PC 크롬 또는 네이버 웨일에서 실행해 주세요!');
+        alert('⚠️ [PC 전용 기능 안내]\n\n스마트폰 브라우저는 확장프로그램 보안 제약으로 인해 쿠팡 자동 장바구니 담기가 지원되지 않습니다.\n\n원클릭 자동 담기를 이용하시려면 꼭 [PC / 노트북 크롬 또는 네이버 웨일 브라우저]에서 이 페이지를 열어 실행해 주세요!\n(모바일에서는 상품 목록 우측 [쿠팡 ↗] 링크를 눌러 1개씩 직접 담으실 수 있습니다.)');
         return;
       }
 
@@ -3074,7 +3137,7 @@
           localStorage.setItem('zipbabbot_extension_installed', 'true');
           sessionStorage.setItem('zipbabbot_extension_installed', 'true');
         } catch(e) {}
-        document.getElementById('batch-progress-status').innerText = `🧩 크롬 확장 프로그램을 통해 자동 담기 시작 중...`;
+        document.getElementById('batch-progress-status').innerText = `🧩 확장 프로그램을 통해 자동 담기 시작 중...`;
         const extensionPayload = targetList.map(t => ({
           index: t.originalIndex,
           query: t.item.query,
@@ -3095,7 +3158,7 @@
             }
             if (btnStop) btnStop.style.display = 'none';
             if (btnHeaderStop) btnHeaderStop.style.display = 'none';
-            alert('⚠️ [크롬 확장 프로그램 연결 안내]\n\n확장 프로그램이 설치되어 있으나 아직 최신 버전으로 새로고침되지 않아 백그라운드 통신이 지연되고 있습니다.\n\n해결 방법 (3초):\n1. 새 탭에서 chrome://extensions 로 이동합니다.\n2. [집밥봇 - 쿠팡 장바구니 1초 자동 담기 도우미] 카드의 새로고침(🔄) 아이콘을 한 번 클릭해 주세요!\n3. 이 페이지로 돌아와 다시 [한 번에 담기 시작]을 누르시면 정상 작동합니다.');
+            alert('⚠️ [확장 프로그램 연결 안내]\n\n확장 프로그램이 설치되어 있으나 아직 브라우저에서 최신 버전으로 새로고침되지 않아 백그라운드 통신이 지연되고 있습니다.\n\n해결 방법 (3초):\n1. 새 탭에서 chrome://extensions (웨일은 whale://extensions) 로 이동합니다.\n2. [집밥봇 - 쿠팡 장바구니 1초 자동 담기 도우미] 카드의 새로고침(🔄) 아이콘을 한 번 클릭해 주세요!\n3. 이 페이지로 돌아와 다시 [한 번에 담기 시작]을 누르시면 정상 작동합니다.');
           }
         }, 6000);
 
@@ -3282,7 +3345,7 @@
         const pStatus = document.getElementById('batch-progress-status');
         if (pBar) pBar.style.width = `${pct}%`;
         if (pPct) pPct.innerText = `${pct}%`;
-        if (pStatus) pStatus.innerText = `[${data.step}/${data.total}] ${data.item.name} 담는 중... (크롬 확장 프로그램)`;
+        if (pStatus) pStatus.innerText = `[${data.step}/${data.total}] ${data.item.name} 담는 중... (자동 담기 확장 프로그램)`;
       } else if (data.type === 'ZIPBABBOT_ITEM_DONE') {
         window.__zipbabbot_received_progress = true;
         clearTimeout(window.__zipbabbot_watchdog_timer);
@@ -3318,7 +3381,7 @@
         document.getElementById('batch-progress-bar').style.width = '100%';
         document.getElementById('batch-progress-percent').innerText = '100%';
         document.getElementById('batch-progress-status').innerHTML = '🎉 <strong>모든 품목 담기 완료!</strong> ➔ <span style="color: #38bdf8;">쿠팡 장바구니 창을 열었습니다.</span>';
-        showToast('🎉 크롬 확장 프로그램을 통해 모든 식재료가 쿠팡 장바구니에 정상 담겼습니다!');
+        showToast('🎉 확장 프로그램을 통해 모든 식재료가 쿠팡 장바구니에 정상 담겼습니다!');
       }
     });
 
@@ -3329,7 +3392,7 @@
         banner.innerHTML = `
           <span style="font-size: 1.4rem; flex-shrink: 0;">⚡</span>
           <div>
-            <strong style="color: #34d399;">🟢 집밥봇 크롬 확장 프로그램 활성화됨:</strong><br>
+            <strong style="color: #34d399;">🟢 집밥봇 자동 담기 확장 프로그램 활성화됨:</strong><br>
             아래 [🚀 한 번에 담기 시작]을 누르시면 백그라운드 탭에서 쿠팡 장바구니에 진짜로 쏙 담깁니다!<br>
             <span style="font-size: 0.78rem; color: #94a3b8;">📱 담긴 후 스마트폰 쿠팡 앱을 열어보시면 실시간 100% 동기화되어 모바일로 편하게 결제 가능합니다.</span>
           </div>

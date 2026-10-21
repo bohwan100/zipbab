@@ -3,7 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>집밥봇 | 1명 20만원 30일 식단 & 스마트 장보기 포털</title>
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="정민님 1명 맞춤 식단 & 스마트 장보기 포털 | 집밥봇">
+  <meta property="og:description" content="정민님을 위한 야채·채소 위주 (클린 채식식) 맞춤 식단과 쿠팡 1초 원클릭 스마트 장바구니">
+  <meta property="og:image" content="https://bohwan100.github.io/zipbab/assets/icon.png">
+  <link rel="icon" type="image/png" href="https://bohwan100.github.io/zipbab/assets/icon.png">
+  <link rel="apple-touch-icon" href="https://bohwan100.github.io/zipbab/assets/icon.png">
+  <title>정민님 맞춤 30일 식단 & 스마트 장보기 포털 | 집밥봇</title>
   <script>
     (function() {
       var ua = navigator.userAgent.toLowerCase();
@@ -362,6 +371,67 @@
       line-height: 1.5;
     }
 
+    /* Today Quest Banner */
+    .today-quest-banner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: linear-gradient(135deg, rgba(249, 115, 22, 0.15) 0%, rgba(56, 189, 248, 0.1) 100%);
+      border: 1.5px solid rgba(249, 115, 22, 0.4);
+      border-radius: 16px;
+      padding: 14px 22px;
+      margin-bottom: 35px;
+      text-decoration: none;
+      color: inherit;
+      transition: all 0.25s ease;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+    }
+    .today-quest-banner:hover {
+      transform: translateY(-2px);
+      border-color: #f97316;
+      box-shadow: 0 8px 26px rgba(249, 115, 22, 0.25);
+    }
+    .today-quest-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .quest-badge {
+      background: linear-gradient(135deg, #f97316, #ea580c);
+      color: #fff;
+      font-size: 0.8rem;
+      font-weight: 800;
+      padding: 5px 12px;
+      border-radius: 9999px;
+      letter-spacing: -0.3px;
+    }
+    .quest-title {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: #fff;
+    }
+    .today-quest-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.88rem;
+      color: #94a3b8;
+    }
+    .quest-arrow {
+      color: #f97316;
+      font-size: 1.2rem;
+      font-weight: 800;
+      transition: transform 0.2s;
+    }
+    .today-quest-banner:hover .quest-arrow {
+      transform: translateX(4px);
+    }
+    @media (max-width: 640px) {
+      .today-quest-banner { flex-direction: column; align-items: flex-start; gap: 8px; padding: 14px 16px; }
+      .today-quest-right { font-size: 0.8rem; }
+    }
+
     /* Footer */
     footer {
       margin-top: auto;
@@ -570,13 +640,14 @@
       </div>
       <div class="stat-pill">
         <span>🛒 실제 총 구매액:</span>
-        <span class="num">282,100원</span>
-        <strong style="color: #34d399;">(+117,900원 절약!)</strong>
+        <span class="num">248,700원</span>
+        <strong style="color: #34d399;">(+151,300원 절약!)</strong>
       </div>
       <div class="stat-pill">
         <span>🍽️ 맞춤 요리 구성:</span>
         <strong>일식 10끼 · 양식 10끼 · 중식 10끼 (맞춤 설계)</strong>
       </div>
+      <div class="stat-pill" style="border-color: rgba(16, 185, 129, 0.4); background: rgba(16, 185, 129, 0.1);"><span>🏠 기존 재료 절감:</span><strong style="color: #34d399;">+194,100원 세이브!</strong></div>
     </div>
 
     <!-- Program Guide CTA Button (프로그램 사용 전 필독 사항) -->
@@ -587,6 +658,18 @@
         <span class="btn-guide-arrow">→</span>
       </button>
     </div>
+
+    <!-- Today's 1-Pick Meal Quest Banner (10분 컷 데일리 미션 바로가기) -->
+    <a href="recipes.html?day=1#day-1" class="today-quest-banner">
+      <div class="today-quest-left">
+        <span class="quest-badge">🔥 오늘의 집밥 퀘스트</span>
+        <span class="quest-title">오늘 저녁은 10분 원팬 집밥으로 시작하세요! 👉</span>
+      </div>
+      <div class="today-quest-right">
+        <span class="quest-sub">Day 1 바로보기 · 배달비 22,000원 방어</span>
+        <span class="quest-arrow">→</span>
+      </div>
+    </a>
 
     <!-- The 3 Core Action Cards (메인 3개 버튼) -->
     <div class="action-grid">
@@ -616,9 +699,9 @@
           <div class="card-icon">🛒</div>
           <h2 class="card-title">장바구니 매니저</h2>
           <ul class="card-feature-list">
-            <li><span class="dot"></span> 282,100원 실구매 (예산 400,000원 대비 117,900원 절약)</li>
+            <li><span class="dot"></span> 248,700원 실구매 (예산 400,000원 대비 151,300원 절약)</li>
             <li><span class="dot"></span> 신선식품 / 냉동식품 / 조미료 3대 분류 완벽 분할</li>
-            <li><span class="dot"></span> 원클릭 자동 장바구니 담기 연동 지원</li>
+            <li><span class="dot"></span> 원클릭 자동 장바구니 담기 (PC 크롬 & 네이버 웨일 지원)</li>
           </ul>
         </div>
         <div class="btn-card-action">
@@ -656,23 +739,23 @@
       <div class="strategy-grid">
         <div class="strategy-col">
           <div class="col-week">1주차 주문</div>
-          <div class="col-price">172,300원</div>
-          <div class="col-desc">롯데 미림 맛술, 백설 하얀설탕, 사조 가쓰오부시, 오뚜기 고소한 참기름, 폰타나 엑스트라버진 올리브유 등</div>
+          <div class="col-price">138,500원</div>
+          <div class="col-desc">오뚜기 고소한 골드마요네즈, 사조 가쓰오부시, 폰타나 엑스트라버진 올리브유, 청정원 신안섬보배 꽃소금, 오뚜기 순후추 등</div>
         </div>
         <div class="strategy-col">
           <div class="col-week">2주차 주문</div>
-          <div class="col-price">35,300원</div>
-          <div class="col-desc">국내산 파프리카, 국내산 햇양파, 한돈 불고기용 앞다리살, 국내산 흙감자, 삼립 참깨 햄버거번 등</div>
+          <div class="col-price">56,900원</div>
+          <div class="col-desc">미국산 소 우삼겹 바로구이, 국내산 흙감자, 국내산 흙당근, 국내산 햇양파, 국내산 파프리카 등</div>
         </div>
         <div class="strategy-col">
           <div class="col-week">3주차 주문</div>
-          <div class="col-price">14,600원</div>
-          <div class="col-desc">국내산 신선 완숙 토마토, 풀무원 중화 생면, 국내산 신선 알배기배추</div>
+          <div class="col-price">29,700원</div>
+          <div class="col-desc">국내산 신선 숙주나물, 국내산 신선 청경채, 국내산 친환경 청경채, 곰곰 손질 흰다리새우살, 풀무원 소야가식 부침두부 등</div>
         </div>
         <div class="strategy-col">
           <div class="col-week">4주차 주문</div>
-          <div class="col-price">59,900원</div>
-          <div class="col-desc">천일식품 사누끼 우동면, 속초 저염 백명란젓, 청정원 베이컨, 사옹원 일식 왕새우튀김, 곰곰 손질 자숙새우살 등</div>
+          <div class="col-price">23,600원</div>
+          <div class="col-desc">국내산 알배기 배추, 국내산 친환경 팽이버섯, 국내산 신선 청경채  [4주차 신선보충], 풀무원 소야가식 부침두부  [4주차 신선보충], 국내산 신선 완숙 토마토 등</div>
         </div>
       </div>
     </div></main>
@@ -696,11 +779,11 @@
       <div class="guide-detail-list">
         <div class="guide-detail-item" style="border: 1.5px solid rgba(239, 68, 68, 0.45); background: rgba(239, 68, 68, 0.08);">
           <div class="guide-detail-item-title" style="color: #f87171;">
-            <span>1️⃣</span> 🛒 1주차 장보기 (⚠️ 꼭 PC 크롬에서만 가능!)
+            <span>1️⃣</span> 🛒 1주차 장보기 (⚠️ PC 크롬 & 네이버 웨일 지원!)
           </div>
           <div class="guide-detail-item-desc">
             스마트폰 브라우저는 기술 제약상 자동 담기가 불가능합니다. 
-            <strong>원클릭 자동 장바구니 담기는 반드시 [PC / 노트북 크롬 브라우저]</strong>에서 [장바구니 매니저]를 열어 실행해 주세요. 
+            <strong>원클릭 자동 장바구니 담기는 [PC / 노트북 크롬 또는 네이버 웨일 브라우저]</strong>에서 [장바구니 매니저]를 열어 실행해 주세요. 
             담은 후 스마트폰 쿠팡 앱에서 편하게 결제하시면 됩니다!
           </div>
         </div>
@@ -734,7 +817,7 @@
       </div>
 
       <button type="button" class="btn-modal-confirm" onclick="goToExtensionInstall()">
-        🧩 크롬 확장 프로그램 설치하러 가기 ➔
+        🧩 크롬 / 네이버 웨일 확장 프로그램 설치 가이드 ➔
       </button>
     </div>
   </div>

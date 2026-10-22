@@ -18,5 +18,15 @@
     "client_name": null,
     "portal_url": null,
     "used_at": null
+  },
+  "ZPB-GZNTEJ": {
+    "token": "ZPB-GZNTEJ",
+    "status": "unused",
+    "created_at": "2026-10-22 06:26:58",
+    "note": "1회용 맞춤 식단 초대장",
+    "client_id": null,
+    "client_name": null,
+    "portal_url": null,
+    "used_at": null
   }
 }

@@ -1,0 +1,33 @@
+{
+  "client_id": "토큰테스트_20대",
+  "client_name": "토큰테스트",
+  "client_age": "20대",
+  "household_size": "1명",
+  "people_count": 1,
+  "budget": 250000,
+  "total_spent": 247800,
+  "saved_from_budget": 2200,
+  "total_saved_pantry": 4000,
+  "meal_frequency": "저녁만 (30끼)",
+  "total_meals": 30,
+  "goal": "다이어트",
+  "cuisine": "한식",
+  "excluded_foods": "없음",
+  "pantry_items": "소금, 설탕",
+  "goal_notes": "",
+  "theme": "토큰테스트님을 위한 1명 다이어트 맞춤 식단 (한식)",
+  "created_at": "2026-10-17",
+  "recipes_summary": [
+    "구수한 들깨 애호박 감자 수제비 (1인분)",
+    "만능간장 가지밥 + 부추양념장 (1인분)",
+    "매콤 단짠 두부조림 + 계란국 (1인분)",
+    "닭가슴살 깍둑 비빔밥 + 된장국 (1인분)",
+    "얼큰 순두부 열라면 국밥 (1인분)"
+  ],
+  "pages": {
+    "portal": "clients/토큰테스트_20대/index.html",
+    "cart": "clients/토큰테스트_20대/cart.html",
+    "recipes": "clients/토큰테스트_20대/recipes.html",
+    "storage": "clients/토큰테스트_20대/storage.html"
+  }
+}

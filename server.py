@@ -285,6 +285,16 @@ class CoupangAutoServer(http.server.SimpleHTTPRequestHandler):
             self._send_json({"success": res})
             return
 
+        elif parsed.path == '/api/tokens/import':
+            tokens_in = data.get('tokens', {})
+            import survey_token_manager as stm
+            curr = stm._load_tokens()
+            curr.update(tokens_in)
+            stm._save_tokens(curr)
+            self._send_json({"success": True, "count": len(curr), "tokens": curr})
+            return
+
+
 
         elif parsed.path == '/api/create-client':
             import time

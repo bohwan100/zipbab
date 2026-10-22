@@ -65,6 +65,29 @@ def generate_token(note=""):
             return tokens[code]
     return None
 
+def _fetch_remote_tokens():
+    """GitHub main 브랜치에서 최신 토큰 DB를 폴백으로 가져와 로컬과 병합 (컨테이너 재시작 시 토큰 유실 원천 방지)"""
+    import urllib.request
+    try:
+        url = "https://raw.githubusercontent.com/bohwan100/zipbab/main/data/survey_tokens.json"
+        req = urllib.request.Request(url, headers={"User-Agent": "ZipbabBot-TokenSync"})
+        with urllib.request.urlopen(req, timeout=3) as resp:
+            if resp.status == 200:
+                remote_tokens = json.loads(resp.read().decode("utf-8"))
+                if isinstance(remote_tokens, dict) and remote_tokens:
+                    local_tokens = _load_tokens()
+                    updated = False
+                    for k, v in remote_tokens.items():
+                        if k not in local_tokens:
+                            local_tokens[k] = v
+                            updated = True
+                    if updated:
+                        _save_tokens(local_tokens)
+                    return local_tokens
+    except Exception as e:
+        print(f"[TokenManager] Remote sync note: {e}")
+    return None
+
 def verify_token(token):
     """
     토큰 유효성 검증
@@ -80,7 +103,12 @@ def verify_token(token):
     tokens = _load_tokens()
     
     if token not in tokens:
-        return {"status": "invalid", "message": "유효하지 않은 초대 코드입니다."}
+        # 로컬 컨테이너에 없으면 GitHub 원격 최신 DB에서 긴급 자동 복원
+        remote = _fetch_remote_tokens()
+        if remote and token in remote:
+            tokens = remote
+        else:
+            return {"status": "invalid", "message": "유효하지 않은 초대 코드입니다."}
     
     info = tokens[token]
     if info.get("status") == "used":
@@ -126,9 +154,16 @@ def mark_token_used(token, client_id, client_name, portal_url):
 def get_all_tokens():
     """모든 토큰 목록 최신순 반환"""
     tokens = _load_tokens()
+    try:
+        remote = _fetch_remote_tokens()
+        if remote:
+            tokens = remote
+    except Exception:
+        pass
     items = list(tokens.values())
     items.sort(key=lambda x: x.get("created_at", ""), reverse=True)
     return items
+
 
 def delete_token(token):
     """토큰 삭제"""

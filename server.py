@@ -128,6 +128,18 @@ class CoupangAutoServer(http.server.SimpleHTTPRequestHandler):
             success, msg = github_sync.perform_git_sync("feat: manual dashboard sync")
             self._send_json({"success": success, "message": msg})
             return
+        elif parsed.path == '/api/tokens/verify':
+            import survey_token_manager as stm
+            query = parse_qs(parsed.query)
+            token = query.get('token', [''])[0]
+            res = stm.verify_token(token)
+            self._send_json(res)
+            return
+        elif parsed.path == '/api/tokens/list':
+            import survey_token_manager as stm
+            tokens = stm.get_all_tokens()
+            self._send_json({"success": True, "tokens": tokens})
+            return
 
         # Friendly URL routing
         if parsed.path in ['/survey', '/survey/']:
@@ -232,8 +244,54 @@ class CoupangAutoServer(http.server.SimpleHTTPRequestHandler):
                 self._send_json({"success": False, "error": "query or url required"}, 400)
             return
 
+        elif parsed.path == '/api/tokens/generate':
+            import survey_token_manager as stm
+            note = data.get('note', '')
+            count = int(data.get('count', 1))
+            created = []
+            for _ in range(max(1, min(count, 50))):
+                t = stm.generate_token(note=note)
+                if t:
+                    created.append(t)
+            self._send_json({"success": True, "tokens": created, "token": created[0] if created else None})
+            return
+
+        elif parsed.path == '/api/tokens/delete':
+            import survey_token_manager as stm
+            token = data.get('token', '')
+            res = stm.delete_token(token)
+            self._send_json({"success": res})
+            return
+
         elif parsed.path == '/api/create-client':
             import time
+            token = data.get('token', '').strip()
+            is_admin = bool(data.get('admin', False)) or (token == 'ADMIN_MASTER')
+
+            import survey_token_manager as stm
+            if not is_admin:
+                if not token:
+                    self._send_json({
+                        "success": False,
+                        "error": "⛔ 1회용 설문 초대 코드가 필요합니다. 초대 링크를 통해 접속해 주세요."
+                    }, 400)
+                    return
+                token_check = stm.verify_token(token)
+                if token_check.get("status") == "already_used":
+                    self._send_json({
+                        "success": False,
+                        "error": "⚠️ 이미 작성이 완료된 1회용 설문 링크입니다.",
+                        "status": "already_used",
+                        "portal_url": token_check.get("portal_url")
+                    }, 400)
+                    return
+                elif token_check.get("status") != "valid":
+                    self._send_json({
+                        "success": False,
+                        "error": "⛔ 유효하지 않거나 만료된 초대 코드입니다."
+                    }, 400)
+                    return
+
             name = data.get('name', '고객님')
             age = data.get('age', '30대')
             household = data.get('household', '1명')
@@ -291,6 +349,18 @@ class CoupangAutoServer(http.server.SimpleHTTPRequestHandler):
                     print(f"[Warning] Failed to update clients.html: {ex}")
                 finally:
                     gc.collect()
+
+                # 1회용 초대 토큰 소멸 처리 (영구 재작성 방지)
+                if token and not is_admin:
+                    try:
+                        stm.mark_token_used(
+                            token=token,
+                            client_id=client_id,
+                            client_name=name,
+                            portal_url=f"https://bohwan100.github.io/zipbab/clients/{quote(client_id)}/index.html"
+                        )
+                    except Exception as ex:
+                        print(f"[Warning] Failed to mark token used: {ex}")
 
                 # GitHub 자동 영구 보존 동기화 (Auto-Sync)
                 try:

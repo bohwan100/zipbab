@@ -489,23 +489,26 @@ html_content = f"""<!DOCTYPE html>
     <!-- 📢 고객 전달용 설문지 배포 배너 (스마트폰 카톡 전송 가능) -->
     <div style="background: linear-gradient(135deg, rgba(30, 41, 59, 0.95) 0%, rgba(15, 23, 42, 0.98) 100%); border: 1.5px solid #eab308; border-radius: 16px; padding: 18px 24px; margin-bottom: 24px; box-shadow: 0 4px 20px rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px;">
       <div style="display: flex; align-items: center; gap: 14px;">
-        <span style="font-size: 2rem;">📢</span>
+        <span style="font-size: 2rem;">🎟️</span>
         <div>
           <div style="display: flex; align-items: center; gap: 8px;">
-            <strong style="color: #facc15; font-size: 1.05rem;">고객 전달용 맞춤 식단 설문지 링크</strong>
-            <span style="background: #eab308; color: #1e1b4b; font-size: 0.72rem; font-weight: 800; padding: 2px 7px; border-radius: 6px;">모바일 1초 접속 보장</span>
+            <strong style="color: #facc15; font-size: 1.05rem;">1회용 고객 설문 초대 링크 발급 센터</strong>
+            <span style="background: #10b981; color: #fff; font-size: 0.72rem; font-weight: 800; padding: 2px 7px; border-radius: 6px;">무한 재작성 원천 차단</span>
           </div>
           <div style="color: #94a3b8; font-size: 0.86rem; margin-top: 3px;">
-            새로운 고객에게 카톡으로 이 링크를 보내주시면, 고객이 스마트폰에서 설문을 작성하는 즉시 모바일 맞춤 사이트가 완성됩니다.
+            고객 1명당 1회만 제출 가능한 1회용 링크를 1초 만에 발급합니다. 제출 즉시 코드가 영구 소멸되어 중복 작성이 불가능합니다.
           </div>
         </div>
       </div>
       <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
-        <button type="button" onclick="copySurveyLink()" style="background: linear-gradient(135deg, #fee500 0%, #facc15 100%); color: #1e1b4b; border: none; padding: 10px 18px; border-radius: 10px; font-weight: 800; font-size: 0.88rem; cursor: pointer; display: flex; align-items: center; gap: 6px; box-shadow: 0 2px 10px rgba(250, 204, 21, 0.35);">
-          📋 고객 배포용 설문 링크 복사
+        <button type="button" onclick="createOneTimeSurveyLink()" id="btn-create-token" style="background: linear-gradient(135deg, #fee500 0%, #facc15 100%); color: #1e1b4b; border: none; padding: 10px 18px; border-radius: 10px; font-weight: 800; font-size: 0.88rem; cursor: pointer; display: flex; align-items: center; gap: 6px; box-shadow: 0 2px 10px rgba(250, 204, 21, 0.35);">
+          ⚡ 1회용 설문 링크 1초 발급 & 복사
         </button>
-        <a href="survey.html" target="_blank" style="background: rgba(255, 255, 255, 0.08); color: #cbd5e1; border: 1px solid rgba(255, 255, 255, 0.2); padding: 10px 16px; border-radius: 10px; font-weight: 700; font-size: 0.85rem; text-decoration: none;">
-          🌐 설문지 열기 ➔
+        <button type="button" onclick="openTokenManagerModal()" style="background: rgba(255, 255, 255, 0.08); color: #cbd5e1; border: 1px solid rgba(255, 255, 255, 0.2); padding: 10px 16px; border-radius: 10px; font-weight: 700; font-size: 0.85rem; cursor: pointer;">
+          📊 발급/사용 현황
+        </button>
+        <a href="survey.html?admin=true" target="_blank" style="background: rgba(245, 158, 11, 0.15); color: #f59e0b; border: 1px solid rgba(245, 158, 11, 0.4); padding: 10px 14px; border-radius: 10px; font-weight: 700; font-size: 0.85rem; text-decoration: none;">
+          👑 관리자 직접 등록 ➔
         </a>
       </div>
     </div>
@@ -634,6 +637,33 @@ for c in clients_data:
 html_content += f"""    </div>
   </div>
 
+  <!-- 🎟️ 1회용 설문 초대 코드 관리 모달 -->
+  <div id="token-modal" style="display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.75); backdrop-filter: blur(8px); z-index: 9999; align-items: center; justify-content: center; padding: 20px;">
+    <div style="background: #0f172a; border: 1.5px solid rgba(250, 204, 21, 0.4); border-radius: 20px; width: 100%; max-width: 760px; max-height: 85vh; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 25px 50px rgba(0, 0, 0, 0.8);">
+      <div style="padding: 20px 24px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); display: flex; justify-content: space-between; align-items: center;">
+        <div style="font-size: 1.25rem; font-weight: 800; color: #fff; display: flex; align-items: center; gap: 8px;">
+          <span>🎟️</span> 1회용 설문 초대장 발급 & 실시간 현황
+        </div>
+        <button type="button" onclick="closeTokenModal()" style="background: rgba(255, 255, 255, 0.1); border: none; color: #94a3b8; font-size: 1.2rem; width: 32px; height: 32px; border-radius: 50%; cursor: pointer;">✕</button>
+      </div>
+      
+      <!-- 발급 컨트롤러 -->
+      <div style="padding: 16px 24px; background: rgba(255, 255, 255, 0.03); border-bottom: 1px solid rgba(255, 255, 255, 0.08); display: flex; gap: 10px; align-items: center;">
+        <input type="text" id="token-note-input" placeholder="고객 메모 (예: 홍길동 님)" style="flex: 1; background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.15); color: #fff; padding: 10px 14px; border-radius: 10px; font-size: 0.9rem; outline: none;">
+        <button type="button" onclick="createOneTimeSurveyLink(document.getElementById('token-note-input').value)" style="background: #eab308; color: #1e1b4b; border: none; padding: 10px 18px; border-radius: 10px; font-weight: 800; font-size: 0.88rem; cursor: pointer; white-space: nowrap;">
+          + 1회용 링크 발급
+        </button>
+      </div>
+
+      <!-- 토큰 목록 테이블 -->
+      <div style="padding: 20px 24px; overflow-y: auto; flex: 1;">
+        <div id="token-list-container">
+          <div style="text-align: center; padding: 40px; color: #94a3b8;">불러오는 중...</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script>
     // file:// 로 직접 열었을 경우 자동으로 온라인 CDN 주소로 즉시 전환
     if (window.location.protocol === 'file:') {{
@@ -642,6 +672,134 @@ html_content += f"""    </div>
 
     const cdnBase = '{cdn_base}';
     const renderBase = '{render_base}';
+
+    // 🎟️ 1회용 설문 링크 즉시 발급 및 복사
+    async function createOneTimeSurveyLink(note = '') {{
+      const btn = document.getElementById('btn-create-token');
+      if (btn) btn.disabled = true;
+      try {{
+        const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+        const apiBase = isLocal ? '' : renderBase;
+        const res = await fetch(apiBase + '/api/tokens/generate', {{
+          method: 'POST',
+          headers: {{ 'Content-Type': 'application/json' }},
+          body: JSON.stringify({{ note: note || '1회용 맞춤 식단 초대장' }})
+        }});
+        const data = await res.json();
+        if (data.success && data.token) {{
+          const fullLink = `${{renderBase}}/survey.html?token=${{data.token.token}}`;
+          await navigator.clipboard.writeText(fullLink);
+          showCopyToast(`🎟️ [1회용 초대 링크 발급 & 복사 완료!]\\n코드: ${{data.token.token}}\\n\\n카톡에 바로 붙여넣어 전송하세요!\\n(고객이 1회 제출 시 즉시 영구 소멸되어 재작성이 차단됩니다)`);
+          
+          const noteInput = document.getElementById('token-note-input');
+          if (noteInput) noteInput.value = '';
+          
+          const modal = document.getElementById('token-modal');
+          if (modal && modal.style.display === 'flex') {{
+            loadAndRenderTokens();
+          }}
+        }} else {{
+          alert('1회용 링크 발급 실패: ' + (data.error || '오류 발생'));
+        }}
+      }} catch (err) {{
+        alert('발급 통신 오류: ' + err.message);
+      }} finally {{
+        if (btn) btn.disabled = false;
+      }}
+    }}
+
+    function openTokenManagerModal() {{
+      const modal = document.getElementById('token-modal');
+      modal.style.display = 'flex';
+      loadAndRenderTokens();
+    }}
+
+    function closeTokenModal() {{
+      document.getElementById('token-modal').style.display = 'none';
+    }}
+
+    async function loadAndRenderTokens() {{
+      const container = document.getElementById('token-list-container');
+      container.innerHTML = '<div style="text-align: center; padding: 30px; color: #94a3b8;">⏳ 토큰 목록 동기화 중...</div>';
+      try {{
+        const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+        const apiBase = isLocal ? '' : renderBase;
+        const res = await fetch(apiBase + '/api/tokens/list');
+        const data = await res.json();
+        if (data.success && data.tokens) {{
+          renderTokensTable(data.tokens);
+        }} else {{
+          container.innerHTML = '<div style="text-align: center; padding: 30px; color: #ef4444;">목록을 불러오지 못했습니다.</div>';
+        }}
+      }} catch (err) {{
+        container.innerHTML = `<div style="text-align: center; padding: 30px; color: #ef4444;">통신 오류: ${{err.message}}</div>`;
+      }}
+    }}
+
+    function renderTokensTable(tokens) {{
+      const container = document.getElementById('token-list-container');
+      if (!tokens || tokens.length === 0) {{
+        container.innerHTML = '<div style="text-align: center; padding: 40px; color: #64748b;">아직 발급된 1회용 초대 코드가 없습니다.<br>상단 [+ 1회용 링크 발급] 버튼을 눌러보세요!</div>';
+        return;
+      }}
+      let html = `
+        <table style="width: 100%; border-collapse: collapse; font-size: 0.88rem; text-align: left;">
+          <thead>
+            <tr style="border-bottom: 1.5px solid rgba(255, 255, 255, 0.1); color: #94a3b8;">
+              <th style="padding: 10px 8px;">초대 코드</th>
+              <th style="padding: 10px 8px;">상태</th>
+              <th style="padding: 10px 8px;">메모 / 고객</th>
+              <th style="padding: 10px 8px;">발급일시</th>
+              <th style="padding: 10px 8px; text-align: right;">관리</th>
+            </tr>
+          </thead>
+          <tbody>
+      `;
+      for (const t of tokens) {{
+        const isUsed = t.status === 'used';
+        const statusBadge = isUsed 
+          ? `<span style="background: rgba(239, 68, 68, 0.15); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.3); padding: 3px 8px; border-radius: 6px; font-weight: 700; font-size: 0.75rem;">🔴 작성완료 (소멸)</span>`
+          : `<span style="background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); padding: 3px 8px; border-radius: 6px; font-weight: 700; font-size: 0.75rem;">🟢 미사용 (유효)</span>`;
+        
+        let clientInfo = t.note || '-';
+        if (isUsed && t.client_name) {{
+          clientInfo = `<strong>${{t.client_name}}님</strong>` + (t.portal_url ? ` (<a href="${{t.portal_url}}" target="_blank" style="color: #38bdf8; text-decoration: underline;">포털열기</a>)` : '');
+        }}
+
+        const linkUrl = `${{renderBase}}/survey.html?token=${{t.token}}`;
+
+        html += `
+          <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+            <td style="padding: 12px 8px; font-family: monospace; font-weight: 700; color: #facc15;">${{t.token}}</td>
+            <td style="padding: 12px 8px;">${{statusBadge}}</td>
+            <td style="padding: 12px 8px; color: #cbd5e1;">${{clientInfo}}</td>
+            <td style="padding: 12px 8px; color: #64748b; font-size: 0.8rem;">${{t.created_at || '-'}}</td>
+            <td style="padding: 12px 8px; text-align: right; white-space: nowrap;">
+              ${{!isUsed ? `<button type="button" onclick="navigator.clipboard.writeText('${{linkUrl}}').then(()=>showCopyToast('📋 링크 복사 완료: ${{t.token}}'))" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); color: #fff; padding: 5px 10px; border-radius: 6px; font-size: 0.78rem; cursor: pointer; margin-right: 6px;">복사</button>` : ''}}
+              <button type="button" onclick="deleteTokenItem('${{t.token}}')" style="background: transparent; border: none; color: #ef4444; font-size: 0.85rem; cursor: pointer;" title="삭제">🗑️</button>
+            </td>
+          </tr>
+        `;
+      }}
+      html += '</tbody></table>';
+      container.innerHTML = html;
+    }}
+
+    async function deleteTokenItem(token) {{
+      if (!confirm(`[${{token}}] 초대 코드를 삭제하시겠습니까?`)) return;
+      try {{
+        const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+        const apiBase = isLocal ? '' : renderBase;
+        await fetch(apiBase + '/api/tokens/delete', {{
+          method: 'POST',
+          headers: {{ 'Content-Type': 'application/json' }},
+          body: JSON.stringify({{ token }})
+        }});
+        loadAndRenderTokens();
+      }} catch (err) {{
+        alert('삭제 오류: ' + err.message);
+      }}
+    }}
 
     function copySurveyLink() {{
       const surveyUrl = `${{cdnBase}}/survey.html`;

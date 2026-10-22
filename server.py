@@ -476,12 +476,31 @@ class CoupangAutoServer(http.server.SimpleHTTPRequestHandler):
                 except Exception as err:
                     errors.append(f"Failed to delete {cid}: {str(err)}")
 
+            # clients_registry.json 동기화 (삭제된 고객 영구 제거 및 최신순 정렬 보존)
+            if deleted:
+                try:
+                    reg_file = os.path.join(DIRECTORY, "data", "clients_registry.json")
+                    if os.path.exists(reg_file):
+                        with open(reg_file, "r", encoding="utf-8") as f:
+                            reg_data = json.load(f)
+                        changed = False
+                        for d_cid in deleted:
+                            if d_cid in reg_data:
+                                del reg_data[d_cid]
+                                changed = True
+                        if changed:
+                            with open(reg_file, "w", encoding="utf-8") as f:
+                                json.dump(reg_data, f, ensure_ascii=False, indent=2)
+                except Exception as ex:
+                    print(f"[Warning] Failed to update clients_registry.json after delete: {ex}")
+
             # clients.html 자동 동기화 갱신 (메모리 절약을 위해 subprocess 대신 in-process 실행)
             try:
                 dash_script = os.path.join(DIRECTORY, "scratch", "generate_clients_dashboard.py")
                 if os.path.exists(dash_script):
                     with open(dash_script, "r", encoding="utf-8") as f:
                         exec(f.read(), {"__name__": "__main__"})
+
             except Exception as ex:
                 print(f"[Warning] Failed to update clients.html after delete: {ex}")
             finally:

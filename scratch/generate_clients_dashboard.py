@@ -7,23 +7,52 @@ cdn_base = "https://bohwan100.github.io/zipbab"
 render_base = "https://zipbabot.onrender.com"
 
 clients_dir = os.path.join(BASE_DIR, 'clients')
+registry_file = os.path.join(BASE_DIR, 'data', 'clients_registry.json')
+
+registry = {}
+if os.path.exists(registry_file):
+    try:
+        with open(registry_file, 'r', encoding='utf-8') as f:
+            registry = json.load(f)
+    except Exception:
+        registry = {}
+
 clients_data = []
 
-
 if os.path.exists(clients_dir):
+    reg_updated = False
     for c in sorted(os.listdir(clients_dir)):
         c_path = os.path.join(clients_dir, c)
         if not os.path.isdir(c_path):
             continue
         info_file = os.path.join(c_path, 'client_info.json')
-        mtime = os.path.getmtime(c_path)
+        
+        reg_item = registry.get(c, {})
+        reg_ts = reg_item.get('timestamp')
+        reg_dt = reg_item.get('registered_at')
+        is_pinned = reg_item.get('pinned', False) or ('최종본' in c)
+
+        if not reg_ts:
+            reg_ts = int(os.path.getmtime(c_path))
+            import datetime
+            reg_dt = datetime.datetime.fromtimestamp(reg_ts).strftime("%Y-%m-%d %H:%M:%S")
+            registry[c] = {
+                "client_id": c,
+                "client_name": c,
+                "registered_at": reg_dt,
+                "timestamp": reg_ts,
+                "pinned": is_pinned
+            }
+            reg_updated = True
+
         if os.path.exists(info_file):
             try:
-                mtime = max(mtime, os.path.getmtime(info_file))
                 with open(info_file, 'r', encoding='utf-8') as f:
                     data = json.load(f)
                     data['folder_name'] = c
-                    data['mtime'] = mtime
+                    data['reg_timestamp'] = reg_ts
+                    data['reg_date'] = reg_dt or data.get('created_at', '')
+                    data['is_pinned'] = is_pinned
                     clients_data.append(data)
             except Exception:
                 pass
@@ -32,7 +61,9 @@ if os.path.exists(clients_dir):
                 'client_id': c,
                 'client_name': c,
                 'folder_name': c,
-                'mtime': mtime,
+                'reg_timestamp': reg_ts,
+                'reg_date': reg_dt,
+                'is_pinned': is_pinned,
                 'household_size': '1명',
                 'budget': 300000,
                 'goal': '일반식',
@@ -45,15 +76,24 @@ if os.path.exists(clients_dir):
                 }
             })
 
+    if reg_updated:
+        try:
+            os.makedirs(os.path.join(BASE_DIR, 'data'), exist_ok=True)
+            with open(registry_file, 'w', encoding='utf-8') as f:
+                json.dump(registry, f, ensure_ascii=False, indent=2)
+        except Exception:
+            pass
+
 # 1. '최종본 !!!'은 무조건 맨 첫 번째(왼쪽 상단 0순위) 고정
-# 2. 그 뒤로는 생성/수정 시간(mtime) 최신순 (내림차순) 정렬
+# 2. 그 뒤로는 영구 등록 타임스탬프(reg_timestamp) 최신순(내림차순) 정렬
+# 3. 파일 삭제/컨테이너 재시작에도 순서가 절대 섞이지 않는 불변(Deterministic) 정렬
 def get_sort_key(item):
     fname = item.get('folder_name', item.get('client_id', ''))
     cname = item.get('client_name', '')
-    if '최종본' in fname or '최종본' in cname:
-        return (0, 0)
-    mtime = item.get('mtime', 0)
-    return (1, -mtime)
+    if item.get('is_pinned') or '최종본' in fname or '최종본' in cname:
+        return (0, 0, fname)
+    ts = item.get('reg_timestamp', 0)
+    return (1, -ts, fname)
 
 clients_data.sort(key=get_sort_key)
 
@@ -570,11 +610,14 @@ for c in clients_data:
     goal = c.get('goal', '일반식')
     cuisine = c.get('cuisine', '한식, 일식')
     goal_notes = c.get('goal_notes', '')
-    version_ts = int(mtime)
+    version_ts = int(c.get('reg_timestamp', 1792628000))
     portal_link = f"clients/{cid}/index.html?v={version_ts}"
     recipe_link = f"clients/{cid}/recipes.html?v={version_ts}"
     cart_link = f"clients/{cid}/cart.html?v={version_ts}"
     storage_link = f"clients/{cid}/storage.html?v={version_ts}"
+
+    reg_date_str = c.get('reg_date', '')
+    reg_date_badge = f'<span style="color: #64748b; font-size: 0.76rem; font-weight: 500;">· 🕒 {reg_date_str[:16]}</span>' if reg_date_str else ''
 
     goal_notes_html = ""
     if goal_notes and goal_notes.strip():
@@ -599,7 +642,7 @@ for c in clients_data:
                   <div class="client-name">{name}</div>
                   {pinned_badge}
                 </div>
-                <div class="client-meta">📁 {cid}</div>
+                <div class="client-meta">📁 {cid} {reg_date_badge}</div>
               </div>
             </div>
             <div class="head-right-tools">

@@ -1,0 +1,163 @@
+{
+  "강윤_20살": {
+    "client_id": "강윤_20살",
+    "client_name": "강윤",
+    "registered_at": "2026-10-20 01:19:07",
+    "timestamp": 1792426747,
+    "pinned": false
+  },
+  "곽경민_28": {
+    "client_id": "곽경민_28",
+    "client_name": "곽경민",
+    "registered_at": "2026-10-20 14:12:17",
+    "timestamp": 1792473137,
+    "pinned": false
+  },
+  "김성민_30": {
+    "client_id": "김성민_30",
+    "client_name": "김성민",
+    "registered_at": "2026-10-19 16:38:31",
+    "timestamp": 1792395511,
+    "pinned": false
+  },
+  "김지욱_24": {
+    "client_id": "김지욱_24",
+    "client_name": "김지욱",
+    "registered_at": "2026-10-19 16:37:41",
+    "timestamp": 1792395461,
+    "pinned": false
+  },
+  "김지은_27": {
+    "client_id": "김지은_27",
+    "client_name": "김지은",
+    "registered_at": "2026-10-19 22:20:20",
+    "timestamp": 1792416020,
+    "pinned": false
+  },
+  "김태영_23": {
+    "client_id": "김태영_23",
+    "client_name": "김태영",
+    "registered_at": "2026-10-20 14:19:16",
+    "timestamp": 1792473556,
+    "pinned": false
+  },
+  "김현민_23": {
+    "client_id": "김현민_23",
+    "client_name": "김현민",
+    "registered_at": "2026-10-19 16:53:05",
+    "timestamp": 1792396385,
+    "pinned": false
+  },
+  "노한석_30": {
+    "client_id": "노한석_30",
+    "client_name": "노한석",
+    "registered_at": "2026-10-19 09:20:25",
+    "timestamp": 1792369225,
+    "pinned": false
+  },
+  "박병애_31": {
+    "client_id": "박병애_31",
+    "client_name": "박병애",
+    "registered_at": "2026-10-19 16:35:25",
+    "timestamp": 1792395325,
+    "pinned": false
+  },
+  "송대호_26": {
+    "client_id": "송대호_26",
+    "client_name": "송대호",
+    "registered_at": "2026-10-19 22:16:18",
+    "timestamp": 1792415778,
+    "pinned": false
+  },
+  "이보보_30대": {
+    "client_id": "이보보_30대",
+    "client_name": "이보보",
+    "registered_at": "2026-10-22 09:13:48",
+    "timestamp": 1792628028,
+    "pinned": false
+  },
+  "임동현_29": {
+    "client_id": "임동현_29",
+    "client_name": "임동현",
+    "registered_at": "2026-10-19 22:17:17",
+    "timestamp": 1792415837,
+    "pinned": false
+  },
+  "정민_26": {
+    "client_id": "정민_26",
+    "client_name": "정민",
+    "registered_at": "2026-10-19 16:54:11",
+    "timestamp": 1792396451,
+    "pinned": false
+  },
+  "정수원_21세": {
+    "client_id": "정수원_21세",
+    "client_name": "정수원",
+    "registered_at": "2026-10-19 09:20:25",
+    "timestamp": 1792369225,
+    "pinned": false
+  },
+  "정유진_37": {
+    "client_id": "정유진_37",
+    "client_name": "정유진",
+    "registered_at": "2026-10-19 09:20:25",
+    "timestamp": 1792369225,
+    "pinned": false
+  },
+  "정진향_41": {
+    "client_id": "정진향_41",
+    "client_name": "정진향",
+    "registered_at": "2026-10-19 09:20:25",
+    "timestamp": 1792369225,
+    "pinned": false
+  },
+  "주윤겸_25세": {
+    "client_id": "주윤겸_25세",
+    "client_name": "주윤겸",
+    "registered_at": "2026-10-20 14:11:36",
+    "timestamp": 1792473096,
+    "pinned": false
+  },
+  "차민홍_34": {
+    "client_id": "차민홍_34",
+    "client_name": "차민홍",
+    "registered_at": "2026-10-19 09:20:25",
+    "timestamp": 1792369225,
+    "pinned": false
+  },
+  "최민석_26": {
+    "client_id": "최민석_26",
+    "client_name": "최민석",
+    "registered_at": "2026-10-19 09:20:25",
+    "timestamp": 1792369225,
+    "pinned": false
+  },
+  "최수정_28": {
+    "client_id": "최수정_28",
+    "client_name": "최수정",
+    "registered_at": "2026-10-19 22:15:16",
+    "timestamp": 1792415716,
+    "pinned": false
+  },
+  "최종본_100세_2": {
+    "client_id": "최종본_100세_2",
+    "client_name": "최종본 !!!",
+    "registered_at": "2026-10-18 22:21:48",
+    "timestamp": 1792329708,
+    "pinned": true
+  },
+  "한재원_21살": {
+    "client_id": "한재원_21살",
+    "client_name": "한재원",
+    "registered_at": "2026-10-19 17:13:11",
+    "timestamp": 1792397591,
+    "pinned": false
+  },
+  "이보보보_30": {
+    "client_id": "이보보보_30",
+    "client_name": "이보보보_30",
+    "registered_at": "2026-10-22 15:30:33",
+    "timestamp": 1792650633,
+    "pinned": false
+  }
+}

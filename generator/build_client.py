@@ -277,6 +277,10 @@ def build_client(
         print(f"  ✓ 개인화 생성됨: {dest_name}")
 
     # 3. 메타데이터 JSON 저장
+    import time, datetime
+    reg_now_ts = int(time.time())
+    reg_now_str = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
     info = {
         "client_id": client_id,
         "client_name": name,
@@ -295,7 +299,8 @@ def build_client(
         "pantry_items": pantry,
         "goal_notes": goal_notes,
         "theme": theme_title,
-        "created_at": "2026-10-17",
+        "created_at": reg_now_str,
+        "created_timestamp": reg_now_ts,
         "recipes_summary": [r["title"] for r in plan["recipes"][:5]],
         "pages": {
             "portal": f"clients/{client_id}/index.html",
@@ -309,6 +314,27 @@ def build_client(
     with open(info_path, "w", encoding="utf-8") as f:
         json.dump(info, f, ensure_ascii=False, indent=2)
     print(f"  ✓ 메타데이터: client_info.json")
+
+    # 3-1. clients_registry.json에 영구 등록 (최신순 불변 정렬 보장)
+    try:
+        reg_file = os.path.join(ROOT_DIR, "data", "clients_registry.json")
+        reg_data = {}
+        if os.path.exists(reg_file):
+            with open(reg_file, "r", encoding="utf-8") as f:
+                reg_data = json.load(f)
+        reg_data[client_id] = {
+            "client_id": client_id,
+            "client_name": name,
+            "registered_at": reg_now_str,
+            "timestamp": reg_now_ts,
+            "pinned": ("최종본" in client_id)
+        }
+        with open(reg_file, "w", encoding="utf-8") as f:
+            json.dump(reg_data, f, ensure_ascii=False, indent=2)
+        print(f"  ✓ 영구 레지스트리 등록: data/clients_registry.json")
+    except Exception as e:
+        print(f"  [-] 레지스트리 등록 생략: {e}")
+
 
     # 4. 모바일 QR 생성
     try:

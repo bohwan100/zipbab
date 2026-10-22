@@ -278,6 +278,14 @@ class CoupangAutoServer(http.server.SimpleHTTPRequestHandler):
             self._send_json({"success": res})
             return
 
+        elif parsed.path == '/api/tokens/reset':
+            import survey_token_manager as stm
+            token = data.get('token', '')
+            res = stm.reset_token(token)
+            self._send_json({"success": res})
+            return
+
+
         elif parsed.path == '/api/create-client':
             import time
             token = data.get('token', '').strip()

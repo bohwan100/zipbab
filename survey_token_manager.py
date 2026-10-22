@@ -137,5 +137,32 @@ def delete_token(token):
     if token in tokens:
         del tokens[token]
         _save_tokens(tokens)
+        try:
+            import github_sync
+            github_sync.trigger_async_sync(f"feat: auto-sync token deleted {token}")
+        except Exception:
+            pass
         return True
     return False
+
+def reset_token(token):
+    """사용 완료된 1회용 토큰을 'unused' 상태로 초기화하여 기존 발급 링크 그대로 설문 재작성을 허용함"""
+    token = str(token).strip().upper()
+    tokens = _load_tokens()
+    if token in tokens:
+        tokens[token]["status"] = "unused"
+        prev_client = tokens[token].get("client_name") or tokens[token].get("client_id") or ""
+        tokens[token]["client_id"] = None
+        tokens[token]["client_name"] = None
+        tokens[token]["portal_url"] = None
+        tokens[token]["used_at"] = None
+        _save_tokens(tokens)
+        try:
+            import github_sync
+            github_sync.trigger_async_sync(f"feat: auto-sync token reset {token}")
+        except Exception:
+            pass
+        print(f"[TokenManager] Token [{token}] reset to UNUSED (previously: {prev_client}).")
+        return True
+    return False
+

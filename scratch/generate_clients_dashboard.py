@@ -775,7 +775,10 @@ html_content += f"""    </div>
             <td style="padding: 12px 8px; color: #cbd5e1;">${{clientInfo}}</td>
             <td style="padding: 12px 8px; color: #64748b; font-size: 0.8rem;">${{t.created_at || '-'}}</td>
             <td style="padding: 12px 8px; text-align: right; white-space: nowrap;">
-              ${{!isUsed ? `<button type="button" onclick="navigator.clipboard.writeText('${{linkUrl}}').then(()=>showCopyToast('📋 링크 복사 완료: ${{t.token}}'))" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); color: #fff; padding: 5px 10px; border-radius: 6px; font-size: 0.78rem; cursor: pointer; margin-right: 6px;">복사</button>` : ''}}
+              ${{!isUsed 
+                ? `<button type="button" onclick="navigator.clipboard.writeText('${{linkUrl}}').then(()=>showCopyToast('📋 링크 복사 완료: ${{t.token}}'))" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); color: #fff; padding: 5px 10px; border-radius: 6px; font-size: 0.78rem; cursor: pointer; margin-right: 6px;">복사</button>` 
+                : `<button type="button" onclick="resetTokenItem('${{t.token}}')" style="background: rgba(56, 189, 248, 0.15); border: 1px solid rgba(56, 189, 248, 0.3); color: #38bdf8; padding: 5px 10px; border-radius: 6px; font-size: 0.78rem; font-weight: 700; cursor: pointer; margin-right: 6px;" title="고객이 기존 링크로 다시 설문 작성 가능">🔄 재작성 허용</button>`
+              }}
               <button type="button" onclick="deleteTokenItem('${{t.token}}')" style="background: transparent; border: none; color: #ef4444; font-size: 0.85rem; cursor: pointer;" title="삭제">🗑️</button>
             </td>
           </tr>
@@ -785,8 +788,30 @@ html_content += f"""    </div>
       container.innerHTML = html;
     }}
 
+    async function resetTokenItem(token) {{
+      if (!confirm(`[${{token}}] 초대 코드를 초기화하시겠습니까?\\n\\n고객이 기존에 받았던 동일한 링크에서 설문을 다시 작성할 수 있게 됩니다.`)) return;
+      try {{
+        const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+        const apiBase = isLocal ? '' : renderBase;
+        const res = await fetch(apiBase + '/api/tokens/reset', {{
+          method: 'POST',
+          headers: {{ 'Content-Type': 'application/json' }},
+          body: JSON.stringify({{ token }})
+        }});
+        const data = await res.json();
+        if (data.success) {{
+          showCopyToast(`✅ [${{token}}] 초대 코드가 초기화되었습니다!\\n고객이 기존 링크로 다시 설문 작성이 가능합니다.`);
+          loadAndRenderTokens();
+        }} else {{
+          alert('초기화 실패');
+        }}
+      }} catch (err) {{
+        alert('초기화 오류: ' + err.message);
+      }}
+    }}
+
     async function deleteTokenItem(token) {{
-      if (!confirm(`[${{token}}] 초대 코드를 삭제하시겠습니까?`)) return;
+      if (!confirm(`[${{token}}] 초대 코드를 삭제하시겠습니까?\\n\\n주의: 코드를 완전히 삭제하면 해당 링크는 '유효하지 않은 코드'가 되어 접속이 차단됩니다.`)) return;
       try {{
         const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
         const apiBase = isLocal ? '' : renderBase;

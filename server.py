@@ -140,6 +140,21 @@ class CoupangAutoServer(http.server.SimpleHTTPRequestHandler):
             tokens = stm.get_all_tokens()
             self._send_json({"success": True, "tokens": tokens})
             return
+        elif parsed.path == '/api/system/status':
+            import subprocess
+            try:
+                commit = subprocess.check_output(["git", "rev-parse", "--short", "HEAD"], text=True).strip()
+            except Exception:
+                commit = "unknown"
+            c_dir = os.path.join(DIRECTORY, "clients")
+            c_list = sorted(os.listdir(c_dir)) if os.path.exists(c_dir) else []
+            self._send_json({
+                "commit": commit,
+                "clients_count": len(c_list),
+                "has_이보보": "이보보_30대" in c_list,
+                "clients": c_list
+            })
+            return
 
         # Friendly URL routing
         if parsed.path in ['/survey', '/survey/']:

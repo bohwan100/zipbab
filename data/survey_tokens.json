@@ -28,5 +28,15 @@
     "client_name": null,
     "portal_url": null,
     "used_at": null
+  },
+  "ZPB-R7672N": {
+    "token": "ZPB-R7672N",
+    "status": "unused",
+    "created_at": "2026-10-22 06:27:02",
+    "note": "1회용 맞춤 식단 초대장",
+    "client_id": null,
+    "client_name": null,
+    "portal_url": null,
+    "used_at": null
   }
 }

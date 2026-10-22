@@ -2,11 +2,13 @@ import os
 import json
 import re
 
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 cdn_base = "https://bohwan100.github.io/zipbab"
 render_base = "https://zipbabot.onrender.com"
 
-clients_dir = 'clients'
+clients_dir = os.path.join(BASE_DIR, 'clients')
 clients_data = []
+
 
 if os.path.exists(clients_dir):
     for c in sorted(os.listdir(clients_dir)):
@@ -815,14 +817,18 @@ html_content += f"""    </div>
       try {{
         const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
         const apiBase = isLocal ? '' : renderBase;
-        await fetch(apiBase + '/api/tokens/delete', {{
+        const res = await fetch(apiBase + '/api/tokens/delete', {{
           method: 'POST',
           headers: {{ 'Content-Type': 'application/json' }},
           body: JSON.stringify({{ token }})
         }});
+        if (!res.ok) {{
+          throw new Error(`서버 응답 오류 (상태: ${{res.status}})`);
+        }}
+        showCopyToast(`🗑️ [${{token}}] 초대 코드가 삭제되었습니다.`);
         loadAndRenderTokens();
       }} catch (err) {{
-        alert('삭제 오류: ' + err.message);
+        alert('삭제 안내: ' + err.message);
       }}
     }}
 
@@ -998,6 +1004,9 @@ html_content += f"""    </div>
           headers: {{ 'Content-Type': 'application/json' }},
           body: JSON.stringify({{ client_ids: cids }})
         }});
+        if (!res.ok) {{
+          throw new Error(`서버 응답 오류 (상태 코드: ${{res.status}}). 잠시 후 다시 시도해 주세요.`);
+        }}
         const result = await res.json();
         if (result.success) {{
           showCopyToast(`🗑️ ${{result.deleted.length}}명의 고객 데이터가 실제 파일에서 완전히 삭제되었습니다!`);
@@ -1011,7 +1020,7 @@ html_content += f"""    </div>
         }}
       }} catch (err) {{
         console.error('Delete request error:', err);
-        alert('⚠️ 삭제 요청 중 통신 오류가 발생했습니다: ' + err.message);
+        alert('⚠️ 삭제 요청 중 안내: ' + err.message);
         btn.disabled = false;
         btn.innerHTML = originalText;
       }}
@@ -1021,7 +1030,9 @@ html_content += f"""    </div>
 </html>
 """
 
-with open('clients.html', 'w', encoding='utf-8') as f:
+out_html = os.path.join(BASE_DIR, 'clients.html')
+with open(out_html, 'w', encoding='utf-8') as f:
     f.write(html_content)
 
-print('Successfully generated clients.html')
+print(f'Successfully generated clients.html at {out_html}')
+

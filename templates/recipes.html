@@ -1746,7 +1746,7 @@
     const weekSummaries = {
       1: "💡 <strong>1주차 스타터 플랜</strong>: 1주차 장보기 재료로 7일간 냉장고 잔여 식재료 0g 전량 소진! (월~일 순서대로 차근차근 따라 해보세요)",
       2: "💡 <strong>2주차 신선 보충</strong>: 1주차 냉동/팬트리 베이스에 신선 식재료를 보강하여 알뜰하게 소진!",
-      3: "💡 <strong>3주차 영양 밸런스</strong>: 절반 완주 성공! 누적 배달비 약 30만원 절약 돌파 🎉",
+      3: "💡 <strong>3주차 영양 밸런스</strong>: 절반 완주 성공! 외식비 대비 누적 식비 절약 돌파 🎉",
       4: "💡 <strong>4주차 피날레 냉파</strong>: 냉장고 속 잔여 양념과 식재료 100% 털어먹기 완결판!"
     };
 
@@ -1803,7 +1803,7 @@
 
         const r = recipes.find(x => x.day === day);
         const costStr = (r && r.cost_formatted) || (r && r.cost ? (Number(r.cost).toLocaleString() + '원') : '');
-        const costMsg = costStr ? ` 이번 한 끼 재료 실원가 <strong>${costStr}</strong> 사용 💰` : ' 이번 한 끼 알뜰 집밥 성공 💰';
+        const costMsg = costStr ? ` 이번 한 끼 재료 원가 <strong>${costStr}</strong> 사용 💰` : ' 이번 한 끼 알뜰 집밥 성공 💰';
         showCookedToast(`🎉 Day ${day} 임무 완수!${costMsg}`);
       } else {
         if (btn) {
@@ -1886,7 +1886,7 @@
               <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
                 <span class="day-badge">Day ${r.day} (${dayOfWeek}요일)</span>
                 <span class="cuisine-tag">${r.flag}</span>
-                ${r.cost_formatted ? `<span class="cost-tag" style="background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); padding: 2px 8px; border-radius: 6px; font-size: 0.75rem; font-weight: 700;" title="해당 요리 재료 정량 실원가">💰 재료 실원가 ${r.cost_formatted}</span>` : ''}
+                ${r.cost_formatted ? `<span class="cost-tag" style="background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); padding: 2px 8px; border-radius: 6px; font-size: 0.75rem; font-weight: 700;" title="해당 요리 재료 정량 원가">💰 재료 원가 ${r.cost_formatted}</span>` : ''}
               </div>
               <button type="button" class="btn-cook-check ${isCooked ? 'cooked' : ''}" onclick="toggleCooked(${r.day}, event)" title="오늘 집밥 임무 완수 체크">
                 ${isCooked ? '✅ 임무 완수!' : '🍳 임무 완수'}

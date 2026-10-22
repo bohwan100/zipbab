@@ -1726,14 +1726,18 @@
       try {
         const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
         const apiBase = isLocal ? '' : renderBase;
-        await fetch(apiBase + '/api/tokens/delete', {
+        const res = await fetch(apiBase + '/api/tokens/delete', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ token })
         });
+        if (!res.ok) {
+          throw new Error(`서버 응답 오류 (상태: ${res.status})`);
+        }
+        showCopyToast(`🗑️ [${token}] 초대 코드가 삭제되었습니다.`);
         loadAndRenderTokens();
       } catch (err) {
-        alert('삭제 오류: ' + err.message);
+        alert('삭제 안내: ' + err.message);
       }
     }
 
@@ -1909,6 +1913,9 @@
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ client_ids: cids })
         });
+        if (!res.ok) {
+          throw new Error(`서버 응답 오류 (상태 코드: ${res.status}). 잠시 후 다시 시도해 주세요.`);
+        }
         const result = await res.json();
         if (result.success) {
           showCopyToast(`🗑️ ${result.deleted.length}명의 고객 데이터가 실제 파일에서 완전히 삭제되었습니다!`);
@@ -1922,7 +1929,7 @@
         }
       } catch (err) {
         console.error('Delete request error:', err);
-        alert('⚠️ 삭제 요청 중 통신 오류가 발생했습니다: ' + err.message);
+        alert('⚠️ 삭제 요청 중 안내: ' + err.message);
         btn.disabled = false;
         btn.innerHTML = originalText;
       }

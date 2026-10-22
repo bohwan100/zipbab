@@ -96,8 +96,8 @@ def perform_git_sync(commit_message="feat: auto-sync clients data"):
                 _run_cmd(["git", "remote", "add", "origin", auth_url])
             _log("Configured authenticated remote URL using GITHUB_TOKEN.")
 
-        # 3. 변경 사항 스테이징
-        _run_cmd(["git", "add", "-A", "clients/", "clients.html"])
+        # 3. 변경 사항 스테이징 (고객 폴더, 대시보드, 1회용 토큰 DB)
+        _run_cmd(["git", "add", "-A", "clients/", "clients.html", "data/"])
 
         # 4. 변경 사항 있는지 확인
         ok, status_out, _ = _run_cmd(["git", "status", "--porcelain"])

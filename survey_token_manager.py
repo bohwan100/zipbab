@@ -57,6 +57,11 @@ def generate_token(note=""):
                 "used_at": None
             }
             _save_tokens(tokens)
+            try:
+                import github_sync
+                github_sync.trigger_async_sync("feat: auto-sync new survey token")
+            except Exception:
+                pass
             return tokens[code]
     return None
 
@@ -109,6 +114,11 @@ def mark_token_used(token, client_id, client_name, portal_url):
         tokens[token]["portal_url"] = portal_url
         tokens[token]["used_at"] = time.strftime("%Y-%m-%d %H:%M:%S")
         _save_tokens(tokens)
+        try:
+            import github_sync
+            github_sync.trigger_async_sync(f"feat: auto-sync token used by {client_id}")
+        except Exception:
+            pass
         print(f"[TokenManager] Token [{token}] marked as USED by [{client_id}].")
         return True
     return False

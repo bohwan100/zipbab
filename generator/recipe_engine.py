@@ -2871,6 +2871,163 @@ def parse_household_count(household_str):
         return max(1, min(6, int(m.group(1))))
     return 1
 
+def calculate_ingredient_cost(ing_name, qty, unit, storage, spec, price):
+    """
+    각 식재료의 단위 계량(g, ml, T, t, 개, 알 등)에 따른 실제 사용 원가를 계산합니다.
+    """
+    # 1. 포장 총 중량/용량 파싱 (kg, g, l, ml)
+    total_g = None
+    m_kg = re.search(r'([\d\.]+)\s*kg', spec)
+    if m_kg:
+        total_g = float(m_kg.group(1)) * 1000
+    else:
+        m_g = re.search(r'([\d\.]+)\s*g', spec)
+        if m_g:
+            total_g = float(m_g.group(1))
+
+    total_ml = None
+    m_l = re.search(r'([\d\.]+)\s*l(?![a-zA-Z])', spec, re.IGNORECASE)
+    if m_l and 'ml' not in spec.lower():
+        total_ml = float(m_l.group(1)) * 1000
+    else:
+        m_ml = re.search(r'([\d\.]+)\s*ml', spec, re.IGNORECASE)
+        if m_ml:
+            total_ml = float(m_ml.group(1))
+
+    # 2. 계량 단위별 실원가 계산
+    if unit == 'g':
+        if total_g:
+            return (qty / total_g) * price
+        if '양배추' in ing_name or '무' in ing_name:
+            return (qty / 1000.0) * price
+        return (qty / 500.0) * price
+
+    elif unit == 'ml':
+        if total_ml:
+            return (qty / total_ml) * price
+        return (qty / 500.0) * price
+
+    elif unit == 'T':  # 테이블스푼 ~15g / 15ml
+        grams = 15.0 * qty
+        if total_g:
+            return (grams / total_g) * price
+        elif total_ml:
+            return (grams / total_ml) * price
+        return 120.0 * qty
+
+    elif unit == 't':  # 티스푼 ~5g / 5ml
+        grams = 5.0 * qty
+        if total_g:
+            return (grams / total_g) * price
+        elif total_ml:
+            return (grams / total_ml) * price
+        return 40.0 * qty
+
+    elif unit == '모':  # 두부
+        m_mo = re.search(r'(\d+)\s*모', spec)
+        mo_cnt = float(m_mo.group(1)) if m_mo else 1.0
+        return (qty / mo_cnt) * price
+
+    elif unit == '알':
+        if '계란' in ing_name or '란' in ing_name:
+            m_gu = re.search(r'(\d+)\s*구', spec)
+            gu_cnt = float(m_gu.group(1)) if m_gu else 30.0
+            return (qty / gu_cnt) * price
+        elif '토마토' in ing_name:
+            return (qty / 38.0) * price
+        elif '마늘' in ing_name:
+            return (qty / 30.0) * price
+        return (qty / 20.0) * price
+
+    elif unit == '쪽':
+        if '바게트' in ing_name:
+            return (qty / 10.0) * price
+        if '마늘' in ing_name:
+            return (qty / 30.0) * price
+        return (qty / 10.0) * price
+
+    elif unit == '대':
+        if '대파' in ing_name:
+            return (qty / 5.0) * price
+        return (qty / 4.0) * price
+
+    elif unit == '봉':
+        m_pack = re.search(r'(\d+)\s*(?:봉|개|입)', spec)
+        cnt = float(m_pack.group(1)) if m_pack else 1.0
+        if '중면' in ing_name or '국수' in ing_name:
+            return (qty / 9.0) * price
+        return (qty / cnt) * price
+
+    elif unit == '캔':
+        m_can = re.search(r'(\d+)\s*캔', spec)
+        cnt = float(m_can.group(1)) if m_can else 1.0
+        return (qty / cnt) * price
+
+    elif unit == '장':
+        m_jang = re.search(r'(\d+)\s*(?:장|입|개)', spec)
+        cnt = float(m_jang.group(1)) if m_jang else (4.0 if '돈카츠' in ing_name or '돈까스' in ing_name else 10.0)
+        return (qty / cnt) * price
+
+    elif unit == '조각':
+        m_jogak = re.search(r'(\d+)\s*조각', spec)
+        if m_jogak:
+            cnt = float(m_jogak.group(1))
+        elif '카레' in ing_name:
+            cnt = 8.0
+        elif '텐더' in ing_name:
+            cnt = 10.0
+        else:
+            cnt = 8.0
+        return (qty / cnt) * price
+
+    elif unit == '개':
+        if '페페론치노' in ing_name:
+            return (qty / 70.0) * price
+        elif '양파' in ing_name:
+            return (qty / 6.0) * price
+        elif '감자' in ing_name:
+            return (qty / 5.0) * price
+        elif '당근' in ing_name:
+            return (qty / 4.0) * price
+        elif '알배기' in ing_name:
+            return qty * price
+        elif '토마토' in ing_name:
+            return (qty / 5.0) * price
+        elif '파프리카' in ing_name:
+            return (qty / 2.0) * price
+        elif '새송이' in ing_name:
+            return (qty / 4.0) * price
+        elif '표고' in ing_name:
+            return (qty / 4.0) * price
+        elif '애호박' in ing_name or '오이' in ing_name or '가지' in ing_name:
+            m_cnt = re.search(r'(\d+)\s*(?:개|입)', spec)
+            cnt = float(m_cnt.group(1)) if m_cnt else 3.0
+            return (qty / cnt) * price
+        elif '고추' in ing_name:
+            return (qty / 15.0) * price
+        elif '새우튀김' in ing_name:
+            return (qty / 10.0) * price
+        elif '꽃빵' in ing_name:
+            return (qty / 10.0) * price
+        elif '번' in ing_name or '버거' in ing_name:
+            return (qty / 6.0) * price
+        elif '생면' in ing_name or '면' in ing_name or '키트' in ing_name:
+            m_cnt = re.search(r'(\d+)\s*(?:인분|입|개)', spec)
+            cnt = float(m_cnt.group(1)) if m_cnt else 4.0
+            return (qty / cnt) * price
+        else:
+            m_cnt = re.search(r'(\d+)\s*(?:개|입|봉|통|팩)', spec)
+            cnt = float(m_cnt.group(1)) if m_cnt else 1.0
+            return (qty / cnt) * price
+
+    elif unit == '포기':
+        return (qty / 3.0) * price
+
+    elif unit == '팩':
+        return qty * price
+
+    return price * 0.2
+
 def generate_personalized_plan(
     client_name="고객님",
     household="1명",
@@ -3048,6 +3205,16 @@ def generate_personalized_plan(
 
         waste_desc = f"누적 {progress_pct}% 식단 소진 | " + ", ".join(day_parts)
 
+        # 정밀 계량 기반 이번 한 끼 재료 실원가 계산
+        raw_meal_cost = 0.0
+        for ing_name, qty, unit, storage, prod_name, spec, price, query in base_r["base_ingredients"]:
+            c = calculate_ingredient_cost(ing_name, qty, unit, storage, spec, price)
+            raw_meal_cost += c
+
+        # 가구원 수(people_count) 비례 배율 적용 (10원 단위 반올림)
+        meal_cost = int(round(raw_meal_cost * people_count, -1))
+        meal_cost_formatted = f"{meal_cost:,}원"
+
         final_recipes.append({
             "day": day_num,
             "title": f"{base_r['title']} ({people_count}인분)",
@@ -3058,6 +3225,8 @@ def generate_personalized_plan(
             "carb": str(round(base_r["carb"] * people_count, 1)),
             "prot": str(scaled_prot),
             "fat": str(round(base_r["fat"] * people_count, 1)),
+            "cost": meal_cost,
+            "cost_formatted": meal_cost_formatted,
             "ingredients": scaled_ingredients,
             "waste": waste_desc,
             "steps": clean_steps,

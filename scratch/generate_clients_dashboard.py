@@ -522,6 +522,7 @@ html_content = f"""<!DOCTYPE html>
         </div>
       </div>
       <div class="header-actions">
+        <a href="https://dietbot-4giy.onrender.com/clients" target="_blank" class="btn btn-ghost" style="border-color: rgba(52, 211, 153, 0.5); color: #34d399; background: rgba(16, 185, 129, 0.1);">🥗 다이어트봇 관리자 (온라인)</a>
         <button type="button" onclick="triggerManualGitSync(this)" class="btn btn-ghost" style="border-color: rgba(56, 189, 248, 0.4); color: #38bdf8;">☁️ GitHub 영구 저장 (Sync)</button>
         <a href="survey.html" class="btn btn-orange">➕ 신규 고객 등록 (설문)</a>
         <a href="index.html" class="btn btn-ghost">🏠 포털 홈</a>

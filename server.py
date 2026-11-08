@@ -275,7 +275,7 @@ class CoupangAutoServer(http.server.SimpleHTTPRequestHandler):
             import survey_token_manager as stm
             token = data.get('token', '')
             res = stm.delete_token(token)
-            self._send_json({"success": res})
+            self._send_json({"success": True, "token": token})
             return
 
         elif parsed.path == '/api/tokens/reset':
@@ -445,73 +445,84 @@ class CoupangAutoServer(http.server.SimpleHTTPRequestHandler):
             deleted = []
             errors = []
 
+            reg_file = os.path.join(DIRECTORY, "data", "clients_registry.json")
+            reg_data = {}
+            if os.path.exists(reg_file):
+                try:
+                    with open(reg_file, "r", encoding="utf-8") as f:
+                        reg_data = json.load(f)
+                except Exception:
+                    reg_data = {}
+
             for cid in client_ids:
                 if not cid or not isinstance(cid, str):
                     continue
-                cid_nfc = unicodedata.normalize('NFC', cid.strip())
-                cid_nfd = unicodedata.normalize('NFD', cid.strip())
+                cid_clean = cid.strip()
+                cid_nfc = unicodedata.normalize('NFC', cid_clean)
+                cid_nfd = unicodedata.normalize('NFD', cid_clean)
 
                 matched_dir = None
                 if os.path.exists(clients_base):
                     for entry in os.listdir(clients_base):
                         entry_nfc = unicodedata.normalize('NFC', entry)
                         entry_nfd = unicodedata.normalize('NFD', entry)
-                        if entry == cid or entry_nfc == cid_nfc or entry_nfd == cid_nfd:
+                        if entry == cid_clean or entry_nfc == cid_nfc or entry_nfd == cid_nfd:
                             matched_dir = os.path.join(clients_base, entry)
                             break
 
-                if not matched_dir or not os.path.isdir(matched_dir):
-                    errors.append(f"Folder not found: {cid}")
-                    continue
+                folder_deleted = False
+                if matched_dir and os.path.isdir(matched_dir):
+                    real_path = os.path.abspath(matched_dir)
+                    if real_path.startswith(clients_base) and real_path != clients_base:
+                        try:
+                            shutil.rmtree(real_path)
+                            folder_deleted = True
+                            print(f"[API] Successfully deleted client folder: {real_path}")
+                        except Exception as err:
+                            errors.append(f"Failed to delete folder {cid_clean}: {str(err)}")
+                else:
+                    # 폴더가 디스크에 없더라도, 레지스트리에 존재하면 정상 정리 대상(이미 폴더 없음)으로 인정
+                    folder_deleted = True
 
-                real_path = os.path.abspath(matched_dir)
-                if not real_path.startswith(clients_base) or real_path == clients_base:
-                    errors.append(f"Invalid path: {cid}")
-                    continue
-
-                try:
-                    shutil.rmtree(real_path)
-                    deleted.append(cid)
-                    print(f"[API] Successfully deleted client folder: {real_path}")
-                except Exception as err:
-                    errors.append(f"Failed to delete {cid}: {str(err)}")
+                # 레지스트리 및 삭제 목록 등록
+                if folder_deleted or cid_clean in reg_data:
+                    deleted.append(cid_clean)
 
             # clients_registry.json 동기화 (삭제된 고객 영구 제거 및 최신순 정렬 보존)
             if deleted:
                 try:
-                    reg_file = os.path.join(DIRECTORY, "data", "clients_registry.json")
-                    if os.path.exists(reg_file):
-                        with open(reg_file, "r", encoding="utf-8") as f:
-                            reg_data = json.load(f)
-                        changed = False
-                        for d_cid in deleted:
-                            if d_cid in reg_data:
-                                del reg_data[d_cid]
-                                changed = True
-                        if changed:
-                            with open(reg_file, "w", encoding="utf-8") as f:
-                                json.dump(reg_data, f, ensure_ascii=False, indent=2)
+                    changed = False
+                    for d_cid in deleted:
+                        d_nfc = unicodedata.normalize('NFC', d_cid)
+                        d_nfd = unicodedata.normalize('NFD', d_cid)
+                        keys_to_del = [k for k in reg_data.keys() if k == d_cid or unicodedata.normalize('NFC', k) == d_nfc or unicodedata.normalize('NFD', k) == d_nfd]
+                        for k in keys_to_del:
+                            del reg_data[k]
+                            changed = True
+                    if changed:
+                        with open(reg_file, "w", encoding="utf-8") as f:
+                            json.dump(reg_data, f, ensure_ascii=False, indent=2)
                 except Exception as ex:
                     print(f"[Warning] Failed to update clients_registry.json after delete: {ex}")
 
-            # clients.html 자동 동기화 갱신 (메모리 절약을 위해 subprocess 대신 in-process 실행)
+            # clients.html 자동 동기화 갱신
             try:
                 dash_script = os.path.join(DIRECTORY, "scratch", "generate_clients_dashboard.py")
                 if os.path.exists(dash_script):
                     with open(dash_script, "r", encoding="utf-8") as f:
-                        exec(f.read(), {"__name__": "__main__"})
-
+                        exec(f.read(), {"__name__": "__main__", "__file__": dash_script})
             except Exception as ex:
                 print(f"[Warning] Failed to update clients.html after delete: {ex}")
             finally:
                 gc.collect()
 
             # GitHub 자동 영구 보존 동기화 (Auto-Sync)
-            try:
-                import github_sync
-                github_sync.trigger_async_sync(f"feat: auto-sync delete clients {', '.join(deleted)}")
-            except Exception as ex:
-                print(f"[Warning] Failed to trigger git sync: {ex}")
+            if deleted:
+                try:
+                    import github_sync
+                    github_sync.trigger_async_sync(f"feat: auto-sync delete clients {', '.join(deleted)}")
+                except Exception as ex:
+                    print(f"[Warning] Failed to trigger git sync: {ex}")
 
             self._send_json({
                 "success": len(deleted) > 0,

@@ -906,7 +906,7 @@ html_content += f"""    </div>
         const linkUrl = `${{renderBase}}/survey.html?token=${{t.token}}`;
 
         html += `
-          <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+          <tr id="token-row-${{t.token}}" style="border-bottom: 1px solid rgba(255, 255, 255, 0.05); transition: opacity 0.2s ease;">
             <td style="padding: 12px 8px; font-family: monospace; font-weight: 700; color: #facc15;">${{t.token}}</td>
             <td style="padding: 12px 8px;">${{statusBadge}}</td>
             <td style="padding: 12px 8px; color: #cbd5e1;">${{clientInfo}}</td>
@@ -948,6 +948,8 @@ html_content += f"""    </div>
 
     async function deleteTokenItem(token) {{
       if (!confirm(`[${{token}}] 초대 코드를 삭제하시겠습니까?\\n\\n주의: 코드를 완전히 삭제하면 해당 링크는 '유효하지 않은 코드'가 되어 접속이 차단됩니다.`)) return;
+      const row = document.getElementById(`token-row-${{token}}`);
+      if (row) row.style.opacity = '0.35';
       try {{
         const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
         const apiBase = isLocal ? '' : renderBase;
@@ -957,12 +959,15 @@ html_content += f"""    </div>
           body: JSON.stringify({{ token }})
         }}, 2, 2000);
         if (data && data.success) {{
+          if (row) row.remove();
           showCopyToast(`🗑️ [${{token}}] 초대 코드가 삭제되었습니다.`);
           loadAndRenderTokens();
         }} else {{
+          if (row) row.style.opacity = '1';
           alert('삭제 실패: ' + ((data && data.error) || '알 수 없는 오류'));
         }}
       }} catch (err) {{
+        if (row) row.style.opacity = '1';
         alert('삭제 안내: ' + err.message);
       }}
     }}
@@ -1123,9 +1128,21 @@ html_content += f"""    </div>
 
     async function sendDeleteRequest(cids, names) {{
       const btn = document.getElementById('btn-batch-delete');
-      const originalText = btn.innerHTML;
-      btn.disabled = true;
-      btn.innerHTML = '⏳ 실제 파일 삭제 중...';
+      const originalText = btn ? btn.innerHTML : '선택 일괄 삭제';
+      if (btn) {{
+        btn.disabled = true;
+        btn.innerHTML = '⏳ 실제 파일 삭제 중...';
+      }}
+
+      // 즉각 시각 피드백: 삭제 대상 카드 반투명 및 비활성화 처리
+      cids.forEach(cid => {{
+        const card = document.getElementById(`card-${{cid}}`);
+        if (card) {{
+          card.style.opacity = '0.35';
+          card.style.pointerEvents = 'none';
+          card.style.filter = 'grayscale(80%)';
+        }}
+      }});
 
       // 로컬이 아니면 Render 온라인 백엔드로 직접 API 호출
       const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
@@ -1139,20 +1156,46 @@ html_content += f"""    </div>
           body: JSON.stringify({{ client_ids: cids }})
         }}, 2, 2000);
         if (result && result.success) {{
-          showCopyToast(`🗑️ ${{result.deleted.length}}명의 고객 데이터가 실제 파일에서 완전히 삭제되었습니다!`);
+          const delCount = (result.deleted && result.deleted.length) ? result.deleted.length : cids.length;
+          cids.forEach(cid => {{
+            const card = document.getElementById(`card-${{cid}}`);
+            if (card) card.remove();
+          }});
+          showCopyToast(`🗑️ ${{delCount}}명의 고객 데이터가 안전하게 삭제되었습니다!`);
           setTimeout(() => {{
             window.location.reload();
-          }}, 600);
+          }}, 500);
         }} else {{
-          alert('삭제 중 오류가 발생했습니다: ' + ((result && result.errors) || []).join(', '));
-          btn.disabled = false;
-          btn.innerHTML = originalText;
+          cids.forEach(cid => {{
+            const card = document.getElementById(`card-${{cid}}`);
+            if (card) {{
+              card.style.opacity = '1';
+              card.style.pointerEvents = 'auto';
+              card.style.filter = 'none';
+            }}
+          }});
+          const errMsg = (result && result.errors && result.errors.length) ? result.errors.join(', ') : '알 수 없는 오류';
+          alert('삭제 실패: ' + errMsg);
+          if (btn) {{
+            btn.disabled = false;
+            btn.innerHTML = originalText;
+          }}
         }}
       }} catch (err) {{
         console.error('Delete request error:', err);
-        alert('⚠️ 삭제 요청 중 안내: ' + err.message);
-        btn.disabled = false;
-        btn.innerHTML = originalText;
+        cids.forEach(cid => {{
+          const card = document.getElementById(`card-${{cid}}`);
+          if (card) {{
+            card.style.opacity = '1';
+            card.style.pointerEvents = 'auto';
+            card.style.filter = 'none';
+          }}
+        }});
+        alert('⚠️ 삭제 요청 중 통신 오류가 발생했습니다: ' + err.message);
+        if (btn) {{
+          btn.disabled = false;
+          btn.innerHTML = originalText;
+        }}
       }}
     }}
   </script>

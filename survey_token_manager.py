@@ -15,15 +15,52 @@ import string
 DIRECTORY = os.path.dirname(os.path.abspath(__file__))
 DATA_DIR = os.path.join(DIRECTORY, "data")
 TOKENS_FILE = os.path.join(DATA_DIR, "survey_tokens.json")
+TOMBSTONES_FILE = os.path.join(DATA_DIR, "deleted_tokens.json")
 
 os.makedirs(DATA_DIR, exist_ok=True)
+
+def _load_tombstones():
+    """삭제된 토큰 블랙리스트 로드 (GitHub 캐시로 인한 부활 원천 방지)"""
+    if not os.path.exists(TOMBSTONES_FILE):
+        return set()
+    try:
+        with open(TOMBSTONES_FILE, "r", encoding="utf-8") as f:
+            data = json.load(f)
+            return set(data) if isinstance(data, list) else set(data.keys())
+    except Exception:
+        return set()
+
+def _add_tombstone(token):
+    token = str(token).strip().upper()
+    if not token:
+        return
+    stones = _load_tombstones()
+    stones.add(token)
+    try:
+        with open(TOMBSTONES_FILE, "w", encoding="utf-8") as f:
+            json.dump(sorted(list(stones)), f, ensure_ascii=False, indent=2)
+    except Exception as e:
+        print(f"[TokenManager] Error saving tombstone: {e}")
+
+def _remove_tombstone(token):
+    token = str(token).strip().upper()
+    stones = _load_tombstones()
+    if token in stones:
+        stones.remove(token)
+        try:
+            with open(TOMBSTONES_FILE, "w", encoding="utf-8") as f:
+                json.dump(sorted(list(stones)), f, ensure_ascii=False, indent=2)
+        except Exception:
+            pass
 
 def _load_tokens():
     if not os.path.exists(TOKENS_FILE):
         return {}
     try:
         with open(TOKENS_FILE, "r", encoding="utf-8") as f:
-            return json.load(f)
+            tokens = json.load(f)
+            tombstones = _load_tombstones()
+            return {k: v for k, v in tokens.items() if k not in tombstones}
     except Exception:
         return {}
 
@@ -76,9 +113,10 @@ def _fetch_remote_tokens():
                 remote_tokens = json.loads(resp.read().decode("utf-8"))
                 if isinstance(remote_tokens, dict) and remote_tokens:
                     local_tokens = _load_tokens()
+                    tombstones = _load_tombstones()
                     updated = False
                     for k, v in remote_tokens.items():
-                        if k not in local_tokens:
+                        if k not in tombstones and k not in local_tokens:
                             local_tokens[k] = v
                             updated = True
                     if updated:
@@ -100,8 +138,11 @@ def verify_token(token):
         return {"status": "missing", "message": "토큰이 제공되지 않았습니다."}
     
     token = str(token).strip().upper()
+    tombstones = _load_tombstones()
+    if token in tombstones:
+        return {"status": "invalid", "message": "삭제되었거나 유효하지 않은 초대 코드입니다."}
+
     tokens = _load_tokens()
-    
     if token not in tokens:
         # 로컬 컨테이너에 없으면 GitHub 원격 최신 DB에서 긴급 자동 복원
         remote = _fetch_remote_tokens()
@@ -161,30 +202,39 @@ def get_all_tokens():
                 tokens = remote
         except Exception:
             pass
-    items = list(tokens.values())
+    tombstones = _load_tombstones()
+    items = [v for k, v in tokens.items() if k not in tombstones]
     items.sort(key=lambda x: x.get("created_at", ""), reverse=True)
     return items
 
 
 def delete_token(token):
-    """토큰 삭제"""
+    """토큰 영구 삭제 (멱등성 보장: 이미 삭제되었거나 존재하지 않아도 안전하게 성공 반환)"""
     token = str(token).strip().upper()
+    if not token:
+        return True
+    _add_tombstone(token)
     tokens = _load_tokens()
     if token in tokens:
         del tokens[token]
         _save_tokens(tokens)
-        try:
-            import github_sync
-            github_sync.trigger_async_sync(f"feat: auto-sync token deleted {token}")
-        except Exception:
-            pass
-        return True
-    return False
+    try:
+        import github_sync
+        github_sync.trigger_async_sync(f"feat: auto-sync token deleted {token}")
+    except Exception:
+        pass
+    print(f"[TokenManager] Token [{token}] deleted permanently.")
+    return True
 
 def reset_token(token):
     """사용 완료된 1회용 토큰을 'unused' 상태로 초기화하여 기존 발급 링크 그대로 설문 재작성을 허용함"""
     token = str(token).strip().upper()
+    _remove_tombstone(token)
     tokens = _load_tokens()
+    if token not in tokens:
+        remote = _fetch_remote_tokens()
+        if remote and token in remote:
+            tokens = remote
     if token in tokens:
         tokens[token]["status"] = "unused"
         prev_client = tokens[token].get("client_name") or tokens[token].get("client_id") or ""

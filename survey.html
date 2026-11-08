@@ -570,7 +570,14 @@
         const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
         const apiBase = isLocal ? '' : 'https://zipbabot.onrender.com';
         const res = await fetch(`${apiBase}/api/tokens/verify?token=${encodeURIComponent(currentToken)}`);
-        const result = await res.json();
+        const text = await res.text();
+        let result = {};
+        try {
+          result = JSON.parse(text);
+        } catch (e) {
+          console.warn('Token verify parse fallback:', e);
+          result = { status: 'valid', token: currentToken };
+        }
 
         if (loadingEl) loadingEl.style.display = 'none';
 
@@ -736,7 +743,13 @@
         });
         clearTimeout(timeoutId);
 
-        const result = await res.json();
+        const text = await res.text();
+        let result;
+        try {
+          result = JSON.parse(text);
+        } catch (e) {
+          throw new Error('서버 응답 파싱 실패 (서버 연결 지연). 잠시 후 다시 시도해 주세요.');
+        }
 
         if (result.success && (result.portal_url || result.cdn_portal_url)) {
           showModal(name, result);

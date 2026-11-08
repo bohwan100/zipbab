@@ -154,12 +154,13 @@ def mark_token_used(token, client_id, client_name, portal_url):
 def get_all_tokens():
     """모든 토큰 목록 최신순 반환"""
     tokens = _load_tokens()
-    try:
-        remote = _fetch_remote_tokens()
-        if remote:
-            tokens = remote
-    except Exception:
-        pass
+    if not tokens:
+        try:
+            remote = _fetch_remote_tokens()
+            if remote:
+                tokens = remote
+        except Exception:
+            pass
     items = list(tokens.values())
     items.sort(key=lambda x: x.get("created_at", ""), reverse=True)
     return items

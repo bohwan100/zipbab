@@ -696,7 +696,7 @@ html_content += f"""    </div>
       <!-- 발급 컨트롤러 -->
       <div style="padding: 16px 24px; background: rgba(255, 255, 255, 0.03); border-bottom: 1px solid rgba(255, 255, 255, 0.08); display: flex; gap: 10px; align-items: center;">
         <input type="text" id="token-note-input" placeholder="고객 메모 (예: 홍길동 님)" style="flex: 1; background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.15); color: #fff; padding: 10px 14px; border-radius: 10px; font-size: 0.9rem; outline: none;">
-        <button type="button" onclick="createOneTimeSurveyLink(document.getElementById('token-note-input').value)" style="background: #eab308; color: #1e1b4b; border: none; padding: 10px 18px; border-radius: 10px; font-weight: 800; font-size: 0.88rem; cursor: pointer; white-space: nowrap;">
+        <button type="button" id="btn-create-token" onclick="createOneTimeSurveyLink(document.getElementById('token-note-input').value)" style="background: #eab308; color: #1e1b4b; border: none; padding: 10px 18px; border-radius: 10px; font-weight: 800; font-size: 0.88rem; cursor: pointer; white-space: nowrap;">
           + 1회용 링크 발급
         </button>
       </div>
@@ -710,6 +710,13 @@ html_content += f"""    </div>
     </div>
   </div>
 
+  <style>
+    @keyframes tokenSpin {{
+      from {{ transform: rotate(0deg); }}
+      to {{ transform: rotate(360deg); }}
+    }}
+  </style>
+
   <script>
     // file:// 로 직접 열었을 경우 자동으로 온라인 CDN 주소로 즉시 전환
     if (window.location.protocol === 'file:') {{
@@ -719,20 +726,71 @@ html_content += f"""    </div>
     const cdnBase = '{cdn_base}';
     const renderBase = '{render_base}';
 
+    // 🛡️ 안전한 JSON 통신 & Render 슬립 모드 자동 깨우기/재시도 헬퍼
+    async function safeFetchJson(url, options = {{}}, retries = 3, delayMs = 2500, onProgress = null) {{
+      for (let attempt = 1; attempt <= retries; attempt++) {{
+        try {{
+          if (attempt > 1 && onProgress) {{
+            onProgress(`⏳ 클라우드 서버 깨우는 중... (${{attempt}}/${{retries}}회 재시도 중)`);
+          }}
+          const res = await fetch(url, options);
+          const text = await res.text();
+          
+          if (!text || !text.trim()) {{
+            if (attempt < retries) {{
+              if (onProgress) onProgress(`⏳ 서버가 깨어나는 중입니다. 잠시만 기다려주세요 (${{attempt}}/${{retries}})...`);
+              await new Promise(r => setTimeout(r, delayMs));
+              continue;
+            }}
+            throw new Error('서버 응답이 비어있습니다. 클라우드 서버가 아직 부팅 중일 수 있습니다.');
+          }}
+
+          let data;
+          try {{
+            data = JSON.parse(text);
+          }} catch (e) {{
+            if (attempt < retries) {{
+              if (onProgress) onProgress(`⏳ 서버 부팅 대기 중... (${{attempt}}/${{retries}})...`);
+              await new Promise(r => setTimeout(r, delayMs));
+              continue;
+            }}
+            throw new Error(res.ok ? '서버 응답 형식 오류 (JSON 파싱 실패)' : `서버 오류 (HTTP ${{res.status}})`);
+          }}
+
+          if (!res.ok) {{
+            throw new Error(data.error || data.message || `서버 오류 (HTTP ${{res.status}})`);
+          }}
+
+          return data;
+        }} catch (err) {{
+          if (attempt < retries && (err.name === 'TypeError' || String(err.message).includes('fetch') || String(err.message).includes('비어있습니다') || String(err.message).includes('파싱 실패'))) {{
+            if (onProgress) onProgress(`⏳ 서버 연결 재시도 중입니다 (${{attempt}}/${{retries}})...`);
+            await new Promise(r => setTimeout(r, delayMs));
+            continue;
+          }}
+          if (attempt >= retries) throw err;
+        }}
+      }}
+    }}
+
     // 🎟️ 1회용 설문 링크 즉시 발급 및 복사
     async function createOneTimeSurveyLink(note = '') {{
       const btn = document.getElementById('btn-create-token');
-      if (btn) btn.disabled = true;
+      const origText = btn ? btn.innerHTML : '+ 1회용 링크 발급';
+      if (btn) {{
+        btn.disabled = true;
+        btn.innerHTML = '<span>⏳ 발급 중...</span>';
+      }}
       try {{
         const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
         const apiBase = isLocal ? '' : renderBase;
-        const res = await fetch(apiBase + '/api/tokens/generate', {{
+        const data = await safeFetchJson(apiBase + '/api/tokens/generate', {{
           method: 'POST',
           headers: {{ 'Content-Type': 'application/json' }},
           body: JSON.stringify({{ note: note || '1회용 맞춤 식단 초대장' }})
-        }});
-        const data = await res.json();
-        if (data.success && data.token) {{
+        }}, 3, 2500);
+
+        if (data && data.success && data.token) {{
           const fullLink = `${{renderBase}}/survey.html?token=${{data.token.token}}`;
           await navigator.clipboard.writeText(fullLink);
           showCopyToast(`🎟️ [1회용 초대 링크 발급 & 복사 완료!]\\n코드: ${{data.token.token}}\\n\\n카톡에 바로 붙여넣어 전송하세요!\\n(고객이 1회 제출 시 즉시 영구 소멸되어 재작성이 차단됩니다)`);
@@ -745,12 +803,16 @@ html_content += f"""    </div>
             loadAndRenderTokens();
           }}
         }} else {{
-          alert('1회용 링크 발급 실패: ' + (data.error || '오류 발생'));
+          alert('1회용 링크 발급 실패: ' + ((data && data.error) || '오류 발생'));
         }}
       }} catch (err) {{
-        alert('발급 통신 오류: ' + err.message);
+        console.error('createOneTimeSurveyLink error:', err);
+        alert('발급 통신 안내: ' + err.message + '\\n\\n클라우드 서버가 부팅 중일 수 있으니 약 10초 후 다시 시도해 주세요.');
       }} finally {{
-        if (btn) btn.disabled = false;
+        if (btn) {{
+          btn.disabled = false;
+          btn.innerHTML = origText;
+        }}
       }}
     }}
 
@@ -766,19 +828,48 @@ html_content += f"""    </div>
 
     async function loadAndRenderTokens() {{
       const container = document.getElementById('token-list-container');
-      container.innerHTML = '<div style="text-align: center; padding: 30px; color: #94a3b8;">⏳ 토큰 목록 동기화 중...</div>';
+      container.innerHTML = `
+        <div style="text-align: center; padding: 35px 20px;">
+          <div style="display: inline-block; width: 28px; height: 28px; border: 3px solid rgba(250, 204, 21, 0.2); border-top-color: #facc15; border-radius: 50%; animation: tokenSpin 0.8s linear infinite; margin-bottom: 12px;"></div>
+          <div id="token-load-status" style="color: #94a3b8; font-size: 0.9rem; font-weight: 600;">⏳ 토큰 목록 동기화 중...</div>
+        </div>
+      `;
+      const onProgress = (msg) => {{
+        const statusEl = document.getElementById('token-load-status');
+        if (statusEl) statusEl.innerText = msg;
+      }};
+
       try {{
         const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
         const apiBase = isLocal ? '' : renderBase;
-        const res = await fetch(apiBase + '/api/tokens/list');
-        const data = await res.json();
-        if (data.success && data.tokens) {{
+        const data = await safeFetchJson(apiBase + '/api/tokens/list', {{ method: 'GET' }}, 3, 2500, onProgress);
+        if (data && data.success && data.tokens) {{
           renderTokensTable(data.tokens);
         }} else {{
-          container.innerHTML = '<div style="text-align: center; padding: 30px; color: #ef4444;">목록을 불러오지 못했습니다.</div>';
+          container.innerHTML = `
+            <div style="text-align: center; padding: 35px 20px;">
+              <div style="color: #ef4444; font-weight: 700; margin-bottom: 8px;">⚠️ 목록을 불러오지 못했습니다.</div>
+              <button type="button" onclick="loadAndRenderTokens()" style="background: rgba(250, 204, 21, 0.2); border: 1px solid #facc15; color: #facc15; padding: 8px 18px; border-radius: 8px; font-weight: 700; cursor: pointer;">
+                🔄 다시 시도
+              </button>
+            </div>
+          `;
         }}
       }} catch (err) {{
-        container.innerHTML = `<div style="text-align: center; padding: 30px; color: #ef4444;">통신 오류: ${{err.message}}</div>`;
+        console.error('loadAndRenderTokens error:', err);
+        container.innerHTML = `
+          <div style="text-align: center; padding: 35px 20px; background: rgba(239, 68, 68, 0.05); border: 1px dashed rgba(239, 68, 68, 0.3); border-radius: 12px;">
+            <div style="font-size: 1.5rem; margin-bottom: 8px;">⏳</div>
+            <div style="color: #f87171; font-weight: 800; font-size: 0.95rem; margin-bottom: 6px;">클라우드 서버 연결 대기 중</div>
+            <div style="color: #94a3b8; font-size: 0.85rem; line-height: 1.5; margin-bottom: 16px;">
+              무료 클라우드(Render) 서버가 절전 모드에서 깨어나는 중일 수 있습니다.<br>
+              약 20~30초 후 아래 버튼을 누르면 정상 연결됩니다.
+            </div>
+            <button type="button" onclick="loadAndRenderTokens()" style="background: #eab308; color: #1e1b4b; border: none; padding: 9px 20px; border-radius: 8px; font-weight: 800; font-size: 0.88rem; cursor: pointer; box-shadow: 0 4px 12px rgba(234, 179, 8, 0.3);">
+              🔄 지금 다시 불러오기
+            </button>
+          </div>
+        `;
       }}
     }}
 
@@ -839,17 +930,16 @@ html_content += f"""    </div>
       try {{
         const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
         const apiBase = isLocal ? '' : renderBase;
-        const res = await fetch(apiBase + '/api/tokens/reset', {{
+        const data = await safeFetchJson(apiBase + '/api/tokens/reset', {{
           method: 'POST',
           headers: {{ 'Content-Type': 'application/json' }},
           body: JSON.stringify({{ token }})
-        }});
-        const data = await res.json();
-        if (data.success) {{
+        }}, 2, 2000);
+        if (data && data.success) {{
           showCopyToast(`✅ [${{token}}] 초대 코드가 초기화되었습니다!\\n고객이 기존 링크로 다시 설문 작성이 가능합니다.`);
           loadAndRenderTokens();
         }} else {{
-          alert('초기화 실패');
+          alert('초기화 실패: ' + ((data && data.error) || '알 수 없는 오류'));
         }}
       }} catch (err) {{
         alert('초기화 오류: ' + err.message);
@@ -861,16 +951,17 @@ html_content += f"""    </div>
       try {{
         const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
         const apiBase = isLocal ? '' : renderBase;
-        const res = await fetch(apiBase + '/api/tokens/delete', {{
+        const data = await safeFetchJson(apiBase + '/api/tokens/delete', {{
           method: 'POST',
           headers: {{ 'Content-Type': 'application/json' }},
           body: JSON.stringify({{ token }})
-        }});
-        if (!res.ok) {{
-          throw new Error(`서버 응답 오류 (상태: ${{res.status}})`);
+        }}, 2, 2000);
+        if (data && data.success) {{
+          showCopyToast(`🗑️ [${{token}}] 초대 코드가 삭제되었습니다.`);
+          loadAndRenderTokens();
+        }} else {{
+          alert('삭제 실패: ' + ((data && data.error) || '알 수 없는 오류'));
         }}
-        showCopyToast(`🗑️ [${{token}}] 초대 코드가 삭제되었습니다.`);
-        loadAndRenderTokens();
       }} catch (err) {{
         alert('삭제 안내: ' + err.message);
       }}
@@ -924,16 +1015,15 @@ html_content += f"""    </div>
       btn.innerHTML = '<span>⏳ GitHub 저장 중...</span>';
       try {{
         const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-        const apiBase = isLocal ? '' : 'https://zipbabot.onrender.com';
-        const res = await fetch(apiBase + '/api/sync-github');
-        const data = await res.json();
-        if (data.success) {{
+        const apiBase = isLocal ? '' : renderBase;
+        const data = await safeFetchJson(apiBase + '/api/sync-github', {{ method: 'GET' }}, 2, 2000);
+        if (data && data.success) {{
           showCopyToast('✅ 모든 고객 데이터가 GitHub에 영구 보존(커밋 & 푸시)되었습니다!');
         }} else {{
-          alert('GitHub 동기화 안내: ' + (data.message || '완료'));
+          alert('GitHub 동기화 안내: ' + ((data && data.message) || '완료'));
         }}
       }} catch (err) {{
-        alert('동기화 통신 오류: ' + err.message + '\\n\\n로컬 서버가 실행 중인지 확인해 주세요.');
+        alert('동기화 통신 오류: ' + err.message + '\\n\\n클라우드 서버가 부팅 중일 수 있습니다.');
       }} finally {{
         btn.disabled = false;
         btn.innerHTML = originalText;
@@ -1039,26 +1129,22 @@ html_content += f"""    </div>
 
       // 로컬이 아니면 Render 온라인 백엔드로 직접 API 호출
       const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-      const apiBase = isLocal ? '' : 'https://zipbabot.onrender.com';
+      const apiBase = isLocal ? '' : renderBase;
       const endpoint = apiBase + '/api/delete-client';
 
       try {{
-        const res = await fetch(endpoint, {{
+        const result = await safeFetchJson(endpoint, {{
           method: 'POST',
           headers: {{ 'Content-Type': 'application/json' }},
           body: JSON.stringify({{ client_ids: cids }})
-        }});
-        if (!res.ok) {{
-          throw new Error(`서버 응답 오류 (상태 코드: ${{res.status}}). 잠시 후 다시 시도해 주세요.`);
-        }}
-        const result = await res.json();
-        if (result.success) {{
+        }}, 2, 2000);
+        if (result && result.success) {{
           showCopyToast(`🗑️ ${{result.deleted.length}}명의 고객 데이터가 실제 파일에서 완전히 삭제되었습니다!`);
           setTimeout(() => {{
             window.location.reload();
           }}, 600);
         }} else {{
-          alert('삭제 중 오류가 발생했습니다: ' + (result.errors || []).join(', '));
+          alert('삭제 중 오류가 발생했습니다: ' + ((result && result.errors) || []).join(', '));
           btn.disabled = false;
           btn.innerHTML = originalText;
         }}

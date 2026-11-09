@@ -1,0 +1,34 @@
+{
+  "client_id": "박지호_28",
+  "client_name": "박지호",
+  "client_age": "28",
+  "household_size": "1명",
+  "people_count": 1,
+  "budget": 300000,
+  "total_spent": 267200,
+  "saved_from_budget": 32800,
+  "total_saved_pantry": 0,
+  "meal_frequency": "하루 한 끼 (퇴근 후 저녁 30끼)",
+  "total_meals": 30,
+  "goal": "일반식",
+  "cuisine": "한식",
+  "excluded_foods": "없음",
+  "pantry_items": "아무것도 없음",
+  "goal_notes": "",
+  "theme": "박지호님을 위한 1명 일반식 맞춤 식단 (한식)",
+  "created_at": "2026-11-09 08:38:07",
+  "created_timestamp": 1794213487,
+  "recipes_summary": [
+    "불맛 제육볶음 + 계란파국 (1인분)",
+    "갈아만든 배 제육볶음 (1인분)",
+    "돼지고기 김치찌개 (1인분)",
+    "칼칼한 돼지고기 고추장찌개 (1인분)",
+    "만능간장 가지밥 + 부추양념장 (1인분)"
+  ],
+  "pages": {
+    "portal": "clients/박지호_28/index.html",
+    "cart": "clients/박지호_28/cart.html",
+    "recipes": "clients/박지호_28/recipes.html",
+    "storage": "clients/박지호_28/storage.html"
+  }
+}

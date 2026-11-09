@@ -1,12 +1,12 @@
 {
   "ZPB-3WUPBL": {
     "token": "ZPB-3WUPBL",
-    "status": "unused",
+    "status": "used",
     "created_at": "2026-11-09 08:37:22",
     "note": "1회용 맞춤 식단 초대장",
-    "client_id": null,
-    "client_name": null,
-    "portal_url": null,
-    "used_at": null
+    "client_id": "박지호_28",
+    "client_name": "박지호",
+    "portal_url": "https://bohwan100.github.io/zipbab/clients/%EB%B0%95%EC%A7%80%ED%98%B8_28/index.html",
+    "used_at": "2026-11-09 08:38:07"
   }
 }

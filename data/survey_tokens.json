@@ -1,22 +1,12 @@
 {
-  "ZPB-W8PCRZ": {
-    "token": "ZPB-W8PCRZ",
-    "status": "used",
-    "created_at": "2026-10-22 09:13:37",
-    "note": "이보보 님 1회용 설문",
-    "client_id": "이보보_30대",
-    "client_name": "이보보",
-    "portal_url": "https://zipbabot.onrender.com/clients/%EC%9D%B4%EB%B3%B4%EB%B3%B4_30%EB%8C%80/index.html",
-    "used_at": "2026-10-22 09:13:37"
-  },
-  "ZPB-ESS6HB": {
-    "token": "ZPB-ESS6HB",
-    "status": "used",
-    "created_at": "2026-10-22 09:33:13",
+  "ZPB-3WUPBL": {
+    "token": "ZPB-3WUPBL",
+    "status": "unused",
+    "created_at": "2026-11-09 08:37:22",
     "note": "1회용 맞춤 식단 초대장",
-    "client_id": "이보보보_30",
-    "client_name": "이보보보",
-    "portal_url": "https://bohwan100.github.io/zipbab/clients/%EC%9D%B4%EB%B3%B4%EB%B3%B4%EB%B3%B4_30/index.html",
-    "used_at": "2026-10-22 06:30:08"
+    "client_id": null,
+    "client_name": null,
+    "portal_url": null,
+    "used_at": null
   }
 }
